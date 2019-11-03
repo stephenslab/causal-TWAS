@@ -1,0 +1,117 @@
+---
+title: "Simulation -- Single Gene"
+author: "Siming Zhao"
+date: "11/3/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Simulation
+  We performed simulations todemonstrate the importance of accounting for pleiotropic effects ofSNPs when performing TWAS. We take real genotype data of aregion near GNL3 (a top gene in a TWAS of SCZ) from WTCCC(n=  3,000).   We  first  simulate  expression  data  of  the  gene  inthe  region,  assuming  two  independent  cis-eQTLs  with  total  cis-heritability of 30%.  We next simulate phenotype data under twosettings:  (1) the gene has no causal effect, but one of the eQTLsacts on the phenotype (through other mechanism);  (2) the genehas a causal effect, and no other SNPs in the region affect the phenotype.  We compare TWAS (using Lassoas expression models) with a simple “causal TWAS” method, which performs multiple regression of phenotypeagainst all SNPs in the region plus the predicted gene expression. We use SuSiE, a Bayesian variable selectionmethod for regression. For TWAS, we use a stringentp-value threshold of 0.001 (note that we are testing a singlegene). Since SuSie does not report p-values, we call the gene effect significant if it is found in the “credible set”.In the first setting (gene has no causal effect),  we found the false positive (FP) rates of TWAS are muchhigher than the causal TWAS method (Figure 3A). This is because under this model, the association of geneexpression with trait is explained away by the causal SNP. In the second setting (gene has causal effect), whileTWAS has high power as expected,  the causal TWAS method also achieves appreciable power (Figure 3B).These simulations thus demonstrate the feasibility of controlling FP rates while maintaining power.  We believethe full EB framework outlined below will help close the gap of power. Additionally, in our simulations, we benefitfrom the fact that the gene has two independent eQTL signals.  In reality, EB approach would be critical for thesituation where a gene has single eQTL signal.
+
+(A) Gene has no causal effect.  The effectsize of the pleiotropic SNP is measured by the Per-cent of Variance Explained (PVE) for the phenotype.(B) Gene has a causal effect, with the effect size (mea-sured by PVE) shown at the x-axis.  Note that we uselarge effect size (PVE) in simulations to reduce samplesizes needed.
+
+```{r simulation}
+library(MASS)
+library(susieR)
+library(glmnet)
+
+# read genotype data
+file <- "data/genotype_GNL3.Rdata"
+load(file)
+G <- scale(mydata)
+N <- nrow(G)
+M <- ncol(G)
+
+# Simulation function
+# G: genotype matrix. h2.eQTL: h2 of eQTL. n.eQTL: number of eQTL SNPs. gamma: effect size of gene. theta: effect size of SNP.
+simulate <- function(G, h2.eQTL, n.eQTL, gamma, theta) {
+  N <- dim(G)[1]
+  M <- dim(G)[2]
+  
+  idx.eQTL <- sample(1:M, n.eQTL)
+  alpha <- rep(sqrt(h2.eQTL/n.eQTL), n.eQTL)
+  
+  # simulate gene expression data
+  X <- G[, idx.eQTL] %*% alpha + rnorm(N, sd=1)
+  
+  # simulate phenotype data
+  idx.SNP <- idx.eQTL[1] # choose a SNP that is one eQTL
+  Y <- X * gamma + as.matrix(G[, idx.SNP]) %*% theta + rnorm(N)
+  
+  # return results
+  return (list(X=X, Y=Y, idx.eQTL=idx.eQTL, idx.SNP))
+}
+
+# Evaluation function
+evaluate <- function(G, X, Y) {
+  # predicted expression
+  cvfit <- cv.glmnet(G, X)
+  X.tilde <- predict(cvfit, G, s = "lambda.min")
+  
+  # TWAS
+  fit <- lm(Y ~ X.tilde)
+  pvalue <- summary(fit)$coefficients["X.tilde",4]
+  
+  # causal-TWAS
+  res <- susie(cbind(G, X.tilde), Y, L=1)
+  gene.indicator <- (M+1) %in% res$sets$cs$L1
+  
+  # return results
+  return (list(twas.pvalue=pvalue, causal.twas.gene=gene.indicator))
+}
+
+# Compare TWAS vs. causal-TWAS
+h2.eQTL <- 0.3
+nsims <- 50
+
+# false positive simulation
+gamma <- 0.0
+theta <- 0.07
+n.eQTL <- 2
+
+twas.pvalue <- array(nsims)
+causal.twas.gene <- array(nsims)
+for (i in 1:nsims) {
+  data <- simulate(G, h2.eQTL, n.eQTL, gamma, theta)
+  result <- evaluate(G, data$X, data$Y)
+  twas.pvalue[i] <- result$twas.pvalue
+  causal.twas.gene[i] <- result$causal.twas.gene
+}
+cat("FP rate of TWAS = ", sum(twas.pvalue < 0.001)/nsims, "\n")
+cat("FP rate of causal TWAS = ", sum(causal.twas.gene==TRUE)/nsims, "\n")
+
+FP.low <- c(0.38, 0.04)
+FP.high <- c(0.62, 0.14)
+FP.rates <- cbind(FP.low, FP.high)
+colors <- c("orange","blue")
+barplot(FP.rates, col=colors, xlab="PVE of pleiotropic SNP", ylab="False positive rate", ylim=c(0,0.8), names.arg=c("0.5%", "1%"), beside=TRUE, cex.lab=1.3)
+legend("topleft",c("TWAS","causal TWAS"),col=colors,pch=15, cex=1.2)
+
+# power simulation
+n.eQTL <- 2
+gamma <- 0.18
+theta <- 0
+
+twas.pvalue <- array(nsims)
+causal.twas.gene <- array(nsims)
+for (i in 1:nsims) {
+  data <- simulate(G, h2.eQTL, n.eQTL, gamma, theta)
+  result <- evaluate(G, data$X, data$Y)
+  twas.pvalue[i] <- result$twas.pvalue
+  causal.twas.gene[i] <- result$causal.twas.gene
+}
+cat("Power of TWAS = ", sum(twas.pvalue < 0.001)/nsims, "\n")
+cat("Power of causal TWAS = ", sum(causal.twas.gene==TRUE)/nsims, "\n")
+
+# plot the results
+power.low <- c(0.7, 0.4)
+power.high <- c(0.96, 0.68)
+TP.rates <- cbind(power.low, power.high)
+colors <- c("orange","blue")
+barplot(TP.rates, col=colors, xlab="PVE of gene", ylab="Power", ylim=c(0,1), names.arg=c("0.5%", "1%"), beside=TRUE, cex.lab=1.3)
+legend("topleft",c("TWAS","causal TWAS"),col=colors,pch=15, cex=1.2)
+```

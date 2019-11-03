@@ -1,0 +1,10 @@
+.DS_Store
+.Rproj.user
+._*
+.R*history
+.R*
+.*swp
+.ipy*
+.snake*
+.*swo
+data

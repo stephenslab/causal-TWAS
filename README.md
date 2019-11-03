@@ -1,2 +1,5 @@
 # causal-TWAS
-Please add a short description of your repository here.
+
+A [workflowr][] project.
+
+[workflowr]: https://github.com/jdblischak/workflowr

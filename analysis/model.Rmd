@@ -1,0 +1,34 @@
+---
+title: "Model"
+author: "Siming Zhao"
+date: "10/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Model
+ $$Y = \tilde{X}\gamma + G\theta + \epsilon$$
+$Y$: quantitative traits, $N$ x 1 vector, $N$ is number of individuals  
+$\tilde{X}$: imputed gene expression (standardized). $N$ x $J$ matrix, $J$ is number of genes.  
+$G$: genotype (standardized). $N$ x $M$ matrix, $M$ is number of SNPs.  
+$\gamma$: effect sizes for $\tilde{X}$,  $\gamma_j$, effect size for gene $j$.  
+
+$$ \gamma_j \sim N(0, \sigma_\gamma^2)$$
+$\theta$: effect sizes for $G$,  $\theta_m$, effect size for SNP $m$.  
+$$ \theta_m \sim N(0, \sigma_\theta^2)$$
+
+## Model inference
+The above model is equivalent to this: 
+$$Y \sim N(0,\sigma_\gamma^2XX^T + \sigma_\theta^2GG^T + \sigma_e^2I) $$
+This is REML with multiple (more than 2) variance components. Use HE regression function from GEMMA software.
+
+## Simulation
+Simulate different $PVE_{SNP}$, $PVE_{gene}$. 
+
+$$PVE_{SNP} = \frac{M\sigma_\theta^2}{J\sigma_\gamma^2 + M\sigma_\theta^2 + \sigma_e^2}$$
+$$PVE_{gene} = \frac{J\sigma_\gamma^2}{J\sigma_\gamma^2 + M\sigma_\theta^2 + \sigma_e^2}$$
+Scenario 1: $PVE_{SNP}=0.2$, $PVE_{gene}=0.2$
+
