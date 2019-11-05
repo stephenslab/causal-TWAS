@@ -10,5 +10,7 @@ editor_options:
 
 ## [Model](model.html)
 
-## [Simulation](simulation-singleG.html)
+## [Simulation: single gene](simulation-singleG.html)
+
+## [Simulation: WTCCC](simulation-WTCCC.html)
 
