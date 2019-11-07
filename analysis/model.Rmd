@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Model
+## Polygenic Model
  $$Y = \tilde{X}\gamma + G\theta + \epsilon$$
 $Y$: quantitative traits, $N$ x 1 vector, $N$ is number of individuals  
 $\tilde{X}$: imputed gene expression (standardized). $N$ x $J$ matrix, $J$ is number of genes.  
@@ -20,7 +20,7 @@ $$ \gamma_j \sim N(0, \sigma_\gamma^2)$$
 $\theta$: effect sizes for $G$,  $\theta_m$, effect size for SNP $m$.  
 $$ \theta_m \sim N(0, \sigma_\theta^2)$$
 
-## Model inference
+## Polygenic Model Inference
 The above model is equivalent to this: 
 $$Y \sim N(0,\sigma_\gamma^2XX^T + \sigma_\theta^2GG^T + \sigma_e^2I) $$
 This is REML with multiple (more than 2) variance components. Use HE regression function from GEMMA software.

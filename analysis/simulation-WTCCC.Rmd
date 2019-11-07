@@ -6,12 +6,28 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-### WTCCC data
+Use WTCCC data obtained from Peter on CRI. 
 
+### Simulate cis-expression 
+We simulate cis- expression based on the following model:
 
-### Fusion results
+$$ \tilde{X} = G\alpha + \xi$$
+For each gene, we sample $K$ eQTLs for this gene, for eQTL $k$, we have
+$$ \alpha_k \sim N(0,\sigma_\alpha^2) $$
+$$ \xi \sim N(0,1) $$
+Then we have the heritability of the gene: 
 
-## Simulate quantitative phenotype
+$$\begin{aligned}
+h^2_{eQTL} &= \frac{var(G\alpha)}{var(G\alpha)+var(\xi)} \\
+&= \frac{\Sigma_kvar(G_k) \alpha_k^2}{\Sigma_kvar(G_k) \alpha_k^2 + var(\xi)}\\
+&=  \frac{\Sigma_k\alpha_k^2}{\Sigma_k\alpha_k^2 + var(\xi)}\\
+&\approx \frac{\Sigma_k\sigma_\alpha^2}{\Sigma_k\sigma_\alpha^2 + var(\xi)} \\
+&=\frac{K\sigma_\alpha^2}{1+K\sigma_\alpha^2}
+\end{aligned}$$
+
+Here, we use scaled genotype data, so $var(G)=1$. We also have $\alpha^2_k \approx E(\alpha_k^2)=var(\alpha_k^2)=\sigma_\alpha^2$. Usually, $K$ ranges from 1 to 5, let $\sigma_\alpha = 0.3$, then $h^2_{eQTL}$ ranges from 0.08 to 0.31, this is consistent with gene cis-heritability in reality.
+
+### Simulate quantitative phenotype
 Simulate different $PVE_{SNP}$, $PVE_{gene}$. 
 
 $$PVE_{SNP} = \frac{M\sigma_\theta^2}{J\sigma_\gamma^2 + M\sigma_\theta^2 + \sigma_e^2}$$

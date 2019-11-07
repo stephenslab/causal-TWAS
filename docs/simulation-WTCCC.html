@@ -9,10 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Siming Zhao" />
 
 
-<title>Simulation – Single Gene</title>
+<title>simulation-WTCCC</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -315,9 +314,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Simulation – Single Gene</h1>
-<h4 class="author"><em>Siming Zhao</em></h4>
-<h4 class="date"><em>11/3/2019</em></h4>
+<h1 class="title toc-ignore">simulation-WTCCC</h1>
 
 </div>
 
@@ -342,7 +339,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-11-06
+<strong>Last updated:</strong> 2019-11-07
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -366,7 +363,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has staged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -448,16 +445,17 @@ Ignored files:
     Ignored:    code/.ipynb_checkpoints/
     Ignored:    data/
 
-Untracked files:
-    Untracked:  code/gemma_GRM.R
-    Untracked:  code/impute_expression.R
-
 Unstaged changes:
+    Modified:   analysis/simulation-WTCCC.Rmd
+
+Staged changes:
     Modified:   analysis/model.Rmd
     Modified:   analysis/simulation-WTCCC.Rmd
     Modified:   analysis/simulation-singleG.Rmd
     Deleted:    code/GEMMA_GRM.R
-    Deleted:    code/simulate_WTCCC.R
+    New:        code/gemma_GRM.R
+    Renamed1:   code/simulate_WTCCC.R
+    Renamed2:   code/impute_expression.R
 
 </code></pre>
 <p>
@@ -498,53 +496,19 @@ Message
 <tbody>
 <tr>
 <td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/56ba4ae62eddf639d00d5f79adbd7b0a8faf5fb8/docs/simulation-singleG.html" target="_blank">56ba4ae</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-03
-</td>
-<td>
-add git icon
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/68e228fa0bb05e6a97ef68ab48ec86fe7d8e509a/analysis/simulation-singleG.Rmd" target="_blank">68e228f</a>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f7be05a77b78a3979a738f918753f8b61d2ff8b0/analysis/simulation-WTCCC.Rmd" target="_blank">f7be05a</a>
 </td>
 <td>
 simingz
 </td>
 <td>
-2019-11-03
+2019-11-05
 </td>
 <td>
-model and Xin’s simulation
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/68e228fa0bb05e6a97ef68ab48ec86fe7d8e509a/docs/simulation-singleG.html" target="_blank">68e228f</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-03
-</td>
-<td>
-model and Xin’s simulation
+gemma
 </td>
 </tr>
 </tbody>
@@ -554,190 +518,24 @@ model and Xin’s simulation
 </div>
 </div>
 </div>
-<div id="simulation" class="section level2">
-<h2>Simulation</h2>
-<p>We performed simulations todemonstrate the importance of accounting for pleiotropic effects ofSNPs when performing TWAS. We take real genotype data of aregion near GNL3 (a top gene in a TWAS of SCZ) from WTCCC(n= 3,000). We first simulate expression data of the gene inthe region, assuming two independent cis-eQTLs with total cis-heritability of 30%. We next simulate phenotype data under twosettings: (1) the gene has no causal effect, but one of the eQTLsacts on the phenotype (through other mechanism); (2) the genehas a causal effect, and no other SNPs in the region affect the phenotype. We compare TWAS (using Lassoas expression models) with a simple “causal TWAS” method, which performs multiple regression of phenotypeagainst all SNPs in the region plus the predicted gene expression. We use SuSiE, a Bayesian variable selectionmethod for regression. For TWAS, we use a stringentp-value threshold of 0.001 (note that we are testing a singlegene). Since SuSie does not report p-values, we call the gene effect significant if it is found in the “credible set”.In the first setting (gene has no causal effect), we found the false positive (FP) rates of TWAS are muchhigher than the causal TWAS method (Figure 3A). This is because under this model, the association of geneexpression with trait is explained away by the causal SNP. In the second setting (gene has causal effect), whileTWAS has high power as expected, the causal TWAS method also achieves appreciable power (Figure 3B).These simulations thus demonstrate the feasibility of controlling FP rates while maintaining power. We believethe full EB framework outlined below will help close the gap of power. Additionally, in our simulations, we benefitfrom the fact that the gene has two independent eQTL signals. In reality, EB approach would be critical for thesituation where a gene has single eQTL signal.</p>
-<ol style="list-style-type: upper-alpha">
-<li>Gene has no causal effect. The effectsize of the pleiotropic SNP is measured by the Per-cent of Variance Explained (PVE) for the phenotype.(B) Gene has a causal effect, with the effect size (mea-sured by PVE) shown at the x-axis. Note that we uselarge effect size (PVE) in simulations to reduce samplesizes needed.</li>
-</ol>
-<pre class="r"><code>library(MASS)
-library(susieR)
-library(glmnet)</code></pre>
-<pre><code>Loading required package: Matrix</code></pre>
-<pre><code>Loading required package: foreach</code></pre>
-<pre><code>Loaded glmnet 2.0-16</code></pre>
-<pre class="r"><code># read genotype data
-file &lt;- &quot;data/genotype_GNL3.Rdata&quot;
-load(file)
-G &lt;- scale(mydata)
-N &lt;- nrow(G)
-M &lt;- ncol(G)
-
-# Simulation function
-# G: genotype matrix. h2.eQTL: h2 of eQTL. n.eQTL: number of eQTL SNPs. gamma: effect size of gene. theta: effect size of SNP.
-simulate &lt;- function(G, h2.eQTL, n.eQTL, gamma, theta) {
-  N &lt;- dim(G)[1]
-  M &lt;- dim(G)[2]
-  
-  idx.eQTL &lt;- sample(1:M, n.eQTL)
-  alpha &lt;- rep(sqrt(h2.eQTL/n.eQTL), n.eQTL)
-  
-  # simulate gene expression data
-  X &lt;- G[, idx.eQTL] %*% alpha + rnorm(N, sd=1)
-  
-  # simulate phenotype data
-  idx.SNP &lt;- idx.eQTL[1] # choose a SNP that is one eQTL
-  Y &lt;- X * gamma + as.matrix(G[, idx.SNP]) %*% theta + rnorm(N)
-  
-  # return results
-  return (list(X=X, Y=Y, idx.eQTL=idx.eQTL, idx.SNP))
-}
-
-# Evaluation function
-evaluate &lt;- function(G, X, Y) {
-  # predicted expression
-  cvfit &lt;- cv.glmnet(G, X)
-  X.tilde &lt;- predict(cvfit, G, s = &quot;lambda.min&quot;)
-  
-  # TWAS
-  fit &lt;- lm(Y ~ X.tilde)
-  pvalue &lt;- summary(fit)$coefficients[&quot;X.tilde&quot;,4]
-  
-  # causal-TWAS
-  res &lt;- susie(cbind(G, X.tilde), Y, L=1)
-  gene.indicator &lt;- (M+1) %in% res$sets$cs$L1
-  
-  # return results
-  return (list(twas.pvalue=pvalue, causal.twas.gene=gene.indicator))
-}
-
-# Compare TWAS vs. causal-TWAS
-h2.eQTL &lt;- 0.3
-nsims &lt;- 50
-
-# false positive simulation
-gamma &lt;- 0.0
-theta &lt;- 0.07
-n.eQTL &lt;- 2
-
-twas.pvalue &lt;- array(nsims)
-causal.twas.gene &lt;- array(nsims)
-for (i in 1:nsims) {
-  data &lt;- simulate(G, h2.eQTL, n.eQTL, gamma, theta)
-  result &lt;- evaluate(G, data$X, data$Y)
-  twas.pvalue[i] &lt;- result$twas.pvalue
-  causal.twas.gene[i] &lt;- result$causal.twas.gene
-}
-cat(&quot;FP rate of TWAS = &quot;, sum(twas.pvalue &lt; 0.001)/nsims, &quot;\n&quot;)</code></pre>
-<pre><code>FP rate of TWAS =  0.36 </code></pre>
-<pre class="r"><code>cat(&quot;FP rate of causal TWAS = &quot;, sum(causal.twas.gene==TRUE)/nsims, &quot;\n&quot;)</code></pre>
-<pre><code>FP rate of causal TWAS =  0.18 </code></pre>
-<pre class="r"><code>FP.low &lt;- c(0.38, 0.04)
-FP.high &lt;- c(0.62, 0.14)
-FP.rates &lt;- cbind(FP.low, FP.high)
-colors &lt;- c(&quot;orange&quot;,&quot;blue&quot;)
-barplot(FP.rates, col=colors, xlab=&quot;PVE of pleiotropic SNP&quot;, ylab=&quot;False positive rate&quot;, ylim=c(0,0.8), names.arg=c(&quot;0.5%&quot;, &quot;1%&quot;), beside=TRUE, cex.lab=1.3)
-legend(&quot;topleft&quot;,c(&quot;TWAS&quot;,&quot;causal TWAS&quot;),col=colors,pch=15, cex=1.2)</code></pre>
-<p><img src="figure/simulation-singleG.Rmd/simulation-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-simulation-1">
-Past versions of simulation-1.png
-</button>
-</p>
-<div id="fig-simulation-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/68e228fa0bb05e6a97ef68ab48ec86fe7d8e509a/docs/figure/simulation-singleG.Rmd/simulation-1.png" target="_blank">68e228f</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-03
-</td>
-</tr>
-</tbody>
-</table>
+<p>Use WTCCC data obtained from Peter on CRI.</p>
+<div id="simulate-cis-expression" class="section level3">
+<h3>Simulate cis-expression</h3>
+<p>We simulate cis- expression based on the following model:</p>
+<p><span class="math display">\[ \tilde{X} = G\alpha + \xi\]</span> For each gene, we sample <span class="math inline">\(K\)</span> eQTLs for this gene, for eQTL <span class="math inline">\(k\)</span>, we have <span class="math display">\[ \alpha_k \sim N(0,\sigma_\alpha^2) \]</span> <span class="math display">\[ \xi \sim N(0,1) \]</span> Then we have the heritability of the gene:</p>
+<p><span class="math display">\[\begin{aligned}
+h^2_{eQTL} &amp;= \frac{var(G\alpha)}{var(G\alpha)+var(\xi)} \\
+&amp;= \frac{\Sigma_kvar(G_k) \alpha_k^2}{\Sigma_kvar(G_k) \alpha_k^2 + var(\xi)}\\
+&amp;=  \frac{\Sigma_k\alpha_k^2}{\Sigma_k\alpha_k^2 + var(\xi)}\\
+&amp;\approx \frac{\Sigma_k\sigma_\alpha^2}{\Sigma_k\sigma_\alpha^2 + var(\xi)} \\
+&amp;=\frac{K\sigma_\alpha^2}{1+K\sigma_\alpha^2}
+\end{aligned}\]</span></p>
+<p>Here, we use scaled genotype data, so <span class="math inline">\(var(G)=1\)</span>. We also have <span class="math inline">\(\alpha^2_k \approx E(\alpha_k^2)=var(\alpha_k^2)=\sigma_\alpha^2\)</span>. Usually, <span class="math inline">\(K\)</span> ranges from 1 to 5, let <span class="math inline">\(\sigma_\alpha = 0.3\)</span>, then <span class="math inline">\(h^2_{eQTL}\)</span> ranges from 0.08 to 0.31, this is consistent with gene cis-heritability in reality.</p>
 </div>
-</div>
-<pre class="r"><code># power simulation
-n.eQTL &lt;- 2
-gamma &lt;- 0.18
-theta &lt;- 0
-
-twas.pvalue &lt;- array(nsims)
-causal.twas.gene &lt;- array(nsims)
-for (i in 1:nsims) {
-  data &lt;- simulate(G, h2.eQTL, n.eQTL, gamma, theta)
-  result &lt;- evaluate(G, data$X, data$Y)
-  twas.pvalue[i] &lt;- result$twas.pvalue
-  causal.twas.gene[i] &lt;- result$causal.twas.gene
-}
-cat(&quot;Power of TWAS = &quot;, sum(twas.pvalue &lt; 0.001)/nsims, &quot;\n&quot;)</code></pre>
-<pre><code>Power of TWAS =  0.94 </code></pre>
-<pre class="r"><code>cat(&quot;Power of causal TWAS = &quot;, sum(causal.twas.gene==TRUE)/nsims, &quot;\n&quot;)</code></pre>
-<pre><code>Power of causal TWAS =  0.78 </code></pre>
-<pre class="r"><code># plot the results
-power.low &lt;- c(0.7, 0.4)
-power.high &lt;- c(0.96, 0.68)
-TP.rates &lt;- cbind(power.low, power.high)
-colors &lt;- c(&quot;orange&quot;,&quot;blue&quot;)
-barplot(TP.rates, col=colors, xlab=&quot;PVE of gene&quot;, ylab=&quot;Power&quot;, ylim=c(0,1), names.arg=c(&quot;0.5%&quot;, &quot;1%&quot;), beside=TRUE, cex.lab=1.3)
-legend(&quot;topleft&quot;,c(&quot;TWAS&quot;,&quot;causal TWAS&quot;),col=colors,pch=15, cex=1.2)</code></pre>
-<p><img src="figure/simulation-singleG.Rmd/simulation-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-simulation-2">
-Past versions of simulation-2.png
-</button>
-</p>
-<div id="fig-simulation-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/68e228fa0bb05e6a97ef68ab48ec86fe7d8e509a/docs/figure/simulation-singleG.Rmd/simulation-2.png" target="_blank">68e228f</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<div id="simulate-quantitative-phenotype" class="section level3">
+<h3>Simulate quantitative phenotype</h3>
+<p>Simulate different <span class="math inline">\(PVE_{SNP}\)</span>, <span class="math inline">\(PVE_{gene}\)</span>.</p>
+<p><span class="math display">\[PVE_{SNP} = \frac{M\sigma_\theta^2}{J\sigma_\gamma^2 + M\sigma_\theta^2 + \sigma_e^2}\]</span> <span class="math display">\[PVE_{gene} = \frac{J\sigma_\gamma^2}{J\sigma_\gamma^2 + M\sigma_\theta^2 + \sigma_e^2}\]</span> Scenario 1: <span class="math inline">\(PVE_{SNP}=0.2\)</span>, <span class="math inline">\(PVE_{gene}=0.2\)</span></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -764,18 +562,12 @@ locale:
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
-other attached packages:
-[1] glmnet_2.0-16 foreach_1.4.4 Matrix_1.2-15 susieR_0.8.0  MASS_7.3-51.1
-
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.0         knitr_1.20         whisker_0.3-2     
- [4] magrittr_1.5       workflowr_1.4.0    lattice_0.20-38   
- [7] stringr_1.4.0      tools_3.5.1        grid_3.5.1        
-[10] git2r_0.25.2       matrixStats_0.54.0 htmltools_0.3.6   
-[13] iterators_1.0.10   yaml_2.2.0         rprojroot_1.3-2   
-[16] digest_0.6.18      fs_1.3.1           codetools_0.2-15  
-[19] glue_1.3.0         evaluate_0.12      rmarkdown_1.10    
-[22] stringi_1.3.1      compiler_3.5.1     backports_1.1.2   </code></pre>
+ [1] workflowr_1.4.0 Rcpp_1.0.0      digest_0.6.18   rprojroot_1.3-2
+ [5] backports_1.1.2 git2r_0.25.2    magrittr_1.5    evaluate_0.12  
+ [9] stringi_1.3.1   fs_1.3.1        whisker_0.3-2   rmarkdown_1.10 
+[13] tools_3.5.1     stringr_1.4.0   glue_1.3.0      yaml_2.2.0     
+[17] compiler_3.5.1  htmltools_0.3.6 knitr_1.20     </code></pre>
 </div>
 </div>
 

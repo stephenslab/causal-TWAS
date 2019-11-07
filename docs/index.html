@@ -241,7 +241,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-11-03
+<strong>Last updated:</strong> 2019-11-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -272,10 +272,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree68e228fa0bb05e6a97ef68ab48ec86fe7d8e509atargetblank68e228fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/68e228fa0bb05e6a97ef68ab48ec86fe7d8e509a" target="_blank">68e228f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef7be05a77b78a3979a738f918753f8b61d2ff8b0targetblankf7be05aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/f7be05a77b78a3979a738f918753f8b61d2ff8b0" target="_blank">f7be05a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree68e228fa0bb05e6a97ef68ab48ec86fe7d8e509atargetblank68e228fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef7be05a77b78a3979a738f918753f8b61d2ff8b0targetblankf7be05aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -283,10 +283,18 @@ Great! You are using Git for version control. Tracking code development and conn
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+    Ignored:    code/.R
+    Ignored:    code/.ipynb_checkpoints/
     Ignored:    data/
 
+Untracked files:
+    Untracked:  code/gemma_GRM.R
+    Untracked:  code/impute_expression.R
+
 Unstaged changes:
-    Modified:   analysis/_site.yml
+    Modified:   analysis/simulation-WTCCC.Rmd
+    Deleted:    code/GEMMA_GRM.R
+    Deleted:    code/simulate_WTCCC.R
 
 </code></pre>
 <p>
@@ -325,6 +333,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f7be05a77b78a3979a738f918753f8b61d2ff8b0/analysis/index.Rmd" target="_blank">f7be05a</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2019-11-05
+</td>
+<td>
+gemma
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/56ba4ae62eddf639d00d5f79adbd7b0a8faf5fb8/docs/index.html" target="_blank">56ba4ae</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2019-11-03
+</td>
+<td>
+add git icon
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -369,8 +411,11 @@ model and Xin’s simulation
 <div id="model" class="section level2">
 <h2><a href="model.html">Model</a></h2>
 </div>
-<div id="simulation" class="section level2">
-<h2><a href="simulation-singleG.html">Simulation</a></h2>
+<div id="simulation-single-gene" class="section level2">
+<h2><a href="simulation-singleG.html">Simulation: single gene</a></h2>
+</div>
+<div id="simulation-wtccc" class="section level2">
+<h2><a href="simulation-WTCCC.html">Simulation: WTCCC</a></h2>
 </div>
 
 
