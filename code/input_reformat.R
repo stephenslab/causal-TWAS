@@ -33,7 +33,7 @@ write.gemma.geno.chunks <- function(outfile, geno, labels, n_per_chunk){
 	}
 }
 
-run.gemma <- function(Rdatafile,
+gemma.prepare <- function(Rdatafile,
                        outnamebase, chromosomes = NULL) {
   # read in Rdata file
   cat("* loading data.\n")
@@ -51,9 +51,8 @@ run.gemma <- function(Rdatafile,
   cat("* Writing genotype to file.\n")
   genofile <- paste0(outnamebase,".geno.txt.gz")
   write.gemma.geno.chunks(genofile, X, labels, N_per_chunk)
-
-  # run gemma to get relatedness matrix
 }
 
 N_per_chunk = 10000 # ussed to save memory when writing chunks
-run.gemma("/home/simingz/causalTWAS/WTCCC/bd.RData", "/home/simingz/causalTWAS/WTCCC/bd")
+gemma.prepare("/home/simingz/causalTWAS/WTCCC/bd.RData", "/home/simingz/causalTWAS/WTCCC/bd")
+

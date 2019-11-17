@@ -40,6 +40,11 @@ PVE_{expr} \approx \frac{Jvar(\tilde{X})\sigma_\gamma^2}{M\sigma_\theta^2 + Jvar
 
 Here, $var(\tilde{X})$ is the cis-heratbility of gene expression. $M$ and $J$ are number of causal SNP and gene respectively. 
 
+Thus in order to get desired $PVE_{SNP}$ and $PVE_expr$, we will set $\sigma_\theta^2$ and $\sigma_\gamma^2$ based on the following formula:
+
+$$\sigma_\theta^2 = \frac{PVE_{SNP}}{M(1-PVE_{SNP} - PVE_{expr})}$$
+$$\sigma_\gamma^2 = \frac{PVE_{expr}}{Jvar(\tilde{X})(1-PVE_{SNP} - PVE_{expr})}$$
+
 ## Simulation 1: $J$ = No. of all SNPs, $M$ = No. all genes
 We simulate quantitative phenotype under several scenarios. First we make all genes with imputed gene expression as causal genes and all SNPs as causal SNPs. This matches our polygenic version of the model. 
 
