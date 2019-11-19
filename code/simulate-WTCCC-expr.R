@@ -48,7 +48,7 @@ simulate_expr<- function(G, chr, pos, gafile, n.eQTL.range=1:5, h2.eQTL=0.2) {
     expr <- do.call(cbind, exprlist) # rows are samples, columns are genes.
     J <- length(exprlist)
     save(gnames, expr, sigma_alpha, J ,file="simulated_gene_cis_expr.Rd")
-
+    write.gemma.geno(outfile = "simulated_gene_cis_expr.exprgeno.txt", expr, gnames,append = F)
 }
 
 # get expression heritability, this can be used to verify simulation.
