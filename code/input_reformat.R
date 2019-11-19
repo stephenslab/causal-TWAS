@@ -3,7 +3,7 @@ library(data.table) # requires v.1.12.7 or higher
 write.gemma.pheno <- function(outfile, y) {
   if (is.numeric(y))
     y <- round(y,digits = 6)
-  write.table(y,outfile,quote = FALSE,row.names = FALSE,col.names = FALSE)
+  write.table(y, outfile,quote = FALSE,row.names = FALSE,col.names = FALSE)
 }
 
 write.gemma.geno <- function(outfile, geno, labels, append=F) {
@@ -53,6 +53,4 @@ gemma.prepare <- function(Rdatafile,
   write.gemma.geno.chunks(genofile, X, labels, N_per_chunk)
 }
 
-N_per_chunk = 10000 # ussed to save memory when writing chunks
-gemma.prepare("/home/simingz/causalTWAS/WTCCC/bd.RData", "/home/simingz/causalTWAS/WTCCC/bd")
 

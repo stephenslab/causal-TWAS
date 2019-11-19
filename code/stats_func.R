@@ -3,6 +3,8 @@
 library(matrixStats)
 library(Rcpp)
 
+sourceCpp(paste0(codedir,"scale.cpp"))
+
 scaleRcpp <- function(x) {
   cat("Scaling genotype data.\n")
   # Load the genotype data as a matrix of floating-point numbers.
@@ -13,7 +15,6 @@ scaleRcpp <- function(x) {
   # x <- x[,s > 0]
   # gc()
   # center and scale
-  sourceCpp("scale.cpp")
   timing <- system.time({
     x.scaled <- x
     mu <- colMeans(x)
@@ -26,4 +27,5 @@ scaleRcpp <- function(x) {
   print(range(colMeans(x.scaled)))
   cat("Get the largest & smallest column s.d.:\n")
   print(range(colSds(x.scaled)))
+  return(x.scaled)
 }
