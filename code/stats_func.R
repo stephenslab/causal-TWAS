@@ -2,7 +2,6 @@
 # matrix containing genotypes. Credit to Peter
 library(matrixStats)
 library(Rcpp)
-
 sourceCpp(paste0(codedir,"scale.cpp"))
 
 scaleRcpp <- function(x) {

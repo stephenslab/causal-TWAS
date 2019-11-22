@@ -38,46 +38,77 @@ PVE_{SNP} = &\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigma_e^
 $$
 PVE_{expr} \approx \frac{Jvar(\tilde{X})\sigma_\gamma^2}{M\sigma_\theta^2 + Jvar(\tilde{X})\sigma_\gamma^2+ \sigma_e^2}$$
 
-Here, $var(\tilde{X})$ is the cis-heratbility of gene expression. $M$ and $J$ are number of causal SNP and gene respectively. 
+Here, $var(\tilde{X})$ is the cis-heratbility of gene expression. $M$ and $J$ are numbers of causal SNP and gene respectively. 
 
 Thus in order to get desired $PVE_{SNP}$ and $PVE_expr$, we set $\sigma_\theta^2$ and $\sigma_\gamma^2$ based on the following formula:
 
 $$\sigma_\theta^2 = \frac{PVE_{SNP}}{M(1-PVE_{SNP} - PVE_{expr})}$$
 $$\sigma_\gamma^2 = \frac{PVE_{expr}}{Jvar(\tilde{X})(1-PVE_{SNP} - PVE_{expr})}$$
 
+```{r}
+simudir <- "/home/simingz/causalTWAS/simulations/simulation_WTCCC_20191111/"
+show_res <- function(simutag){
+  load(Sys.glob(paste0(simudir,simutag,"*phenotype.Rd")))
+  outdf1 <- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c , 1))
+  row.names(outdf1) <- c("sigma_gamma^2","sigma_theta^2","sigma_e^2")
+  res <- readLines(paste0(simudir, simutag, "_VC/output/", simutag, ".log.txt"))
+  outdf1$est <- as.numeric(strsplit(res[24], "  ")[[1]][2:4])
+  outdf1$est.se <- as.numeric(strsplit(res[25], "  ")[[1]][2:4])
+  print(outdf1)
+  outdf2 <- data.frame("est"= c(as.numeric(strsplit(res[20], "  ")[[1]][2:3]), as.numeric(strsplit(res[22], "=")[[1]][2])))
+  row.names(outdf2) <- c("PVE.expr","PVE.snp","PVE.total")
+  outdf2$est.se <- c(as.numeric(strsplit(res[21], "  ")[[1]][2:3]), as.numeric(strsplit(res[23], "=")[[1]][2]))
+  print(outdf2)
+}
+```
+
 ## Simulation 1: $M$ = No. of all SNPs, $J$ = No. all genes
 We simulate quantitative phenotype under several scenarios. First we make all genes with imputed gene expression as causal genes and all SNPs as causal SNPs. This matches our polygenic version of the model. 
 
-### 1.1 $PVE_{SNP}=0.1$, $PVE_{expr}=0.1$
-We set $\sigma_e=1$. 
+### 1.1 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.1$
+```{r 1.1}
+show_res("S1.1")
+```
 
-### 1.2 $PVE_{SNP}=0.1$, $PVE_{expr}=0.4$
-We set $\sigma_e=1$. 
+### 1.2 $PVE_{SNP}\approx 0.1$, $PVE_{expr}\approx 0.4$
+```{r 1.2}
+show_res("S1.2")
+```
 
 ## Simulation 2: $M$ = No. of all SNPs, $J$ = ~10% all genes (J=2000)
 
-### 2.1 $PVE_{SNP}=0.1$, $PVE_{expr}=0.1$
-We set $\sigma_e=1$. 
+### 2.1 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.1$
+```{r 2.1}
+show_res("S2.1")
+```
 
-### 2.2 $PVE_{SNP}=0.1$, $PVE_{expr}=0.4$
-We set $\sigma_e=1$. 
-
+### 2.2 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.4$
+```{r 2.2}
+show_res("S2.2")
+```
 ## Simulation 3: $M$ = ~ 10% all SNPs (M=50000), $J$ = No. all genes
 
-### 3.1 $PVE_{SNP}=0.1$, $PVE_{expr}=0.1$ 
-We set $\sigma_e=1$. 
+### 3.1 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.1$ 
+```{r 3.1}
+show_res("S3.1")
+```
 
-### 3.2 $PVE_{SNP}=0.1$, $PVE_{expr}=0.4$
-We set $\sigma_e=1$. 
+### 3.2 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.4$
+```{r 3.2}
+show_res("S3.2")
+```
 
 ## Simulation 4: $M$ = ~ 10% all SNPs (M=50000), $J$ = ~10% all genes (J=2000)
 
-### 4.1 $PVE_{SNP}=0.1$, $PVE_{expr}=0.1$ 
-We set $\sigma_e=1$. 
+### 4.1 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.1$ 
+```{r 4.1}
+show_res("S4.1")
+```
 
-### 4.2 $PVE_{SNP}=0.1$, $PVE_{expr}=0.4$
-We set $\sigma_e=1$. 
-
+### 4.2 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.4$
+```{r 4.2}
+show_res("S4.2")
+```
 
 
 

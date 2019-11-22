@@ -339,7 +339,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-11-18
+<strong>Last updated:</strong> 2019-11-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -430,10 +430,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree28a299b7c2b19f8e0008d31c48a42fe598e641e3targetblank28a299ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/28a299b7c2b19f8e0008d31c48a42fe598e641e3" target="_blank">28a299b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreedd2b4ab04ad1db25fe2f0bcacedb5db962bd2c1ctargetblankdd2b4aba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/dd2b4ab04ad1db25fe2f0bcacedb5db962bd2c1c" target="_blank">dd2b4ab</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree28a299b7c2b19f8e0008d31c48a42fe598e641e3targetblank28a299ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreedd2b4ab04ad1db25fe2f0bcacedb5db962bd2c1ctargetblankdd2b4aba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -446,14 +446,11 @@ Ignored files:
     Ignored:    code/.ipynb_checkpoints/
     Ignored:    data/
 
-Untracked files:
-    Untracked:  code/run_WTCCC_data_process.R
-
 Unstaged changes:
     Modified:   analysis/simulation-WTCCC.Rmd
-    Modified:   code/input_reformat.R
-    Modified:   code/simulate-WTCCC-expr.R
+    Modified:   code/ctwas_polygenic_V1.R
     Modified:   code/simulate-WTCCC-phenotype.R
+    Modified:   code/stats_func.R
     Modified:   code/workflow-WTCCC-simulation.ipynb
 
 </code></pre>
@@ -493,6 +490,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/dd2b4ab04ad1db25fe2f0bcacedb5db962bd2c1c/analysis/simulation-WTCCC.Rmd" target="_blank">dd2b4ab</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2019-11-19
+</td>
+<td>
+simulate phenotype
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/dd2b4ab04ad1db25fe2f0bcacedb5db962bd2c1c/docs/simulation-WTCCC.html" target="_blank">dd2b4ab</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2019-11-19
+</td>
+<td>
+simulate phenotype
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -642,53 +673,131 @@ PVE_{SNP} = &amp;\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigm
 \end{align}\]</span></p>
 <p><span class="math display">\[
 PVE_{expr} \approx \frac{Jvar(\tilde{X})\sigma_\gamma^2}{M\sigma_\theta^2 + Jvar(\tilde{X})\sigma_\gamma^2+ \sigma_e^2}\]</span></p>
-<p>Here, <span class="math inline">\(var(\tilde{X})\)</span> is the cis-heratbility of gene expression. <span class="math inline">\(M\)</span> and <span class="math inline">\(J\)</span> are number of causal SNP and gene respectively.</p>
+<p>Here, <span class="math inline">\(var(\tilde{X})\)</span> is the cis-heratbility of gene expression. <span class="math inline">\(M\)</span> and <span class="math inline">\(J\)</span> are numbers of causal SNP and gene respectively.</p>
 <p>Thus in order to get desired <span class="math inline">\(PVE_{SNP}\)</span> and <span class="math inline">\(PVE_expr\)</span>, we set <span class="math inline">\(\sigma_\theta^2\)</span> and <span class="math inline">\(\sigma_\gamma^2\)</span> based on the following formula:</p>
 <p><span class="math display">\[\sigma_\theta^2 = \frac{PVE_{SNP}}{M(1-PVE_{SNP} - PVE_{expr})}\]</span> <span class="math display">\[\sigma_\gamma^2 = \frac{PVE_{expr}}{Jvar(\tilde{X})(1-PVE_{SNP} - PVE_{expr})}\]</span></p>
+<pre class="r"><code>simudir &lt;- &quot;/home/simingz/causalTWAS/simulations/simulation_WTCCC_20191111/&quot;
+show_res &lt;- function(simutag){
+  load(Sys.glob(paste0(simudir,simutag,&quot;*phenotype.Rd&quot;)))
+  outdf1 &lt;- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c , 1))
+  row.names(outdf1) &lt;- c(&quot;sigma_gamma^2&quot;,&quot;sigma_theta^2&quot;,&quot;sigma_e^2&quot;)
+  res &lt;- readLines(paste0(simudir, simutag, &quot;_VC/output/&quot;, simutag, &quot;.log.txt&quot;))
+  outdf1$est &lt;- as.numeric(strsplit(res[24], &quot;  &quot;)[[1]][2:4])
+  outdf1$est.se &lt;- as.numeric(strsplit(res[25], &quot;  &quot;)[[1]][2:4])
+  print(outdf1)
+  outdf2 &lt;- data.frame(&quot;est&quot;= c(as.numeric(strsplit(res[20], &quot;  &quot;)[[1]][2:3]), as.numeric(strsplit(res[22], &quot;=&quot;)[[1]][2])))
+  row.names(outdf2) &lt;- c(&quot;PVE.expr&quot;,&quot;PVE.snp&quot;,&quot;PVE.total&quot;)
+  outdf2$est.se &lt;- c(as.numeric(strsplit(res[21], &quot;  &quot;)[[1]][2:3]), as.numeric(strsplit(res[23], &quot;=&quot;)[[1]][2]))
+  print(outdf2)
+}</code></pre>
 </div>
 <div id="simulation-1-m-no.-of-all-snps-j-no.-all-genes" class="section level2">
 <h2>Simulation 1: <span class="math inline">\(M\)</span> = No. of all SNPs, <span class="math inline">\(J\)</span> = No. all genes</h2>
 <p>We simulate quantitative phenotype under several scenarios. First we make all genes with imputed gene expression as causal genes and all SNPs as causal SNPs. This matches our polygenic version of the model.</p>
-<div id="pve_snp0.1-pve_expr0.1" class="section level3">
-<h3>1.1 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.1\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snp-approx-0.1-pve_expr-approx-0.1" class="section level3">
+<h3>1.1 <span class="math inline">\(PVE_{SNP} \approx 0.1\)</span>, <span class="math inline">\(PVE_{expr} \approx 0.1\)</span></h3>
+<pre class="r"><code>show_res(&quot;S1.1&quot;)</code></pre>
+<pre><code>                  truth      est    est.se
+sigma_gamma^2 0.1005991 0.122543 0.0395220
+sigma_theta^2 0.1250000 0.273277 0.2092710
+sigma_e^2     1.0000000 1.007600 0.0804118
+                est    est.se
+PVE.expr  0.1225340 0.0395189
+PVE.snp   0.0705488 0.0540252
+PVE.total 0.1930830 0.0643964</code></pre>
 </div>
-<div id="pve_snp0.1-pve_expr0.4" class="section level3">
-<h3>1.2 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.4\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snpapprox-0.1-pve_exprapprox-0.4" class="section level3">
+<h3>1.2 <span class="math inline">\(PVE_{SNP}\approx 0.1\)</span>, <span class="math inline">\(PVE_{expr}\approx 0.4\)</span></h3>
+<pre class="r"><code>show_res(&quot;S1.2&quot;)</code></pre>
+<pre><code>                  truth      est    est.se
+sigma_gamma^2 0.6438345 0.659297 0.0715076
+sigma_theta^2 0.2000000 0.666863 0.3450190
+sigma_e^2     1.0000000 0.975871 0.1385370
+               est    est.se
+PVE.expr  0.408730 0.0443310
+PVE.snp   0.106737 0.0552229
+PVE.total 0.515467 0.0687856</code></pre>
 </div>
 </div>
 <div id="simulation-2-m-no.-of-all-snps-j-10-all-genes-j2000" class="section level2">
 <h2>Simulation 2: <span class="math inline">\(M\)</span> = No. of all SNPs, <span class="math inline">\(J\)</span> = ~10% all genes (J=2000)</h2>
-<div id="pve_snp0.1-pve_expr0.1-1" class="section level3">
-<h3>2.1 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.1\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snp-approx-0.1-pve_expr-approx-0.1-1" class="section level3">
+<h3>2.1 <span class="math inline">\(PVE_{SNP} \approx 0.1\)</span>, <span class="math inline">\(PVE_{expr} \approx 0.1\)</span></h3>
+<pre class="r"><code>show_res(&quot;S2.1&quot;)</code></pre>
+<pre><code>                  truth       est    est.se
+sigma_gamma^2 0.1005991 0.0878109 0.0386394
+sigma_theta^2 0.1250000 0.0131843 0.1975690
+sigma_e^2     1.0000000 1.1136600 0.0758622
+                 est    est.se
+PVE.expr  0.08931650 0.0393019
+PVE.snp   0.00346228 0.0518827
+PVE.total 0.09277880 0.0617994</code></pre>
 </div>
-<div id="pve_snp0.1-pve_expr0.4-1" class="section level3">
-<h3>2.2 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.4\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snp-approx-0.1-pve_expr-approx-0.4" class="section level3">
+<h3>2.2 <span class="math inline">\(PVE_{SNP} \approx 0.1\)</span>, <span class="math inline">\(PVE_{expr} \approx 0.4\)</span></h3>
+<pre class="r"><code>show_res(&quot;S2.2&quot;)</code></pre>
+<pre><code>                  truth       est    est.se
+sigma_gamma^2 0.6438345  0.609504 0.0687422
+sigma_theta^2 0.2000000 -0.271802 0.3082090
+sigma_e^2     1.0000000  1.240020 0.1246970
+                 est    est.se
+PVE.expr   0.3977290 0.0448574
+PVE.snp   -0.0457914 0.0519251
+PVE.total  0.3519380 0.0651690</code></pre>
 </div>
 </div>
 <div id="simulation-3-m-10-all-snps-m50000-j-no.-all-genes" class="section level2">
 <h2>Simulation 3: <span class="math inline">\(M\)</span> = ~ 10% all SNPs (M=50000), <span class="math inline">\(J\)</span> = No. all genes</h2>
-<div id="pve_snp0.1-pve_expr0.1-2" class="section level3">
-<h3>3.1 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.1\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snp-approx-0.1-pve_expr-approx-0.1-2" class="section level3">
+<h3>3.1 <span class="math inline">\(PVE_{SNP} \approx 0.1\)</span>, <span class="math inline">\(PVE_{expr} \approx 0.1\)</span></h3>
+<pre class="r"><code>show_res(&quot;S3.1&quot;)</code></pre>
+<pre><code>                  truth      est    est.se
+sigma_gamma^2 0.1005991 0.107247 0.0382940
+sigma_theta^2 0.1250000 0.626345 0.2070430
+sigma_e^2     1.0000000 0.880455 0.0792357
+               est    est.se
+PVE.expr  0.110097 0.0393119
+PVE.snp   0.166007 0.0548750
+PVE.total 0.276105 0.0651462</code></pre>
 </div>
-<div id="pve_snp0.1-pve_expr0.4-2" class="section level3">
-<h3>3.2 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.4\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snp-approx-0.1-pve_expr-approx-0.4-1" class="section level3">
+<h3>3.2 <span class="math inline">\(PVE_{SNP} \approx 0.1\)</span>, <span class="math inline">\(PVE_{expr} \approx 0.4\)</span></h3>
+<pre class="r"><code>show_res(&quot;S3.2&quot;)</code></pre>
+<pre><code>                  truth      est    est.se
+sigma_gamma^2 0.6438345 0.702810 0.0720651
+sigma_theta^2 0.2000000 0.968523 0.3470150
+sigma_e^2     1.0000000 0.788533 0.1418140
+               est    est.se
+PVE.expr  0.443583 0.0454843
+PVE.snp   0.157822 0.0565465
+PVE.total 0.601405 0.0716856</code></pre>
 </div>
 </div>
 <div id="simulation-4-m-10-all-snps-m50000-j-10-all-genes-j2000" class="section level2">
 <h2>Simulation 4: <span class="math inline">\(M\)</span> = ~ 10% all SNPs (M=50000), <span class="math inline">\(J\)</span> = ~10% all genes (J=2000)</h2>
-<div id="pve_snp0.1-pve_expr0.1-3" class="section level3">
-<h3>4.1 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.1\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snp-approx-0.1-pve_expr-approx-0.1-3" class="section level3">
+<h3>4.1 <span class="math inline">\(PVE_{SNP} \approx 0.1\)</span>, <span class="math inline">\(PVE_{expr} \approx 0.1\)</span></h3>
+<pre class="r"><code>show_res(&quot;S4.1&quot;)</code></pre>
+<pre><code>                  truth     est    est.se
+sigma_gamma^2 0.1005991 0.12410 0.0409952
+sigma_theta^2 0.1250000 0.33148 0.2124450
+sigma_e^2     1.0000000 1.02347 0.0815844
+                est    est.se
+PVE.expr  0.1205590 0.0398255
+PVE.snp   0.0831393 0.0532839
+PVE.total 0.2036980 0.0634763</code></pre>
 </div>
-<div id="pve_snp0.1-pve_expr0.4-3" class="section level3">
-<h3>4.2 <span class="math inline">\(PVE_{SNP}=0.1\)</span>, <span class="math inline">\(PVE_{expr}=0.4\)</span></h3>
-<p>We set <span class="math inline">\(\sigma_e=1\)</span>.</p>
+<div id="pve_snp-approx-0.1-pve_expr-approx-0.4-2" class="section level3">
+<h3>4.2 <span class="math inline">\(PVE_{SNP} \approx 0.1\)</span>, <span class="math inline">\(PVE_{expr} \approx 0.4\)</span></h3>
+<pre class="r"><code>show_res(&quot;S4.2&quot;)</code></pre>
+<pre><code>                  truth      est    est.se
+sigma_gamma^2 0.6438345 0.703181 0.0755506
+sigma_theta^2 0.2000000 0.617824 0.3450340
+sigma_e^2     1.0000000 1.008390 0.1414000
+               est    est.se
+PVE.expr  0.420990 0.0452316
+PVE.snp   0.095497 0.0533320
+PVE.total 0.516487 0.0678001</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

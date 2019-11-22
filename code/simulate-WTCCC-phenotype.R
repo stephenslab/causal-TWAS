@@ -16,21 +16,21 @@ simulate_phenotype<- function(G.scaled, chr, pos, expr, M.c, J.c, PVE.snp, PVE.e
   N <- dim(G.scaled)[1]
   M <- dim(G.scaled)[2]
   J <- dim(expr)[2]
-  expr.meanvar <- mean(apply(expr[,1:100],2,var))
+  expr.meanvar <- mean(apply(expr[,1:1000],2,var))
 
   set.seed(999)
 
   idx.cgene <- sample(1:J, J.c)
   idx.cSNP <- sample(1:M, M.c)
 
-  sigma_theta =sqrt(PVE.snp)/(M.c * (1-PVE.snp-PVE.expr))
-  sigma_gamma =sqrt(PVE.expr)/(J.c * expr.meanvar * (1-PVE.snp-PVE.expr))
+  sigma_theta =sqrt(PVE.snp/(M.c * (1-PVE.snp-PVE.expr)))
+  sigma_gamma =sqrt(PVE.expr/(J.c * expr.meanvar * (1-PVE.snp-PVE.expr)))
   s.theta <- rnorm(M.c, mean = 0, sd = sigma_theta)
   e.gamma <- rnorm(J.c, mean = 0, sd = sigma_gamma)
 
   Y <- expr[,idx.cgene] %*% e.gamma + G.scaled[, idx.cSNP] %*% s.theta + rnorm(N)
   write.gemma.pheno(paste0(paste(outname,M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated.pheno.txt"), Y)
-  save(Y, sigma_theta, sigma_gamma, s.theta, e.gamma, idx.cSNP, idx.cgene, file=paste0(paste(outname,M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated_phenotype.Rd"))
+  save(Y, sigma_theta, sigma_gamma, s.theta, e.gamma, idx.cSNP, idx.cgene, M.c, J.c, expr.meanvar, file=paste0(paste(outname,M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated_phenotype.Rd"))
   return(list("Y"=Y,"theta"=s.theta, "gamma"=e.gamma))
 }
 
