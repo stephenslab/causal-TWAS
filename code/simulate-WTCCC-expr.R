@@ -1,6 +1,7 @@
 # Simulation function
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir,"input_reformat.R"))
+library(data.table)
 
 simulate_expr<- function(G, chr, pos, gafile, n.eQTL.range=1:5, h2.eQTL=0.2) {
   # G: genotype matrix, row: sample, column:SNP
@@ -29,9 +30,10 @@ simulate_expr<- function(G, chr, pos, gafile, n.eQTL.range=1:5, h2.eQTL=0.2) {
       }
     }
 
-    ga.eQTL.geno <-lapply(1:dim(ga)[1], simulate_eQTL_geno) # this step takes around 2 hours
-    names(ga.eQTL.geno) <- ga$V6
-    save(ga.eQTL.geno, file="eQTL_genotype.Rd")
+    #ga.eQTL.geno <-lapply(1:dim(ga)[1], simulate_eQTL_geno) # this step takes around 2 hours
+    #names(ga.eQTL.geno) <- ga$V6
+    #save(ga.eQTL.geno, file="eQTL_genotype.Rd")
+    load("eQTL_genotype.Rd")
 
     # simulate gene expression data
     exprlist <- list()
@@ -39,15 +41,15 @@ simulate_expr<- function(G, chr, pos, gafile, n.eQTL.range=1:5, h2.eQTL=0.2) {
       print(i)
       if (!is.null(ga.eQTL.geno[[i]])){
         gname <- names(ga.eQTL.geno[i])
-        alpha <- rnorm(dim(ga.eQTL.geno[[i]])[2], mean=0, sd=sigma_alpha)
-        expr <- scale(ga.eQTL.geno[[i]]) %*% alpha + rnorm(N, sd=1)
+        alpha <- rnorm(dim(as.matrix(ga.eQTL.geno[[i]]))[2], mean=0, sd=sigma_alpha)
+        expr <- scale(as.matrix(ga.eQTL.geno[[i]])) %*% alpha
         exprlist[[gname]] <-expr
       }
     }
     gnames <- names(exprlist)
     expr <- do.call(cbind, exprlist) # rows are samples, columns are genes.
     J <- length(exprlist)
-    save(gnames, expr, sigma_alpha, J ,file="simulated_gene_cis_expr.Rd")
+    save(gnames, expr, sigma_alpha, J, file="simulated_gene_cis_expr.Rd")
     write.gemma.geno(outfile = "simulated_gene_cis_expr.exprgeno.txt", expr, gnames,append = F)
 }
 

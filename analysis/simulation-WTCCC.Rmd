@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Use WTCCC data obtained from Peter on CRI. 
 
 ## Simulate cis-expression 
-We simulate cis- expression based on the following model:
+We simulate cis-expression based on the following model:
 
 $$ \tilde{X} = G\alpha + \xi$$
 For each gene, we sample $L$ eQTLs for this gene, for eQTL $k$, we have
@@ -70,7 +70,7 @@ We simulate quantitative phenotype under several scenarios. First we make all ge
 show_res("S1.1")
 ```
 
-### 1.2 $PVE_{SNP}\approx 0.1$, $PVE_{expr}\approx 0.4$
+### 1.2 $PVE_{SNP}\approx 0.4$, $PVE_{expr}\approx 0.1$
 ```{r 1.2}
 show_res("S1.2")
 ```
@@ -82,30 +82,30 @@ show_res("S1.2")
 show_res("S2.1")
 ```
 
-### 2.2 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.4$
+### 2.2 $PVE_{SNP} \approx 0.4$, $PVE_{expr} \approx 0.1$
 ```{r 2.2}
 show_res("S2.2")
 ```
-## Simulation 3: $M$ = ~ 10% all SNPs (M=50000), $J$ = No. all genes
+## Simulation 3: $M$ = ~ 1% all SNPs (M=5000), $J$ = No. all genes
 
 ### 3.1 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.1$ 
 ```{r 3.1}
 show_res("S3.1")
 ```
 
-### 3.2 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.4$
+### 3.2 $PVE_{SNP} \approx 0.4$, $PVE_{expr} \approx 0.1$
 ```{r 3.2}
 show_res("S3.2")
 ```
 
-## Simulation 4: $M$ = ~ 10% all SNPs (M=50000), $J$ = ~10% all genes (J=2000)
+## Simulation 4: $M$ = ~ 1% all SNPs (M=5000), $J$ = ~10% all genes (J=2000)
 
 ### 4.1 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.1$ 
 ```{r 4.1}
 show_res("S4.1")
 ```
 
-### 4.2 $PVE_{SNP} \approx 0.1$, $PVE_{expr} \approx 0.4$
+### 4.2 $PVE_{SNP} \approx 0.4$, $PVE_{expr} \approx 0.1$
 ```{r 4.2}
 show_res("S4.2")
 ```
