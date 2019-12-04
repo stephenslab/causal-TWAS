@@ -1,8 +1,9 @@
 
-run.ctwas <- function (pheno, geno, expr, outname) {
+run.ctwas <- function (pheno, geno, expr, G.expr, outname) {
   # pheno: phenotype file, in BIMBAM phenotype format
   # geno:  genotype file, in BIMBAM mean genotype format
-  # expr:  expression file, in BIMBAM mean genotype format
+  # expr:  expression matrix, column genes row samples
+  # G.expr: genotype matrix for expresion data, will be used for training
 
   cat(" * Computing kinship matrix for snps.\n")
   genodir <-  normalizePath(dirname(geno))
@@ -12,6 +13,11 @@ run.ctwas <- function (pheno, geno, expr, outname) {
     dir.create(genokdir)
     system(paste("cd", genokdir, "; gemma -g", geno, "-p", pheno, "-gk 1 -o", paste0(genof,"-geno"))) # currently this step requires 80G memory for 3 hours.
   }
+
+  cat(" * Training expression model.\n")
+
+  cat(" * Imputing cis-expression (X tilde).\n")
+
 
   cat(" * Computing correlation matrix for expression.\n")
   exprdir <-  normalizePath(dirname(expr))

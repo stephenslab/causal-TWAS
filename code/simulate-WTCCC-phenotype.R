@@ -7,14 +7,24 @@ codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 
-simulate_phenotype<- function(G.scaled, chr, pos, expr, M.c, J.c, PVE.snp, PVE.expr, outname) {
+simulate_phenotype<- function(G.scaled, weightslist, M.c, J.c, PVE.snp, PVE.expr, outname) {
   # G.scaled: scaled genotype matrix, row: sample, column:SNP. column mean= 0, sd=1
-  # expr: cis expression of gene, matrix, row: sample, column: imputed gene
+  # weightslist: each gene is a list item, providing a dataframe with columns: chr, pos, major minor, labels, alpha and rows eQTLs.
   # M.c: number of causal SNPs
   # J.c: number of causal genes
 
   N <- dim(G.scaled)[1]
   M <- dim(G.scaled)[2]
+
+  # generate expr: cis expression of gene (generated using true weights), matrix, row: sample, column: gene
+  exprlist <- list()
+  for (gname in names(weightslist)){
+     weights <- weightslist[[gname]]
+     exprlist[[gname]] <- as.matrix(G.scaled[ , match(weights$labels, labels)]) %*% weights$alpha
+     if (is.na(exprlist[[gname]])) exprlist[[gname]] <- 0 #TODO:eQTL not genotyped should be omited, instead of simply put gene expression to 0.
+  }
+
+  expr <- do.call(cbind, exprlist)
   J <- dim(expr)[2]
   expr.meanvar <- mean(apply(expr[,1:1000],2,var))
 
@@ -28,8 +38,8 @@ simulate_phenotype<- function(G.scaled, chr, pos, expr, M.c, J.c, PVE.snp, PVE.e
   s.theta <- rnorm(M.c, mean = 0, sd = sigma_theta)
   e.gamma <- rnorm(J.c, mean = 0, sd = sigma_gamma)
 
-  Y <- expr[,idx.cgene] %*% e.gamma + G.scaled[, idx.cSNP] %*% s.theta + rnorm(N)
-  write.gemma.pheno(paste0(paste(outname,M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated.pheno.txt"), Y)
+  Y <- expr[,idx.cgene] %*% e.gamma + G.scaled[,idx.cSNP] %*% s.theta + rnorm(N)
+  write.gemma.pheno(paste0(paste(outname, M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated.pheno.txt"), Y)
   save(Y, sigma_theta, sigma_gamma, s.theta, e.gamma, idx.cSNP, idx.cgene, M.c, J.c, expr.meanvar, file=paste0(paste(outname,M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated_phenotype.Rd"))
   return(list("Y"=Y,"theta"=s.theta, "gamma"=e.gamma))
 }
@@ -40,7 +50,7 @@ X.scaled <- scaleRcpp(X)
 rm(X);gc()
 
 # load expression data
-exprfile <-"/project2/mstephens/causalTWAS/simulations/simulation_WTCCC_20191111/simulated_gene_cis_expr.Rd"
+exprfile <-"/project2/mstephens/causalTWAS/simulations/simulation_WTCCC_20191127/simulated_gene_cis_expr.Rd"
 load(exprfile)
 
 # simulate phenotype
@@ -50,5 +60,6 @@ PVE.snp <- as.numeric(args[3])
 PVE.expr <- as.numeric(args[4])
 outname <- args[5]
 
-phenolist <- simulate_phenotype(X.scaled, chr, pos, expr, M.c, J.c, PVE.snp, PVE.expr, outname)
+phenolist <- simulate_phenotype(X.scaled, weightslist, M.c, J.c, PVE.snp, PVE.expr, outname)
 
+print(warnings())
