@@ -55,7 +55,7 @@ simulate_expr<- function(G, gafile, n.eQTL.range=1:5, h2.eQTL=0.2) {
     gnames <- names(exprlist)
     expr <- do.call(cbind, exprlist) # rows are samples, columns are genes.
     J <- length(exprlist)
-    save(G, gnames, expr, sigma_alpha, J, weightslist, file="simulated_gene_cis_expr.Rd")
+    save(G, labels, chr, pos, gnames, expr, sigma_alpha, J, weightslist, file="simulated_gene_cis_expr2.Rd")
 }
 
 load("/home/simingz/causalTWAS/WTCCC/cad.RData")

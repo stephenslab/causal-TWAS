@@ -20,13 +20,14 @@ simulate_phenotype<- function(G.scaled, weightslist, M.c, J.c, PVE.snp, PVE.expr
   exprlist <- list()
   for (gname in names(weightslist)){
      weights <- weightslist[[gname]]
-     exprlist[[gname]] <- as.matrix(G.scaled[ , match(weights$labels, labels)]) %*% weights$alpha
+     exprlist[[gname]] <- as.matrix(G.scaled[ ,match(weights$labels, labels)]) %*% weights$alpha
      if (is.na(exprlist[[gname]])) exprlist[[gname]] <- 0 #TODO:eQTL not genotyped should be omited, instead of simply put gene expression to 0.
   }
 
   expr <- do.call(cbind, exprlist)
   J <- dim(expr)[2]
   expr.meanvar <- mean(apply(expr[,1:1000],2,var))
+  save(expr, file =paste0(paste(outname, M.c, J.c, PVE.snp, PVE.expr,sep="-"),".trueexpr.Rd")
 
   set.seed(999)
 
