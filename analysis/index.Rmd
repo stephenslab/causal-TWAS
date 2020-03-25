@@ -8,11 +8,15 @@ editor_options:
   chunk_output_type: console
 ---
 
-## [Model](model.html)
+# Model
+  [polygenic model](polygenic_model.html)
 
-## [Simulation: single gene](simulation-singleG.html)
+# Simulations
 
-## [Simulation: WTCCC](simulation-WTCCC.html)
+##For a single gene
+  * [single gene](simulation-singleG.html)
 
-## [Simulation: WTCCC 2 ](simulation-WTCCC2.html)
+## Under polygenic model
+  * [Simulation: WTCCC](simulation-WTCCC.html)
+  * [Simulation: WTCCC 2](simulation-WTCCC2.html)
 
