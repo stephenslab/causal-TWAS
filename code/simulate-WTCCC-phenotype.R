@@ -20,7 +20,7 @@ simulate_phenotype<- function(G.scaled, weightslist, M.c, J.c, PVE.snp, PVE.expr
   exprlist <- list()
   for (gname in names(weightslist)){
      weights <- weightslist[[gname]]
-     exprlist[[gname]] <- as.matrix(G.scaled[ ,match(weights$labels, labels)]) %*% weights$alpha
+     exprlist[[gname]] <- as.matrix(G.scaled[ , match(weights$labels, labels)]) %*% weights$alpha
      if (is.na(exprlist[[gname]])) exprlist[[gname]] <- 0 #TODO: eQTL not genotyped should be omited, instead of simply put gene expression to
   }
 
@@ -41,6 +41,11 @@ simulate_phenotype<- function(G.scaled, weightslist, M.c, J.c, PVE.snp, PVE.expr
 
   Y <- expr[,idx.cgene] %*% e.gamma + G.scaled[,idx.cSNP] %*% s.theta + rnorm(N)
   write.gemma.pheno(paste0(paste(outname, M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated.pheno.txt"), Y)
+
+  PVE.snp.truth <- var(s.theta)/var(Y)
+  PVE.expr.truth <- var(expr[,idx.cgene] %*% e.gamma)
+
+
   save(Y, sigma_theta, sigma_gamma, s.theta, e.gamma, idx.cSNP, idx.cgene, M.c, J.c, expr.meanvar, file=paste0(paste(outname,M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated_phenotype.Rd"))
   return(list("Y"=Y,"theta"=s.theta, "gamma"=e.gamma))
 }

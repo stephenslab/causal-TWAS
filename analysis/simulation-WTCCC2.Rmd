@@ -10,12 +10,14 @@ Use WTCCC data obtained from Peter on CRI.
 
 The difference between this analysis and [previous run](simulation-WTCCC.html): used 500 samples from `cad.RData` from WTCCC to simulate expression, then train expression model using `cv.glmnet`. We impute expression in using `bd.RData` from WTCCC. 
 
-Simulation of phenotype: use the same weights as used in simulate expression using the `'cad.RData` dataset.
+Simulation of phenotype: use the same weights as used in simulate expression using the `'cad.RData` dataset, simulate phenotype according to:
+
+$$Y = G\alpha\gamma + G\theta + \epsilon$$. For $\alpha$, we used the same as used in simulating expression (Thus, not $\tilde{X}$). $\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)$.
 
 The genotype data and other settings are the same.
 
 ## Simulate cis-expression 
-We simulate cis-expression based on the following model:
+We simulate cis-expression based on the following model, using 500 samples from cad in WTCCC:
 
 $$ \tilde{X} = G\alpha + \xi$$
 For each gene, we sample $L$ eQTLs for this gene, for eQTL $k$, we have
@@ -34,7 +36,8 @@ h^2_{eQTL} &= \frac{var(G\alpha)}{var(G\alpha)+var(\xi)} \\
 Here, we use scaled genotype data, so $var(G)=1$. We also have $\alpha^2_k \approx E(\alpha_k^2)=var(\alpha_k^2)=\sigma_\alpha^2$. Usually, $K$ ranges from 1 to 5, let $\sigma_\alpha = 0.3$, then $h^2_{eQTL}$ ranges from 0.08 to 0.31, this is consistent with gene cis-heritability in reality.
 
 ## Simulate quantitative phenotype
-We simulate phenotype followin
+We simulate phenotype using bd data from WTCCC following
+$$Y = G\alpha\gamma + G\theta + \epsilon$$. For $\alpha$, we used the same as used in simulating expression (Thus, not $\tilde{X}$). $\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)$.
 
 $$\begin{align}
 PVE_{SNP} = &\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigma_e^2}\\ 
@@ -47,16 +50,18 @@ PVE_{expr} \approx \frac{Jvar(\tilde{X})\sigma_\gamma^2}{M\sigma_\theta^2 + Jvar
 
 Here, $var(\tilde{X})$ is the cis-heratbility of gene expression. $M$ and $J$ are numbers of causal SNP and gene respectively. 
 
-Thus in order to get desired $PVE_{SNP}$ and $PVE_expr$, we set $\sigma_\theta^2$ and $\sigma_\gamma^2$ based on the following formula:
+Thus in order to get desired $PVE_{SNP}$ and $PVE_{expr}$, we set $\sigma_\theta^2$ and $\sigma_\gamma^2$ based on the following formula:
 
 $$\sigma_\theta^2 = \frac{PVE_{SNP}}{M(1-PVE_{SNP} - PVE_{expr})}$$
 $$\sigma_\gamma^2 = \frac{PVE_{expr}}{Jvar(\tilde{X})(1-PVE_{SNP} - PVE_{expr})}$$
 
 ```{r}
 simudir <- "/home/simingz/causalTWAS/simulations/simulation_WTCCC_20191127/"
+load("/home/simingz/causalTWAS/WTCCC/bd.toy.RData")
+Gvar <- mean(apply(X,2,var))
 show_res <- function(simutag){
   load(Sys.glob(paste0(simudir,simutag,"*phenotype.Rd")))
-  outdf1 <- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c , 1))
+  outdf1 <- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c/Gvar , 1))
   row.names(outdf1) <- c("sigma_gamma^2","sigma_theta^2","sigma_e^2")
   res <- readLines(paste0(simudir, simutag, "_VC/output/", simutag, ".log.txt"))
   outdf1$est <- as.numeric(strsplit(res[24], "  ")[[1]][2:4])
@@ -104,6 +109,10 @@ show_res("S3.1")
 ```{r 3.2}
 show_res("S3.2")
 ```
+
+## Discussion
+In this analysis, we see the PVE estimation for expression is much under estimated, this is because many of the gene expression training model has low $R^2$, especially for low heritability ones. For a polygenic model, because we are estimating the total herability explained by expression, the ones with low $R^2$ will affect this estimation. We are moving to model with a sparse prior for expression.
+
 
 
 

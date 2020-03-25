@@ -339,7 +339,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-11-25
+<strong>Last updated:</strong> 2020-03-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -349,7 +349,7 @@ div.section {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -430,10 +430,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeeee8d19678ef9ab67224752f7bbf193fe4b79b91targetblankeee8d19a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/eee8d19678ef9ab67224752f7bbf193fe4b79b91" target="_blank">eee8d19</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeecf008d10de2aa1dc6b0e7b2481f2852c875a542targetblankecf008da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/ecf008d10de2aa1dc6b0e7b2481f2852c875a542" target="_blank">ecf008d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeeee8d19678ef9ab67224752f7bbf193fe4b79b91targetblankeee8d19a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeecf008d10de2aa1dc6b0e7b2481f2852c875a542targetblankecf008da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -448,9 +448,9 @@ Ignored files:
 
 Unstaged changes:
     Modified:   analysis/simulation-WTCCC.Rmd
-    Modified:   code/ctwas_polygenic_V1.R
-    Modified:   code/simulate-WTCCC-expr.R
-    Modified:   code/workflow-WTCCC-simulation.ipynb
+    Modified:   analysis/simulation-WTCCC2.Rmd
+    Modified:   code/simulate-WTCCC-phenotype.R
+    Modified:   code/workflow-WTCCC-polygenic-simulation.ipynb
 
 </code></pre>
 <p>
@@ -489,6 +489,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/84ad96acbe996bc24853a584c570864e929c4fec/analysis/simulation-WTCCC.Rmd" target="_blank">84ad96a</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2019-11-25
+</td>
+<td>
+X tilde
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/84ad96acbe996bc24853a584c570864e929c4fec/docs/simulation-WTCCC.html" target="_blank">84ad96a</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2019-11-25
+</td>
+<td>
+X tilde
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -687,7 +721,7 @@ gemma
 <div id="simulate-cis-expression" class="section level2">
 <h2>Simulate cis-expression</h2>
 <p>We simulate cis-expression based on the following model:</p>
-<p><span class="math display">\[ \tilde{X} = G\alpha + \xi\]</span> For each gene, we sample <span class="math inline">\(L\)</span> eQTLs for this gene, for eQTL <span class="math inline">\(k\)</span>, we have <span class="math display">\[ \alpha_k \sim N(0,\sigma_\alpha^2) \]</span> <span class="math display">\[ \xi \sim N(0,1) \]</span> Then we have the heritability of the gene:</p>
+<p><span class="math display">\[ X&#39; = G\alpha\]</span> For each gene, we sample <span class="math inline">\(L\)</span> eQTLs for this gene, for eQTL <span class="math inline">\(k\)</span>, we have <span class="math display">\[ \alpha_k \sim N(0,\sigma_\alpha^2) \]</span> <span class="math display">\[ \xi \sim N(0,1) \]</span> Then we have the heritability of the gene:</p>
 <p><span class="math display">\[\begin{aligned}
 h^2_{eQTL} &amp;= \frac{var(G\alpha)}{var(G\alpha)+var(\xi)} \\
 &amp;= \frac{\Sigma_kvar(G_k) \alpha_k^2}{\Sigma_kvar(G_k) \alpha_k^2 + var(\xi)}\\
@@ -699,6 +733,9 @@ h^2_{eQTL} &amp;= \frac{var(G\alpha)}{var(G\alpha)+var(\xi)} \\
 </div>
 <div id="simulate-quantitative-phenotype" class="section level2">
 <h2>Simulate quantitative phenotype</h2>
+<p>We simulate phenotype following</p>
+<p><span class="math display">\[Y = G\alpha\gamma + G\theta + \epsilon\]</span>.</p>
+<p>For <span class="math inline">\(\alpha\)</span>, we used the same as used in simulating expression (Thus, not <span class="math inline">\(\tilde{X}\)</span>). <span class="math inline">\(\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)\)</span>. To choose proper <span class="math inline">\(\sigma_\gamma\)</span> and <span class="math inline">\(\sigma_\theta\)</span>. We used the following formula:</p>
 <p><span class="math display">\[\begin{align}
 PVE_{SNP} = &amp;\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigma_e^2}\\ 
 \approx &amp;\frac{M\sigma_\theta^2}{M\sigma_\theta^2 + \Sigma_jvar(\tilde{X_j})\gamma_j^2+ \sigma_e^2}\\ 
@@ -707,12 +744,14 @@ PVE_{SNP} = &amp;\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigm
 <p><span class="math display">\[
 PVE_{expr} \approx \frac{Jvar(\tilde{X})\sigma_\gamma^2}{M\sigma_\theta^2 + Jvar(\tilde{X})\sigma_\gamma^2+ \sigma_e^2}\]</span></p>
 <p>Here, <span class="math inline">\(var(\tilde{X})\)</span> is the cis-heratbility of gene expression. <span class="math inline">\(M\)</span> and <span class="math inline">\(J\)</span> are numbers of causal SNP and gene respectively.</p>
-<p>Thus in order to get desired <span class="math inline">\(PVE_{SNP}\)</span> and <span class="math inline">\(PVE_expr\)</span>, we set <span class="math inline">\(\sigma_\theta^2\)</span> and <span class="math inline">\(\sigma_\gamma^2\)</span> based on the following formula:</p>
+<p>Thus in order to get desired <span class="math inline">\(PVE_{SNP}\)</span> and <span class="math inline">\(PVE_{expr}\)</span>, we set <span class="math inline">\(\sigma_\theta^2\)</span> and <span class="math inline">\(\sigma_\gamma^2\)</span> based on the following formula:</p>
 <p><span class="math display">\[\sigma_\theta^2 = \frac{PVE_{SNP}}{M(1-PVE_{SNP} - PVE_{expr})}\]</span> <span class="math display">\[\sigma_\gamma^2 = \frac{PVE_{expr}}{Jvar(\tilde{X})(1-PVE_{SNP} - PVE_{expr})}\]</span></p>
 <pre class="r"><code>simudir &lt;- &quot;/home/simingz/causalTWAS/simulations/simulation_WTCCC_20191111/&quot;
+load(&quot;/home/simingz/causalTWAS/WTCCC/bd.toy.RData&quot;)
+Gvar &lt;- mean(apply(X,2,var))
 show_res &lt;- function(simutag){
   load(Sys.glob(paste0(simudir,simutag,&quot;*phenotype.Rd&quot;)))
-  outdf1 &lt;- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c , 1))
+  outdf1 &lt;- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c/Gvar , 1))
   row.names(outdf1) &lt;- c(&quot;sigma_gamma^2&quot;,&quot;sigma_theta^2&quot;,&quot;sigma_e^2&quot;)
   res &lt;- readLines(paste0(simudir, simutag, &quot;_VC/output/&quot;, simutag, &quot;.log.txt&quot;))
   outdf1$est &lt;- as.numeric(strsplit(res[24], &quot;  &quot;)[[1]][2:4])
@@ -732,7 +771,7 @@ show_res &lt;- function(simutag){
 <pre class="r"><code>show_res(&quot;S1.1&quot;)</code></pre>
 <pre><code>                  truth      est    est.se
 sigma_gamma^2 0.4844631 0.576745 0.1373830
-sigma_theta^2 0.1250000 0.206319 0.2265750
+sigma_theta^2 0.4365506 0.206319 0.2265750
 sigma_e^2     1.0000000 1.048360 0.0723783
                 est    est.se
 PVE.expr  0.1150480 0.0274049
@@ -744,7 +783,7 @@ PVE.total 0.1678420 0.0574520</code></pre>
 <pre class="r"><code>show_res(&quot;S1.2&quot;)</code></pre>
 <pre><code>                  truth     est   est.se
 sigma_gamma^2 0.7751409 1.02284 0.229406
-sigma_theta^2 0.8000000 1.50579 0.393121
+sigma_theta^2 2.7939238 1.50579 0.393121
 sigma_e^2     1.0000000 1.27095 0.128254
                est    est.se
 PVE.expr  0.127666 0.0286335
@@ -759,7 +798,7 @@ PVE.total 0.368756 0.0637001</code></pre>
 <pre class="r"><code>show_res(&quot;S2.1&quot;)</code></pre>
 <pre><code>                  truth      est   est.se
 sigma_gamma^2 0.4844631 0.423657 0.129243
-sigma_theta^2 0.1250000 0.138791 0.205555
+sigma_theta^2 0.4365506 0.138791 0.205555
 sigma_e^2     1.0000000 1.061920 0.064932
                 est    est.se
 PVE.expr  0.0877619 0.0267731
@@ -771,7 +810,7 @@ PVE.total 0.1246420 0.0535243</code></pre>
 <pre class="r"><code>show_res(&quot;S2.2&quot;)</code></pre>
 <pre><code>                  truth      est   est.se
 sigma_gamma^2 0.7751409 0.644789 0.209481
-sigma_theta^2 0.8000000 1.510700 0.363672
+sigma_theta^2 2.7939238 1.510700 0.363672
 sigma_e^2     1.0000000 1.307530 0.115167
                 est    est.se
 PVE.expr  0.0828177 0.0269061
@@ -786,7 +825,7 @@ PVE.total 0.3317200 0.0588617</code></pre>
 <pre class="r"><code>show_res(&quot;S3.1&quot;)</code></pre>
 <pre><code>                  truth       est    est.se
 sigma_gamma^2 0.4844631 0.4286100 0.1308600
-sigma_theta^2 0.1250000 0.0860036 0.2247160
+sigma_theta^2 0.4365506 0.0860036 0.2247160
 sigma_e^2     1.0000000 1.1093200 0.0704246
                 est    est.se
 PVE.expr  0.0865320 0.0264194
@@ -798,7 +837,7 @@ PVE.total 0.1088050 0.0565770</code></pre>
 <pre class="r"><code>show_res(&quot;S3.2&quot;)</code></pre>
 <pre><code>                  truth      est   est.se
 sigma_gamma^2 0.7751409 0.710255 0.220093
-sigma_theta^2 0.8000000 1.592890 0.386914
+sigma_theta^2 2.7939238 1.592890 0.386914
 sigma_e^2     1.0000000 1.339000 0.122368
                 est    est.se
 PVE.expr  0.0878836 0.0272333
@@ -813,7 +852,7 @@ PVE.total 0.3407110 0.0602505</code></pre>
 <pre class="r"><code>show_res(&quot;S4.1&quot;)</code></pre>
 <pre><code>                  truth       est    est.se
 sigma_gamma^2 0.4844631 0.4104640 0.1367470
-sigma_theta^2 0.1250000 0.0964066 0.2334440
+sigma_theta^2 0.4365506 0.0964066 0.2334440
 sigma_e^2     1.0000000 1.1115300 0.0738127
                 est    est.se
 PVE.expr  0.0828015 0.0275855
@@ -825,7 +864,7 @@ PVE.total 0.1077480 0.0592509</code></pre>
 <pre class="r"><code>show_res(&quot;S4.2&quot;)</code></pre>
 <pre><code>                  truth      est   est.se
 sigma_gamma^2 0.7751409 0.653871 0.224143
-sigma_theta^2 0.8000000 1.958680 0.438850
+sigma_theta^2 2.7939238 1.958680 0.438850
 sigma_e^2     1.0000000 1.191170 0.142630
                 est    est.se
 PVE.expr  0.0827021 0.0283498
@@ -858,7 +897,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
- [1] workflowr_1.5.0 Rcpp_1.0.0      digest_0.6.18   later_0.7.5    
+ [1] workflowr_1.6.0 Rcpp_1.0.0      digest_0.6.18   later_0.7.5    
  [5] rprojroot_1.3-2 R6_2.3.0        backports_1.1.2 git2r_0.26.1   
  [9] magrittr_1.5    evaluate_0.12   stringi_1.3.1   fs_1.3.1       
 [13] promises_1.0.1  whisker_0.3-2   rmarkdown_1.10  tools_3.5.1    

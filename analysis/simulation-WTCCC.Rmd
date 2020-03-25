@@ -11,7 +11,7 @@ Use WTCCC data obtained from Peter on CRI.
 ## Simulate cis-expression 
 We simulate cis-expression based on the following model:
 
-$$ \tilde{X} = G\alpha + \xi$$
+$$ X' = G\alpha$$
 For each gene, we sample $L$ eQTLs for this gene, for eQTL $k$, we have
 $$ \alpha_k \sim N(0,\sigma_\alpha^2) $$
 $$ \xi \sim N(0,1) $$
@@ -29,6 +29,12 @@ Here, we use scaled genotype data, so $var(G)=1$. We also have $\alpha^2_k \appr
 
 ## Simulate quantitative phenotype
 
+We simulate phenotype following 
+
+$$Y = G\alpha\gamma + G\theta + \epsilon$$. 
+
+For $\alpha$, we used the same as used in simulating expression (Thus, not $\tilde{X}$). $\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)$. To choose proper $\sigma_\gamma$ and $\sigma_\theta$. We used the following formula:
+
 $$\begin{align}
 PVE_{SNP} = &\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigma_e^2}\\ 
 \approx &\frac{M\sigma_\theta^2}{M\sigma_\theta^2 + \Sigma_jvar(\tilde{X_j})\gamma_j^2+ \sigma_e^2}\\ 
@@ -40,16 +46,18 @@ PVE_{expr} \approx \frac{Jvar(\tilde{X})\sigma_\gamma^2}{M\sigma_\theta^2 + Jvar
 
 Here, $var(\tilde{X})$ is the cis-heratbility of gene expression. $M$ and $J$ are numbers of causal SNP and gene respectively. 
 
-Thus in order to get desired $PVE_{SNP}$ and $PVE_expr$, we set $\sigma_\theta^2$ and $\sigma_\gamma^2$ based on the following formula:
+Thus in order to get desired $PVE_{SNP}$ and $PVE_{expr}$, we set $\sigma_\theta^2$ and $\sigma_\gamma^2$ based on the following formula:
 
 $$\sigma_\theta^2 = \frac{PVE_{SNP}}{M(1-PVE_{SNP} - PVE_{expr})}$$
 $$\sigma_\gamma^2 = \frac{PVE_{expr}}{Jvar(\tilde{X})(1-PVE_{SNP} - PVE_{expr})}$$
 
 ```{r}
 simudir <- "/home/simingz/causalTWAS/simulations/simulation_WTCCC_20191111/"
+load("/home/simingz/causalTWAS/WTCCC/bd.toy.RData")
+Gvar <- mean(apply(X,2,var))
 show_res <- function(simutag){
   load(Sys.glob(paste0(simudir,simutag,"*phenotype.Rd")))
-  outdf1 <- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c , 1))
+  outdf1 <- data.frame(truth = c(sigma_gamma^2*J.c, sigma_theta^2*M.c/Gvar , 1))
   row.names(outdf1) <- c("sigma_gamma^2","sigma_theta^2","sigma_e^2")
   res <- readLines(paste0(simudir, simutag, "_VC/output/", simutag, ".log.txt"))
   outdf1$est <- as.numeric(strsplit(res[24], "  ")[[1]][2:4])
