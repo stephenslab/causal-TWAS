@@ -1,5 +1,5 @@
 ---
-title: "Model"
+title: "Model- polygenic version"
 author: "Siming Zhao"
 date: "10/29/2019"
 output: html_document

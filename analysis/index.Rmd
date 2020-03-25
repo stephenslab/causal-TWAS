@@ -3,7 +3,7 @@ title: "Home"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
-    toc: false
+    toc: true
 editor_options:
   chunk_output_type: console
 ---
@@ -13,7 +13,7 @@ editor_options:
 
 # Simulations
 
-##For a single gene
+## For a single gene
   * [single gene](simulation-singleG.html)
 
 ## Under polygenic model
