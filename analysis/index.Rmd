@@ -9,14 +9,17 @@ editor_options:
 ---
 
 # Model
-  [polygenic model](polygenic_model.html)
+  * [Polygenic model](polygenic_model.html)
 
 # Simulations
 
 ## For a single gene
-  * [single gene](simulation-singleG.html)
+  * [Single gene](simulation-singleG.html)
 
 ## Under polygenic model
   * [Simulation: WTCCC](simulation-WTCCC.html)
   * [Simulation: WTCCC 2](simulation-WTCCC2.html)
+  
+# References
+  * VEB-boost: Andrew's [software](https://github.com/andrewg3311/VEB.Boost) and [workflowr website](https://andrewg3311.github.io/VEB-Boost-workflowR/VEB_Boost_Derivation.html)
 
