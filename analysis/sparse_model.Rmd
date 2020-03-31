@@ -1,0 +1,51 @@
+---
+title: "Sparse model"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Sparse model for expression and genotype
+ $$Y = \tilde{X}\beta + G\theta + \epsilon$$
+$Y$: quantitative traits, $N$ x 1 vector, $N$ is number of individuals, the columns are centered.
+$\tilde{X}$: the genetic component of gene expression, $N$ x $J$ matrix, $J$ is number of genes, the columns are centered.
+$G$: genotype (standardized). $N$ x $M$ matrix, $M$ is number of SNPs.  
+
+The error term $\epsilon$ has a normal distribution,
+
+$$\epsilon|\tau \sim N(0, \tau^{-1})$$
+
+We use the spike and slab prior for gene expression effect size $\beta_j$ (effect size for gene $j$).
+$$\beta_j|\pi,\tau \sim (1- \pi_\beta)\delta_0 + \pi_\beta N(0, \sigma_\beta^2/\tau)$$
+Here $\delta_0$ is point mass at 0 ($\delta_0(\beta_j)=1$ if $\beta_j=0$, otherwise $\delta_0(\beta_j)=0$ ). 
+
+We use the spike and slab prior for SNP effect size $\theta_m$ (effect size for SNP $m$).
+$$ \theta_m | \tau \sim (1- \pi_\theta)\delta_0 + \pi_\theta N(0, \sigma_\theta^2/\tau)$$
+
+We use the following prior distributions for the hyperparameters $\omega = (\pi_\beta,\pi_\theta, \tau, \sigma_\beta^2,\sigma_\theta^2)$: 
+$$\tau \sim Gamma(\kappa_1, \kappa_2)$$
+
+$$log(\pi_\theta) \sim U(log(1/M), log(1))$$
+$$log(\pi_\beta) \sim U(log(1/J), log(1))$$
+We define $h_{SNP}$ and $h_{expr}$ as follows: 
+$$
+h_{SNP} := \frac{M\sigma_\theta^2}{M\sigma_\theta^2 + Jvar(\tilde{X})\sigma_\beta^2+ 1}$$
+$$
+h_{expr} := \frac{Jvar(\tilde{X})\sigma_\beta^2}{M\sigma_\theta^2 + Jvar(\tilde{X})\sigma_\beta^2+ 1}$$
+
+Instead of assigning priors for $\sigma_\beta^2$ and $\sigma_\theta^2$, we assign uniform priors for $h_{SNP}$ and $h_{expr}$: 
+
+$$ h_{SNP} \sim U(0,1), h_{expr} \sim U(0,1) $$
+
+## Inference
+We are interested in the hyperparameters $\omega = (\pi_\beta, \pi_\theta, \tau, \sigma_\beta^2,\sigma_\theta^2)$. We introduce two vectors of binary indicators ($\gamma_\beta$ = $\{\gamma_{\beta1}, \gamma_{\beta2}, ..., \gamma_{\beta J}\} \in \{0,1\}^J$ and $\gamma_\theta$ = $\{\gamma_{\theta1}, \gamma_{\theta2}, ..., \gamma_{\theta M}\} \in \{0,1\}^M$) that indicates whether the corresponding $\beta_j$ or $\theta_m$ is non-zero. 
+
+$$\gamma_{\beta j} \sim Bernoulli(\pi_\beta)$$
+$$\gamma_{\theta m} \sim Bernoulli(\pi_\theta)$$
+$$ \beta_j|\gamma_{\beta j}=1 \sim  N(0, \sigma_\beta^2/\tau), \beta_j|\gamma_{\beta j}=0 \sim  \delta_0$$
+$$ \theta_m|\gamma_{\theta m}=1 \sim  N(0, \sigma_\theta^2/\tau), \theta_m|\gamma_{\theta m}=0 \sim  \delta_0$$
+The posterior distrition is 
+
+$$P(\pi_\beta, \pi_\theta, \tau, h_{expr}, h_{SNP}, \gamma_\beta, \gamma_\theta|y) \propto P(y|\pi_\beta, \pi_\theta, \tau, h_{expr}, h_{SNP}, \gamma_\beta, \gamma_\theta) P(h_{expr})P(h_{SNP})P(\gamma_\beta|\pi_\beta)P( \gamma_\theta|\pi_\theta)P(\pi_\theta)P(\pi_\beta)$$

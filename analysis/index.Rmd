@@ -10,6 +10,7 @@ editor_options:
 
 # Model
   * [Polygenic model](polygenic_model.html)
+  * [Sparse model](sparse_model.html)
 
 # Simulations
 
@@ -21,5 +22,7 @@ editor_options:
   * [Simulation: WTCCC 2](simulation-WTCCC2.html)
   
 # References
-  * VEB-boost: Andrew's [software](https://github.com/andrewg3311/VEB.Boost) and [workflowr website](https://andrewg3311.github.io/VEB-Boost-workflowR/VEB_Boost_Derivation.html)
+  * VEB-boost
+    * [Problem description](VEB-boost-fitting.html)
+    * Andrew's [software](https://github.com/andrewg3311/VEB.Boost) and [workflowr website](https://andrewg3311.github.io/VEB-Boost-workflowR/VEB_Boost_Derivation.html)
 

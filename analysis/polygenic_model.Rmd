@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Polygenic Model
  $$Y = \tilde{X}\gamma + G\theta + \epsilon$$
 $Y$: quantitative traits, $N$ x 1 vector, $N$ is number of individuals  
-$\tilde{X}$: imputed gene expression (standardized). $N$ x $J$ matrix, $J$ is number of genes.  
+$\tilde{X}$: cis-gene expression (the genetic component of expression). $N$ x $J$ matrix, $J$ is number of genes.  
 $G$: genotype (standardized). $N$ x $M$ matrix, $M$ is number of SNPs.  
 $\gamma$: effect sizes for $\tilde{X}$,  $\gamma_j$, effect size for gene $j$.  
 
