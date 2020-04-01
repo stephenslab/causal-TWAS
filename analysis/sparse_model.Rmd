@@ -20,11 +20,11 @@ The error term $\epsilon$ has a normal distribution,
 $$\epsilon|\tau \sim N(0, \tau^{-1})$$
 
 We use the spike and slab prior for gene expression effect size $\beta_j$ (effect size for gene $j$).
-$$\beta_j|\pi,\tau \sim (1- \pi_\beta)\delta_0 + \pi_\beta N(0, \sigma_\beta^2/\tau)$$
+$$\beta_j|\pi_\beta,\tau \sim (1- \pi_\beta)\delta_0 + \pi_\beta N(0, \sigma_\beta^2/\tau)$$
 Here $\delta_0$ is point mass at 0 ($\delta_0(\beta_j)=1$ if $\beta_j=0$, otherwise $\delta_0(\beta_j)=0$ ). 
 
 We use the spike and slab prior for SNP effect size $\theta_m$ (effect size for SNP $m$).
-$$ \theta_m | \tau \sim (1- \pi_\theta)\delta_0 + \pi_\theta N(0, \sigma_\theta^2/\tau)$$
+$$ \theta_m | \tau, \pi_\theta\sim (1- \pi_\theta)\delta_0 + \pi_\theta N(0, \sigma_\theta^2/\tau)$$
 
 We use the following prior distributions for the hyperparameters $\omega = (\pi_\beta,\pi_\theta, \tau, \sigma_\beta^2,\sigma_\theta^2)$: 
 $$\tau \sim Gamma(\kappa_1, \kappa_2)$$
