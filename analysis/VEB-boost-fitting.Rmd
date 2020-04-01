@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 $$Y_{N \times 1}= X_{N \times J}\beta_{J\times1} + G_{N\times M}\theta_{M\times1} + \epsilon_{N\times1}$$
 $$ \epsilon \sim MVN(0,I_N\tau^{-1})$$
 Spike and slab prior for $\beta_j$:
-$$\beta_j|\pi,\tau \sim (1- \pi_\beta)\delta_0 + \pi_\beta N(0, \sigma_\beta^2/\tau)$$
+$$\beta_j|\pi_\beta,\tau \sim (1- \pi_\beta)\delta_0 + \pi_\beta N(0, \sigma_\beta^2/\tau)$$
 Spike and slab prior for $\theta_m$:
-$$\theta_m | \tau \sim (1- \pi_\theta)\delta_0 + \pi_\theta N(0, \sigma_\theta^2/\tau)$$
-We want to estimate $\omega=\{\tau,\pi_\beta, \pi_\theta, \sigma_\beta^2,\sigma_\theta^2\}$
+$$\theta_m | \pi_\theta, \tau \sim (1- \pi_\theta)\delta_0 + \pi_\theta N(0, \sigma_\theta^2/\tau)$$
+We want to estimate $\omega=\{\tau,\pi_\beta, \pi_\theta, \sigma_\beta^2,\sigma_\theta^2\}$ and posterior of $\beta$. 
