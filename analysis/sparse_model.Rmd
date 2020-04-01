@@ -8,9 +8,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Sparse model for expression and genotype
- $$Y = \tilde{X}\beta + G\theta + \epsilon$$
+$$Y = \tilde{X}\beta + G\theta + \epsilon$$
 $Y$: quantitative traits, $N$ x 1 vector, $N$ is number of individuals, the columns are centered.
+
 $\tilde{X}$: the genetic component of gene expression, $N$ x $J$ matrix, $J$ is number of genes, the columns are centered.
+
 $G$: genotype (standardized). $N$ x $M$ matrix, $M$ is number of SNPs.  
 
 The error term $\epsilon$ has a normal distribution,
