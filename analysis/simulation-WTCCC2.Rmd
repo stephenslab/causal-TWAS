@@ -16,10 +16,10 @@ $$Y = G\alpha\gamma + G\theta + \epsilon$$. For $\alpha$, we used the same as us
 
 The genotype data and other settings are the same.
 
-## Simulate cis-expression 
-We simulate cis-expression based on the following model, using 500 samples from cad in WTCCC:
+## Simulate expression 
+We simulate expression based on the following model, using 500 samples from cad in WTCCC:
 
-$$ \tilde{X} = G\alpha + \xi$$
+$$ X = G\alpha + \xi$$
 For each gene, we sample $L$ eQTLs for this gene, for eQTL $k$, we have
 $$ \alpha_k \sim N(0,\sigma_\alpha^2) $$
 $$ \xi \sim N(0,1) $$
@@ -37,7 +37,7 @@ Here, we use scaled genotype data, so $var(G)=1$. We also have $\alpha^2_k \appr
 
 ## Simulate quantitative phenotype
 We simulate phenotype using bd data from WTCCC following
-$$Y = G\alpha\gamma + G\theta + \epsilon$$. For $\alpha$, we used the same as used in simulating expression (Thus, not $\tilde{X}$). $\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)$.
+$$Y = G\alpha\gamma + G\theta + \epsilon$$. For $\alpha$, we used the same as used in simulating expression. $\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)$.
 
 $$\begin{align}
 PVE_{SNP} = &\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigma_e^2}\\ 

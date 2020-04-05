@@ -339,7 +339,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-03-24
+<strong>Last updated:</strong> 2020-04-04
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -430,10 +430,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeecf008d10de2aa1dc6b0e7b2481f2852c875a542targetblankecf008da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/ecf008d10de2aa1dc6b0e7b2481f2852c875a542" target="_blank">ecf008d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree2bc1493ba6245fd1df6052ac07db3d6f4e8ff3abtargetblank2bc1493a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/2bc1493ba6245fd1df6052ac07db3d6f4e8ff3ab" target="_blank">2bc1493</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeecf008d10de2aa1dc6b0e7b2481f2852c875a542targetblankecf008da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree2bc1493ba6245fd1df6052ac07db3d6f4e8ff3abtargetblank2bc1493a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -449,8 +449,6 @@ Ignored files:
 Unstaged changes:
     Modified:   analysis/simulation-WTCCC.Rmd
     Modified:   analysis/simulation-WTCCC2.Rmd
-    Modified:   code/simulate-WTCCC-phenotype.R
-    Modified:   code/workflow-WTCCC-polygenic-simulation.ipynb
 
 </code></pre>
 <p>
@@ -489,6 +487,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f43fd469d91652cf0fef798d3b43ceed63507282/analysis/simulation-WTCCC2.Rmd" target="_blank">f43fd46</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-03-24
+</td>
+<td>
+fix results display bug
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/f43fd469d91652cf0fef798d3b43ceed63507282/docs/simulation-WTCCC2.html" target="_blank">f43fd46</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-03-24
+</td>
+<td>
+fix results display bug
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -535,10 +567,10 @@ v1.0 simulate expression using separate data 20191127
 <p>Simulation of phenotype: use the same weights as used in simulate expression using the <code>'cad.RData</code> dataset, simulate phenotype according to:</p>
 <p><span class="math display">\[Y = G\alpha\gamma + G\theta + \epsilon\]</span>. For <span class="math inline">\(\alpha\)</span>, we used the same as used in simulating expression (Thus, not <span class="math inline">\(\tilde{X}\)</span>). <span class="math inline">\(\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)\)</span>.</p>
 <p>The genotype data and other settings are the same.</p>
-<div id="simulate-cis-expression" class="section level2">
-<h2>Simulate cis-expression</h2>
-<p>We simulate cis-expression based on the following model, using 500 samples from cad in WTCCC:</p>
-<p><span class="math display">\[ \tilde{X} = G\alpha + \xi\]</span> For each gene, we sample <span class="math inline">\(L\)</span> eQTLs for this gene, for eQTL <span class="math inline">\(k\)</span>, we have <span class="math display">\[ \alpha_k \sim N(0,\sigma_\alpha^2) \]</span> <span class="math display">\[ \xi \sim N(0,1) \]</span> Then we have the heritability of the gene:</p>
+<div id="simulate-expression" class="section level2">
+<h2>Simulate expression</h2>
+<p>We simulate expression based on the following model, using 500 samples from cad in WTCCC:</p>
+<p><span class="math display">\[ X = G\alpha + \xi\]</span> For each gene, we sample <span class="math inline">\(L\)</span> eQTLs for this gene, for eQTL <span class="math inline">\(k\)</span>, we have <span class="math display">\[ \alpha_k \sim N(0,\sigma_\alpha^2) \]</span> <span class="math display">\[ \xi \sim N(0,1) \]</span> Then we have the heritability of the gene:</p>
 <p><span class="math display">\[\begin{aligned}
 h^2_{eQTL} &amp;= \frac{var(G\alpha)}{var(G\alpha)+var(\xi)} \\
 &amp;= \frac{\Sigma_kvar(G_k) \alpha_k^2}{\Sigma_kvar(G_k) \alpha_k^2 + var(\xi)}\\
@@ -550,7 +582,7 @@ h^2_{eQTL} &amp;= \frac{var(G\alpha)}{var(G\alpha)+var(\xi)} \\
 </div>
 <div id="simulate-quantitative-phenotype" class="section level2">
 <h2>Simulate quantitative phenotype</h2>
-<p>We simulate phenotype using bd data from WTCCC following <span class="math display">\[Y = G\alpha\gamma + G\theta + \epsilon\]</span>. For <span class="math inline">\(\alpha\)</span>, we used the same as used in simulating expression (Thus, not <span class="math inline">\(\tilde{X}\)</span>). <span class="math inline">\(\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)\)</span>.</p>
+<p>We simulate phenotype using bd data from WTCCC following <span class="math display">\[Y = G\alpha\gamma + G\theta + \epsilon\]</span>. For <span class="math inline">\(\alpha\)</span>, we used the same as used in simulating expression. <span class="math inline">\(\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)\)</span>.</p>
 <p><span class="math display">\[\begin{align}
 PVE_{SNP} = &amp;\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigma_e^2}\\ 
 \approx &amp;\frac{M\sigma_\theta^2}{M\sigma_\theta^2 + \Sigma_jvar(\tilde{X_j})\gamma_j^2+ \sigma_e^2}\\ 

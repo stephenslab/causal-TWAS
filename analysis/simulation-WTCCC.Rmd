@@ -8,10 +8,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 Use WTCCC data obtained from Peter on CRI. 
 
-## Simulate cis-expression 
-We simulate cis-expression based on the following model:
+## Simulate expression 
+We simulate expression based on the following model:
 
-$$ X' = G\alpha$$
+$$ X = G\alpha + \xi$$
 For each gene, we sample $L$ eQTLs for this gene, for eQTL $k$, we have
 $$ \alpha_k \sim N(0,\sigma_\alpha^2) $$
 $$ \xi \sim N(0,1) $$
@@ -33,7 +33,7 @@ We simulate phenotype following
 
 $$Y = G\alpha\gamma + G\theta + \epsilon$$. 
 
-For $\alpha$, we used the same as used in simulating expression (Thus, not $\tilde{X}$). $\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)$. To choose proper $\sigma_\gamma$ and $\sigma_\theta$. We used the following formula:
+For $\alpha$, we used the same as used in simulating expression. $\gamma \sim N(0,\sigma_\gamma^2), \theta \sim N(0, \sigma_\theta^2), \epsilon \sim N (0,1)$. To choose proper $\sigma_\gamma$ and $\sigma_\theta$. We used the following formula:
 
 $$\begin{align}
 PVE_{SNP} = &\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\gamma) + \sigma_e^2}\\ 
