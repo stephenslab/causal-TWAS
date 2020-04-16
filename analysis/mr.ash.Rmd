@@ -1,0 +1,50 @@
+---
+title: "mr.ash"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(mr.ash.alpha); # package implementing proposed methods in the paper
+library(Matrix); library(mvtnorm) # miscellaneous packages for matrices
+library(glmnet); library(ncvreg); library(L0Learn); # penalized regression methods
+library(varbvs); library(susieR); library(BGLR); # Bayesian methods
+library(ggplot2); library(cowplot); # plotting
+```
+
+
+## Install mr.ash
+Following https://github.com/stephenslab/mr.ash.alpha
+
+## mr.ash examples
+```{r workflowr}
+setwd("/home/simingz/causalTWAS/mr.ash/mr-ash-workflow")
+source('code/method_wrapper.R')
+source('code/sim_wrapper.R')
+data = simulate_data(n = 100, p = 200, s = 5,
+                     design = "indepgauss", # "equicorrgauss",
+                     signal = "normal", # "lap", "t", etc.
+                     pve = 0.5)
+str(data)
+
+method_list  = c("mr.ash","varbvs","bayesb","blasso","susie","enet","lasso","ridge","scad2","mcp2","l0learn")
+fit.function = get(paste0("fit.", method_list[1], sep = ""))
+
+fit  = fit.function(data$X, data$y, data$X.test, data$y.test)
+```
+
+## mr.ash papers
+```{r workflowr-paper}
+setwd("/home/simingz/causalTWAS/mr.ash/mr-ash-workflow")
+filelist = paste("analysis/", list.files("analysis", pattern = "*_Sourcecode.Rmd"), sep = "")
+for (i in 1:length(filelist)) {
+  workflowr::wflow_publish(filelist[i])
+  cat("file",i,": ",'"',filelist[i],'"'," is published\n",sep = "")
+}
+
+filelist = paste("analysis/", list.files("analysis", pattern = "*_Plot.Rmd"), sep = "")
+for (i in 1:length(filelist)) {
+  workflowr::wflow_publish(filelist[i])
+  cat("file",i,": ",'"',filelist[i],'"'," is published\n",sep = "")
+}
+```

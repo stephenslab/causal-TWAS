@@ -24,7 +24,7 @@ editor_options:
 # References
   * VEB-boost
     * [Problem description](VEB-boost-fitting.html)
-    * Andrew's [software](https://github.com/andrewg3311/VEB.Boost) and [workflowr website](https://andrewg3311.github.io/VEB-Boost-workflowR/VEB_Boost_Derivation.html)
+    * Andrew's [software](https://github.com/stephenslab/VEB.Boost) and [workflowr website](https://andrewg3311.github.io/VEB-Boost-workflowR/VEB_Boost_Derivation.html)
     
   * mr.ash
     * [mr.ash](https://github.com/stephenslab/mr.ash.alpha) package
