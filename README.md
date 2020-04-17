@@ -21,3 +21,7 @@ A learner is, roughly, a fucntion, that learns a relationshipo between Y and som
 . The idea is that you can fit this model iteratively, by first applying $L1$, and then applying $L2$, each time applying it to the appropriate residuals.So you apply $L1$ to learn a relationship between $R=Y-L2$ (residuals) and $X1$, and then $L2$ to learn a relationship between $R=Y-L1$ and $X2$ and you just iterate….
 probably best to start by trying the mr.ash.alpha package. It would be great if you can follow the instructions in https://stephenslab.github.io/mr-ash-workflow/ to start reproducing some of the results in the paper.
 
+Try mr.ash using real genotype data. We can try 0.5 heritability. If using snps on one chromosome, we may need a few thousand samples, if using whole genome, we may need 10,000 samples. 
+
+4. Try VEB-Boost
+
