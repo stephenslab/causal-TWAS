@@ -2,7 +2,17 @@
 
 New method to identify causal genes in TWAS studies. 
 
-Next steps: 
+
+## Required libraries
+
+* plink2R
+```
+wget https://github.com/gabraham/plink2R/archive/master.zip
+unzip master.zip
+install.packages('plink2R-master/plink2R/',repos=NULL)
+```
+
+## Next steps
 
 1. Use UK biobank genotype data or [hapgen2](https://mathgen.stats.ox.ac.uk/genetics_software/hapgen/hapgen2.html), may need n~10,000.
 
@@ -22,6 +32,6 @@ A learner is, roughly, a fucntion, that learns a relationshipo between Y and som
 probably best to start by trying the mr.ash.alpha package. It would be great if you can follow the instructions in https://stephenslab.github.io/mr-ash-workflow/ to start reproducing some of the results in the paper.
 
 Try mr.ash using real genotype data. We can try 0.5 heritability. If using snps on one chromosome, we may need a few thousand samples, if using whole genome, we may need 10,000 samples. 
-
+    
 4. Try VEB-Boost
 

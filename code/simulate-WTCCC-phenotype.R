@@ -45,7 +45,6 @@ simulate_phenotype<- function(G.scaled, weightslist, M.c, J.c, PVE.snp, PVE.expr
   PVE.snp.truth <- var(s.theta)/var(Y)
   PVE.expr.truth <- var(expr[,idx.cgene] %*% e.gamma)
 
-
   save(Y, sigma_theta, sigma_gamma, s.theta, e.gamma, idx.cSNP, idx.cgene, M.c, J.c, expr.meanvar, file=paste0(paste(outname,M.c, J.c, PVE.snp, PVE.expr,sep="-"), ".simulated_phenotype.Rd"))
   return(list("Y"=Y,"theta"=s.theta, "gamma"=e.gamma))
 }

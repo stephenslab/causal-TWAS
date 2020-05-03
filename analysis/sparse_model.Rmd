@@ -33,9 +33,9 @@ $$log(\pi_\theta) \sim U(log(1/M), log(1))$$
 $$log(\pi_\beta) \sim U(log(1/J), log(1))$$
 We define $h_{SNP}$ and $h_{expr}$ as follows: 
 $$
-h_{SNP} := \frac{M\sigma_\theta^2}{M\sigma_\theta^2 + Jvar(\tilde{X})\sigma_\beta^2+ 1}$$
+h_{SNP} := \frac{\pi_\theta M\sigma_\theta^2}{\pi_\theta M\sigma_\theta^2 + \pi_\beta Jvar(\tilde{X})\sigma_\beta^2+ 1}$$
 $$
-h_{expr} := \frac{Jvar(\tilde{X})\sigma_\beta^2}{M\sigma_\theta^2 + Jvar(\tilde{X})\sigma_\beta^2+ 1}$$
+h_{expr} := \frac{\pi_\beta Jvar(\tilde{X})\sigma_\beta^2}{\pi_\theta M\sigma_\theta^2 + \pi_\beta Jvar(\tilde{X})\sigma_\beta^2+ 1}$$
 
 Instead of assigning priors for $\sigma_\beta^2$ and $\sigma_\theta^2$, we assign uniform priors for $h_{SNP}$ and $h_{expr}$: 
 

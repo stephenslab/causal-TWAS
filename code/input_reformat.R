@@ -53,4 +53,25 @@ gemma.prepare <- function(Rdatafile,
   write.gemma.geno.chunks(genofile, X, labels, N_per_chunk)
 }
 
+plink2Rd <- function(plinkfile, Rdfile){
+  # plinkfile: in .traw.gz format and .raw.gz format
+  # Note: this way is more memory efficient and faster than plink2R package.
+  dat <- list()
+
+  print("reading .traw.gz file")
+  dat0t <- fread(paste0(plinkfile, ".traw.gz"), select = c(1:6))
+  dat$chr <- as.matrix(dat0t[ , "CHR", with=F])
+  dat$pos <- as.matrix(dat0t[ , "POS", with=F])
+  dat$snp <- as.matrix(dat0t[ , "SNP", with=F])
+  dat$counted <- as.matrix(dat0t[ , "COUNTED" , with=F])
+  dat$alt <- as.matrix(dat0t[ , "ALT", with=F])
+
+  print("reading .raw.gz file")
+  dat0 <- fread(paste0(plinkfile, ".raw.gz"))
+  dat0[ , 1:6] <- NULL
+  colnames(dat0) <- NULL
+  dat$G <- as.matrix(dat0)
+
+  save(dat, file = Rdfile)
+}
 
