@@ -32,8 +32,8 @@ plot_pip <- function(indi, pip, pipcut = 0.1) {
   tp <- length(intersect(pred, real))/length(pred)
   fp <- 1 - tp
   fn <- length(setdiff(real, pred))/length(real)
-  cat("false positive rate: ", fp)
-  cat("false negative rate: ", fn)
+  cat("false positive rate: ", fp, "\n")
+  cat("false negative rate: ", fn, "\n")
 }
 
 summary_mr.ash2 <- function(g.fit, s.fit, phenores, pipcut = 0.1){
