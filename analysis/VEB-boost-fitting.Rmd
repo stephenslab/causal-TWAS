@@ -7,12 +7,49 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Problem description
+## Basic idea of veb_boost
 
-$$Y_{N \times 1}= X_{N \times J}\beta_{J\times1} + G_{N\times M}\theta_{M\times1} + \epsilon_{N\times1}$$
-$$ \epsilon \sim MVN(0,I_N\tau^{-1})$$
-Spike and slab prior for $\beta_j$:
-$$\beta_j|\pi_\beta,\tau \sim (1- \pi_\beta)\delta_0 + \pi_\beta N(0, \sigma_\beta^2/\tau)$$
-Spike and slab prior for $\theta_m$:
-$$\theta_m | \pi_\theta, \tau \sim (1- \pi_\theta)\delta_0 + \pi_\theta N(0, \sigma_\theta^2/\tau)$$
-We want to estimate $\omega=\{\tau,\pi_\beta, \pi_\theta, \sigma_\beta^2,\sigma_\theta^2\}$ and posterior of $\beta$. 
+You want to add up 2 linear regressions, which we might call “learners”.
+A learner is, roughly, a fucntion, that learns a relationshipo between Y and some predictors X (here the Xs are different for your 2 different learners) Let’s write this $Y=L1(X1) + L2(X2) + E$. 
+
+The idea is that you can fit this model iteratively, by first applying $L1$, and then applying $L2$, each time applying it to the appropriate residuals.So you apply $L1$ to learn a relationship between $R=Y-L2$ (residuals) and $X1$, and then $L2$ to learn a relationship between $R=Y-L1$ and $X2$ and you just iterate….
+
+## Our model
+
+Model: 
+
+$$Y = \mu_1 + \mu_2 + \epsilon$$
+$$ \mu_1= X_{N \times J}\beta_{J\times1}$$
+$$ \mu_2 = G_{N\times M}\theta_{M\times1}$$
+$$ \epsilon \sim MVN(0,\sigma^2I_N) $$
+Priors:
+
+ASH prior for scaled $\beta_j$ and $\theta_m$
+$$\beta_j | g_1, \sigma \sim g^1_\sigma(\cdot)$$
+ASH prior for $\theta_m$:
+$$\theta_m | g_2, \sigma \sim g^2_\sigma(\cdot)$$
+
+## Input required by veb_boost
+
+take $\mu1$ as the example, $\mu2$ works similarly.
+
+* first moment of posterior variational approximation ($E_q(\mu_i)\in R^N$)
+
+$$E_q(\mu_1) = X\bar{\beta}$$
+$\bar{\beta}$ is posterior mean of $\beta$ given by `mr.ash` function. 
+
+* second moment of posterior variational approximation ($E_q(\mu^2_i)\in R^N_+$)
+
+$$E_q(\mu_{1}^2) = \sum_{j=1}^J{x^2_j E_q(\beta^2)} + [E_q(\mu_1)]^2 =\sum_{j=1}^J\sum_{k=1}^K{x^2_j\phi_k \frac{\sigma^2 d_j^2 \sigma_k^2}{1+ d_j^2 \sigma_k^2}} + [E_q(\mu_1)]^2$$
+where $$d_j=x^T_jx_j= \left\lVert x_j\right\rVert^2$$. 
+
+$d_j, \phi, \sigma, \sigma_k$ are estimates given by `mr.ash` function. 
+
+* KL-divergence between variational posterior (q) and prior (p).
+
+Shall we just use ELBO from mr.ash? 
+
+
+
+
+

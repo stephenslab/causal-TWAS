@@ -1,19 +1,65 @@
 library(data.table)
 # requires tibble
 
-# generate cis expression of gene given weights
-# weightslist: each gene is a list item, providing a dataframe with columns: chr, pos, major minor, labels, alpha and rows eQTLs.
-# TODO
-cis_expr <- function(dat, weightslist){
+#' @description  generate cis expression of gene given weights
+#' @param dat: a list with the following items:
+#'   - G: matrix, N x M, genotype, need to be scaled
+#'   - snp: matrix, N x 1, SNP name
+#' @param weight a string, pointing to the fusion/twas format of weights
+#' @param method a string,  blup/bslmm/lasso/top1/enet/best
+#'   "best" means the method giving the best cross validation R^2
+#' @param checksnps T/F, if need to check SNP consistency between weights
+#'    file and genotype. fusion format of weights gives snp information from plink .bim file. checking include chr, pos, A1, A2.
+#' @return a matrix, N x J. Missing genotypes will not contribute to cis-expr and give warnings.
+cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
   exprlist <- list()
-  for (gname in names(weightslist)){
-    weights <- weightslist[[gname]]
-    exprlist[[gname]] <- as.matrix(dat$G[ , match(weights$labels, labels)]) %*% weights$alpha
-    if (is.na(exprlist[[gname]])) exprlist[[gname]] <- 0 #TODO: eQTL not genotyped should be omited, instead of simply put gene expression to 0
+  wgtfiles <- Sys.glob(file.path(weight, "*.wgt.RDat"))
+
+  print(paste0("Number of genes with weights provided: ", length(wgtfiles)))
+
+  for (wf in wgtfiles){
+    load(wf)
+    gname <- strsplit(basename(wf), "." , fixed = T)[[1]][2]
+    print(gname)
+
+    g.method = method
+    if (g.method == "best"){
+      g.method = names(which.max(cv.performance["rsq", ]))
+    }
+
+    wgt.idx <- match(rownames(wgt.matrix), dat$snp)
+
+    if (checksnps){
+      datsnps <- data.frame("V1" = dat$chr,
+                            "V4" = dat$pos,
+                            "V5" = dat$counted,
+                            "V6" = dat$alt)
+
+      if (!identical(datsnps, snps)){
+        stop("didn't pass snp consistency test, stopped ...")
+      }
+    }
+
+    g <- as.matrix(dat$G[, wgt.idx])
+    g[, is.na(wgt.idx)] <- 0
+    exprlist[[gname]][["expr"]] <- g %*% wgt.matrix[, g.method]
+
+    nmiss <- length(wgt.idx[is.na(wgt.idx)])
+    n <- length(wgt.idx)
+    exprlist[[gname]][["n"]] <- n
+    exprlist[[gname]][["nmiss"]] <- nmiss
+    exprlist[[gname]][["missrate"]] <- nmiss/n
   }
 
-  expr <- do.call(cbind, exprlist)
-  return(expr)
+  expr <- do.call(cbind, lapply(exprlist, '[[', "expr"))
+  colnames(expr) <- names(exprlist)
+
+  # filter gene based on genotype missing rate
+  gfilter <- unlist(lapply(exprlist, function(x) x[["missrate"]] < 1))
+  expr <- expr[ , gfilter]
+  print(paste0("Number of genes with imputed expression: ", dim(expr)[2]))
+
+  return(list("expr"= expr, "exprlist" = exprlist))
 }
 
 # dat: a list with the following items:
@@ -85,5 +131,5 @@ simulate_phenotype<- function(dat,
                        expr.meanvar,
                        pve.snp.truth, pve.expr.truth)
 
-  return(list("Y"=Y,"param"= param))
+  return(list("Y" = Y,"param" = param))
 }

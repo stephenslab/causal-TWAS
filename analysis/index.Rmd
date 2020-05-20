@@ -11,17 +11,40 @@ editor_options:
 # Model
   * [Polygenic model](polygenic_model.html)
   * [Sparse model](sparse_model.html)
+  * [mr.ash model](mrash_model.html)
+  
+# Data
+
+## Expression data
+  * [Fusion/TWAS gene expression models](fusion_expr.html)
 
 # Simulations
 
-## For a single gene
-  * [Single gene](simulation-singleG.html)
+## Proof of concept
+  * [Proof of concept for this project using a single gene's data](simulation-singleG.html)
 
-## Under polygenic model
-  * [Simulation: WTCCC](simulation-WTCCC.html)
-  * [Simulation: WTCCC 2](simulation-WTCCC2.html)
+## Test polygenic model
+Using WTCCC data
+
+  * [Test polygenic model 1](simulation-WTCCC.html)
   
-# References
+  * [Test polygenic model 2: use imputed expression](simulation-WTCCC2.html)
+
+## Test mr.ash
+Using UKbiobank data (chr22)
+
+  * [Test mr.ash performance: only SNP effect](simulation-mr.ash-ukbchr22.html)
+
+  
+## Test veb_boost
+A simplified version: interative update of two mr.ash component
+
+  * [Using some simple data](simulation_simpleveb-boost.html)
+  
+  * [Using UKbiobank data (chr22)](simulation_simpleveb-boost_ukbchr22.html)
+
+  
+# Related software
   * VEB-boost
     * [Problem description](VEB-boost-fitting.html)
     * Andrew's [software](https://github.com/stephenslab/VEB.Boost) and [workflowr website](https://andrewg3311.github.io/VEB-Boost-workflowR/VEB_Boost_Derivation.html)

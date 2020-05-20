@@ -11,7 +11,7 @@
 
 
 
-<title>VEB-boost</title>
+<title>Simple simulations for a simplified version of web-boost</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -314,7 +314,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">VEB-boost</h1>
+<h1 class="title toc-ignore">Simple simulations for a simplified version of web-boost</h1>
 
 </div>
 
@@ -339,10 +339,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-18
+<strong>Last updated:</strong> 2020-05-19
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
 </p>
 <p>
 <strong>Knit directory:</strong> <code>causal-TWAS/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -363,7 +363,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -418,12 +418,44 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
 </p>
 </div>
-<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/code/fit_mr.ash.R
+</td>
+<td style="text-align:left;">
+code/fit_mr.ash.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/code/simple_vebboost.R
+</td>
+<td style="text-align:left;">
+code/simple_vebboost.R
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -447,14 +479,20 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
+    Untracked:  analysis/figure/
     Untracked:  analysis/fusion_expr.Rmd
     Untracked:  analysis/mrash_model.Rmd
+    Untracked:  analysis/simulation-mr.ash-ukbchr22.Rmd
+    Untracked:  analysis/simulation_simpleveb-boost.Rmd
+    Untracked:  code/simple_vebboost.R
     Untracked:  code/temp.R
 
 Unstaged changes:
     Modified:   analysis/VEB-boost-fitting.Rmd
     Modified:   analysis/index.Rmd
     Modified:   analysis/sparse_model.Rmd
+    Modified:   code/fit_mr.ash.R
+    Modified:   code/run_test_mr.ash.R
     Modified:   code/run_test_veb-boost.R
     Modified:   code/simulate_phenotype.R
     Modified:   code/workflow-ashtest.ipynb
@@ -475,134 +513,128 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/9bcc18412e11bf38e76fcea737e7b0c2978e0942/analysis/VEB-boost-fitting.Rmd" target="_blank">9bcc184</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-31
-</td>
-<td>
-sparse model descriptoin
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/9bcc18412e11bf38e76fcea737e7b0c2978e0942/docs/VEB-boost-fitting.html" target="_blank">9bcc184</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-31
-</td>
-<td>
-sparse model descriptoin
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/83288add66d3fc4d89611862181760a5863732f1/analysis/VEB-boost-fitting.Rmd" target="_blank">83288ad</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-31
-</td>
-<td>
-sparse model description
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/83288add66d3fc4d89611862181760a5863732f1/docs/VEB-boost-fitting.html" target="_blank">83288ad</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-31
-</td>
-<td>
-sparse model description
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="basic-idea-of-veb_boost" class="section level2">
-<h2>Basic idea of veb_boost</h2>
-<p>You want to add up 2 linear regressions, which we might call “learners”. A learner is, roughly, a fucntion, that learns a relationshipo between Y and some predictors X (here the Xs are different for your 2 different learners) Let’s write this <span class="math inline">\(Y=L1(X1) + L2(X2) + E\)</span>.</p>
-<p>The idea is that you can fit this model iteratively, by first applying <span class="math inline">\(L1\)</span>, and then applying <span class="math inline">\(L2\)</span>, each time applying it to the appropriate residuals.So you apply <span class="math inline">\(L1\)</span> to learn a relationship between <span class="math inline">\(R=Y-L2\)</span> (residuals) and <span class="math inline">\(X1\)</span>, and then <span class="math inline">\(L2\)</span> to learn a relationship between <span class="math inline">\(R=Y-L1\)</span> and <span class="math inline">\(X2\)</span> and you just iterate….</p>
+<div id="simulation-of-data" class="section level2">
+<h2>Simulation of data</h2>
+<p>20 blocks:</p>
+<ul>
+<li>Each block has either gene or SNP effect</li>
+<li>Each block has 99 SNPs and 1 gene. Each gene is linear sum of the previous 3 SNPs.</li>
+<li>Each block, either the gene or the last eQTL has non-zero effect on trait</li>
+</ul>
+<p>The first 4 blocks have gene effect.</p>
+<pre class="r"><code>set.seed(1)
+N &lt;- 4000
+nblocks &lt;- 20
+block.size &lt;- 100
+p &lt;- nblocks * block.size
+n.eQTL &lt;- 3  # number of eQTLs per gene
+sigma.eQTL &lt;- 0.5 # eQTL effect size
+sigma.SNP &lt;- 0.1 # effect size of causal SNP on trait
+sigma.gene &lt;- 0.1 # effect size of causal gene on trait
+X &lt;- matrix(rep(0,0), nrow=N, ncol=0)
+gamma.gene &lt;- rep(0, nblocks) # indicator of genes
+gamma.gene[1:4] &lt;- 1 
+beta &lt;- numeric(0)
+SNP.idx &lt;- numeric(0)
+for (i in 1:nblocks) {
+  # sample SNP data
+  X.block.SNP &lt;- matrix(rnorm(N*(block.size-1)), nrow=N, ncol=block.size-1)
+  SNP.idx &lt;- c(SNP.idx, 1:(block.size-1) + (i-1)*block.size)
+  
+  # generate gene data: use the previous few SNPs as eQTL
+  effects.eQTL &lt;- rnorm(n.eQTL, 0, sigma.eQTL)
+  X.block.gene &lt;- X.block.SNP[, (block.size - n.eQTL):(block.size - 1)] %*% effects.eQTL
+  X.block = cbind(X.block.SNP, X.block.gene)
+  X &lt;- cbind(X, X.block)
+  
+  # sample beta
+  if (gamma.gene[i] == 1) { # gene effect in this block
+    beta.SNP &lt;- rep(0, block.size - 1)
+    beta.gene &lt;- rnorm(1, 0, sigma.gene)
+  } else { # SNP effect in this block
+    beta.SNP &lt;- c(rep(0, block.size - 2), rnorm(1, 0, sigma.SNP))
+    beta.gene &lt;- 0
+  }
+  beta.block &lt;- c(beta.SNP, beta.gene)
+  beta &lt;- c(beta, beta.block)
+}
+sigma.e &lt;- 1
+y &lt;- X %*% beta + rnorm(N, 0, sigma.e)
+gene.idx &lt;- (1:nblocks) * block.size</code></pre>
 </div>
-<div id="our-model" class="section level2">
-<h2>Our model</h2>
-<p>Model:</p>
-<p><span class="math display">\[Y = \mu_1 + \mu_2 + \epsilon\]</span> <span class="math display">\[ \mu_1= X_{N \times J}\beta_{J\times1}\]</span> <span class="math display">\[ \mu_2 = G_{N\times M}\theta_{M\times1}\]</span> <span class="math display">\[ \epsilon \sim MVN(0,\sigma^2I_N) \]</span> Priors:</p>
-<p>ASH prior for scaled <span class="math inline">\(\beta_j\)</span> and <span class="math inline">\(\theta_m\)</span> <span class="math display">\[\beta_j | g_1, \sigma \sim g^1_\sigma(\cdot)\]</span> ASH prior for <span class="math inline">\(\theta_m\)</span>: <span class="math display">\[\theta_m | g_2, \sigma \sim g^2_\sigma(\cdot)\]</span></p>
+<div id="run-mr.ash" class="section level2">
+<h2>Run mr.ash</h2>
+<pre class="r"><code>summary_mr.ash &lt;- function(fit){
+  cat(&quot;pi1 = &quot;, 1-fit$pi[[1]], &quot;\n&quot;)
+  pve &lt;- get_pve(fit)
+  cat(&quot;pve : &quot;, pve, &quot;\n&quot;)
+}
+
+plot_beta &lt;- function(beta,beta.pm, ...){
+  plot( beta, pch=19, col =&quot;darkgreen&quot;, ...)
+  points(beta.pm, pch =19, col = &quot;red&quot;)
+  legend(&quot;topright&quot;, legend=c(&quot;true beta&quot;, &quot;posterior mean&quot;),
+       col=c(&quot;darkgreen&quot;, &quot;red&quot;), pch=19)
+}</code></pre>
+<pre class="r"><code>fit &lt;- mr.ash(X, y, method=&quot;caisa&quot;)
+summary_mr.ash(fit)</code></pre>
+<pre><code>pi1 =  0.01126046 
+pve :  0.9986089 </code></pre>
+<pre class="r"><code>plot_beta(beta[gene.idx], fit$beta[gene.idx], main = &quot;beta for gene effect&quot;)</code></pre>
+<p><img src="figure/simulation_simpleveb-boost.Rmd/run%20mr.ash-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_beta(beta[SNP.idx], fit$beta[SNP.idx], main = &quot;beta for SNP effect&quot;)</code></pre>
+<p><img src="figure/simulation_simpleveb-boost.Rmd/run%20mr.ash-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="input-required-by-veb_boost" class="section level2">
-<h2>Input required by veb_boost</h2>
-<p>take <span class="math inline">\(\mu1\)</span> as the example, <span class="math inline">\(\mu2\)</span> works similarly.</p>
-<ul>
-<li>first moment of posterior variational approximation (<span class="math inline">\(E_q(\mu_i)\in R^N\)</span>)</li>
-</ul>
-<p><span class="math display">\[E_q(\mu_1) = X\bar{\beta}\]</span> <span class="math inline">\(\bar{\beta}\)</span> is posterior mean of <span class="math inline">\(\beta\)</span> given by <code>mr.ash</code> function.</p>
-<ul>
-<li>second moment of posterior variational approximation (<span class="math inline">\(E_q(\mu^2_i)\in R^N_+\)</span>)</li>
-</ul>
-<p><span class="math display">\[E_q(\mu_{1}^2) = \sum_{j=1}^J{x^2_j E_q(\beta^2)} + [E_q(\mu_1)]^2 =\sum_{j=1}^J\sum_{k=1}^K{x^2_j\phi_k \frac{\sigma^2 d_j^2 \sigma_k^2}{1+ d_j^2 \sigma_k^2}} + [E_q(\mu_1)]^2\]</span> where <span class="math display">\[d_j=x^T_jx_j= \left\lVert x_j\right\rVert^2\]</span>.</p>
-<p><span class="math inline">\(d_j, \phi, \sigma, \sigma_k\)</span> are estimates given by <code>mr.ash</code> function.</p>
-<ul>
-<li>KL-divergence between variational posterior (q) and prior (p).</li>
-</ul>
-<p>Shall we just use ELBO from mr.ash?</p>
+<div id="run-a-simplified-version-of-veb-boost" class="section level2">
+<h2>Run a simplified version of veb-boost</h2>
+<div id="start-with-gene" class="section level3">
+<h3>start with gene</h3>
+<pre class="r"><code>X.gene &lt;- X[,gene.idx]
+X.SNP &lt;- X[, SNP.idx]
+fit &lt;- mr.ash2(X.gene, X.SNP, y)
+
+print(&quot;for gene effect: &quot;)</code></pre>
+<pre><code>[1] &quot;for gene effect: &quot;</code></pre>
+<pre class="r"><code>summary_mr.ash(fit$fit1)</code></pre>
+<pre><code>pi1 =  0.7600006 
+pve :  0.992634 </code></pre>
+<pre class="r"><code>plot_beta(beta[gene.idx], fit$fit1$beta, main = &quot;beta for gene effect&quot;)</code></pre>
+<p><img src="figure/simulation_simpleveb-boost.Rmd/run%20mr.ash2,%20gene-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;for SNP effect: &quot;)</code></pre>
+<pre><code>[1] &quot;for SNP effect: &quot;</code></pre>
+<pre class="r"><code>summary_mr.ash(fit$fit2)</code></pre>
+<pre><code>pi1 =  0.007258467 
+pve :  0.9983671 </code></pre>
+<pre class="r"><code>plot_beta(beta[SNP.idx], fit$fit2$beta, main = &quot;beta for SNP effect&quot;)</code></pre>
+<p><img src="figure/simulation_simpleveb-boost.Rmd/run%20mr.ash2,%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="start-with-snp" class="section level3">
+<h3>start with SNP</h3>
+<pre class="r"><code>X.gene &lt;- X[,gene.idx]
+X.SNP &lt;- X[, SNP.idx]
+fit &lt;- mr.ash2(X.SNP, X.gene, y)
+
+print(&quot;for gene effect: &quot;)</code></pre>
+<pre><code>[1] &quot;for gene effect: &quot;</code></pre>
+<pre class="r"><code>summary_mr.ash(fit$fit2)</code></pre>
+<pre><code>pi1 =  0.9794286 
+pve :  0.9863667 </code></pre>
+<pre class="r"><code>plot_beta(beta[gene.idx], fit$fit2$beta, main = &quot;beta for gene effect&quot;)</code></pre>
+<p><img src="figure/simulation_simpleveb-boost.Rmd/run%20mr.ash2,%20snp-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;for SNP effect: &quot;)</code></pre>
+<pre><code>[1] &quot;for SNP effect: &quot;</code></pre>
+<pre class="r"><code>summary_mr.ash(fit$fit1)</code></pre>
+<pre><code>pi1 =  0.009504891 
+pve :  0.9985707 </code></pre>
+<pre class="r"><code>plot_beta(beta[SNP.idx], fit$fit1$beta, main = &quot;beta for SNP effect&quot;)</code></pre>
+<p><img src="figure/simulation_simpleveb-boost.Rmd/run%20mr.ash2,%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -629,13 +661,18 @@ locale:
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+[1] mr.ash.alpha_0.1-7
+
 loaded via a namespace (and not attached):
- [1] workflowr_1.6.0 Rcpp_1.0.4.6    digest_0.6.18   later_0.7.5    
- [5] rprojroot_1.3-2 R6_2.3.0        backports_1.1.2 git2r_0.26.1   
- [9] magrittr_1.5    evaluate_0.12   stringi_1.3.1   fs_1.3.1       
-[13] promises_1.0.1  whisker_0.3-2   rmarkdown_1.10  tools_3.5.1    
-[17] stringr_1.4.0   glue_1.3.0      httpuv_1.4.5    yaml_2.2.0     
-[21] compiler_3.5.1  htmltools_0.3.6 knitr_1.20     </code></pre>
+ [1] workflowr_1.6.0 Rcpp_1.0.4.6    lattice_0.20-38 digest_0.6.18  
+ [5] later_0.7.5     rprojroot_1.3-2 grid_3.5.1      R6_2.3.0       
+ [9] backports_1.1.2 git2r_0.26.1    magrittr_1.5    evaluate_0.12  
+[13] highr_0.7       stringi_1.3.1   fs_1.3.1        promises_1.0.1 
+[17] Matrix_1.2-15   rmarkdown_1.10  tools_3.5.1     stringr_1.4.0  
+[21] glue_1.3.0      httpuv_1.4.5    yaml_2.2.0      compiler_3.5.1 
+[25] htmltools_0.3.6 knitr_1.20     </code></pre>
+</div>
 </div>
 </div>
 

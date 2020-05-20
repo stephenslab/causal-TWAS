@@ -1,0 +1,125 @@
+---
+title: "Simple simulations for a simplified version of web-boost"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(mr.ash.alpha)
+source("~/causalTWAS/causal-TWAS/code/fit_mr.ash.R")
+source("~/causalTWAS/causal-TWAS/code/simple_vebboost.R")
+```
+
+## Simulation of data
+
+20 blocks:
+
+* Each block has either gene or SNP effect
+* Each block has 99 SNPs and 1 gene. Each gene is linear sum of the previous 3 SNPs. 
+* Each block, either the gene or the last eQTL has non-zero effect on trait
+
+The first 4 blocks have gene effect.
+
+```{r generate data}
+set.seed(1)
+N <- 4000
+nblocks <- 20
+block.size <- 100
+p <- nblocks * block.size
+n.eQTL <- 3  # number of eQTLs per gene
+sigma.eQTL <- 0.5 # eQTL effect size
+sigma.SNP <- 0.1 # effect size of causal SNP on trait
+sigma.gene <- 0.1 # effect size of causal gene on trait
+X <- matrix(rep(0,0), nrow=N, ncol=0)
+gamma.gene <- rep(0, nblocks) # indicator of genes
+gamma.gene[1:4] <- 1 
+beta <- numeric(0)
+SNP.idx <- numeric(0)
+for (i in 1:nblocks) {
+  # sample SNP data
+  X.block.SNP <- matrix(rnorm(N*(block.size-1)), nrow=N, ncol=block.size-1)
+  SNP.idx <- c(SNP.idx, 1:(block.size-1) + (i-1)*block.size)
+  
+  # generate gene data: use the previous few SNPs as eQTL
+  effects.eQTL <- rnorm(n.eQTL, 0, sigma.eQTL)
+  X.block.gene <- X.block.SNP[, (block.size - n.eQTL):(block.size - 1)] %*% effects.eQTL
+  X.block = cbind(X.block.SNP, X.block.gene)
+  X <- cbind(X, X.block)
+  
+  # sample beta
+  if (gamma.gene[i] == 1) { # gene effect in this block
+    beta.SNP <- rep(0, block.size - 1)
+    beta.gene <- rnorm(1, 0, sigma.gene)
+  } else { # SNP effect in this block
+    beta.SNP <- c(rep(0, block.size - 2), rnorm(1, 0, sigma.SNP))
+    beta.gene <- 0
+  }
+  beta.block <- c(beta.SNP, beta.gene)
+  beta <- c(beta, beta.block)
+}
+sigma.e <- 1
+y <- X %*% beta + rnorm(N, 0, sigma.e)
+gene.idx <- (1:nblocks) * block.size
+```
+
+## Run mr.ash
+
+```{r plot functions}
+summary_mr.ash <- function(fit){
+  cat("pi1 = ", 1-fit$pi[[1]], "\n")
+  pve <- get_pve(fit)
+  cat("pve : ", pve, "\n")
+}
+
+plot_beta <- function(beta,beta.pm, ...){
+  plot( beta, pch=19, col ="darkgreen", ...)
+  points(beta.pm, pch =19, col = "red")
+  legend("topright", legend=c("true beta", "posterior mean"),
+       col=c("darkgreen", "red"), pch=19)
+}
+
+```
+
+```{r run mr.ash}
+fit <- mr.ash(X, y, method="caisa")
+summary_mr.ash(fit)
+
+plot_beta(beta[gene.idx], fit$beta[gene.idx], main = "beta for gene effect")
+plot_beta(beta[SNP.idx], fit$beta[SNP.idx], main = "beta for SNP effect")
+```
+
+
+## Run a simplified version of veb-boost
+
+### start with gene
+
+```{r run mr.ash2, gene}
+X.gene <- X[,gene.idx]
+X.SNP <- X[, SNP.idx]
+fit <- mr.ash2(X.gene, X.SNP, y)
+
+print("for gene effect: ")
+summary_mr.ash(fit$fit1)
+plot_beta(beta[gene.idx], fit$fit1$beta, main = "beta for gene effect")
+
+print("for SNP effect: ")
+summary_mr.ash(fit$fit2)
+plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
+```
+
+### start with SNP
+
+```{r run mr.ash2, snp}
+X.gene <- X[,gene.idx]
+X.SNP <- X[, SNP.idx]
+fit <- mr.ash2(X.SNP, X.gene, y)
+
+print("for gene effect: ")
+summary_mr.ash(fit$fit2)
+plot_beta(beta[gene.idx], fit$fit2$beta, main = "beta for gene effect")
+
+print("for SNP effect: ")
+summary_mr.ash(fit$fit1)
+plot_beta(beta[SNP.idx], fit$fit1$beta, main = "beta for SNP effect")
+```
+

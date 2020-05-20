@@ -12,6 +12,7 @@ codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"simulate_phenotype.R"))
+source(paste0(codedir,"fit_mr.ash.R"))
 
 # genotype plink to R data file
 pfile <- args[1]
@@ -42,8 +43,17 @@ save(phenolist, file = paste0(outname, "-pheno.Rd"))
 print(warnings())
 
 # run mr.ash
-mr.ash.fit <- mr.ash(dat$G, phenolist$Y)
-mr.ash.fit$data <- NULL
+t.mr.ash  = system.time(
+  mr.ash.fit        <- mr.ash(dat$G, phenolist$Y))
+
+mr.ash.fit$data$X <- NULL
+mr.ash.fit$data$y <- NULL
+
+mr.ash.fit$t <- t.mr.ash[3]
+
+
+print("mr.ash finished ... ")
+
 save(mr.ash.fit, file = paste0(outname,"-mr.ash-res.Rd"))
 
 

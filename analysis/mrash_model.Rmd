@@ -1,0 +1,36 @@
+---
+title: "mrash_model: using ASH prior"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Model: 
+
+$$Y =  X_{N \times J}\beta_{J\times1} + G_{N\times M}\theta_{M\times1} + \epsilon$$
+
+$$ \epsilon \sim MVN(0,\sigma^2I_N) $$
+Priors:
+
+ASH prior for scaled $\beta_j$ and $\theta_m$
+$$\beta_j | g_1, \sigma \sim g^1_\sigma(\cdot)$$
+ASH prior for $\theta_m$:
+$$\theta_m | g_2, \sigma \sim g^2_\sigma(\cdot)$$
+
+## PVE
+
+$$\begin{align}
+PVE_{SNP} = &\frac{var(G\theta)}{var(G\theta) + var(\tilde{X}\beta) + \sigma^2}\\ 
+\approx &\frac{M\sigma_\theta^2}{M\sigma_\theta^2 + Jd^2\sigma_\beta^2+ \sigma^2}\\   
+\end{align}$$
+where $$d^2 = 1/J\sum_{j=1}^J ||x_{j}||^2 = 1/J\sum_{j=1}^J\sum_{i=1}^Nx_{ij}^2$$
+$$\sigma_\theta^2 = \sum_k{\pi_k^\theta \sigma_k^{\theta2}}$$
+
+$$\sigma_\beta^2 = \sum_k{\pi_k^\beta \sigma_k^{\beta2}}$$
+
+$$\begin{align}
+PVE_{gene} = &\frac{var(\tilde{X}\beta)}{var(G\theta) + var(\tilde{X}\beta) + \sigma^2}\\ 
+\approx &\frac{Jd^2\sigma_\beta^2}{M\sigma_\theta^2 + Jd^2\sigma_\beta^2+ \sigma^2}\\   
+\end{align}$$

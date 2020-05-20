@@ -1,0 +1,110 @@
+---
+title: "Test a simpler version of veb-boost performance on ukbiobank data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r plot functions}
+library(mr.ash.alpha)
+source("~/causalTWAS/causal-TWAS/code/fit_mr.ash.R")
+
+summary_mr.ash <- function(fit){
+  cat("pi1 = ", 1-fit$pi[[1]], "\n")
+  pve <- get_pve(fit)
+  cat("pve = ", pve, "\n")
+}
+
+plot_beta <- function(beta,beta.pm, ...){
+  plot( beta, pch=19, col ="darkgreen", ...)
+  points(beta.pm, pch =19, col = "red")
+  legend("topright", legend=c("true beta", "posterior mean"),
+       col=c("darkgreen", "red"), pch=19)
+}
+
+summary_mr.ash2 <- function(g.fit, s.fit, phenores){
+  e.b <- rep(0, length(g.fit$beta))
+  e.b[phenores$param$idx.cgene] <- phenores$param$e.beta
+  cat("gene expression effect: \n")
+  summary_mr.ash(g.fit)
+  plot_beta(e.b, g.fit$beta)
+
+  s.b <- rep(0, length(s.fit$beta))
+  s.b[phenores$param$idx.cSNP] <- phenores$param$s.theta
+  cat("snp effect: \n")
+  summary_mr.ash(s.fit)
+  plot_beta(s.b, s.fit$beta)
+}
+
+```
+
+```{r output dir}
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200503/"
+```
+
+## Simulation 1
+True parameters:
+```{r para 1}
+load(paste0(outputdir, "mr.ash2_20200503-1-pheno.Rd"))
+readLines(paste0(outputdir, "param-20200503-1.R"))
+```
+
+MR.ASH results (start from gene):
+```{r sim 1}
+load(paste0(outputdir, "mr.ash2_20200503-1-mr.ash2.expr-res.Rd"))
+g.fit <- mr.ash2.fit$fit1
+s.fit <-  mr.ash2.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+```
+
+MR.ASH results (start from SNP):
+```{r sim 1}
+load(paste0(outputdir, "mr.ash2_20200503-1-mr.ash2.snp-res.Rd"))
+g.fit <- mr.ash2.fit$fit2
+s.fit <-  mr.ash2.fit$fit1
+summary_mr.ash2(g.fit, s.fit, phenores)
+```
+
+## Simulation 2
+
+True parameters:
+```{r para 2}
+readLines(paste0(outputdir, "param-20200429-2.R"))
+```
+
+ASH results:
+
+```{r sim 2}
+load(paste0(outputdir, "mr.ash_20200429-2-mr.ash-res.Rd"))
+summary_mr.ash(mr.ash.fit)
+```
+
+## Simulation 3
+
+True parameters:
+```{r para 3}
+readLines(paste0(outputdir, "param-20200429-3.R"))
+```
+
+ASH results:
+
+```{r sim 3}
+load(paste0(outputdir, "mr.ash_20200429-3-mr.ash-res.Rd"))
+summary_mr.ash(mr.ash.fit)
+```
+
+## Simulation 4
+
+True parameters:
+```{r para 4}
+readLines(paste0(outputdir, "param-20200429-4.R"))
+```
+
+ASH results:
+
+```{r sim 4}
+load(paste0(outputdir, "mr.ash_20200429-4-mr.ash-res.Rd"))
+summary_mr.ash(mr.ash.fit)
+```

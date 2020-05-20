@@ -339,7 +339,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-16
+<strong>Last updated:</strong> 2020-05-18
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -370,10 +370,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef327bca61c8e4a52307347756cd2391a586f9031targetblankf327bcaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/f327bca61c8e4a52307347756cd2391a586f9031" target="_blank">f327bca</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreea64a01c6a7556552a29c2f81e76dbcefed1a99f5targetblanka64a01ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/a64a01c6a7556552a29c2f81e76dbcefed1a99f5" target="_blank">a64a01c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef327bca61c8e4a52307347756cd2391a586f9031targetblankf327bcaa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreea64a01c6a7556552a29c2f81e76dbcefed1a99f5targetblanka64a01ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -387,10 +387,23 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/mr.ash.Rmd
+    Untracked:  analysis/fusion_expr.Rmd
+    Untracked:  analysis/mrash_model.Rmd
+    Untracked:  analysis/simulation-mr.ash-ukbchr22.Rmd
+    Untracked:  code/temp.R
 
 Unstaged changes:
+    Modified:   analysis/VEB-boost-fitting.Rmd
     Modified:   analysis/index.Rmd
+    Modified:   analysis/sparse_model.Rmd
+    Modified:   code/run_test_veb-boost.R
+    Modified:   code/simulate_phenotype.R
+    Modified:   code/workflow-ashtest.ipynb
+    Modified:   code/workflow-data.ipynb
+
+Staged changes:
+    Deleted:    analysis/mr.ash.Rmd
+    Deleted:    analysis/plot_expression.R
 
 </code></pre>
 <p>
@@ -429,6 +442,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ec2041957499052c21a73af5cfc5fd28e6735a06/analysis/index.Rmd" target="_blank">ec20419</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-04-16
+</td>
+<td>
+veb-boost-repo
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/ec2041957499052c21a73af5cfc5fd28e6735a06/docs/index.html" target="_blank">ec20419</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-04-16
+</td>
+<td>
+veb-boost-repo
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -713,26 +760,52 @@ model and Xin’s simulation
 <ul>
 <li><a href="polygenic_model.html">Polygenic model</a></li>
 <li><a href="sparse_model.html">Sparse model</a></li>
+<li><a href="mrash_model.html">mr.ash model</a></li>
 </ul>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<div id="expression-data" class="section level2">
+<h2>Expression data</h2>
+<ul>
+<li><a href="fusion_expr.html">Fusion/TWAS gene expression models</a></li>
+</ul>
+</div>
 </div>
 <div id="simulations" class="section level1">
 <h1>Simulations</h1>
-<div id="for-a-single-gene" class="section level2">
-<h2>For a single gene</h2>
+<div id="proof-of-concept" class="section level2">
+<h2>Proof of concept</h2>
 <ul>
-<li><a href="simulation-singleG.html">Single gene</a></li>
+<li><a href="simulation-singleG.html">Proof of concept for this project using a single gene’s data</a></li>
 </ul>
 </div>
-<div id="under-polygenic-model" class="section level2">
-<h2>Under polygenic model</h2>
+<div id="test-polygenic-model" class="section level2">
+<h2>Test polygenic model</h2>
+<p>Using WTCCC data</p>
 <ul>
-<li><a href="simulation-WTCCC.html">Simulation: WTCCC</a></li>
-<li><a href="simulation-WTCCC2.html">Simulation: WTCCC 2</a></li>
+<li><p><a href="simulation-WTCCC.html">Test polygenic model 1</a></p></li>
+<li><p><a href="simulation-WTCCC2.html">Test polygenic model 2: use imputed expression</a></p></li>
+</ul>
+</div>
+<div id="test-mr.ash" class="section level2">
+<h2>Test mr.ash</h2>
+<p>Using UKbiobank data (chr22)</p>
+<ul>
+<li><a href="simulation-mr.ash-ukbchr22.html">Test mr.ash performance: only SNP effect</a></li>
+</ul>
+</div>
+<div id="test-veb_boost" class="section level2">
+<h2>Test veb_boost</h2>
+<p>A simplified version: interative update of two mr.ash component</p>
+<ul>
+<li><p><a href="simulation_simpleveb-boost.html">Using some simple data</a></p></li>
+<li><p><a href="simulation_simple_veb-boost_ukbchr22.html">Using UKbiobank data (chr22)</a></p></li>
 </ul>
 </div>
 </div>
-<div id="references" class="section level1">
-<h1>References</h1>
+<div id="related-software" class="section level1">
+<h1>Related software</h1>
 <ul>
 <li>VEB-boost
 <ul>
