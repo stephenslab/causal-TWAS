@@ -454,10 +454,10 @@ code/fit_mr.ash.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8294257fb905e00f0c51937a608d82c19af93a37targetblank8294257a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/8294257fb905e00f0c51937a608d82c19af93a37" target="_blank">8294257</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8c5b5579f09243b1cef28d44f36ad7af0713744dtargetblank8c5b557a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/8c5b5579f09243b1cef28d44f36ad7af0713744d" target="_blank">8c5b557</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8294257fb905e00f0c51937a608d82c19af93a37targetblank8294257a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8c5b5579f09243b1cef28d44f36ad7af0713744dtargetblank8c5b557a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -471,8 +471,8 @@ Ignored files:
     Ignored:    data/
 
 Unstaged changes:
+    Modified:   analysis/index.Rmd
     Modified:   analysis/simulation-simpleveb-boost-ukbchr22.Rmd
-    Modified:   code/run_test_mr.ash.R
 
 </code></pre>
 <p>
@@ -516,6 +516,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/analysis/simulation-simpleveb-boost-ukbchr22.Rmd" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+<td>
+test mr.ash2
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/239c5ea42a453861c802f986d670ce5750798660/docs/simulation-simpleveb-boost-ukbchr22.html" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+<td>
+test mr.ash2
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/8294257fb905e00f0c51937a608d82c19af93a37/analysis/simulation-simpleveb-boost-ukbchr22.Rmd" target="_blank">8294257</a>
 </td>
 <td>
@@ -551,17 +585,29 @@ plot_beta &lt;- function(beta,beta.pm, ...){
        col=c(&quot;darkgreen&quot;, &quot;red&quot;), pch=19)
 }
 
-plot_pip &lt;- function(indi, pip) {
-  barplot(indi)
+plot_pip &lt;- function(indi, pip, pipcut = 0.1) {
+  x &lt;- barplot(indi, main = &quot;PIP&quot;)
+  points(x, pip, pch=19, col=&quot;red&quot;)
+  pred &lt;- which(pip &gt; pipcut)
+  real &lt;- which(indi==1)
+  tp &lt;- length(intersect(pred, real))/length(pred)
+  fp &lt;- 1 - tp
+  fn &lt;- length(setdiff(real, pred))/length(real)
+  cat(&quot;false positive rate: &quot;, fp)
+  cat(&quot;false negative rate: &quot;, fn)
 }
 
-summary_mr.ash2 &lt;- function(g.fit, s.fit, phenores){
+summary_mr.ash2 &lt;- function(g.fit, s.fit, phenores, pipcut = 0.1){
   e.b &lt;- rep(0, length(g.fit$beta))
   e.b[phenores$param$idx.cgene] &lt;- phenores$param$e.beta
   cat(&quot;gene expression effect: \n&quot;)
   summary_mr.ash(g.fit)
   plot_beta(e.b, g.fit$beta)
-
+  indi &lt;- rep(0, length(g.fit$beta))
+  indi[phenores$param$idx.cgene] &lt;- 1
+  pip &lt;- get_pip(g.fit)
+  plot_pip(indi, pip, pipcut = pipcut)
+  
   s.b &lt;- rep(0, length(s.fit$beta))
   s.b[phenores$param$idx.cSNP] &lt;- phenores$param$s.theta
   cat(&quot;snp effect: \n&quot;)
@@ -585,10 +631,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.1042463 
 pve =  0.01655538 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20gene-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-1-gene-1">
+Past versions of “sim 1 gene-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-1-gene-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 1 gene-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-1-gene-2">
+Past versions of “sim 1 gene-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-1-gene-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 1 gene-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0.6111111false negative rate:  0.4615385snp effect: 
 pi1 =  0.0003892186 
 pve =  0.03764331 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20gene-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>MR.ASH results (start from SNP):</p>
 <pre class="r"><code>load(paste0(outputdir, &quot;mr.ash2_20200503-1-mr.ash2.snp-res.Rd&quot;))
 g.fit &lt;- mr.ash2.fit$fit2
@@ -598,10 +719,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.1042463 
 pve =  0.01655538 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20snp-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-1-snp-1">
+Past versions of “sim 1 snp-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-1-snp-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 1 snp-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-1-snp-2">
+Past versions of “sim 1 snp-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-1-snp-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 1 snp-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0.6111111false negative rate:  0.4615385snp effect: 
 pi1 =  0.0003892186 
 pve =  0.03764331 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%201%20snp-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="simulation-2" class="section level2">
 <h2>Simulation 2</h2>
@@ -619,10 +815,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.01445089 
 pve =  0.002327143 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20gene-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-2-gene-1">
+Past versions of “sim 2 gene-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-2-gene-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 2 gene-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-2-gene-2">
+Past versions of “sim 2 gene-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-2-gene-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 2 gene-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0false negative rate:  0.6153846snp effect: 
 pi1 =  5.909084e-05 
 pve =  0.005906932 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20gene-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>MR.ASH results (start from SNP):</p>
 <pre class="r"><code>load(paste0(outputdir, &quot;mr.ash2_20200503-2-mr.ash2.snp-res.Rd&quot;))
 g.fit &lt;- mr.ash2.fit$fit2
@@ -632,10 +903,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.01445089 
 pve =  0.002327143 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20snp-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-2-snp-1">
+Past versions of “sim 2 snp-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-2-snp-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 2 snp-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-2-snp-2">
+Past versions of “sim 2 snp-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-2-snp-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 2 snp-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0false negative rate:  0.6153846snp effect: 
 pi1 =  5.909084e-05 
 pve =  0.005906932 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%202%20snp-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="simulation-3" class="section level2">
 <h2>Simulation 3</h2>
@@ -653,10 +999,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.07925974 
 pve =  0.01277346 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20gene-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-3-gene-1">
+Past versions of “sim 3 gene-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-3-gene-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 3 gene-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-3-gene-2">
+Past versions of “sim 3 gene-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-3-gene-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 3 gene-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0.7142857false negative rate:  0.4285714snp effect: 
 pi1 =  0.0002180982 
 pve =  0.02934857 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20gene-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>MR.ASH results (start from SNP):</p>
 <pre class="r"><code>load(paste0(outputdir, &quot;mr.ash2_20200503-3-mr.ash2.snp-res.Rd&quot;))
 g.fit &lt;- mr.ash2.fit$fit2
@@ -666,10 +1087,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.01851563 
 pve =  0.003015134 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20snp-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-3-snp-1">
+Past versions of “sim 3 snp-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-3-snp-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 3 snp-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-3-snp-2">
+Past versions of “sim 3 snp-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-3-snp-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 3 snp-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0.3333333false negative rate:  0.7142857snp effect: 
 pi1 =  0.0002374931 
 pve =  0.05519527 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%203%20snp-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="simulation-4" class="section level2">
 <h2>Simulation 4</h2>
@@ -687,10 +1183,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.07035994 
 pve =  0.0113217 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20gene-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-4-gene-1">
+Past versions of “sim 4 gene-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-4-gene-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 4 gene-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-4-gene-2">
+Past versions of “sim 4 gene-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-4-gene-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 4 gene-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0.8333333false negative rate:  0.7142857snp effect: 
 pi1 =  7.090549e-05 
 pve =  0.007220631 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20gene-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>MR.ASH results (start from SNP):</p>
 <pre class="r"><code>load(paste0(outputdir, &quot;mr.ash2_20200503-4-mr.ash2.snp-res.Rd&quot;))
 g.fit &lt;- mr.ash2.fit$fit2
@@ -700,10 +1271,85 @@ summary_mr.ash2(g.fit, s.fit, phenores)</code></pre>
 pi1 =  0.04441251 
 pve =  0.007185424 </code></pre>
 <p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20snp-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>snp effect: 
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-4-snp-1">
+Past versions of “sim 4 snp-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-4-snp-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 4 snp-1.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-sim-4-snp-2">
+Past versions of “sim 4 snp-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-sim-4-snp-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/239c5ea42a453861c802f986d670ce5750798660/docs/figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim 4 snp-2.png" target="_blank">239c5ea</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>false positive rate:  0.75false negative rate:  0.7142857snp effect: 
 pi1 =  0.000102551 
 pve =  0.01041826 </code></pre>
-<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-simpleveb-boost-ukbchr22.Rmd/sim%204%20snp-3.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

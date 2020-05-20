@@ -37,7 +37,7 @@ Using UKbiobank data (chr22)
 
   
 ## Test veb_boost
-A simplified version: interative update of two mr.ash component
+A simplified version: interative update of two mr.ash components
 
   * [Using some simple data](simulation_simpleveb-boost.html)
   

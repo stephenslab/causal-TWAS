@@ -24,17 +24,29 @@ plot_beta <- function(beta,beta.pm, ...){
        col=c("darkgreen", "red"), pch=19)
 }
 
-plot_pip <- function(indi, pip) {
-  barplot(indi)
+plot_pip <- function(indi, pip, pipcut = 0.1) {
+  x <- barplot(indi, main = "PIP")
+  points(x, pip, pch=19, col="red")
+  pred <- which(pip > pipcut)
+  real <- which(indi==1)
+  tp <- length(intersect(pred, real))/length(pred)
+  fp <- 1 - tp
+  fn <- length(setdiff(real, pred))/length(real)
+  cat("false positive rate: ", fp)
+  cat("false negative rate: ", fn)
 }
 
-summary_mr.ash2 <- function(g.fit, s.fit, phenores){
+summary_mr.ash2 <- function(g.fit, s.fit, phenores, pipcut = 0.1){
   e.b <- rep(0, length(g.fit$beta))
   e.b[phenores$param$idx.cgene] <- phenores$param$e.beta
   cat("gene expression effect: \n")
   summary_mr.ash(g.fit)
   plot_beta(e.b, g.fit$beta)
-
+  indi <- rep(0, length(g.fit$beta))
+  indi[phenores$param$idx.cgene] <- 1
+  pip <- get_pip(g.fit)
+  plot_pip(indi, pip, pipcut = pipcut)
+  
   s.b <- rep(0, length(s.fit$beta))
   s.b[phenores$param$idx.cSNP] <- phenores$param$s.theta
   cat("snp effect: \n")
