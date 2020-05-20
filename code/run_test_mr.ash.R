@@ -51,7 +51,6 @@ mr.ash.fit$data$y <- NULL
 
 mr.ash.fit$t <- t.mr.ash[3]
 
-
 print("mr.ash finished ... ")
 
 save(mr.ash.fit, file = paste0(outname,"-mr.ash-res.Rd"))

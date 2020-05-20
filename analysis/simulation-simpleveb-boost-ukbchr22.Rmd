@@ -24,6 +24,10 @@ plot_beta <- function(beta,beta.pm, ...){
        col=c("darkgreen", "red"), pch=19)
 }
 
+plot_pip <- function(indi, pip) {
+  barplot(indi)
+}
+
 summary_mr.ash2 <- function(g.fit, s.fit, phenores){
   e.b <- rep(0, length(g.fit$beta))
   e.b[phenores$param$idx.cgene] <- phenores$param$e.beta
@@ -52,7 +56,7 @@ readLines(paste0(outputdir, "param-20200503-1.R"))
 ```
 
 MR.ASH results (start from gene):
-```{r sim 1}
+```{r sim 1 gene}
 load(paste0(outputdir, "mr.ash2_20200503-1-mr.ash2.expr-res.Rd"))
 g.fit <- mr.ash2.fit$fit1
 s.fit <-  mr.ash2.fit$fit2
@@ -60,7 +64,7 @@ summary_mr.ash2(g.fit, s.fit, phenores)
 ```
 
 MR.ASH results (start from SNP):
-```{r sim 1}
+```{r sim 1 snp}
 load(paste0(outputdir, "mr.ash2_20200503-1-mr.ash2.snp-res.Rd"))
 g.fit <- mr.ash2.fit$fit2
 s.fit <-  mr.ash2.fit$fit1
@@ -71,40 +75,70 @@ summary_mr.ash2(g.fit, s.fit, phenores)
 
 True parameters:
 ```{r para 2}
-readLines(paste0(outputdir, "param-20200429-2.R"))
+load(paste0(outputdir, "mr.ash2_20200503-2-pheno.Rd"))
+readLines(paste0(outputdir, "param-20200503-2.R"))
 ```
 
-ASH results:
+MR.ASH results (start from gene):
+```{r sim 2 gene}
+load(paste0(outputdir, "mr.ash2_20200503-2-mr.ash2.expr-res.Rd"))
+g.fit <- mr.ash2.fit$fit1
+s.fit <-  mr.ash2.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+```
 
-```{r sim 2}
-load(paste0(outputdir, "mr.ash_20200429-2-mr.ash-res.Rd"))
-summary_mr.ash(mr.ash.fit)
+MR.ASH results (start from SNP):
+```{r sim 2 snp}
+load(paste0(outputdir, "mr.ash2_20200503-2-mr.ash2.snp-res.Rd"))
+g.fit <- mr.ash2.fit$fit2
+s.fit <-  mr.ash2.fit$fit1
+summary_mr.ash2(g.fit, s.fit, phenores)
 ```
 
 ## Simulation 3
 
 True parameters:
 ```{r para 3}
-readLines(paste0(outputdir, "param-20200429-3.R"))
+load(paste0(outputdir, "mr.ash2_20200503-3-pheno.Rd"))
+readLines(paste0(outputdir, "param-20200503-3.R"))
 ```
 
-ASH results:
+MR.ASH results (start from gene):
+```{r sim 3 gene}
+load(paste0(outputdir, "mr.ash2_20200503-3-mr.ash2.expr-res.Rd"))
+g.fit <- mr.ash2.fit$fit1
+s.fit <-  mr.ash2.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+```
 
-```{r sim 3}
-load(paste0(outputdir, "mr.ash_20200429-3-mr.ash-res.Rd"))
-summary_mr.ash(mr.ash.fit)
+MR.ASH results (start from SNP):
+```{r sim 3 snp}
+load(paste0(outputdir, "mr.ash2_20200503-3-mr.ash2.snp-res.Rd"))
+g.fit <- mr.ash2.fit$fit2
+s.fit <-  mr.ash2.fit$fit1
+summary_mr.ash2(g.fit, s.fit, phenores)
 ```
 
 ## Simulation 4
 
 True parameters:
 ```{r para 4}
-readLines(paste0(outputdir, "param-20200429-4.R"))
+load(paste0(outputdir, "mr.ash2_20200503-4-pheno.Rd"))
+readLines(paste0(outputdir, "param-20200503-4.R"))
 ```
 
-ASH results:
+MR.ASH results (start from gene):
+```{r sim 4 gene}
+load(paste0(outputdir, "mr.ash2_20200503-4-mr.ash2.expr-res.Rd"))
+g.fit <- mr.ash2.fit$fit1
+s.fit <-  mr.ash2.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+```
 
-```{r sim 4}
-load(paste0(outputdir, "mr.ash_20200429-4-mr.ash-res.Rd"))
-summary_mr.ash(mr.ash.fit)
+MR.ASH results (start from SNP):
+```{r sim 4 snp}
+load(paste0(outputdir, "mr.ash2_20200503-4-mr.ash2.snp-res.Rd"))
+g.fit <- mr.ash2.fit$fit2
+s.fit <-  mr.ash2.fit$fit1
+summary_mr.ash2(g.fit, s.fit, phenores)
 ```
