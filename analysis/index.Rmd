@@ -41,7 +41,7 @@ A simplified version: interative update of two mr.ash component
 
   * [Using some simple data](simulation_simpleveb-boost.html)
   
-  * [Using UKbiobank data (chr22)](simulation_simpleveb-boost_ukbchr22.html)
+  * [Using UKbiobank data (chr22)](simulation-simpleveb-boost-ukbchr22.html)
 
   
 # Related software
