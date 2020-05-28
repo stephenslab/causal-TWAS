@@ -1,5 +1,5 @@
 ---
-title: "Simple simulations for a simplified version of web-boost"
+title: "Simple simulations for a simplified version of web-boost-2"
 output: html_document
 ---
 
@@ -89,14 +89,14 @@ plot_beta(beta[SNP.idx], fit$beta[SNP.idx], main = "beta for SNP effect")
 ```
 
 
-## Run a simplified version of veb-boost
+## Run a simplified version of veb-boost (mr.ash2s)
 
 ### start with gene
 
 ```{r run mr.ash2, gene}
 X.gene <- X[,gene.idx]
 X.SNP <- X[, SNP.idx]
-fit <- mr.ash2(X.gene, X.SNP, y)
+fit <- mr.ash2s(X.gene, X.SNP, y)
 
 print("for gene effect: ")
 summary_mr.ash(fit$fit1)
@@ -112,7 +112,7 @@ plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
 ```{r run mr.ash2, snp}
 X.gene <- X[,gene.idx]
 X.SNP <- X[, SNP.idx]
-fit <- mr.ash2(X.SNP, X.gene, y)
+fit <- mr.ash2s(X.SNP, X.gene, y)
 
 print("for gene effect: ")
 summary_mr.ash(fit$fit2)

@@ -11,7 +11,7 @@
 
 
 
-<title>Home</title>
+<title>Simple simulations for a simplified version of web-boost-2</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -314,7 +314,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Simple simulations for a simplified version of web-boost-2</h1>
 
 </div>
 
@@ -339,10 +339,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-27
+<strong>Last updated:</strong> 2020-05-28
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>causal-TWAS/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -363,7 +363,67 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191103code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191103)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191103code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20191103)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -385,6 +445,13 @@ Ignored files:
     Ignored:    .ipynb_checkpoints/
     Ignored:    code/.ipynb_checkpoints/
     Ignored:    data/
+
+Untracked files:
+    Untracked:  analysis/simulation-simpleveb-boost2-ukbchr22.Rmd
+    Untracked:  analysis/simulation_simpleveb-boost2.Rmd
+    Untracked:  analysis/simulation_susie.Rmd
+    Untracked:  code/run_test_mr.ash2s.R
+    Untracked:  code/run_test_susie.R
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
@@ -410,518 +477,133 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/e417c927e5e51b773543e4d9efcbded7c1f016da/analysis/index.Rmd" target="_blank">e417c92</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-05-20
-</td>
-<td>
-test mr.ash2
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/e417c927e5e51b773543e4d9efcbded7c1f016da/docs/index.html" target="_blank">e417c92</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-05-20
-</td>
-<td>
-test mr.ash2
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/8c5b5579f09243b1cef28d44f36ad7af0713744d/analysis/index.Rmd" target="_blank">8c5b557</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-05-20
-</td>
-<td>
-test mr.ash2
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/8c5b5579f09243b1cef28d44f36ad7af0713744d/docs/index.html" target="_blank">8c5b557</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-05-20
-</td>
-<td>
-test mr.ash2
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/8294257fb905e00f0c51937a608d82c19af93a37/analysis/index.Rmd" target="_blank">8294257</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-05-19
-</td>
-<td>
-test mr.ash
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/8294257fb905e00f0c51937a608d82c19af93a37/docs/index.html" target="_blank">8294257</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-05-19
-</td>
-<td>
-test mr.ash
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/ec2041957499052c21a73af5cfc5fd28e6735a06/analysis/index.Rmd" target="_blank">ec20419</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-04-16
-</td>
-<td>
-veb-boost-repo
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/ec2041957499052c21a73af5cfc5fd28e6735a06/docs/index.html" target="_blank">ec20419</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-04-16
-</td>
-<td>
-veb-boost-repo
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/f327bca61c8e4a52307347756cd2391a586f9031/analysis/index.Rmd" target="_blank">f327bca</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-04-12
-</td>
-<td>
-mr.ash description
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/f327bca61c8e4a52307347756cd2391a586f9031/docs/index.html" target="_blank">f327bca</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-04-12
-</td>
-<td>
-mr.ash description
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/83288add66d3fc4d89611862181760a5863732f1/analysis/index.Rmd" target="_blank">83288ad</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-31
-</td>
-<td>
-sparse model description
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/83288add66d3fc4d89611862181760a5863732f1/docs/index.html" target="_blank">83288ad</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-31
-</td>
-<td>
-sparse model description
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/af533ec1fb34005acd5f58c317eb087b684b4f03/analysis/index.Rmd" target="_blank">af533ec</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-27
-</td>
-<td>
-veb-boost reference
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/af533ec1fb34005acd5f58c317eb087b684b4f03/docs/index.html" target="_blank">af533ec</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-27
-</td>
-<td>
-veb-boost reference
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/c6535ef40cdee56d79b8794d6d5720dce5230f4f/docs/index.html" target="_blank">c6535ef</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-25
-</td>
-<td>
-fix results display bug
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/e86023b5d2631ef72f179505bd696bef43580eb9/analysis/index.Rmd" target="_blank">e86023b</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-25
-</td>
-<td>
-fix results display bug
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/2ae86250f4a27aa68bef21e8907bb8cc48dbc919/analysis/index.Rmd" target="_blank">2ae8625</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-24
-</td>
-<td>
-polygenic done
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/a618a44ce27331c054b41dbd320c8d0ff6913d20/analysis/index.Rmd" target="_blank">a618a44</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-13
-</td>
-<td>
-v1.0 simulate expression using separate data 20191127
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/a618a44ce27331c054b41dbd320c8d0ff6913d20/docs/index.html" target="_blank">a618a44</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2020-03-13
-</td>
-<td>
-v1.0 simulate expression using separate data 20191127
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/dcd525280258e814c481bcd812aedd3a823e5aa8/docs/index.html" target="_blank">dcd5252</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-07
-</td>
-<td>
-simulate description
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/f7be05a77b78a3979a738f918753f8b61d2ff8b0/analysis/index.Rmd" target="_blank">f7be05a</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-05
-</td>
-<td>
-gemma
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/56ba4ae62eddf639d00d5f79adbd7b0a8faf5fb8/docs/index.html" target="_blank">56ba4ae</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-03
-</td>
-<td>
-add git icon
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/stephenslab/causal-TWAS/blob/68e228fa0bb05e6a97ef68ab48ec86fe7d8e509a/analysis/index.Rmd" target="_blank">68e228f</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-03
-</td>
-<td>
-model and Xin’s simulation
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/68e228fa0bb05e6a97ef68ab48ec86fe7d8e509a/docs/index.html" target="_blank">68e228f</a>
-</td>
-<td>
-simingz
-</td>
-<td>
-2019-11-03
-</td>
-<td>
-model and Xin’s simulation
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="model" class="section level1">
-<h1>Model</h1>
+<div id="simulation-of-data" class="section level2">
+<h2>Simulation of data</h2>
+<p>20 blocks:</p>
 <ul>
-<li><a href="polygenic_model.html">Polygenic model</a></li>
-<li><a href="sparse_model.html">Sparse model</a></li>
-<li><a href="mrash_model.html">mr.ash model</a></li>
+<li>Each block has either gene or SNP effect</li>
+<li>Each block has 99 SNPs and 1 gene. Each gene is linear sum of the previous 3 SNPs.</li>
+<li>Each block, either the gene or the last eQTL has non-zero effect on trait</li>
 </ul>
+<p>The first 4 blocks have gene effect.</p>
+<pre class="r"><code>set.seed(1)
+N &lt;- 4000
+nblocks &lt;- 20
+block.size &lt;- 100
+p &lt;- nblocks * block.size
+n.eQTL &lt;- 3  # number of eQTLs per gene
+sigma.eQTL &lt;- 0.5 # eQTL effect size
+sigma.SNP &lt;- 0.1 # effect size of causal SNP on trait
+sigma.gene &lt;- 0.1 # effect size of causal gene on trait
+X &lt;- matrix(rep(0,0), nrow=N, ncol=0)
+gamma.gene &lt;- rep(0, nblocks) # indicator of genes
+gamma.gene[1:4] &lt;- 1 
+beta &lt;- numeric(0)
+SNP.idx &lt;- numeric(0)
+for (i in 1:nblocks) {
+  # sample SNP data
+  X.block.SNP &lt;- matrix(rnorm(N*(block.size-1)), nrow=N, ncol=block.size-1)
+  SNP.idx &lt;- c(SNP.idx, 1:(block.size-1) + (i-1)*block.size)
+  
+  # generate gene data: use the previous few SNPs as eQTL
+  effects.eQTL &lt;- rnorm(n.eQTL, 0, sigma.eQTL)
+  X.block.gene &lt;- X.block.SNP[, (block.size - n.eQTL):(block.size - 1)] %*% effects.eQTL
+  X.block = cbind(X.block.SNP, X.block.gene)
+  X &lt;- cbind(X, X.block)
+  
+  # sample beta
+  if (gamma.gene[i] == 1) { # gene effect in this block
+    beta.SNP &lt;- rep(0, block.size - 1)
+    beta.gene &lt;- rnorm(1, 0, sigma.gene)
+  } else { # SNP effect in this block
+    beta.SNP &lt;- c(rep(0, block.size - 2), rnorm(1, 0, sigma.SNP))
+    beta.gene &lt;- 0
+  }
+  beta.block &lt;- c(beta.SNP, beta.gene)
+  beta &lt;- c(beta, beta.block)
+}
+sigma.e &lt;- 1
+y &lt;- X %*% beta + rnorm(N, 0, sigma.e)
+gene.idx &lt;- (1:nblocks) * block.size</code></pre>
+<pre class="r"><code>plot_pip &lt;- function(indi, pip, pipcut = 0.1) {
+  x &lt;- barplot(indi, main = &quot;PIP&quot;)
+  points(x, pip, pch=19, col=&quot;red&quot;)
+  pred &lt;- which(pip &gt; pipcut)
+  real &lt;- which(indi==1)
+  tp &lt;- length(intersect(pred, real))/length(pred)
+  fp &lt;- 1 - tp
+  fn &lt;- length(setdiff(real, pred))/length(real)
+  cat(&quot;false positive rate: &quot;, fp, &quot;\n&quot;)
+  cat(&quot;false negative rate: &quot;, fn, &quot;\n&quot;)
+}</code></pre>
 </div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<div id="expression-data" class="section level2">
-<h2>Expression data</h2>
-<ul>
-<li><a href="fusion_expr.html">Fusion/TWAS gene expression models</a></li>
-</ul>
+<div id="run-susie" class="section level2">
+<h2>Run susie</h2>
+<p>Fix prior as given, using truth.</p>
+<pre class="r"><code>p.snp &lt;- length(SNP.idx)
+p.gene &lt;- length(gene.idx)
+
+prior.SNP &lt;- 16/2000
+prior.gene &lt;- 4/20
+indi.gene &lt;- c(rep(1,4), rep(0,16))
+
+prior &lt;- rep(0, dim(X)[2])
+prior[gene.idx] &lt;- prior.gene
+prior[SNP.idx] &lt;- prior.SNP
+
+res &lt;- susie(X,y,L=1, prior_weights=prior)
+
+print(&quot;for gene effect: &quot;)</code></pre>
+<pre><code>[1] &quot;for gene effect: &quot;</code></pre>
+<pre class="r"><code>plot_pip(indi.gene, res$pip[gene.idx])</code></pre>
+<p><img src="figure/simulation_susie.Rmd/run%20susie,%20gene-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>false positive rate:  0 
+false negative rate:  0.75 </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] susieR_0.9.0
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.6.0 Rcpp_1.0.4.6    lattice_0.20-38 digest_0.6.18  
+ [5] later_0.7.5     rprojroot_1.3-2 grid_3.5.1      R6_2.3.0       
+ [9] backports_1.1.2 git2r_0.26.1    magrittr_1.5    evaluate_0.12  
+[13] stringi_1.3.1   fs_1.3.1        promises_1.0.1  Matrix_1.2-15  
+[17] rmarkdown_1.10  tools_3.5.1     stringr_1.4.0   glue_1.3.0     
+[21] httpuv_1.4.5    yaml_2.2.0      compiler_3.5.1  htmltools_0.3.6
+[25] knitr_1.20     </code></pre>
 </div>
-</div>
-<div id="simulations" class="section level1">
-<h1>Simulations</h1>
-<div id="proof-of-concept" class="section level2">
-<h2>Proof of concept</h2>
-<ul>
-<li><a href="simulation-singleG.html">Proof of concept for this project using a single gene’s data</a></li>
-</ul>
-</div>
-<div id="test-polygenic-model" class="section level2">
-<h2>Test polygenic model</h2>
-<p>Using WTCCC data</p>
-<ul>
-<li><p><a href="simulation-WTCCC.html">Test polygenic model 1</a></p></li>
-<li><p><a href="simulation-WTCCC2.html">Test polygenic model 2: use imputed expression</a></p></li>
-</ul>
-</div>
-<div id="test-mr.ash" class="section level2">
-<h2>Test mr.ash</h2>
-<p>Using UKbiobank data (chr22)</p>
-<ul>
-<li><a href="simulation-mr.ash-ukbchr22.html">Test mr.ash performance: only SNP effect</a></li>
-</ul>
-</div>
-<div id="test-veb_boost" class="section level2">
-<h2>Test veb_boost</h2>
-<p>A simplified version (mr.ash2): interative update of two mr.ash components</p>
-<ul>
-<li><p><a href="simulation_simpleveb-boost.html">Using some simple data</a></p></li>
-<li><p><a href="simulation-simpleveb-boost-ukbchr22.html">Using UKbiobank data (chr22)</a></p></li>
-</ul>
-<p>A simplified version (mr.ash2s): interative update of two mr.ash components, now including updates of sigma2 in each iteration and initiate with mr.ash for all.</p>
-<ul>
-<li><p><a href="simulation_simpleveb-boost2.html">Using some simple data</a></p></li>
-<li><p><a href="simulation-simpleveb-boost2-ukbchr22.html">Using UKbiobank data (chr22)</a></p></li>
-</ul>
-</div>
-<div id="test-susie-for-fine-mapping" class="section level2">
-<h2>Test SUSIE for fine-mapping</h2>
-</div>
-</div>
-<div id="related-software" class="section level1">
-<h1>Related software</h1>
-<ul>
-<li>VEB-boost
-<ul>
-<li><a href="VEB-boost-fitting.html">Problem description</a></li>
-<li>Andrew’s <a href="https://github.com/stephenslab/VEB.Boost">software</a> and <a href="https://andrewg3311.github.io/VEB-Boost-workflowR/VEB_Boost_Derivation.html">workflowr website</a></li>
-</ul></li>
-<li>mr.ash
-<ul>
-<li><a href="https://github.com/stephenslab/mr.ash.alpha">mr.ash</a> package</li>
-<li><a href="https://stephenslab.github.io/mr-ash-workflow/">mr.ash workflowr website</a></li>
-</ul></li>
-</ul>
 </div>
 
 

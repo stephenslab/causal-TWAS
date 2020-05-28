@@ -63,7 +63,7 @@ mr.ash2.fit <- mr.ash2(dat$G, dat$expr, phenores$Y, iter = 20)
 mr.ash2.fit$fit1$data$X <- NULL
 save(mr.ash2.fit, file = paste0(outname,"-mr.ash2.snp-res.Rd"))
 
-
+# run mr.ash2 (a simplified version of veb_boost)
 
 
 
