@@ -7,7 +7,7 @@ if (length(args) != 6) {
        * expr Rd
        * pheno Rd
        * prior.R (will be sourced)
-       * region file (optional, chrnumber<tab>start<tab>end)
+       * region file (optional, chrnumber<tab>start<tab>end<name>)
        * out file name", call.=FALSE)
 }
 
@@ -42,21 +42,38 @@ source(args[4]) # priors
 
 outname <- args[6]
 
-regions <- read.table(args[5], stringsAsFactors = F)
+regions <- read.table(args[5], stringsAsFactors = F, header =T)
 
 for (i in 1:nrow(regions)){
   chr <- regions[i, 1]
   p0 <- regions[i, 2]
   p1 <- regions[i, 3]
-  X.gene <- exprres$expr[ , (exprres$chrom == chr & (exprres$p0 > p0 | exprres$p1 < p1))]
-  X.SNP <-  dat$G[ , (dat$chr == chr & dat$pos > p0 & dat$pos < p1)]
+  name <- regions[i, 4]
+  
+  susieres <- list()
+  print(name)
+  
+  idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p1 < p1
+  idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
+  
+  X.gene <- exprres$expr[ , idx.gene, drop = F]
+  X.SNP <-  dat$G[ , idx.SNP, drop = F]
 
   prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
 
-  res <- susie(cbind(X.gene, X.SNP), phenores$Y, L=1, prior_weights = prior)
-  save(res, file = paste(outname,chr,p0,p1,"susieres.Rd", sep = "-"))
+  susieres[["susie"]] <- susie(cbind(X.gene, X.SNP), phenores$Y, L=1, prior_weights = prior)
+  
+  anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene])
+  anno.SNP <- cbind(dat$snp[idx.SNP,], dat$chr[idx.SNP,], dat$pos[idx.SNP,])
+  susieres[["anno"]] <- rbind(anno.gene, anno.SNP)
+  
+  save(susieres, file = paste(outname, name, "susieres.Rd", sep = "-"))
+  
+  outdf <- cbind(susieres[["anno"]], susieres[["susie"]]$pip)
+  colnames(outdf) <- c("name", "chr", "pos", "pip")
+  
+  write.table( outdf , file= paste(outname, name, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
 }
-
 
 
 

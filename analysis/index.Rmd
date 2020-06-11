@@ -51,8 +51,6 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
   * [Using UKbiobank data (chr22)](https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost2-ukbchr22.html)
   
 ## Test SUSIE for fine-mapping
-
-  * [Using some simple data](simulation_susie.html)
   
   * [Using UKbiobank data (chr22)](simulation-susie-ukbchr22.html)
 

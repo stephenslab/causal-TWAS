@@ -53,3 +53,4 @@ for (i in 1:4){
   outname <- paste0(outname0, "-mr.ash2.snp-res")
   gen_mr.ash2_output(g.fit, s.fit, outname)
 }
+
