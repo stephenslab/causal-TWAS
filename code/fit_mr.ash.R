@@ -46,3 +46,4 @@ get_pip <- function(fit) {
   pip  <- 1 - get_phi(fit)$phi[,1]
   return (pip)
 }
+

@@ -41,14 +41,14 @@ A simplified version (mr.ash2): interative update of two mr.ash components
 
   * [Using some simple data](simulation_simpleveb-boost.html)
   
-  * [Using UKbiobank data (chr22)](simulation-simpleveb-boost-ukbchr22.html)
+  * [Using UKbiobank data (chr22)](https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost-ukbchr22.html)
   
   
 A simplified version (mr.ash2s): interative update of two mr.ash components, now including updates of sigma2 in each iteration and initiate with mr.ash for all.
 
   * [Using some simple data](simulation_simpleveb-boost2.html)
   
-  * [Using UKbiobank data (chr22)](simulation-simpleveb-boost2-ukbchr22.html)
+  * [Using UKbiobank data (chr22)](https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost2-ukbchr22.html)
   
 ## Test SUSIE for fine-mapping
 

@@ -1,19 +1,19 @@
-library(mr.ash.alpha)
+library(susieR)
 
 args = commandArgs(trailingOnly=TRUE)
-if (length(args) != 4) {
+if (length(args) != 6) {
   stop("4 arguments must be supplied:
        * genotype file name
        * expr Rd
        * pheno Rd
        * prior.R (will be sourced)
+       * region file (optional, chrnumber<tab>start<tab>end)
        * out file name", call.=FALSE)
 }
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
-source(paste0(codedir,"mr.ash2.R"))
 
 # genotype plink to R data file
 pfile <- args[1]
@@ -40,13 +40,22 @@ load(args[3])
 
 source(args[4]) # priors
 
-outname <- args[5]
+outname <- args[6]
 
-prior.SNP <- 1E-3
-prior.gene <- 0.1
-prior <- c(rep(prior.SNP, p-1), prior.gene)
-res <- susie(X,y,L=1, prior_weights=prior)
+regions <- read.table(args[5], stringsAsFactors = F)
 
+for (i in 1:nrow(regions)){
+  chr <- regions[i, 1]
+  p0 <- regions[i, 2]
+  p1 <- regions[i, 3]
+  X.gene <- exprres$expr[ , (exprres$chrom == chr & (exprres$p0 > p0 | exprres$p1 < p1))]
+  X.SNP <-  dat$G[ , (dat$chr == chr & dat$pos > p0 & dat$pos < p1)]
+
+  prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
+
+  res <- susie(cbind(X.gene, X.SNP), phenores$Y, L=1, prior_weights = prior)
+  save(res, file = paste(outname,chr,p0,p1,"susieres.Rd", sep = "-"))
+}
 
 
 

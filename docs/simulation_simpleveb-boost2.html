@@ -339,10 +339,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-27
+<strong>Last updated:</strong> 2020-06-10
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>causal-TWAS/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -358,12 +358,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -462,10 +462,10 @@ code/mr.ash2.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeb38488a0a6ba62601c65f9ba674c0858e63fed16targetblankb38488aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/b38488a0a6ba62601c65f9ba674c0858e63fed16" target="_blank">b38488a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8f01adb411edc960620c042ce603a4628d2e740etargetblank8f01adba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/8f01adb411edc960620c042ce603a4628d2e740e" target="_blank">8f01adb</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeb38488a0a6ba62601c65f9ba674c0858e63fed16targetblankb38488aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8f01adb411edc960620c042ce603a4628d2e740etargetblank8f01adba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -479,22 +479,22 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-simpleveb-boost2-ukbchr22.Rmd
-    Untracked:  analysis/simulation_simpleveb-boost2.Rmd
-    Untracked:  code/run_test_mr.ash2s.R
+    Untracked:  code/gen_mr.ash2_output.R
+    Untracked:  code/gwas.R
+    Untracked:  code/run_gwas_expr.R
+    Untracked:  code/run_gwas_snp.R
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
-    Modified:   analysis/simulation_simpleveb-boost.Rmd
+    Modified:   analysis/simulation-simpleveb-boost-ukbchr22.Rmd
+    Modified:   analysis/simulation-simpleveb-boost2-ukbchr22.Rmd
+    Modified:   code/fit_mr.ash.R
     Modified:   code/mr.ash2.R
     Modified:   code/run_test_mr.ash2.R
+    Modified:   code/run_test_susie.R
+    Modified:   code/simulate_phenotype.R
+    Modified:   code/temp.R
     Modified:   code/workflow-ashtest.ipynb
-
-Staged changes:
-    Renamed1:   code/simple_vebboost.R
-    Renamed2:   code/mr.ash2.R
-    Renamed1:   code/run_test_veb-boost.R
-    Renamed2:   code/run_test_mr.ash2.R
+    Modified:   code/workflow-data.ipynb
 
 </code></pre>
 <p>
@@ -507,9 +507,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8f01adb411edc960620c042ce603a4628d2e740e/analysis/simulation_simpleveb-boost2.Rmd" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+<td>
+mr.ash2s
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/8f01adb411edc960620c042ce603a4628d2e740e/docs/simulation_simpleveb-boost2.html" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+<td>
+mr.ash2s
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -583,8 +643,82 @@ summary_mr.ash(fit)</code></pre>
 pve :  0.1521592 </code></pre>
 <pre class="r"><code>plot_beta(beta[gene.idx], fit$beta[gene.idx], main = &quot;beta for gene effect&quot;)</code></pre>
 <p><img src="figure/simulation_simpleveb-boost2.Rmd/run%20mr.ash-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-run-mr.ash-1">
+Past versions of “run mr.ash-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-run-mr.ash-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8f01adb411edc960620c042ce603a4628d2e740e/docs/figure/simulation_simpleveb-boost2.Rmd/run mr.ash-1.png" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_beta(beta[SNP.idx], fit$beta[SNP.idx], main = &quot;beta for SNP effect&quot;)</code></pre>
 <p><img src="figure/simulation_simpleveb-boost2.Rmd/run%20mr.ash-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-run-mr.ash-2">
+Past versions of “run mr.ash-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-run-mr.ash-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8f01adb411edc960620c042ce603a4628d2e740e/docs/figure/simulation_simpleveb-boost2.Rmd/run mr.ash-2.png" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="run-a-simplified-version-of-veb-boost-mr.ash2s" class="section level2">
 <h2>Run a simplified version of veb-boost (mr.ash2s)</h2>
@@ -597,17 +731,91 @@ fit &lt;- mr.ash2s(X.gene, X.SNP, y)
 print(&quot;for gene effect: &quot;)</code></pre>
 <pre><code>[1] &quot;for gene effect: &quot;</code></pre>
 <pre class="r"><code>summary_mr.ash(fit$fit1)</code></pre>
-<pre><code>pi1 =  0.2710172 
-pve :  0.08093391 </code></pre>
+<pre><code>pi1 =  0.7510055 
+pve :  0.03234752 </code></pre>
 <pre class="r"><code>plot_beta(beta[gene.idx], fit$fit1$beta, main = &quot;beta for gene effect&quot;)</code></pre>
 <p><img src="figure/simulation_simpleveb-boost2.Rmd/run%20mr.ash2,%20gene-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-run-mr.ash2,-gene-1">
+Past versions of “run mr.ash2, gene-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-run-mr.ash2,-gene-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8f01adb411edc960620c042ce603a4628d2e740e/docs/figure/simulation_simpleveb-boost2.Rmd/run mr.ash2, gene-1.png" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(&quot;for SNP effect: &quot;)</code></pre>
 <pre><code>[1] &quot;for SNP effect: &quot;</code></pre>
 <pre class="r"><code>summary_mr.ash(fit$fit2)</code></pre>
-<pre><code>pi1 =  0.00583744 
-pve :  0.2015141 </code></pre>
+<pre><code>pi1 =  0.006990563 
+pve :  0.1326746 </code></pre>
 <pre class="r"><code>plot_beta(beta[SNP.idx], fit$fit2$beta, main = &quot;beta for SNP effect&quot;)</code></pre>
 <p><img src="figure/simulation_simpleveb-boost2.Rmd/run%20mr.ash2,%20gene-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-run-mr.ash2,-gene-2">
+Past versions of “run mr.ash2, gene-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-run-mr.ash2,-gene-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8f01adb411edc960620c042ce603a4628d2e740e/docs/figure/simulation_simpleveb-boost2.Rmd/run mr.ash2, gene-2.png" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="start-with-snp" class="section level3">
 <h3>start with SNP</h3>
@@ -618,17 +826,91 @@ fit &lt;- mr.ash2s(X.SNP, X.gene, y)
 print(&quot;for gene effect: &quot;)</code></pre>
 <pre><code>[1] &quot;for gene effect: &quot;</code></pre>
 <pre class="r"><code>summary_mr.ash(fit$fit2)</code></pre>
-<pre><code>pi1 =  0.1799298 
-pve :  0.05530181 </code></pre>
+<pre><code>pi1 =  0.9149261 
+pve :  0.01660308 </code></pre>
 <pre class="r"><code>plot_beta(beta[gene.idx], fit$fit2$beta, main = &quot;beta for gene effect&quot;)</code></pre>
 <p><img src="figure/simulation_simpleveb-boost2.Rmd/run%20mr.ash2,%20snp-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-run-mr.ash2,-snp-1">
+Past versions of “run mr.ash2, snp-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-run-mr.ash2,-snp-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8f01adb411edc960620c042ce603a4628d2e740e/docs/figure/simulation_simpleveb-boost2.Rmd/run mr.ash2, snp-1.png" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>print(&quot;for SNP effect: &quot;)</code></pre>
 <pre><code>[1] &quot;for SNP effect: &quot;</code></pre>
 <pre class="r"><code>summary_mr.ash(fit$fit1)</code></pre>
-<pre><code>pi1 =  0.007354643 
-pve :  0.2412078 </code></pre>
+<pre><code>pi1 =  0.009254532 
+pve :  0.1485855 </code></pre>
 <pre class="r"><code>plot_beta(beta[SNP.idx], fit$fit1$beta, main = &quot;beta for SNP effect&quot;)</code></pre>
 <p><img src="figure/simulation_simpleveb-boost2.Rmd/run%20mr.ash2,%20snp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-run-mr.ash2,-snp-2">
+Past versions of “run mr.ash2, snp-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-run-mr.ash2,-snp-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8f01adb411edc960620c042ce603a4628d2e740e/docs/figure/simulation_simpleveb-boost2.Rmd/run mr.ash2, snp-2.png" target="_blank">8f01adb</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-05-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -659,13 +941,13 @@ other attached packages:
 [1] mr.ash.alpha_0.1-7
 
 loaded via a namespace (and not attached):
- [1] workflowr_1.6.0 Rcpp_1.0.4.6    lattice_0.20-38 digest_0.6.18  
+ [1] workflowr_1.6.0 Rcpp_1.0.4.6    lattice_0.20-38 digest_0.6.25  
  [5] later_0.7.5     rprojroot_1.3-2 grid_3.5.1      R6_2.3.0       
  [9] backports_1.1.2 git2r_0.26.1    magrittr_1.5    evaluate_0.12  
 [13] highr_0.7       stringi_1.3.1   fs_1.3.1        promises_1.0.1 
-[17] Matrix_1.2-15   rmarkdown_1.10  tools_3.5.1     stringr_1.4.0  
-[21] glue_1.3.0      httpuv_1.4.5    yaml_2.2.0      compiler_3.5.1 
-[25] htmltools_0.3.6 knitr_1.20     </code></pre>
+[17] whisker_0.3-2   Matrix_1.2-15   rmarkdown_1.10  tools_3.5.1    
+[21] stringr_1.4.0   glue_1.4.1      httpuv_1.4.5    yaml_2.2.0     
+[25] compiler_3.5.1  htmltools_0.3.6 knitr_1.20     </code></pre>
 </div>
 </div>
 </div>

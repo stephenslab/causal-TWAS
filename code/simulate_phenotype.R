@@ -14,6 +14,9 @@ library(data.table)
 cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
   exprlist <- list()
   wgtfiles <- Sys.glob(file.path(weight, "*.wgt.RDat"))
+  wgtposfile <- file.path(dirname(weight), paste0(basename(weight), ".pos"))
+
+  wgtpos <- read.table(wgtposfile, header = T, stringsAsFactors = F)
 
   print(paste0("Number of genes with weights provided: ", length(wgtfiles)))
 
@@ -43,6 +46,9 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
     g <- as.matrix(dat$G[, wgt.idx])
     g[, is.na(wgt.idx)] <- 0
     exprlist[[gname]][["expr"]] <- g %*% wgt.matrix[, g.method]
+    exprlist[[gname]][["chr"]] <- wgtpos[wgtpos$ID == gname, "CHR"]
+    exprlist[[gname]][["p0"]] <- wgtpos[wgtpos$ID == gname, "P0"]# position boundary 1
+    exprlist[[gname]][["p1"]] <- wgtpos[wgtpos$ID == gname, "P1"]# position boundary 2
 
     nmiss <- length(wgt.idx[is.na(wgt.idx)])
     n <- length(wgt.idx)
@@ -53,13 +59,20 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
 
   expr <- do.call(cbind, lapply(exprlist, '[[', "expr"))
   colnames(expr) <- names(exprlist)
+  chrom <- unlist(lapply(exprlist,'[[', "chr"))
+  p0 <- unlist(lapply(exprlist,'[[', "p0"))
+  p1 <- unlist(lapply(exprlist,'[[', "p1"))
 
   # filter gene based on genotype missing rate
   gfilter <- unlist(lapply(exprlist, function(x) x[["missrate"]] < 1))
   expr <- expr[ , gfilter]
+  chrom <- chrom[gfilter]
+  p0 <- p0[gfilter]
+  p1 <- p1[gfilter]
+
   print(paste0("Number of genes with imputed expression: ", dim(expr)[2]))
 
-  return(list("expr"= expr, "exprlist" = exprlist))
+  return(list("expr"= expr, "exprlist" = exprlist, "chrom" = chrom, "p0" = p0, "p1" = "p1"))
 }
 
 # dat: a list with the following items:

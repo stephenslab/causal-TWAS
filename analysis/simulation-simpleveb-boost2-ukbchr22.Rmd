@@ -9,6 +9,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r plot functions}
 library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+
 source("~/causalTWAS/causal-TWAS/code/fit_mr.ash.R")
 
 summary_mr.ash <- function(fit){
@@ -17,44 +20,85 @@ summary_mr.ash <- function(fit){
   cat("pve = ", pve, "\n")
 }
 
-plot_beta <- function(beta,beta.pm, ...){
-  plot( beta, pch=19, col ="darkgreen", ...)
-  points(beta.pm, pch =19, col = "red")
-  legend("topright", legend=c("true beta", "posterior mean"),
-       col=c("darkgreen", "red"), pch=19)
-}
-
-plot_pip <- function(indi, pip, pipcut = 0.1) {
-  x <- barplot(indi, main = "PIP")
-  points(x, pip, pch=19, col="red")
-  pred <- which(pip > pipcut)
-  real <- which(indi==1)
-  tp <- length(intersect(pred, real))/length(pred)
-  fp <- 1 - tp
-  fn <- length(setdiff(real, pred))/length(real)
-  cat("false positive rate: ", fp, "\n")
-  cat("false negative rate: ", fn, "\n")
-}
 
 summary_mr.ash2 <- function(g.fit, s.fit, phenores, pipcut = 0.1){
   e.b <- rep(0, length(g.fit$beta))
   e.b[phenores$param$idx.cgene] <- phenores$param$e.beta
   cat("gene expression effect: \n")
   summary_mr.ash(g.fit)
-  plot_beta(e.b, g.fit$beta)
-  indi <- rep(0, length(g.fit$beta))
-  indi[phenores$param$idx.cgene] <- 1
-  pip <- get_pip(g.fit)
-  plot_pip(indi, pip, pipcut = pipcut)
   
   s.b <- rep(0, length(s.fit$beta))
   s.b[phenores$param$idx.cSNP] <- phenores$param$s.theta
   cat("snp effect: \n")
   summary_mr.ash(s.fit)
-  plot_beta(s.b, s.fit$beta)
+}
+
+
+plot_pip <- function(dt){
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+  
+  fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "PIP"))
+  return(fig)
+}
+
+plot_beta <- function(dt){
+  fig <- plot_ly(dt, x = ~p0, y = ~ TrueBeta, type = 'scatter', mode = 'markers', name ="Truth", text = ~paste("Name: ", name))
+  fig <- fig %>% add_trace(y = ~ EstBeta, name = 'Estimated',mode = 'markers')
+
+  fig <- fig %>% layout(yaxis = list(title = "beta"))
+  return(fig)
+}
+
+plot_p <- function(dt){
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+  
+  fig <- plot_ly(dt, x = ~p0, y = ~ PVALUE , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "p value"))
+  return(fig)
+}
+
+plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp){
+  a <- read.table(mrashres.gene , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+
+  p <- fread(gwasres.gene, header =T)
+  p[,"PVALUE"] <- -log10(p[,"PVALUE"])
+  colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
+  dt.gene <- merge(a, p, by = "name", all.x = T)
+
+  a <- read.table(mrashres.snp , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+
+  p <- fread(gwasres.snp, header =T)
+  p[,"PVALUE"] <- -log10(p[,"PVALUE"])
+  colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
+  dt.snp <- merge(a, p, by = "name", all.x = T)
+  
+  fig1 <- plot_pip(dt.gene)
+  fig2 <- plot_beta(dt.gene)
+  fig3 <- plot_p(dt.gene)
+  fig4 <- plot_pip(dt.snp)
+  fig5 <- plot_beta(dt.snp)
+  fig6 <- plot_p(dt.snp)
+
+  fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, nrows=6, shareX = T, titleY = T)
+  
+  fig <- fig %>% layout(autosize = F, width = 600, height = 800, margin = 0.02,
+    xaxis = list(title = "Genomic position"))
+  
+  fig <- fig %>% toWebGL()
+  fig
 }
 
 ```
+
 
 ```{r output dir}
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200503/"
@@ -69,19 +113,30 @@ readLines(paste0(simdatadir, "param-20200503-1.R"))
 ```
 
 MR.ASH2s results (start from gene):
-```{r sim 1 gene}
+```{r sim 1 gene, out.width = "98%", out.height="95%"}
 load(paste0(outputdir, "20200527-1-mr.ash2s.expr-res.Rd"))
 g.fit <- mr.ash2s.fit$fit1
 s.fit <-  mr.ash2s.fit$fit2
 summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200527-1"
+simtag <- "mr.ash2_20200503-1"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
 ```
 
 MR.ASH results (start from SNP):
-```{r sim 1 snp}
+Very similar to start from gene, therefore, not shown.
+```{r sim 1 snp, eval = F}
 load(paste0(outputdir, "20200527-1-mr.ash2s.snp-res.Rd"))
 g.fit <- mr.ash2s.fit$fit2
 s.fit <-  mr.ash2s.fit$fit1
 summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200527-1"
+simtag <- "mr.ash2_20200503-1"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.snp-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.snp-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
 ```
 
 ## Simulation 2
@@ -93,20 +148,18 @@ readLines(paste0(simdatadir, "param-20200503-2.R"))
 ```
 
 MR.ASH results (start from gene):
-```{r sim 2 gene}
+```{r sim 2 gene, out.width = "98%", out.height="95%"}
 load(paste0(outputdir, "20200527-2-mr.ash2s.expr-res.Rd"))
 g.fit <- mr.ash2s.fit$fit1
 s.fit <-  mr.ash2s.fit$fit2
 summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200527-2"
+simtag <- "mr.ash2_20200503-2"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
 ```
 
-MR.ASH results (start from SNP):
-```{r sim 2 snp}
-load(paste0(outputdir, "20200527-2-mr.ash2s.snp-res.Rd"))
-g.fit <- mr.ash2s.fit$fit2
-s.fit <-  mr.ash2s.fit$fit1
-summary_mr.ash2(g.fit, s.fit, phenores)
-```
 
 ## Simulation 3
 
@@ -117,20 +170,18 @@ readLines(paste0(simdatadir, "param-20200503-3.R"))
 ```
 
 MR.ASH results (start from gene):
-```{r sim 3 gene}
+```{r sim 3 gene, out.width = "98%", out.height="95%"}
 load(paste0(outputdir, "20200527-3-mr.ash2s.expr-res.Rd"))
 g.fit <- mr.ash2s.fit$fit1
 s.fit <-  mr.ash2s.fit$fit2
 summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200527-3"
+simtag <- "mr.ash2_20200503-3"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
 ```
 
-MR.ASH results (start from SNP):
-```{r sim 3 snp}
-load(paste0(outputdir, "20200527-3-mr.ash2s.snp-res.Rd"))
-g.fit <- mr.ash2s.fit$fit2
-s.fit <-  mr.ash2s.fit$fit1
-summary_mr.ash2(g.fit, s.fit, phenores)
-```
 
 ## Simulation 4
 
@@ -141,17 +192,14 @@ readLines(paste0(simdatadir, "param-20200503-4.R"))
 ```
 
 MR.ASH results (start from gene):
-```{r sim 4 gene}
+```{r sim 4 gene, out.width = "98%", out.height="95%"}
 load(paste0(outputdir, "20200527-4-mr.ash2s.expr-res.Rd"))
 g.fit <- mr.ash2s.fit$fit1
 s.fit <-  mr.ash2s.fit$fit2
 summary_mr.ash2(g.fit, s.fit, phenores)
-```
 
-MR.ASH results (start from SNP):
-```{r sim 4 snp}
-load(paste0(outputdir, "20200527-4-mr.ash2s.snp-res.Rd"))
-g.fit <- mr.ash2s.fit$fit2
-s.fit <-  mr.ash2s.fit$fit1
-summary_mr.ash2(g.fit, s.fit, phenores)
+tag <- "20200527-4"
+simtag <- "mr.ash2_20200503-4"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
 ```

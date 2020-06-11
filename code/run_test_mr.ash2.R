@@ -1,5 +1,4 @@
 library(mr.ash.alpha)
-library(VEB.Boost)
 
 args = commandArgs(trailingOnly=TRUE)
 if (length(args) != 4) {
@@ -14,7 +13,9 @@ codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"simulate_phenotype.R"))
-source(paste0(codedir,"simple_vebboost.R"))
+source(paste0(codedir,"mr.ash2.R"))
+source(paste0(codedir,"fit_mr.ash.R"))
+source(paste0(codedir,"gen_mr.ash2_output.R"))
 
 # genotype plink to R data file
 pfile <- args[1]
@@ -55,16 +56,27 @@ print(warnings())
 # run mr.ash2 (a simplified version of veb_boost)
 ## start with expression
 mr.ash2.fit <- mr.ash2(dat$expr, dat$G, phenores$Y, iter = 20)
+
+## save output
+g.fit <- mr.ash2.fit$fit1
+s.fit <-  mr.ash2.fit$fit2
+
+gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2.expr-res"))
+
 mr.ash2.fit$fit2$data$X <- NULL
 save(mr.ash2.fit, file = paste0(outname,"-mr.ash2.expr-res.Rd"))
 
 ## start with snp
 mr.ash2.fit <- mr.ash2(dat$G, dat$expr, phenores$Y, iter = 20)
+
+## save output
+g.fit <- mr.ash2.fit$fit2
+s.fit <-  mr.ash2.fit$fit1
+
+gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2.snp-res"))
+
 mr.ash2.fit$fit1$data$X <- NULL
 save(mr.ash2.fit, file = paste0(outname,"-mr.ash2.snp-res.Rd"))
-
-# run mr.ash2 (a simplified version of veb_boost)
-
 
 
 
