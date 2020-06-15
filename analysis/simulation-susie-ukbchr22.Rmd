@@ -132,3 +132,31 @@ print(paste0("SUISE results for regions around ", name))
 plot_all(susieres, mrashres.gene, mrashres.snp)
 ```
 
+## Simulation 3
+Priors:
+```{r para 3}
+readLines(paste0(outputdir, "prior-3.R"))
+```
+
+SUSIE results:
+```{r sim 3 setup}
+mrashtag <- "20200527-3"
+susietag <- "20200604-3"
+mrashres.gene <- paste0(mr.ash2dir, mrashtag, "-mr.ash2s.expr-res.expr.txt")
+mrashres.snp <- paste0(mr.ash2dir, mrashtag, "-mr.ash2s.expr-res.snp.txt")
+```
+```{r sim 3 1, out.width = "98%", out.height="95%"}
+
+name <- "MCM5"
+susieres <- paste0(outputdir, susietag,"-", name, "-susieres.txt")
+print(paste0("SUISE results for regions around ", name))
+plot_all(susieres, mrashres.gene, mrashres.snp)
+```
+
+```{r sim 3 2, out.width = "98%", out.height="95%"}
+
+name <- "CBX6"
+susieres <- paste0(outputdir, susietag,"-", name, "-susieres.txt")
+print(paste0("SUISE results for regions around ", name))
+plot_all(susieres, mrashres.gene, mrashres.snp)
+```
