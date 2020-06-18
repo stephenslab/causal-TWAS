@@ -1,4 +1,6 @@
 
+# global variables: phenores, exprres
+
 gen_mr.ash2_output <- function(g.fit, s.fit, outname){
   e.b <- rep(0, length(g.fit$beta))
   e.b[phenores$param$idx.cgene] <- phenores$param$e.beta

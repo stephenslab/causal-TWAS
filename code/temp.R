@@ -54,3 +54,14 @@ for (i in 1:4){
   gen_mr.ash2_output(g.fit, s.fit, outname)
 }
 
+
+fi0 <- "20200616-3-mr.ash2s.expr-res.expr.txt"
+fi <- read.table(fi0, header = T)
+
+fo <- merge(fi, wgtpos, by = "name")
+outc <- colnames(fi)
+outc[1:3] <- c("CHR", "P0", "P1")
+
+out <- fo[,outc]
+colnames(out)[1:3] <- colnames(fi)[1:3]
+write.table( out , file= fi0 , row.names=F, col.names=T, sep="\t", quote = F)

@@ -1,4 +1,6 @@
 
+library(logging)
+
 args = commandArgs(trailingOnly=TRUE)
 if (length(args) != 4) {
   stop("4 arguments must be supplied:
@@ -7,6 +9,15 @@ if (length(args) != 4) {
        * param R file
        * out file name", call.=FALSE)
 }
+
+addHandler(writeToFile, file="run_simulate_data.R.log", level='DEBUG')
+loginfo('script started ... ')
+
+loginfo("input arg 1 (genotype): %s ", args[1])
+loginfo("input arg 2 (weight): %s ", args[2])
+loginfo("input arg 3 (param): %s ", args[3])
+loginfo("input arg 4 (outname): %s ", args[4])
+
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
@@ -18,13 +29,13 @@ pfile <- args[1]
 pfileRd <- paste0(pfile, ".Rd")
 
 if (!file.exists(pfileRd)) {
-  print("format converting ...")
+  loginfo("genotype format converting ...")
   plink2Rd(pfile, pfileRd); gc()
 } # pfile.traw.gz & .raw.gz should exist
 
 # load genotype data and scale
 load(pfileRd)
-print("scaling ...")
+loginfo("genotype scaling ...")
 dat$G <- scaleRcpp(dat$G)
 
 # simulate phenotype
@@ -33,7 +44,10 @@ exprres <- cis_expr(dat, weight, method = "best", checksnps = F)
 
 outname <- args[4]
 save(exprres, file = paste0(outname, "-cis-expr.Rd"))
+loginfo("writing imputed expression file: %s",  paste0(outname, "-cis-expr.Rd"))
+
 # load(paste0(outname, "-cis-expr.Rd"))
+loginfo("expr scaling ...")
 dat$expr <-  scaleRcpp(exprres$expr)
 
 source(args[3])
@@ -46,4 +60,5 @@ phenores <- simulate_phenotype(dat, mode = "snp-expr",
 
 # write output
 save(phenores, file = paste0(outname, "-pheno.Rd"))
-print(warnings())
+loginfo("writing phenotype file: %s", paste0(outname, "-pheno.Rd"))
+logwarn(warnings())

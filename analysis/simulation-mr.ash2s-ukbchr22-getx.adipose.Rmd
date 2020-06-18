@@ -1,0 +1,207 @@
+---
+title: "Test a simpler version of veb-boost performance mr.ash2s on ukbiobank data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+We test the performance of mr.ash2s on ukbiobank data (chr22, n sample = 20,000). 
+We use weights from Fusion website, using [Adipose (subcutaneous) p < 0.01](http://gusevlab.org/projects/fusion/weights/GTEx.Adipose_Subcutaneous.P01.tar.bz2).
+Total features > 8,000. On chr22: 240.
+
+```{r plot functions}
+library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+
+source("~/causalTWAS/causal-TWAS/code/fit_mr.ash.R")
+
+summary_mr.ash <- function(fit){
+  cat("pi1 = ", 1-fit$pi[[1]], "\n")
+  pve <- get_pve(fit)
+  cat("pve = ", pve, "\n")
+}
+
+summary_mr.ash2 <- function(g.fit, s.fit, phenores, pipcut = 0.1){
+  e.b <- rep(0, length(g.fit$beta))
+  e.b[phenores$param$idx.cgene] <- phenores$param$e.beta
+  cat("gene expression effect: \n")
+  summary_mr.ash(g.fit)
+  
+  s.b <- rep(0, length(s.fit$beta))
+  s.b[phenores$param$idx.cSNP] <- phenores$param$s.theta
+  cat("snp effect: \n")
+  summary_mr.ash(s.fit)
+}
+
+plot_pip <- function(dt){
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+  
+  fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "PIP"))
+  return(fig)
+}
+
+plot_beta <- function(dt){
+  fig <- plot_ly(dt, x = ~p0, y = ~ TrueBeta, type = 'scatter', mode = 'markers', name ="Truth", text = ~paste("Name: ", name))
+  fig <- fig %>% add_trace(y = ~ EstBeta, name = 'Estimated',mode = 'markers')
+
+  fig <- fig %>% layout(yaxis = list(title = "beta"))
+  return(fig)
+}
+
+plot_p <- function(dt){
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+  
+  fig <- plot_ly(dt, x = ~p0, y = ~ PVALUE , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "p value"))
+  return(fig)
+}
+
+plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp){
+  a <- read.table(mrashres.gene , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+
+  p <- fread(gwasres.gene, header =T)
+  p[,"PVALUE"] <- -log10(p[,"PVALUE"])
+  colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
+  dt.gene <- merge(a, p, by = "name", all.x = T)
+
+  a <- read.table(mrashres.snp , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+
+  p <- fread(gwasres.snp, header =T)
+  p[,"PVALUE"] <- -log10(p[,"PVALUE"])
+  colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
+  dt.snp <- merge(a, p, by = "name", all.x = T)
+  
+  fig1 <- plot_pip(dt.gene)
+  fig2 <- plot_beta(dt.gene)
+  fig3 <- plot_p(dt.gene)
+  fig4 <- plot_pip(dt.snp)
+  fig5 <- plot_beta(dt.snp)
+  fig6 <- plot_p(dt.snp)
+
+  fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, nrows=6, shareX = T, titleY = T)
+  
+  fig <- fig %>% layout(autosize = F, width = 600, height = 800, margin = 0.02,
+    xaxis = list(title = "Genomic position"))
+  
+  fig <- fig %>% toWebGL()
+  fig
+}
+
+```
+
+
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
+```
+
+## Simulation 1
+True parameters:
+```{r para 1}
+load(paste0(simdatadir, "simu_20200616-1-pheno.Rd"))
+readLines(paste0(simdatadir, "param-20200616-1.R"))
+```
+
+MR.ASH2s results (start from gene):
+```{r sim 1 gene, out.width = "98%", out.height="95%"}
+load(paste0(outputdir, "20200616-1-mr.ash2s.expr-res.Rd"))
+g.fit <- mr.ash2s.fit$fit1
+s.fit <-  mr.ash2s.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200616-1"
+simtag <- "20200616-1"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+```
+
+MR.ASH results (start from SNP):
+Very similar to start from gene, therefore, not shown.
+```{r sim 1 snp, eval = F}
+load(paste0(outputdir, "20200616-1-mr.ash2s.snp-res.Rd"))
+g.fit <- mr.ash2s.fit$fit2
+s.fit <-  mr.ash2s.fit$fit1
+summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200616-1"
+simtag <- "20200616-1"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.snp-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.snp-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+```
+
+## Simulation 2
+
+True parameters:
+```{r para 2}
+load(paste0(simdatadir, "simu_20200616-2-pheno.Rd"))
+readLines(paste0(simdatadir, "param-20200616-2.R"))
+```
+
+MR.ASH results (start from gene):
+```{r sim 2 gene, out.width = "98%", out.height="95%"}
+load(paste0(outputdir, "20200616-2-mr.ash2s.expr-res.Rd"))
+g.fit <- mr.ash2s.fit$fit1
+s.fit <-  mr.ash2s.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200616-2"
+simtag <- "20200616-2"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+```
+
+
+## Simulation 3
+
+True parameters:
+```{r para 3}
+load(paste0(simdatadir, "simu_20200616-3-pheno.Rd"))
+readLines(paste0(simdatadir, "param-20200616-3.R"))
+```
+
+MR.ASH results (start from gene):
+```{r sim 3 gene, out.width = "98%", out.height="95%"}
+load(paste0(outputdir, "20200616-3-mr.ash2s.expr-res.Rd"))
+g.fit <- mr.ash2s.fit$fit1
+s.fit <-  mr.ash2s.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200616-3"
+simtag <- "20200616-3"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+```
+
+
+## Simulation 4
+
+True parameters:
+```{r para 4}
+load(paste0(simdatadir, "simu_20200616-4-pheno.Rd"))
+readLines(paste0(simdatadir, "param-20200616-4.R"))
+```
+
+MR.ASH results (start from gene):
+```{r sim 4 gene, out.width = "98%", out.height="95%"}
+load(paste0(outputdir, "20200616-4-mr.ash2s.expr-res.Rd"))
+g.fit <- mr.ash2s.fit$fit1
+s.fit <-  mr.ash2s.fit$fit2
+summary_mr.ash2(g.fit, s.fit, phenores)
+
+tag <- "20200616-4"
+simtag <- "20200616-4"
+plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+```

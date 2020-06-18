@@ -1,4 +1,5 @@
 library(mr.ash.alpha)
+library(logging)
 
 args = commandArgs(trailingOnly=TRUE)
 if (length(args) != 4) {
@@ -8,6 +9,15 @@ if (length(args) != 4) {
        * pheno Rd
        * out file name", call.=FALSE)
 }
+
+addHandler(writeToFile, file="run_mr.ash2s.R.log", level='DEBUG')
+loginfo('script started ... ')
+
+loginfo("input arg 1 (genotype): %s ", args[1])
+loginfo("input arg 2 (expr): %s ", args[2])
+loginfo("input arg 3 (pheno): %s ", args[3])
+loginfo("input arg 4 (outname): %s ", args[4])
+
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
@@ -28,11 +38,12 @@ if (!file.exists(pfileRd)) {
 
 # load genotype data and scale
 load(pfileRd)
-print("scaling ...")
+loginfo("genotype scaling ...")
 dat$G <- scaleRcpp(dat$G)
 
 # load expression Rd file, variable: exprres
 load(args[2])
+loginfo("expr scaling ...")
 dat$expr <-  scaleRcpp(exprres$expr)
 
 # load phenotype Rd file, variable: phenores
@@ -53,6 +64,8 @@ gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.expr-res"))
 
 mr.ash2s.fit$fit2$data$X <- NULL
 save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.expr-res.Rd"))
+
+gc()
 
 ## start with snp
 mr.ash2s.fit <- mr.ash2s(dat$G, dat$expr, phenores$Y, iter = 30)

@@ -48,11 +48,15 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
 
   * [Using some simple data](simulation_simpleveb-boost2.html)
   
-  * [Using UKbiobank data (chr22)](https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost2-ukbchr22.html)
+  * [Using UKbiobank data (chr22), fusion weights YFS ](https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost2-ukbchr22.html)
+  
+  * [Using UKbiobank data (chr22), fusion weights Adipose subcutaneous](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-gtex.adipose.html)
+  
+  * [Using UKbiobank data (chr22), weights of H3K27 from Xiaotong](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-H3K27.html)
   
 ## Test SUSIE for fine-mapping
   
-  * [Using UKbiobank data (chr22)](simulation-susie-ukbchr22.html)
+  * [Using UKbiobank data (chr22), fusion weights YFS](simulation-susie-ukbchr22.html)
 
   
 # Related software
