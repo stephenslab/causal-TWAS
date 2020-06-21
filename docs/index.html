@@ -321,7 +321,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -330,7 +330,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -339,10 +339,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-06-18
+<strong>Last updated:</strong> 2020-06-19
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>causal-TWAS/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -358,22 +358,22 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebeae6798fa58ec2da8b841fdbcd2ed38e35b47b1targetblankbeae679a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/beae6798fa58ec2da8b841fdbcd2ed38e35b47b1" target="_blank">beae679</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreed9c73d0fe9923cced353401fa5b2a3fab2cafe9ftargetblankd9c73d0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/d9c73d0fe9923cced353401fa5b2a3fab2cafe9f" target="_blank">d9c73d0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebeae6798fa58ec2da8b841fdbcd2ed38e35b47b1targetblankbeae679a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreed9c73d0fe9923cced353401fa5b2a3fab2cafe9ftargetblankd9c73d0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -384,22 +384,13 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-mr.ash2s-ukbchr22-H3K27.Rmd
-    Untracked:  analysis/simulation-mr.ash2s-ukbchr22-getx.adipose.Rmd
-    Untracked:  code/workflow-ashtest2.ipynb
-    Untracked:  code/workflow-ashtest3.ipynb
+    Untracked:  analysis/simulation-susie-ukbchr22-gtex.adipose.Rmd
 
 Unstaged changes:
-    Modified:   .gitignore
     Modified:   analysis/_site.yml
-    Modified:   analysis/index.Rmd
-    Modified:   code/gen_mr.ash2_output.R
-    Modified:   code/run_simulate_data.R
-    Modified:   code/run_test_mr.ash2s.R
-    Modified:   code/simulate_phenotype.R
-    Modified:   code/temp.R
     Modified:   code/workflow-ashtest.ipynb
-    Modified:   code/workflow-data.ipynb
+    Modified:   code/workflow-ashtest2.ipynb
+    Modified:   code/workflow-ashtest3.ipynb
 
 </code></pre>
 <p>
@@ -438,6 +429,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f41a1def4f75e0ad06a8a4ba625e2e3e08176227/analysis/index.Rmd" target="_blank">f41a1de</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-06-18
+</td>
+<td>
+logging and more weights for chr22
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/f41a1def4f75e0ad06a8a4ba625e2e3e08176227/docs/index.html" target="_blank">f41a1de</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-06-18
+</td>
+<td>
+logging and more weights for chr22
+</td>
+</tr>
 <tr>
 <td>
 Rmd

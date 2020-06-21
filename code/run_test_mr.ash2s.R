@@ -45,15 +45,18 @@ dat$G <- scaleRcpp(dat$G)
 load(args[2])
 loginfo("expr scaling ...")
 dat$expr <-  scaleRcpp(exprres$expr)
+gc()
 
 # load phenotype Rd file, variable: phenores
 load(args[3])
+phenores$Y <-  phenores$Y - mean(phenores$Y)
 
 # run mr.ash2s (a simplified version of veb_boost)
 
 outname <- args[4]
 
 ## start with expression
+loginfo("mr.ash2s started from gene ...")
 mr.ash2s.fit <- mr.ash2s(dat$expr, dat$G, phenores$Y, iter = 30)
 
 ## save output
@@ -65,9 +68,13 @@ gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.expr-res"))
 mr.ash2s.fit$fit2$data$X <- NULL
 save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.expr-res.Rd"))
 
+logwarn(str(summary(warnings())))
 gc()
+loginfo("mr.ash2s started from gene done.")
+
 
 ## start with snp
+loginfo("mr.ash2s started from SNP ...")
 mr.ash2s.fit <- mr.ash2s(dat$G, dat$expr, phenores$Y, iter = 30)
 
 ## save output
@@ -79,7 +86,8 @@ gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.snp-res"))
 mr.ash2s.fit$fit1$data$X <- NULL
 save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.snp-res.Rd"))
 
-
+logwarn(str(summary(warnings())))
+loginfo("mr.ash2s started from SNP done.")
 
 
 

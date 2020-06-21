@@ -37,20 +37,22 @@ if (!file.exists(pfileRd)) {
 load(pfileRd)
 loginfo("genotype scaling ...")
 dat$G <- scaleRcpp(dat$G)
+gc()
 
 # simulate phenotype
+outname <- args[4]
+loginfo("generating imputed expression file: %s",  paste0(outname, "-cis-expr.Rd"))
+
 weight <- args[2]
 exprres <- cis_expr(dat, weight, method = "best", checksnps = F)
-
-outname <- args[4]
 save(exprres, file = paste0(outname, "-cis-expr.Rd"))
-loginfo("writing imputed expression file: %s",  paste0(outname, "-cis-expr.Rd"))
 
 # load(paste0(outname, "-cis-expr.Rd"))
 loginfo("expr scaling ...")
 dat$expr <-  scaleRcpp(exprres$expr)
 
 source(args[3])
+loginfo("generating phenotype file: %s", paste0(outname, "-pheno.Rd"))
 phenores <- simulate_phenotype(dat, mode = "snp-expr",
                                 pve.expr = pve.expr,
                                 pve.snp = pve.snp,
@@ -60,5 +62,6 @@ phenores <- simulate_phenotype(dat, mode = "snp-expr",
 
 # write output
 save(phenores, file = paste0(outname, "-pheno.Rd"))
-loginfo("writing phenotype file: %s", paste0(outname, "-pheno.Rd"))
-logwarn(warnings())
+
+logwarn(str(summary(warnings())))
+loginfo("simulation done.")

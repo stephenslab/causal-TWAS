@@ -33,5 +33,18 @@ probably best to start by trying the mr.ash.alpha package. It would be great if 
 
 Try mr.ash using real genotype data. We can try 0.5 heritability. If using snps on one chromosome, we may need a few thousand samples, if using whole genome, we may need 10,000 samples. 
     
-4. Try VEB-Boost
+4. About memory usage
+
+ukb chr22, 20000 samples, Rd file (0.9G)
+
+* simulate data
+
+  - `load` need 13.8G (`dat` is 13.8G by `object.size()`).
+  - `scale` 25.8G.
+  - `cis_expr` 15G
+  - `simulate_phenotype` 15G
+
+* mr.ash2s
+27
+
 

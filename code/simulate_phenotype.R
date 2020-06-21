@@ -64,6 +64,8 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
     exprlist[[gname]][["n"]] <- n
     exprlist[[gname]][["nmiss"]] <- nmiss
     exprlist[[gname]][["missrate"]] <- nmiss/n
+    
+    gc()
   }
 
   expr <- do.call(cbind, lapply(exprlist, '[[', "expr"))
@@ -80,7 +82,8 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
   p1 <- p1[gfilter]
 
   print(paste0("Number of genes with imputed expression: ", dim(expr)[2]))
-
+  gc()
+  
   return(list("expr"= expr, "exprlist" = exprlist, "chrom" = chrom, "p0" = p0, "p1" = p1))
 }
 

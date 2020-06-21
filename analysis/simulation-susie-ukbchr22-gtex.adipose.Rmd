@@ -1,0 +1,83 @@
+---
+title: "Test SUSIE for regions near genes (500kb flanking)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r plot functions}
+library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+
+plot_pip <- function(dt){
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+  
+  fig <- plot_ly(dt, x = ~ pos, y = ~ pip, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "PIP"))
+  return(fig)
+}
+
+plot_all <- function(susieres, mrashres.gene, mrashres.snp){
+  dt <- read.table(susieres , header =T)
+  
+  a <- read.table(mrashres.gene , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+  
+  dt.gene <- merge(dt, a, by= "name")
+
+  a <- read.table(mrashres.snp , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+  
+  dt.snp <- merge(dt, a, by= "name")
+  
+  fig1 <- plot_pip(dt.gene)
+  fig2 <- plot_pip(dt.snp)
+
+  fig <- subplot(fig1, fig2, nrows= 2, shareX = T, titleY = T)
+  
+  fig <- fig %>% layout(autosize = F, width = 600, height = 600, margin = 0.02,
+    xaxis = list(title = "Genomic position"))
+  
+  fig <- fig %>% toWebGL()
+  fig
+}
+
+```
+
+
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
+outputdir <- "~/causalTWAS/simulations/simulation_susietest_20200616/"
+mr.ash2dir <-  "~/causalTWAS/simulations/simulation_ashtest_20200616/"
+```
+
+## Simulation 1
+Priors:
+```{r para 1}
+mrashtag <- "20200616-1"
+susietag <- "20200616-1"
+readLines(paste0(outputdir, "prior-", susietag, ".R"))
+```
+
+```{r sim 1 setup}
+mrashres.gene <- paste0(mr.ash2dir, mrashtag, "-mr.ash2s.expr-res.expr.txt")
+mrashres.snp <- paste0(mr.ash2dir, mrashtag, "-mr.ash2s.expr-res.snp.txt")
+```
+
+### SUSIE results: PIP > 0.5 or causal genes
+
+```{r sim 1 examples, out.width = "98%", out.height="95%"}
+nameall <- read.table(paste0(outputdir, "gene-flank500kb-", susietag, ".txt"))[ , 4]
+for (name in nameall){
+  susieres <- paste0(outputdir, susietag,"-", name, "-susieres.txt")
+  print(paste0("SUISE results for regions around ", name))
+  plot_all(susieres, mrashres.gene, mrashres.snp)
+}
+```
