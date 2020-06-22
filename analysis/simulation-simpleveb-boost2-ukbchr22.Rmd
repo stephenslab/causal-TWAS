@@ -203,3 +203,49 @@ simtag <- "mr.ash2_20200503-4"
 plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
          paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
 ```
+
+## Simulation 5
+
+MR.ASH results (start from gene):
+```{r sim 5 gene, out.width = "98%", out.height="95%"}
+tag <- "20200527-5"
+tag2 <- "expr-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+
+plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+```
+
+MR.ASH results (start from SNP):
+```{r sim 5 snp, out.width = "98%", out.height="95%"}
+tag <- "20200527-5"
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```
+
+## Simulation 6
+
+MR.ASH results (start from gene):
+```{r sim 6 gene, out.width = "98%", out.height="95%"}
+tag <- "20200527-6"
+tag2 <- "expr-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+
+plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+```
+
+MR.ASH results (start from SNP):
+```{r sim 6 snp, out.width = "98%", out.height="95%"}
+tag <- "20200527-6"
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```

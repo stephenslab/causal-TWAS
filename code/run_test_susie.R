@@ -6,8 +6,8 @@ if (length(args) != 6) {
        * genotype file name
        * expr Rd
        * pheno Rd
-       * prior.R (will be sourced)
-       * region file (optional, chrnumber<tab>start<tab>end<name>)
+       * param txt
+       * region file (chr, p0, p1, name, optional: pip, ifcausal, ... )
        * out file name", call.=FALSE)
 }
 
@@ -37,13 +37,17 @@ dat$expr <-  scaleRcpp(exprres$expr)
 load(args[3])
 
 # run susie using given priors
-
-source(args[4]) # priors
-
-outname <- args[6]
+param <- read.table(args[4], header = T, row.names = 1)
 
 regions <- read.table(args[5], stringsAsFactors = F, header =T)
 
+flank = 500000
+if (filter) {
+TODO
+}
+
+
+outname <- args[6]
 for (i in 1:nrow(regions)){
   chr <- regions[i, 1]
   p0 <- regions[i, 2]

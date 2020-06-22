@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval=F)
 ```
 
 ```{r plot functions}
@@ -159,4 +159,10 @@ name <- "CBX6"
 susieres <- paste0(outputdir, susietag,"-", name, "-susieres.txt")
 print(paste0("SUISE results for regions around ", name))
 plot_all(susieres, mrashres.gene, mrashres.snp)
+```
+
+Zoomlocus view for CBX7 region:
+```{r zoomlocus, out.width = "85%", eval = T}
+file.copy("/home/simingz/causalTWAS/simulations/simulation_ashtest_20200503/snp_200622_CBX7/chr22_39026778-40048655.pdf", "output")
+knitr::include_graphics("output/chr22_39026778-40048655.pdf")
 ```

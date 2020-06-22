@@ -1,5 +1,29 @@
-
 # global variables: phenores, exprres
+
+para_mr.ash <- function(fit){
+  pi1 <-  1-fit$pi[[1]]
+  pve <- get_pve(fit)
+  p <- c(pi1, pve)
+  names(p) <- c("pi1", "pve")
+  return(p)
+}
+
+para_mr.ash2 <- function(g.fit, s.fit){
+  
+  gpara <- para_mr.ash(g.fit)
+  names(gpara) <- paste0("gene.", names(gpara))
+  
+  spara <- para_mr.ash(s.fit)
+  names(spara) <- paste0("snp.", names(spara))
+  
+  outdf <- data.frame("estimated" = c(gpara,spara))
+  outdf$truth <- c(phenores$param$J.c/phenores$param$J,
+                   phenores$param$pve.expr.truth,
+                   phenores$param$M.c/phenores$param$M,
+                   phenores$param$pve.snp.truth)
+  
+  return(outdf)
+}
 
 gen_mr.ash2_output <- function(g.fit, s.fit, outname){
   e.b <- rep(0, length(g.fit$beta))
@@ -48,5 +72,7 @@ gen_mr.ash2_output <- function(g.fit, s.fit, outname){
   c.outdf[, "p0"] <- c.outdf[, "p0"] - 1 # bed format, for locuszoom
 
   write.table(c.outdf, file= paste0(outname, ".causal-snpexpr.bed") , row.names=F, col.names=F, sep="\t", quote = F)
-
+  
+  para <- para_mr.ash2(g.fit, s.fit)
+  write.table(para , file= paste0(outname, ".param.txt") , row.names=T, col.names=T, sep="\t", quote = F)
 }

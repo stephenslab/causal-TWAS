@@ -45,6 +45,6 @@ ukb chr22, 20000 samples, Rd file (0.9G)
   - `simulate_phenotype` 15G
 
 * mr.ash2s
-27
+27G
 
 

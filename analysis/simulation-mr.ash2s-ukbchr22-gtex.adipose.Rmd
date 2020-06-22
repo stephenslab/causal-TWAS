@@ -108,100 +108,130 @@ outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
 ```
 
 ## Simulation 1
-True parameters:
-```{r para 1}
-load(paste0(simdatadir, "simu_20200616-1-pheno.Rd"))
-readLines(paste0(simdatadir, "param-20200616-1.R"))
-```
-
 MR.ASH2s results (start from gene):
 ```{r sim 1 gene, out.width = "98%", out.height="95%"}
-load(paste0(outputdir, "20200616-1-mr.ash2s.expr-res.Rd"))
-g.fit <- mr.ash2s.fit$fit1
-s.fit <-  mr.ash2s.fit$fit2
-summary_mr.ash2(g.fit, s.fit, phenores)
-
 tag <- "20200616-1"
-simtag <- "20200616-1"
-plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+tag2 <- "expr-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
 ```
 
 MR.ASH results (start from SNP):
-Very similar to start from gene, therefore, not shown.
 ```{r sim 1 snp, eval = F}
-load(paste0(outputdir, "20200616-1-mr.ash2s.snp-res.Rd"))
-g.fit <- mr.ash2s.fit$fit2
-s.fit <-  mr.ash2s.fit$fit1
-summary_mr.ash2(g.fit, s.fit, phenores)
-
 tag <- "20200616-1"
-simtag <- "20200616-1"
-plot_all(paste0(outputdir, tag, "-mr.ash2s.snp-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.snp-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
 ```
 
 ## Simulation 2
 
-True parameters:
-```{r para 2}
-load(paste0(simdatadir, "simu_20200616-2-pheno.Rd"))
-readLines(paste0(simdatadir, "param-20200616-2.R"))
-```
-
 MR.ASH results (start from gene):
 ```{r sim 2 gene, out.width = "98%", out.height="95%"}
-load(paste0(outputdir, "20200616-2-mr.ash2s.expr-res.Rd"))
-g.fit <- mr.ash2s.fit$fit1
-s.fit <-  mr.ash2s.fit$fit2
-summary_mr.ash2(g.fit, s.fit, phenores)
-
 tag <- "20200616-2"
-simtag <- "20200616-2"
-plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
-```
+tag2 <- "expr-res"
 
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```
+MR.ASH results (start from snp):
+```{r sim 2 snp, out.width = "98%", out.height="95%"}
+tag <- "20200616-2"
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```
 
 ## Simulation 3
 
-True parameters:
-```{r para 3}
-load(paste0(simdatadir, "simu_20200616-3-pheno.Rd"))
-readLines(paste0(simdatadir, "param-20200616-3.R"))
-```
-
 MR.ASH results (start from gene):
 ```{r sim 3 gene, out.width = "98%", out.height="95%"}
-load(paste0(outputdir, "20200616-3-mr.ash2s.expr-res.Rd"))
-g.fit <- mr.ash2s.fit$fit1
-s.fit <-  mr.ash2s.fit$fit2
-summary_mr.ash2(g.fit, s.fit, phenores)
-
 tag <- "20200616-3"
-simtag <- "20200616-3"
-plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
-```
+tag2 <- "expr-res"
 
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```
+MR.ASH results (start from snp):
+```{r sim 3 snp, out.width = "98%", out.height="95%"}
+tag <- "20200616-3"
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```
 
 ## Simulation 4
 
-True parameters:
-```{r para 4}
-load(paste0(simdatadir, "simu_20200616-4-pheno.Rd"))
-readLines(paste0(simdatadir, "param-20200616-4.R"))
-```
-
 MR.ASH results (start from gene):
 ```{r sim 4 gene, out.width = "98%", out.height="95%"}
-load(paste0(outputdir, "20200616-4-mr.ash2s.expr-res.Rd"))
-g.fit <- mr.ash2s.fit$fit1
-s.fit <-  mr.ash2s.fit$fit2
-summary_mr.ash2(g.fit, s.fit, phenores)
-
 tag <- "20200616-4"
-simtag <- "20200616-4"
-plot_all(paste0(outputdir, tag, "-mr.ash2s.expr-res.expr.txt"), paste0(simdatadir, simtag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.expr-res.snp.txt"), paste0(simdatadir, simtag, ".snpgwas.txt.gz"))
+tag2 <- "expr-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```
+
+MR.ASH results (start from snp):
+```{r sim 4 snp, out.width = "98%", out.height="95%"}
+tag <- "20200616-4"
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+```
+
+## Simulation 5
+
+MR.ASH results (start from gene):
+```{r sim 5 gene, out.width = "98%", out.height="95%"}
+tag <- "20200616-5"
+tag2 <- "expr-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+
+plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+```
+
+MR.ASH results (start from SNP):
+```{r sim 5 snp, out.width = "98%", out.height="95%"}
+tag <- "20200616-5"
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+
+plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+```
+
+## Simulation 6
+
+MR.ASH results (start from gene):
+```{r sim 6 gene, out.width = "98%", out.height="95%"}
+tag <- "20200616-6"
+tag2 <- "expr-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+
+plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+```
+
+MR.ASH results (start from SNP):
+```{r sim 6 snp, out.width = "98%", out.height="95%"}
+tag <- "20200616-6"
+tag2 <- "snp-res"
+
+param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+print(param)
+
+plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
+         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
 ```

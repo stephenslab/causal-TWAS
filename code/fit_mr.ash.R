@@ -35,7 +35,8 @@ get_phi <- function(fit) {
 }
 
 get_pve <- function(fit) {
-  n <- dim(fit$data$Z)[1]
+  y <- data.frame(y = fit$data$y)
+  n <- dim(y)[1]
   v <- fit$data$sa2 %*% fit$pi
   v1 <- sum(fit$data$w)/n * v
   pve <- v1/(v1 + fit$sigma2)

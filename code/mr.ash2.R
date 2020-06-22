@@ -49,18 +49,10 @@ mr.ashs                      = function(X, y, sa2 = NULL,
   
   # set sa2 if missing
   if ( is.null(sa2) ) {
-    if ( is.null(beta.init) ) {
-      sa2      = (2^((0:19) / 20) - 1)^2
-      #betahat    = (t(X) %*% y) / n
-      #sa2        = logspace( b = 2 * ceiling(max(betahat^2)), length = K)
-    } else {
-      sa2      = (2^((0:19) / 5) - 1)^2
-      #sa2.max  = 100 * max(data$beta^2) / sigma2
-      #sa2      = c(0, sa2.max * 2^(0:18) / 2^18)
-    }
+    sa2             = (2^((0:19) / 20) - 1)^2
   }
-  K            = length(sa2);
-  data$sa2     = sa2
+  K                 = length(sa2)
+  data$sa2          = sa2
   
   # precalculate --- > this step will double memory usage of X. 
   if ( is.null(w)) {
@@ -188,6 +180,8 @@ mr.ash2s <- function(X1, X2, y, iter = 50){
 
   pi1 <- fit.init$pi
   pi2 <- fit.init$pi
+  
+  sa2 <- fit.init$data$sa2
 
   sigma2 <- fit.init$sigma2
   
@@ -205,6 +199,7 @@ mr.ash2s <- function(X1, X2, y, iter = 50){
     fit1 <- mr.ashs(X1, y1,
                    beta.init = beta1,
                    sigma2 = sigma2,
+                   sa2 = sa2,
                    pi = pi1,
                    w = w1,
                    max.iter = 1)
@@ -216,6 +211,7 @@ mr.ash2s <- function(X1, X2, y, iter = 50){
     fit2 <- mr.ashs(X2, y2,
                    beta.init = beta2,
                    sigma2 = sigma2,
+                   sa2 = sa2,
                    pi = pi2,
                    w = w2,
                    max.iter = 1)

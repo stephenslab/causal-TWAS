@@ -154,7 +154,7 @@ simulate_phenotype<- function(dat,
                        sigma_theta, sigma_beta,
                        idx.cSNP, idx.cgene, M.c, J.c,
                        expr.meanvar,
-                       pve.snp.truth, pve.expr.truth)
+                       pve.snp.truth, pve.expr.truth, J, M)
 
   return(list("Y" = Y,"param" = param))
 }

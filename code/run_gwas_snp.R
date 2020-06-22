@@ -25,7 +25,7 @@ if (length(args) == 3){
 
   geno <- dat$G
 
-  GWAA(geno, pheno, snpname = snpname, anno = anno, outname, family = gaussian, ncore = 5, nSplits = 10, compress = T)
+  GWAA(geno, pheno, snpname = snpname, anno = anno, outname, family = gaussian, ncore = 3, nSplits = 30, compress = T)
 
 } else {
   regions <- read.table(args[4], stringsAsFactors = F)
