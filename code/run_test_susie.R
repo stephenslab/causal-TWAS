@@ -39,43 +39,48 @@ load(args[3])
 # run susie using given priors
 param <- read.table(args[4], header = T, row.names = 1)
 
+prior.gene <- param["gene.pi1", "estimated"]
+prior.SNP <- param["snp.pi1", "estimated"]
+
 regions <- read.table(args[5], stringsAsFactors = F, header =T)
 
-flank = 500000
+filter <- T
 if (filter) {
-TODO
+  regions <- regions[regions$ifcausal == 1 | regions$PIP > 0.3, ]
+  flank = 500000
+  regions$p0 <- regions$p0 - flank
+  regions$p1 <- regions$p1 + flank
 }
-
 
 outname <- args[6]
 for (i in 1:nrow(regions)){
-  chr <- regions[i, 1]
-  p0 <- regions[i, 2]
-  p1 <- regions[i, 3]
-  name <- regions[i, 4]
-  
+  chr <- regions[i, "chr"]
+  p0 <- regions[i, "p0"]
+  p1 <- regions[i, "p1"]
+  name <- regions[i, "name"]
+
   susieres <- list()
   print(name)
-  
+
   idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p1 < p1
   idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
-  
+
   X.gene <- exprres$expr[ , idx.gene, drop = F]
   X.SNP <-  dat$G[ , idx.SNP, drop = F]
 
   prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
 
   susieres[["susie"]] <- susie(cbind(X.gene, X.SNP), phenores$Y, L=1, prior_weights = prior)
-  
+
   anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene])
   anno.SNP <- cbind(dat$snp[idx.SNP,], dat$chr[idx.SNP,], dat$pos[idx.SNP,])
   susieres[["anno"]] <- rbind(anno.gene, anno.SNP)
-  
+
   save(susieres, file = paste(outname, name, "susieres.Rd", sep = "-"))
-  
+
   outdf <- cbind(susieres[["anno"]], susieres[["susie"]]$pip)
   colnames(outdf) <- c("name", "chr", "pos", "pip")
-  
+
   write.table( outdf , file= paste(outname, name, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
 }
 
