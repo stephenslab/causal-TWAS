@@ -56,9 +56,11 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
   
 ## Test SUSIE for fine-mapping
   
-  * [Using UKbiobank data (chr22), fusion weights YFS](simulation-susie-ukbchr22.html)
+  * [Using UKbiobank data (chr22), fusion weights YFS,  SUSIE `L=1`](simulation-susie-ukbchr22.html)
+  * [Using UKbiobank data (chr22), fusion weights YFS, SUSIE `L=2`](simulation-susie-ukbchr22-L=2.html)
+  * [Using UKbiobank data (chr22), fusion weights YFS,  SUSIE `L=3`](simulation-susie-ukbchr22-L=3.html)
   
-  * [Using UKbiobank data (chr22), fusion weights Adipose](simulation-susie-ukbchr22-gtex.adipose.html)
+  * [Using UKbiobank data (chr22), fusion weights Adipose, `L=1`](simulation-susie-ukbchr22-gtex.adipose.html)
 
   
 # Related software
