@@ -58,7 +58,7 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
   
   * [Using UKbiobank data (chr22), fusion weights YFS](simulation-susie-ukbchr22.html)
   
-  * [Using UKbiobank data (chr22), fusion weights Adipose](simulation-susie-gtex.adipose.html)
+  * [Using UKbiobank data (chr22), fusion weights Adipose](simulation-susie-ukbchr22-gtex.adipose.html)
 
   
 # Related software
