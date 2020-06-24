@@ -68,7 +68,7 @@ mrashres.snp <- paste0(mr.ash2dir, tag, "-mr.ash2s.", tag2, ".snp.txt")
 
 ### SUSIE results: PIP > 0.3 or causal genes
 
-```{r sim 5 examples, include= F, echo = F, eval = F, warning= F}
+```{r sim 5, include= F, echo = F, eval = F, warning= F}
 # displaying not right
 resall <- Sys.glob(paste0(outputdir, tag, ".", tag2, "*-susieres.txt"))
 l <- htmltools::tagList()
