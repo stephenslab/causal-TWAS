@@ -85,7 +85,6 @@ susieres <- paste0(outputdir, susietag,".L3-", name, "-susieres.txt")
 plot_all(susieres, mrashres.gene, mrashres.snp, name)
 ```
 
-
 ### FALSE negatives in mr.ash2
 ```{r sim 1 6, out.width = "98%", out.height="95%"}
 name <- "CBX6"

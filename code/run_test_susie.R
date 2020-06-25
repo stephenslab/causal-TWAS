@@ -12,6 +12,8 @@ if (length(args) < 6) {
        * L (default 1, L in susie, optional)", call.=FALSE)
 }
 
+# pay attention to filter <- T/F
+
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
@@ -46,7 +48,7 @@ prior.SNP <- param["snp.pi1", "estimated"]
 
 regions <- read.table(args[5], stringsAsFactors = F, header =T)
 
-filter <- F
+filter <- T
 if (filter) {
   regions <- regions[regions$ifcausal == 1 | regions$PIP > 0.3, ]
   flank = 500000

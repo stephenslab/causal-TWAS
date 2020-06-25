@@ -70,7 +70,7 @@ mrashres.snp <- paste0(mr.ash2dir, tag, "-mr.ash2s.", tag2, ".snp.txt")
 
 ```{r sim 5, include= F, echo = F, eval = F, warning= F}
 # displaying not right
-resall <- Sys.glob(paste0(outputdir, tag, ".", tag2, "*-susieres.txt"))
+resall <- Sys.glob(paste0(outputdir, tag, ".", tag2, ".L2*-susieres.txt"))
 l <- htmltools::tagList()
 res <- resall[1]
 for (i in 1:8){
@@ -83,7 +83,7 @@ l
 
 ```{r sim 5 examples,  out.width = "98%", out.height="95%", warning= F}
 # displaying not right
-res <- paste0(outputdir, tag, ".", tag2, "-LL22NC03-86G7.1-susieres.txt")
-name <- gsub(".*res-(.+)-susie.*", "\\1", res)
+res <- paste0(outputdir, tag, ".", tag2, ".L2-LL22NC03-86G7.1-susieres.txt")
+name <- gsub(".*.L2-(.+)-susie.*", "\\1", res)
 plot_all(res, mrashres.gene, mrashres.snp, name)
 ```
