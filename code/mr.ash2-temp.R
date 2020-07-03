@@ -224,6 +224,10 @@ mr.ash2s <- function(X1, X2, y, iter = 30, mr.ash.init = NULL){
   sigma2 <- fit.init$sigma2
 
   rm(fit.init)
+  if (!exists(X1)) {
+    X1 <- X[, 1:p1]
+    X2 <- X[, (p1 + 1): (p1 + p2)]
+  }
   rm(X);gc()
 
   # start iteration (from X1)

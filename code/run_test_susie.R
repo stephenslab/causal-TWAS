@@ -50,18 +50,21 @@ regions <- read.table(args[5], stringsAsFactors = F, header =T)
 
 filter <- T
 if (filter) {
-  regions <- regions[regions$ifcausal == 1 | regions$PIP > 0.3, ]
+  #regions <- regions[regions$ifcausal == 1 | regions$PIP > 0.3, ]
+  regions <- regions[regions$PIP > 0.3, ]
   flank = 500000
   regions$p0 <- regions$p0 - flank
   regions$p1 <- regions$p1 + flank
 }
 
 outname <- args[6]
-L = 1
+L = 3
 if (length(args) == 7){
   L = as.numeric(args[7])
   outname <- paste0(outname, ".L", L)
 }
+
+outlist <- list()
 
 for (i in 1:nrow(regions)){
   chr <- regions[i, "chr"]
@@ -92,8 +95,11 @@ for (i in 1:nrow(regions)){
   colnames(outdf) <- c("name", "chr", "pos", "pip")
 
   write.table( outdf , file= paste(outname, name, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
+
+  outlist[[name]] <- outdf[outdf[, "name"] == name, ]
 }
 
-
+outgdf <- do.call(rbind, outlist)
+write.table( outgdf , file= paste(outname, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
 
 

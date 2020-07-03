@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = F)
 library(mr.ash.alpha)
 source("~/causalTWAS/causal-TWAS/code/fit_mr.ash.R")
 source("~/causalTWAS/causal-TWAS/code/mr.ash2.R")
@@ -121,5 +121,37 @@ plot_beta(beta[gene.idx], fit$fit2$beta, main = "beta for gene effect")
 print("for SNP effect: ")
 summary_mr.ash(fit$fit1)
 plot_beta(beta[SNP.idx], fit$fit1$beta, main = "beta for SNP effect")
+```
+
+### init with lasso
+
+```{r run mr.ash2, lasso}
+X.gene <- X[,gene.idx]
+X.SNP <- X[, SNP.idx]
+fit <- mr.ash2s(X.gene, X.SNP, y, mr.ash.init = "lasso")
+
+print("for gene effect: ")
+summary_mr.ash(fit$fit1)
+plot_beta(beta[gene.idx], fit$fit1$beta, main = "beta for gene effect")
+
+print("for SNP effect: ")
+summary_mr.ash(fit$fit2)
+plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
+```
+
+### init with lasso SNP
+
+```{r run mr.ash2, lassosnp}
+X.gene <- X[,gene.idx]
+X.SNP <- X[, SNP.idx]
+fit <- mr.ash2s(X.gene, X.SNP, y, mr.ash.init = "lassoX2")
+
+print("for gene effect: ")
+summary_mr.ash(fit$fit1)
+plot_beta(beta[gene.idx], fit$fit1$beta, main = "beta for gene effect")
+
+print("for SNP effect: ")
+summary_mr.ash(fit$fit2)
+plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
 ```
 

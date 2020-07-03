@@ -44,7 +44,7 @@ outname <- args[4]
 loginfo("generating imputed expression file: %s",  paste0(outname, "-cis-expr.Rd"))
 
 weight <- args[2]
-exprres <- cis_expr(dat, weight, method = "best", checksnps = F)
+exprres <- cis_expr(dat, weight, method = "lasso", checksnps = F)
 save(exprres, file = paste0(outname, "-cis-expr.Rd"))
 
 # load(paste0(outname, "-cis-expr.Rd"))

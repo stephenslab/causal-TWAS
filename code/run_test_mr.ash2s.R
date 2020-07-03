@@ -1,4 +1,3 @@
-library(mr.ash.alpha)
 library(logging)
 
 args = commandArgs(trailingOnly=TRUE)
@@ -36,10 +35,8 @@ if (!file.exists(pfileRd)) {
   plink2Rd(pfile, pfileRd); gc()
 } # pfile.traw.gz & .raw.gz should exist
 
-# load genotype data and scale
+# load genotype data
 load(pfileRd)
-loginfo("genotype scaling ...")
-dat$G <- scaleRcpp(dat$G)
 
 # load expression Rd file, variable: exprres
 load(args[2])
@@ -51,43 +48,52 @@ gc()
 load(args[3])
 phenores$Y <-  phenores$Y - mean(phenores$Y)
 
-# run mr.ash2s (a simplified version of veb_boost)
-
 outname <- args[4]
 
-## start with expression
-loginfo("mr.ash2s started from gene ...")
-mr.ash2s.fit <- mr.ash2s(dat$expr, dat$G, phenores$Y, iter = 30)
+# get ld information before genotype scaling
+get_ld(outname)
+
+# scale genotype
+loginfo("genotype scaling ...")
+dat$G <- scaleRcpp(dat$G)
+gc()
+
+# run mr.ash2s (a simplified version of veb_boost)
+
+## mr.ash.init = lasso for gene and snp
+loginfo("mr.ash2s init from lasso ...")
+mr.ash2s.fit <- mr.ash2s(dat$expr, dat$G, phenores$Y, iter = 30, mr.ash.init = "lasso")
 
 ## save output
 g.fit <- mr.ash2s.fit$fit1
 s.fit <-  mr.ash2s.fit$fit2
 
-gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.expr-res"))
+gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.lasso"))
 
 mr.ash2s.fit$fit2$data$X <- NULL
-save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.expr-res.Rd"))
+save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.lasso.Rd"))
 
 logwarn(str(summary(warnings())))
 gc()
-loginfo("mr.ash2s started from gene done.")
+loginfo("mr.ash2s init from lasso done.")
 
 
-## start with snp
-loginfo("mr.ash2s started from SNP ...")
-mr.ash2s.fit <- mr.ash2s(dat$G, dat$expr, phenores$Y, iter = 30)
+## mr.ash.init = lasso for snp
+loginfo("mr.ash2s init from lasso SNP ...")
+mr.ash2s.fit <- mr.ash2s(dat$expr, dat$G, phenores$Y, iter = 30, mr.ash.init = "lassoX2")
 
 ## save output
-g.fit <- mr.ash2s.fit$fit2
-s.fit <-  mr.ash2s.fit$fit1
+g.fit <- mr.ash2s.fit$fit1
+s.fit <-  mr.ash2s.fit$fit2
 
-gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.snp-res"))
+gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.lassoSNP"))
 
-mr.ash2s.fit$fit1$data$X <- NULL
-save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.snp-res.Rd"))
+mr.ash2s.fit$fit2$data$X <- NULL
+save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.lassoSNP.Rd"))
 
 logwarn(str(summary(warnings())))
-loginfo("mr.ash2s started from SNP done.")
+gc()
+loginfo("mr.ash2s init from lasso SNP done.")
 
 
 

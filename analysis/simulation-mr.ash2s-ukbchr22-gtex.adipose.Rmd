@@ -36,11 +36,21 @@ summary_mr.ash2 <- function(g.fit, s.fit, phenores, pipcut = 0.1){
   summary_mr.ash(s.fit)
 }
 
-plot_pip <- function(dt){
-  pal <- c("salmon", "darkgreen")
-  pal <- setNames(pal, c("Causal", "Non causal"))
+plot_pip <- function(dt, ld = F){
   
-  fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+  if (isTRUE(ld)) {
+    fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', 
+                   mode = 'markers', color = ~ max_r2, 
+                   text = ~ paste("Name: ", name, 
+                                  "\n", ifcausal,
+                                  "\nmax R^2: ", round(max_r2, digits = 2), 
+                                  "\nMax pair: ", max_pair))
+  } else {
+    pal <- c("salmon", "darkgreen")
+    pal <- setNames(pal, c("Causal", "Non causal"))
+  
+    fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+  }
 
   fig <- fig %>% layout(yaxis = list(title = "PIP"))
   return(fig)
@@ -64,11 +74,27 @@ plot_p <- function(dt){
   return(fig)
 }
 
-plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp){
+plot_susie_pip <- function(dt) {
+   pal <- c("salmon", "darkgreen")
+   pal <- setNames(pal, c("Causal", "Non causal"))
+   
+   fig <- plot_ly(dt, x = ~ p0, y = ~ susiePIP , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+   fig <- fig %>% layout(yaxis = list(title = "SUSIE PIP"))
+}
+
+plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp, susieres, ldres){
   a <- read.table(mrashres.gene , header =T)
   a[a$ifcausal == 1, "ifcausal"] = "Causal"
   a[a$ifcausal == 0, "ifcausal"] = "Non causal"
-
+  
+  ld <- read.table(ldres, header =T)
+  a <- merge(a, ld, by = "name", all.x = T)
+  
+  su <- read.table(susieres, header =T)
+  colnames(su)[colnames(su) == "pip"] <-  "susiePIP"
+  a <- merge(a, su, by = "name", all.x = T)
+  
   p <- fread(gwasres.gene, header =T)
   p[,"PVALUE"] <- -log10(p[,"PVALUE"])
   colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
@@ -83,16 +109,17 @@ plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp){
   colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
   dt.snp <- merge(a, p, by = "name", all.x = T)
   
-  fig1 <- plot_pip(dt.gene)
-  fig2 <- plot_beta(dt.gene)
-  fig3 <- plot_p(dt.gene)
-  fig4 <- plot_pip(dt.snp)
-  fig5 <- plot_beta(dt.snp)
-  fig6 <- plot_p(dt.snp)
-
-  fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, nrows=6, shareX = T, titleY = T)
+  fig1 <- plot_pip(dt.gene, ld = T)  
+  fig2 <- plot_beta(dt.gene) 
+  fig3 <- plot_p(dt.gene) 
+  fig4 <- plot_susie_pip(dt.gene) 
+  fig5 <- plot_pip(dt.snp) 
+  fig6 <- plot_beta(dt.snp) 
+  fig7 <- plot_p(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
   
-  fig <- fig %>% layout(autosize = F, width = 600, height = 800, margin = 0.02,
+  fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, fig7, nrows=7, shareX = T, titleY = T)
+  
+  fig <- fig %>% layout(autosize = F, width = 600, height = 900, margin = 0.02,
     xaxis = list(title = "Genomic position"))
   
   fig <- fig %>% toWebGL()
@@ -105,6 +132,20 @@ plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp){
 ```{r output dir}
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
 outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
+susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200616/"
+```
+
+```{r getfile function}
+get_files <- function(tag, tag2){
+  par <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt")
+  gmrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt")
+  ggwas <- paste0(outputdir, tag, ".exprgwas.txt.gz")
+  smrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt")
+  sgwas <- paste0(outputdir, tag, ".snpgwas.txt.gz")
+  susie <- paste0(susiedir, tag, ".", tag2, ".L3-susieres.txt")
+  rsq <- paste0(outputdir, tag, ".LD.txt")
+  return(tibble::lst(par, gmrash, ggwas, smrash, sgwas, susie, rsq))
+}
 ```
 
 ## Simulation 1
@@ -191,23 +232,21 @@ MR.ASH results (start from gene):
 tag <- "20200616-5"
 tag2 <- "expr-res"
 
-param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
 print(param)
-
-plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ```
 
-MR.ASH results (start from SNP):
-```{r sim 5 snp, out.width = "98%", out.height="95%"}
+MR.ASH results (start from SNP): very similar to start from gene.
+```{r sim 5 snp, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-5"
 tag2 <- "snp-res"
 
-param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
 print(param)
-
-plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ```
 
 ## Simulation 6
@@ -217,21 +256,74 @@ MR.ASH results (start from gene):
 tag <- "20200616-6"
 tag2 <- "expr-res"
 
-param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
 print(param)
-
-plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ```
 
-MR.ASH results (start from SNP):
-```{r sim 6 snp, out.width = "98%", out.height="95%"}
+MR.ASH results (start from SNP): very similar to start from gene
+```{r sim 6 snp, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-6"
 tag2 <- "snp-res"
 
-param <- read.table(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt"), header = T, row.names = 1)
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
 print(param)
-
-plot_all(paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt"), paste0(outputdir, tag, ".exprgwas.txt.gz"), 
-         paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt"), paste0(outputdir, tag, ".snpgwas.txt.gz"))
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ```
+
+## Simulation 7
+Use lasso trained weight model from FUSION twas. This makes eQTLs (SNP weights != 0) more sparse (<20/gene) compared to BSLMM/BLUP (a few hundred/per gene). 
+
+Use beta.init = lasso for mr.ash.
+
+MR.ASH results (use lasso for all):
+```{r sim 7 lasso, out.width = "98%", out.height="95%", eval = T}
+tag <- "20200616-7"
+tag2 <- "lasso"
+
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
+```
+
+MR.ASH results (use lasso for just for SNPs):
+```{r sim 7 lassosnp, out.width = "98%", out.height="95%", eval = T}
+tag <- "20200616-7"
+tag2 <- "lassoSNP"
+
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
+```
+
+## Simulation 8
+Use lasso trained weight model from FUSION twas. This makes eQTLs (SNP weights != 0) more sparse (<20/gene) compared to BSLMM/BLUP (a few hundred/per gene). 
+
+Use beta.init = lasso for mr.ash.
+
+MR.ASH results (use lasso for all):
+```{r sim 8 lasso, out.width = "98%", out.height="95%", eval = T}
+tag <- "20200616-8"
+tag2 <- "lasso"
+
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
+```
+
+MR.ASH results (use lasso for just for SNPs):
+```{r sim 8 lassosnp, out.width = "98%", out.height="95%", eval = T}
+tag <- "20200616-8"
+tag2 <- "lassoSNP"
+
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
+```
+
