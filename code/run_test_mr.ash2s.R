@@ -26,16 +26,15 @@ source(paste0(codedir,"mr.ash2.R"))
 source(paste0(codedir,"fit_mr.ash.R"))
 source(paste0(codedir,"gen_mr.ash2_output.R"))
 
-# genotype plink to R data file
+# load genotype data
 pfile <- args[1]
-pfileRd <- paste0(pfile, ".Rd")
+pfileRd <- paste0(drop_ext(pfile), ".FBM.Rd")
 
 if (!file.exists(pfileRd)) {
-  print("format converting ...")
-  plink2Rd(pfile, pfileRd); gc()
-} # pfile.traw.gz & .raw.gz should exist
+  print("format converting from pgen to FBM...")
+  pgen2fbm(pfile, select = NULL, scale = T, type = "double")
+}
 
-# load genotype data
 load(pfileRd)
 
 # load expression Rd file, variable: exprres
@@ -48,20 +47,14 @@ gc()
 load(args[3])
 phenores$Y <-  phenores$Y - mean(phenores$Y)
 
+
 outname <- args[4]
-
-# get ld information before genotype scaling
-get_ld(outname)
-
-# scale genotype
-loginfo("genotype scaling ...")
-dat$G <- scaleRcpp(dat$G)
-gc()
 
 # run mr.ash2s (a simplified version of veb_boost)
 
 ## mr.ash.init = lasso for gene and snp
 loginfo("mr.ash2s init from lasso ...")
+
 mr.ash2s.fit <- mr.ash2s(dat$expr, dat$G, phenores$Y, iter = 30, mr.ash.init = "lasso")
 
 ## save output

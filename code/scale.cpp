@@ -30,3 +30,5 @@ double scale_rcpp (NumericMatrix& X, NumericVector& a, NumericVector& b) {
 
   return 0;
 }
+
+

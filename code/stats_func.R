@@ -20,11 +20,12 @@ scaleRcpp <- function(x) {
     s  <- colSds(x)
     scale_rcpp(x.scaled,mu,s)
   })
-  print(timing)
-  # verify
-  cat("Get the largest & smallest column mean:\n")
-  print(range(colMeans(x.scaled)))
-  cat("Get the largest & smallest column s.d.:\n")
-  print(range(colSds(x.scaled)))
+  # print(timing)
+  # # verify
+  # cat("Get the largest & smallest column mean:\n")
+  # print(range(colMeans(x.scaled)))
+  # cat("Get the largest & smallest column s.d.:\n")
+  # print(range(colSds(x.scaled)))
   return(x.scaled)
 }
+

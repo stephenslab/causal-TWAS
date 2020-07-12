@@ -35,6 +35,8 @@ Try mr.ash using real genotype data. We can try 0.5 heritability. If using snps 
     
 4. About memory usage
 
+R `matrix`, type `double`
+
 ukb chr22, 20000 samples, Rd file (0.9G)
 
 * simulate data
@@ -46,5 +48,14 @@ ukb chr22, 20000 samples, Rd file (0.9G)
 
 * mr.ash2s
 mr.ash2s without lasso uses 15G, cv.glmnet uses 59G.
+
+`bigstatr`, type `FBM`, `unsigned short`
+backup file and in R: 3G. 
+
+5. data class
+
+Change from `matrix` type in R to `FBM` type in `bigstatr` package. Advantage: 1. can apply `biglasso` on it: save memory for lasso step. 2. Call by reference, so this will not copy the matrix. 3. easy connect to Rcpp. 4. file backed, no need to load everything to memory.
+
+Some other options: `snpnet` for lasso and `pgen` to read data. problem: need to start from pgen file, not sure how to add or delete features/columns. 
 
 
