@@ -2,6 +2,7 @@ library(data.table) # requires v.1.12.7 or higher
 library(bigstatsr)
 library(bigreadr)
 library(pgenlibr) #install_github("chrchang/plink-ng", subdir="/2.0/pgenlibr"), Notice that the installation of pgenlibr requires zstd(>=1.4.4). It can be built from source or simply available from conda, pip or brew.
+library(bigmemory)
 
 source(paste0(codedir, "stats_func.R"))
 
@@ -164,10 +165,11 @@ pgen2fbm <- function(pfile, select=NULL, scale = F,
   # Read and fill by parts
   qc <- pgen2mtx(
     pfile, select = select, .transform = fill_FBM, progress = T, part_size = 50 * 1024^2, ... = ...)
-  rm(X);gc()
 
-  X <- readRDS(paste0(backingfile, ".rds"))
-
+  # rm(X);gc()
+  #
+  # X <- readRDS(paste0(backingfile, ".rds"))
+  #
 
   # Verify scaling results
   if (isTRUE(scale)){
@@ -180,7 +182,7 @@ pgen2fbm <- function(pfile, select=NULL, scale = F,
     vars <- vars[select]
   }
 
-  dat <- list("X"       = X,
+  dat <- list("G"       = X,
               "chr"     = as.matrix(vars[,"#CHROM"]),
               "pos"     = as.matrix(vars[,"POS"]),
               "snp"     = as.matrix(vars[,"ID"]),

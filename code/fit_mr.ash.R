@@ -18,11 +18,24 @@ library(mr.ash.alpha)
 # }
 
 get_phi <- function(fit) {
-  # compute residual
-  r            = fit$data$y - fit$data$X %*% fit$beta
+  X <- fit$data$X
 
+  # compute residual
+  r            = fit$data$y - X %*% fit$beta
+
+  if (class(X) == "matrix") {
+    Xt <- t(X)
+  } else if (class(X) == "FBM") {
+    if (file.exists(paste0(drop_ext(X$backingfile), ".t.bk"))){
+      Xt <- readRDS(paste0(drop_ext(X$backingfile), ".t.rds"))
+    } else{
+      Xt <- big_transpose(X, backingfile = paste0(drop_ext(X$backingfile), ".t"))
+      Xt$save()
+    }
+  }
   # compute bw and S2inv
-  bw           = as.vector((t(fit$data$X) %*% r) + fit$data$w * fit$beta)
+
+  bw           = as.vector((Xt %*% r) + fit$data$w * fit$beta)
   S2inv        = 1 / outer(fit$data$w, 1/fit$data$sa2, '+');
 
   # compute mu, phi

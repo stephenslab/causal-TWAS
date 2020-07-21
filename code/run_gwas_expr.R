@@ -11,6 +11,7 @@ if (length(args) < 3 ) {
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "gwas.R"))
+source(paste0(codedir,"input_reformat.R"))
 
 load(args[2])
 pheno <- phenores$Y

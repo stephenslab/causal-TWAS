@@ -22,7 +22,7 @@ codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"simulate_phenotype.R"))
-source(paste0(codedir,"mr.ash2.R"))
+source(paste0(codedir,"mr.ash2_FBM.R"))
 source(paste0(codedir,"fit_mr.ash.R"))
 source(paste0(codedir,"gen_mr.ash2_output.R"))
 
@@ -51,42 +51,56 @@ phenores$Y <-  phenores$Y - mean(phenores$Y)
 outname <- args[4]
 
 # run mr.ash2s (a simplified version of veb_boost)
+# ## run mr.ash2s
+# loginfo("mr.ash2s initiation (beta: NULL, update order: expr-snp)")
+# mr.ash2s.fit <- mr.ash2s(snp = dat$G,
+#                          expr = dat$expr,
+#                          y= phenores$Y,
+#                          mr.ash.init = NULL,
+#                          init.order = "es", iter = 30, outname = outname, ncores = 5)
+# mr.ash2s_save(mr.ash2s.fit, outname)
+# rm(mr.ash2s.fit); gc()
+#
+# loginfo("mr.ash2s initiation (beta: NULL, update order: snp-expr)")
+# mr.ash2s.fit <- mr.ash2s(snp = dat$G,
+#                          expr = dat$expr,
+#                          y= phenores$Y,
+#                          mr.ash.init = NULL,
+#                          init.order = "se", iter = 30, outname = outname, ncores = 5)
+# mr.ash2s_save(mr.ash2s.fit, outname)
+# rm(mr.ash2s.fit); gc()
+#
 
-## mr.ash.init = lasso for gene and snp
-loginfo("mr.ash2s init from lasso ...")
+# loginfo("mr.ash2s initiation (beta: lasso, update order: expr-snp)")
+# mr.ash2s.fit <- mr.ash2s(snp = dat$G,
+#                          expr = dat$expr,
+#                          y= phenores$Y,
+#                          mr.ash.init = "lasso",
+#                          init.order = "es", iter = 30, outname = outname, ncores = 5)
+# mr.ash2s_save(mr.ash2s.fit, outname)
+# rm(mr.ash2s.fit); gc()
 
-mr.ash2s.fit <- mr.ash2s(dat$expr, dat$G, phenores$Y, iter = 30, mr.ash.init = "lasso")
+loginfo("mr.ash2s initiation (beta: lassoSNP, update order: expr-snp)")
+mr.ash2s.fit <- mr.ash2s(snp = dat$G,
+                         expr = dat$expr,
+                         y= phenores$Y,
+                         mr.ash.init = "lassoSNP",
+                         init.order = "es", iter = 30, outname = outname, ncores = 5)
+mr.ash2s_save(mr.ash2s.fit, outname)
+rm(mr.ash2s.fit); gc()
 
-## save output
-g.fit <- mr.ash2s.fit$fit1
-s.fit <-  mr.ash2s.fit$fit2
+loginfo("mr.ash2s initiation (beta: lasso, iter order: snp-expr)")
+mr.ash2s.fit <- mr.ash2s(snp = dat$G,
+                         expr = dat$expr,
+                         y= phenores$Y,
+                         mr.ash.init = "lasso",
+                         init.order = "es", iter.order = "se", iter = 30, outname = outname, ncores = 5)
+mr.ash2s_save(mr.ash2s.fit, outname)
+rm(mr.ash2s.fit); gc()
 
-gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.lasso"))
-
-mr.ash2s.fit$fit2$data$X <- NULL
-save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.lasso.Rd"))
-
+# clean up
+unlink(paste0(outname, c(".bk", ".rds")))
 logwarn(str(summary(warnings())))
-gc()
-loginfo("mr.ash2s init from lasso done.")
-
-
-## mr.ash.init = lasso for snp
-loginfo("mr.ash2s init from lasso SNP ...")
-mr.ash2s.fit <- mr.ash2s(dat$expr, dat$G, phenores$Y, iter = 30, mr.ash.init = "lassoX2")
-
-## save output
-g.fit <- mr.ash2s.fit$fit1
-s.fit <-  mr.ash2s.fit$fit2
-
-gen_mr.ash2_output(g.fit, s.fit, paste0(outname,"-mr.ash2s.lassoSNP"))
-
-mr.ash2s.fit$fit2$data$X <- NULL
-save(mr.ash2s.fit, file = paste0(outname,"-mr.ash2s.lassoSNP.Rd"))
-
-logwarn(str(summary(warnings())))
-gc()
-loginfo("mr.ash2s init from lasso SNP done.")
 
 
 

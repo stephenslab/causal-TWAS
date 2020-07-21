@@ -56,6 +56,16 @@ backup file and in R: 3G.
 
 Change from `matrix` type in R to `FBM` type in `bigstatr` package. Advantage: 1. can apply `biglasso` on it: save memory for lasso step. 2. Call by reference, so this will not copy the matrix. 3. easy connect to Rcpp. 4. file backed, no need to load everything to memory.
 
+After switch to FBM, all parts should not limit by memory except for mr.ash. However, when using multiple cores, which means each core will have 1/ncore allocation of total memory, biglasso can take a very long time. so currently, need to ensure each core has genotype size memory.
+
+simulate phenotype: need to change for FBM class type.
+
 Some other options: `snpnet` for lasso and `pgen` to read data. problem: need to start from pgen file, not sure how to add or delete features/columns. 
+
+# packages not managed by conda:
+mr.ash.alpha: `devtools::install_github("stephenslab/mr.ash.alpha@1acabf8a5032be3b13a1707b7fe514016d3ae0de")`
+bigstatsr
+bigreadr
+biglasso
 
 

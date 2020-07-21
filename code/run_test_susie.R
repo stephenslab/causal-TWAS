@@ -1,4 +1,5 @@
 library(susieR)
+library(dplyr)
 
 args = commandArgs(trailingOnly=TRUE)
 if (length(args) < 6) {
@@ -9,29 +10,28 @@ if (length(args) < 6) {
        * param txt
        * region file (chr, p0, p1, name, optional: pip, ifcausal, ... )
        * out file name
-       * L (default 1, L in susie, optional)", call.=FALSE)
+       * L (default 1, L in susie, optional)
+       ", call.=FALSE)
 }
-
-# pay attention to filter <- T/F
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 
+nonoverlapping <- T
+PIPfilter <- 0.1
+chunksize = 500000
 
-# genotype plink to R data file
+# load genotype data
 pfile <- args[1]
-pfileRd <- paste0(pfile, ".Rd")
+pfileRd <- paste0(drop_ext(pfile), ".FBM.Rd")
 
 if (!file.exists(pfileRd)) {
-  print("format converting ...")
-  plink2Rd(pfile, pfileRd); gc()
-} # pfile.traw.gz & .raw.gz should exist
+  print("format converting from pgen to FBM...")
+  pgen2fbm(pfile, select = NULL, scale = T, type = "double")
+}
 
-# load genotype data and scale
 load(pfileRd)
-print("scaling ...")
-dat$G <- scaleRcpp(dat$G)
 
 # load expression Rd file, variable: exprres
 load(args[2])
@@ -39,6 +39,7 @@ dat$expr <-  scaleRcpp(exprres$expr)
 
 # load phenotype Rd file, variable: phenores
 load(args[3])
+phenores$Y <-  phenores$Y - mean(phenores$Y)
 
 # run susie using given priors
 param <- read.table(args[4], header = T, row.names = 1)
@@ -48,13 +49,16 @@ prior.SNP <- param["snp.pi1", "estimated"]
 
 regions <- read.table(args[5], stringsAsFactors = F, header =T)
 
-filter <- T
-if (filter) {
-  #regions <- regions[regions$ifcausal == 1 | regions$PIP > 0.3, ]
-  regions <- regions[regions$PIP > 0.3, ]
-  flank = 500000
-  regions$p0 <- regions$p0 - flank
-  regions$p1 <- regions$p1 + flank
+if (nonoverlapping){
+  stpos <- min(regions$p0) - chunksize/2
+  edpos <- max(regions$p1) + chunksize/2
+  p0 <- stpos + 0: floor((edpos - stpos)/chunksize) * chunksize
+  p1 <- stpos + 1: ceiling((edpos - stpos)/chunksize) * chunksize
+
+} else {
+  regions <- regions[regions$PIP > PIPfilter, ]
+  regions$p0 <- regions$p0 - chunksize/2
+  regions$p1 <- regions$p1 + chunksize/2
 }
 
 outname <- args[6]
@@ -79,7 +83,7 @@ for (i in 1:nrow(regions)){
   idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
 
   X.gene <- exprres$expr[ , idx.gene, drop = F]
-  X.SNP <-  dat$G[ , idx.SNP, drop = F]
+  X.SNP <-  dat$G[ , idx.SNP]
 
   prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
 
@@ -94,12 +98,14 @@ for (i in 1:nrow(regions)){
   outdf <- cbind(susieres[["anno"]], susieres[["susie"]]$pip)
   colnames(outdf) <- c("name", "chr", "pos", "pip")
 
-  write.table( outdf , file= paste(outname, name, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
-
   outlist[[name]] <- outdf[outdf[, "name"] == name, ]
 }
 
-outgdf <- do.call(rbind, outlist)
-write.table( outgdf , file= paste(outname, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
+if (nonoverlapping) {
+  outgdf <- do.call(rbind, outlist)
+  write.table( outgdf , file= paste(outname, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
+}
+
+saveRDS(outlist, file = paste(outname, "susieres.rds", sep = "-"))
 
 

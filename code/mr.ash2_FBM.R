@@ -265,25 +265,14 @@ mr.ash2s <- function(expr,
                      backingfile = outname,
                      ncores = 1, iter = 30
                      ){
+
+  mr.ash.init <- match.arg(mr.ash.init)
+  init.order <- match.arg(init.order)
+  iter.order <- match.arg(iter.order)
+
   n <- snp$nrow
   p.expr <- dim(expr)[2]
   p.snp <- snp$ncol
-
-  # prepare w
-  print("calculating w")
-  snp.m <- snp[]
-  w.snp <- colSums(snp.m^2)
-  rm(snp.m); gc()
-
-  w.expr <- colSums(expr^2)
-  w = c(w.expr, w.snp)
-
-  # prepare order
-  if (init.order == "es"){
-    o <- 1: (p.expr + p.snp)
-  } else if ( init.order == "se"){
-    o <- c(1: p.expr + p.snp, 1: p.snp)
-  }
 
   # prepare X
   if (file.exists(paste0(backingfile,".bk"))) {
@@ -296,6 +285,15 @@ mr.ash2s <- function(expr,
       X[, ind + p.expr] <<- m[, ind, drop = FALSE]; return(0)
     }, a.combine = 'c', block.size = 2000, ncores = ncores)
   }
+
+  # prepare w
+  print("calculating w")
+  w.snp <- big_apply(snp, a.FUN = function(m, ind) {
+    colSums(m[, ind, drop = FALSE]^2)
+  }, a.combine = 'c', block.size = 2000, ncores = ncores)
+
+  w.expr <- colSums(expr^2)
+  w = c(w.expr, w.snp)
 
   # prepare mr.ash beta.init
   print("prepare mr.ash.init")
@@ -319,6 +317,12 @@ mr.ash2s <- function(expr,
     b <- c(rep(0, p.expr), b.snp[-1])
   }
 
+  # prepare order
+  if (init.order == "es"){
+    o <- 1: (p.expr + p.snp)
+  } else if ( init.order == "se"){
+    o <- c(1: p.expr + p.snp, 1: p.snp)
+  }
 
   # mr.ash for all data as initiation
   print("run mr.ash to initiate")
@@ -336,19 +340,27 @@ mr.ash2s <- function(expr,
   rm(fit.init, X.m); gc()
 
   if (iter.order == "es"){
-    X1 <- expr
-    X2 <- as.matrix(snp$bm())
-  } else if (iter.order == "se"){
-    X1 <- as.matrix(snp$bm())
-    X2 <- expr
-  }
 
-  mr.ash2s.fit <- mr.ash2s_iter(X1, X2,  y,
-                w1 = w.expr, w2 = w.snp,
-                beta1 = beta.expr, beta2 = beta.snp,
-                pi1 = pi.expr, pi2 = pi.snp,
-                sigma2 = sigma2,
-                iter = iter)
+    mr.ash2s.fit <- mr.ash2s_iter(
+      X1 = expr, X2 = as.matrix(snp$bm()),
+      y = y,
+      w1 = w.expr, w2 = w.snp,
+      beta1 = beta.expr, beta2 = beta.snp,
+      pi1 = pi.expr, pi2 = pi.snp,
+      sigma2 = sigma2,
+      iter = iter)
+
+  } else if (iter.order == "se"){
+
+    mr.ash2s.fit <- mr.ash2s_iter(
+      X2 = expr, X1 = as.matrix(snp$bm()),
+      y = y ,
+      w2 = w.expr, w1 = w.snp,
+      beta2 = beta.expr, beta1 = beta.snp,
+      pi2 = pi.expr, pi1 = pi.snp,
+      sigma2 = sigma2,
+      iter = iter)
+  }
 
   mr.ash2s.fit$init.order <- init.order
   mr.ash2s.fit$mr.ash.init <- mr.ash.init

@@ -24,20 +24,18 @@ source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"simulate_phenotype.R"))
 
-# genotype plink to R data file
+# load genotype data
 pfile <- args[1]
-pfileRd <- paste0(pfile, ".Rd")
+pfileRd <- paste0(drop_ext(pfile), ".FBM.Rd")
 
 if (!file.exists(pfileRd)) {
-  loginfo("genotype format converting ...")
-  plink2Rd(pfile, pfileRd); gc()
-} # pfile.traw.gz & .raw.gz should exist
+  print("format converting from pgen to FBM...")
+  pgen2fbm(pfile, select = NULL, scale = T, type = "double")
+}
 
-# load genotype data and scale
 load(pfileRd)
-loginfo("genotype scaling ...")
-dat$G <- scaleRcpp(dat$G)
-gc()
+
+dat$G <- as.matrix(dat$G$bm()) # TODO: revise other functions in this script to take FBM as input.
 
 # simulate phenotype
 outname <- args[4]

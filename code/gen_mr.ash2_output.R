@@ -54,7 +54,7 @@ get_ld <- function(outname){
   cg <- do.call(cbind, causalg.eqtl)
 
   csnp <- dat$G[ ,phenores$param$idx.cSNP]
-  colnames(csnp) <- dat$snp[phenores$param$idx.cSNP ,1]
+  colnames(csnp) <- dat$snp[phenores$param$idx.cSNP, 1]
 
   rsq <- unlist(lapply(g.eqtl, ld_max, y = cbind(cg,csnp), stats = "R.squared"))
 
@@ -116,4 +116,21 @@ gen_mr.ash2_output <- function(g.fit, s.fit, outname){
 
   para <- para_mr.ash2(g.fit, s.fit)
   write.table(para , file= paste0(outname, ".param.txt") , row.names=T, col.names=T, sep="\t", quote = F)
+}
+
+
+mr.ash2s_save <- function(mr.ash2s.fit, outname){
+
+  g.fit <- mr.ash2s.fit$g.fit
+  s.fit <-  mr.ash2s.fit$s.fit
+
+  mr.ash.init <- mr.ash2s.fit$mr.ash.init
+  init.order <- mr.ash2s.fit$init.order
+  iter.order <- mr.ash2s.fit$iter.order
+
+  outprefix <- paste0(outname,"-mr.ash2s.", mr.ash.init, init.order,"-", iter.order)
+
+  save(mr.ash2s.fit, file = paste0(outprefix, ".Rd"))
+  gen_mr.ash2_output(g.fit, s.fit, outprefix)
+
 }

@@ -11,13 +11,26 @@ if (length(args) < 3 ) {
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "gwas.R"))
+source(paste0(codedir,"input_reformat.R"))
 
 load(args[2])
 pheno <- phenores$Y
 
 outname <- paste0(args[3], ".snpgwas.txt")
 
-load(args[1]) # dat
+# load genotype data
+pfile <- args[1]
+pfileRd <- paste0(drop_ext(pfile), ".FBM.Rd")
+
+if (!file.exists(pfileRd)) {
+  print("format converting from pgen to FBM...")
+  pgen2fbm(pfile, select = NULL, scale = T, type = "double")
+}
+
+load(pfileRd)
+
+dat$G <- as.matrix(dat$G$bm()) # TODO: revise other functions in this script to take FBM as input.
+
 snpname = dat$snp[,1]
 anno <- cbind(dat$chr, dat$pos, dat$pos) # EPACT format
 

@@ -6,6 +6,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = F)
 library(mr.ash.alpha)
+library(biglasso)
+library(bigmemory)
+library(bigstatsr)
 source("~/causalTWAS/causal-TWAS/code/fit_mr.ash.R")
 source("~/causalTWAS/causal-TWAS/code/mr.ash2.R")
 ```
@@ -81,77 +84,87 @@ plot_beta <- function(beta,beta.pm, ...){
 ```
 
 ```{r run mr.ash}
-fit <- mr.ash(X, y, method="caisa")
+myorder <- 1:dim(X)[2]
+myorder[gene.idx] <- 1:length(gene.idx)
+myorder[SNP.idx] <- (length(gene.idx) + 1): length(myorder)
+
+X <- cbind(X[, gene.idx], X[, SNP.idx])
+fit <- mr.ash(X, y, method="caisa", update.order = NULL)
 summary_mr.ash(fit)
 
 plot_beta(beta[gene.idx], fit$beta[gene.idx], main = "beta for gene effect")
 plot_beta(beta[SNP.idx], fit$beta[SNP.idx], main = "beta for SNP effect")
 ```
 
+```{r run mr.ash}
+myorder <- 1:dim(X)[2]
+myorder[gene.idx] <- (length(SNP.idx) + 1): length(myorder)
+myorder[SNP.idx] <- 1:length(SNP.idx)
+X <- cbind(X[,SNP.idx], X[,gene.idx])
+fit2 <- mr.ash(X, y, method="caisa", update.order = NULL)
+summary_mr.ash(fit2)
+
+plot_beta(beta[gene.idx], fit2$beta[gene.idx], main = "beta for gene effect")
+plot_beta(beta[SNP.idx], fit2$beta[SNP.idx], main = "beta for SNP effect")
+```
 
 ## Run a simplified version of veb-boost (mr.ash2s)
 
 ### start with gene
 
 ```{r run mr.ash2, gene}
-X.gene <- X[,gene.idx]
-X.SNP <- X[, SNP.idx]
-fit <- mr.ash2s(X.gene, X.SNP, y)
+X.gene <- X[, gene.idx]
+X.SNP <- as_FBM(X[, SNP.idx])
+fit <- mr.ash2s(X.gene, X.SNP, y, init.order = "expr-snp")
 
 print("for gene effect: ")
-summary_mr.ash(fit$fit1)
+summary_mr.ash(fit$fit2)
 plot_beta(beta[gene.idx], fit$fit1$beta, main = "beta for gene effect")
 
 print("for SNP effect: ")
-summary_mr.ash(fit$fit2)
+summary_mr.ash(fit$fit1)
 plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
 ```
 
 ### start with SNP
 
 ```{r run mr.ash2, snp}
-X.gene <- X[,gene.idx]
-X.SNP <- X[, SNP.idx]
-fit <- mr.ash2s(X.SNP, X.gene, y)
+fit <- mr.ash2s(X.gene, X.SNP, y, init.order = "snp-expr")
 
 print("for gene effect: ")
 summary_mr.ash(fit$fit2)
-plot_beta(beta[gene.idx], fit$fit2$beta, main = "beta for gene effect")
+plot_beta(beta[gene.idx], fit$fit1$beta, main = "beta for gene effect")
 
 print("for SNP effect: ")
 summary_mr.ash(fit$fit1)
-plot_beta(beta[SNP.idx], fit$fit1$beta, main = "beta for SNP effect")
+plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
 ```
 
 ### init with lasso
 
 ```{r run mr.ash2, lasso}
-X.gene <- X[,gene.idx]
-X.SNP <- X[, SNP.idx]
 fit <- mr.ash2s(X.gene, X.SNP, y, mr.ash.init = "lasso")
 
 print("for gene effect: ")
-summary_mr.ash(fit$fit1)
+summary_mr.ash(fit$fit2)
 plot_beta(beta[gene.idx], fit$fit1$beta, main = "beta for gene effect")
 
 print("for SNP effect: ")
-summary_mr.ash(fit$fit2)
+summary_mr.ash(fit$fit1)
 plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
 ```
 
 ### init with lasso SNP
 
 ```{r run mr.ash2, lassosnp}
-X.gene <- X[,gene.idx]
-X.SNP <- X[, SNP.idx]
-fit <- mr.ash2s(X.gene, X.SNP, y, mr.ash.init = "lassoX2")
+fit <- mr.ash2s( X.gene, X.SNP, y, mr.ash.init = "lassoSNP")
 
 print("for gene effect: ")
-summary_mr.ash(fit$fit1)
+summary_mr.ash(fit$fit2)
 plot_beta(beta[gene.idx], fit$fit1$beta, main = "beta for gene effect")
 
 print("for SNP effect: ")
-summary_mr.ash(fit$fit2)
+summary_mr.ash(fit$fit1)
 plot_beta(beta[SNP.idx], fit$fit2$beta, main = "beta for SNP effect")
 ```
 
