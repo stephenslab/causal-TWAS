@@ -1,5 +1,6 @@
 library(susieR)
 library(dplyr)
+library(logging)
 
 args = commandArgs(trailingOnly=TRUE)
 if (length(args) < 6) {
@@ -8,7 +9,7 @@ if (length(args) < 6) {
        * expr Rd
        * pheno Rd
        * param txt
-       * region file (chr, p0, p1, name, optional: pip, ifcausal, ... )
+       * mr.ash.res file
        * out file name
        * L (default 1, L in susie, optional)
        ", call.=FALSE)
@@ -18,20 +19,22 @@ codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 
-nonoverlapping <- T
-PIPfilter <- 0.1
+
+addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
+loginfo('script started ... ')
+
+PIPfilter <- 0.5
 chunksize = 500000
+
+loginfo("regional PIP cut: %s ", PIPfilter)
+loginfo("region size: %s", chunksize)
 
 # load genotype data
 pfile <- args[1]
 pfileRd <- paste0(drop_ext(pfile), ".FBM.Rd")
-
-if (!file.exists(pfileRd)) {
-  print("format converting from pgen to FBM...")
-  pgen2fbm(pfile, select = NULL, scale = T, type = "double")
-}
-
 load(pfileRd)
+
+dat$G <- dat$G[]
 
 # load expression Rd file, variable: exprres
 load(args[2])
@@ -47,37 +50,51 @@ param <- read.table(args[4], header = T, row.names = 1)
 prior.gene <- param["gene.pi1", "estimated"]
 prior.SNP <- param["snp.pi1", "estimated"]
 
-regions <- read.table(args[5], stringsAsFactors = F, header =T)
+gres <- paste0(args[5], ".expr.txt")
+sres <- paste0(args[5], ".snp.txt")
+pipres <- rbind(read.table(gres, header =T),
+                 read.table(sres, header =T))
 
-if (nonoverlapping){
-  stpos <- min(regions$p0) - chunksize/2
-  edpos <- max(regions$p1) + chunksize/2
+regions <- NULL
+chroms <- unique(pipres$chr)
+for (chrom in chroms){
+  pipres.chr <- pipres[pipres$chr == chrom, ]
+  stpos <- min(pipres.chr$p0) - chunksize/2
+  edpos <- max(pipres.chr$p1) + chunksize/2
   p0 <- stpos + 0: floor((edpos - stpos)/chunksize) * chunksize
   p1 <- stpos + 1: ceiling((edpos - stpos)/chunksize) * chunksize
-
-} else {
-  regions <- regions[regions$PIP > PIPfilter, ]
-  regions$p0 <- regions$p0 - chunksize/2
-  regions$p1 <- regions$p1 + chunksize/2
+  itv <- cbind(p0, p1)
+  rPIP <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "PIP"]))
+  itv <- cbind(chrom, itv, rPIP)
+  regions <- rbind(regions, itv)
 }
 
+loginfo("No. intervals for chr %s : %s", chrom, nrow(regions))
+write.table(regions , file = paste0(args[5], ".rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+
+regions <- regions[regions[, "rPIP"] > PIPfilter,  ]
+loginfo("No. intervals for chr %s after PIP filter: %s", chrom, nrow(regions))
+
 outname <- args[6]
+
 L = 3
+loginfo("L = %s for susie run", L)
+
 if (length(args) == 7){
   L = as.numeric(args[7])
   outname <- paste0(outname, ".L", L)
 }
 
+loginfo("susie started for %s", outname)
+
 outlist <- list()
 
 for (i in 1:nrow(regions)){
-  chr <- regions[i, "chr"]
+  chr <- regions[i, "chrom"]
   p0 <- regions[i, "p0"]
   p1 <- regions[i, "p1"]
-  name <- regions[i, "name"]
 
-  susieres <- list()
-  print(name)
+  name <- paste(chr,p0,p1, sep="-")
 
   idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p1 < p1
   idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
@@ -87,25 +104,30 @@ for (i in 1:nrow(regions)){
 
   prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
 
-  susieres[["susie"]] <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, prior_weights = prior)
+  #-----------------run susie------------
+  susieres <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, prior_weights = prior)
+  susieres.null <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L)
+  #--------------------------------------
 
   anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene])
   anno.SNP <- cbind(dat$snp[idx.SNP,], dat$chr[idx.SNP,], dat$pos[idx.SNP,])
-  susieres[["anno"]] <- rbind(anno.gene, anno.SNP)
+  anno <- rbind(anno.gene, anno.SNP)
 
-  save(susieres, file = paste(outname, name, "susieres.Rd", sep = "-"))
+  outdf <- cbind(anno, susieres$pip, susieres.null$pip, "SNP")
+  colnames(outdf) <- c("name", "chr", "pos", "pip", "pip.null", "type")
+  outdf[1:nrow(anno.gene), "type"] <- "gene"
 
-  outdf <- cbind(susieres[["anno"]], susieres[["susie"]]$pip)
-  colnames(outdf) <- c("name", "chr", "pos", "pip")
-
-  outlist[[name]] <- outdf[outdf[, "name"] == name, ]
+  outlist[[name]] <- outdf
 }
 
-if (nonoverlapping) {
-  outgdf <- do.call(rbind, outlist)
-  write.table( outgdf , file= paste(outname, "susieres.txt", sep = "-")  , row.names=F, col.names= T, sep="\t", quote = F)
-}
+loginfo("susie done for %s", outname)
 
-saveRDS(outlist, file = paste(outname, "susieres.rds", sep = "-"))
+saveRDS(outlist, file = paste(outname, "susieres.rds", sep = "."))
+
+outgdf <- do.call(rbind, outlist)
+write.table(outgdf[outgdf[, "type"] == "gene", ], file= paste(outname, "susieres.expr.txt", sep = ".")  , row.names=F, col.names= T, sep="\t", quote = F)
+write.table(outgdf[outgdf[, "type"] == "SNP", ], file= paste(outname, "susieres.snp.txt", sep = ".")  , row.names=F, col.names= T, sep="\t", quote = F)
+
+
 
 

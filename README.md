@@ -69,3 +69,6 @@ bigreadr
 biglasso
 
 
+# Known bugs:
+Currently, snp ref and alt can be different between Fusion weights and ukbiobank, the definition of ref and alt comes from plink bim files in GTEx and pvar files in UKBB, they are different. The snp name, chr and position matches in general.
+

@@ -273,7 +273,6 @@ mr.ash2s <- function(expr,
   print("calculating w")
   snp.m <- snp[]
   w.snp <- colSums(snp.m^2)
-  rm(snp.m); gc()
 
   w.expr <- colSums(expr^2)
   w = c(w.expr, w.snp)
@@ -286,23 +285,14 @@ mr.ash2s <- function(expr,
   }
 
   # prepare X
-  if (file.exists(paste0(backingfile,".bk"))) {
-    X <- readRDS(paste0(backingfile, ".rds"))
-  } else {
-    X <- as_FBM(expr, backingfile = backingfile)$save()
-    X$add_columns(p.snp)
-
-    a <- big_apply(snp, a.FUN = function(m, ind) {
-      X[, ind + p.expr] <<- m[, ind, drop = FALSE]; return(0)
-    }, a.combine = 'c', block.size = 2000, ncores = ncores)
-  }
+  X <- cbind(expr, snp.m)
 
   # prepare mr.ash beta.init
   print("prepare mr.ash.init")
   if (is.null(mr.ash.init)){
     b <- NULL
   } else if (mr.ash.init == "lasso"){
-    X.bm <- X$bm()
+    X.bm <- as.big.matrix(X)
     time.cvfit <- system.time(
       cvfit <- cv.biglasso(X.bm, y, screen = 'SSR-BEDPP', seed = 1234, ncores = ncores, nfolds = 5)
     )
@@ -310,7 +300,7 @@ mr.ash2s <- function(expr,
     b <- coef(cvfit)
     b <- b[-1] # discard intercept
   } else if (mr.ash.init == "lassoSNP"){
-    snp.bm <- snp$bm()
+    snp.bm <- as.big.matrix(snp.m)
     time.cvfit <- system.time(
       cvfit <- cv.biglasso(snp.bm, y, screen = 'SSR-BEDPP', seed = 1234, ncores = ncores, nfolds = 5)
     )
@@ -322,7 +312,7 @@ mr.ash2s <- function(expr,
 
   # mr.ash for all data as initiation
   print("run mr.ash to initiate")
-  X.m <- as.matrix(X$bm())
+  X.m <- X
   fit.init <- mr.ashs(X.m, y, w = w, beta.init = b, update.order = o)
 
   # start interation
@@ -333,13 +323,13 @@ mr.ash2s <- function(expr,
 
   sigma2 <- fit.init$sigma2
 
-  rm(fit.init, X.m); gc()
+  rm(fit.init, X.m, X); gc()
 
   if (iter.order == "es"){
     X1 <- expr
-    X2 <- as.matrix(snp$bm())
+    X2 <- snp.m
   } else if (iter.order == "se"){
-    X1 <- as.matrix(snp$bm())
+    X1 <- snp.m
     X2 <- expr
   }
 

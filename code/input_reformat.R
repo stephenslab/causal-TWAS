@@ -166,11 +166,6 @@ pgen2fbm <- function(pfile, select=NULL, scale = F,
   qc <- pgen2mtx(
     pfile, select = select, .transform = fill_FBM, progress = T, part_size = 50 * 1024^2, ... = ...)
 
-  # rm(X);gc()
-  #
-  # X <- readRDS(paste0(backingfile, ".rds"))
-  #
-
   # Verify scaling results
   if (isTRUE(scale)){
     cat("After scaling, mean range:", range(big_scale()(X)[,"center"]), "\n")

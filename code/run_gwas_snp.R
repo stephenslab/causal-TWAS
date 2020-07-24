@@ -29,7 +29,7 @@ if (!file.exists(pfileRd)) {
 
 load(pfileRd)
 
-dat$G <- as.matrix(dat$G$bm()) # TODO: revise other functions in this script to take FBM as input.
+dat$G <- dat$G[] # TODO: revise other functions in this script to take FBM as input.
 
 snpname = dat$snp[,1]
 anno <- cbind(dat$chr, dat$pos, dat$pos) # EPACT format

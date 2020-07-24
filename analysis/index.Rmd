@@ -62,8 +62,14 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
   
   * [Using UKbiobank data (chr22), fusion weights Adipose, `L=1`](simulation-susie-ukbchr22-gtex.adipose.html)
   * [Using UKbiobank data (chr22), fusion weights Adipose, `L=2`](simulation-susie-ukbchr22-gtex.adipose-L=2.html)
-   * [Using UKbiobank data (chr22), fusion weights Adipose, `L=3`](simulation-susie-ukbchr22-gtex.adipose-L=3.html)
+  * [Using UKbiobank data (chr22), fusion weights Adipose, `L=3`](simulation-susie-ukbchr22-gtex.adipose-L=3.html)
 
+## Summarize cTWAS results
+We compare cTWAS results with other methods, summarizing results over multiple simulation runs.
+
+  * [Using UKbiobank data (chr22), fusion weights Adipose](simulation-multi-ukbchr22-gtex.adipose.html)
+  * [Using UKbiobank data (chr22), fusion weights Adipose, setting 2](simulation-multi-ukbchr22-gtex.adipose2.html)
+  * [Using UKbiobank data (chr17:22), fusion weights Adipose](simulation-multi-ukbchr17:22-gtex.adipose.html)  
   
 # Related software
   * VEB-boost

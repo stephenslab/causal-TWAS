@@ -249,7 +249,7 @@ mr.ash2s_iter <- function(X1, X2,
 #' @param snp FBM
 #' @param expr matrix
 #' @param mr.ash.init beta.init for mr.ash
-#' - "NULL", init mr.ash using default
+#' - "zero", init mr.ash using default
 #' - "lasso", init mr.ash using lasso
 #' - "lassoSNP", init with lasso for SNP and NULL for gene
 #' @param init.order "es", expr-snp; "se", "snp-expr"
@@ -258,7 +258,7 @@ mr.ash2s_iter <- function(X1, X2,
 mr.ash2s <- function(expr,
                      snp,
                      y,
-                     mr.ash.init = c(NULL, "lasso", "lassoSNP"),
+                     mr.ash.init = c("zero", "lasso", "lassoSNP"),
                      init.order = c("es", "se"),
                      iter.order =c("es", "se"),
                      outname = "mr.ash2s",
@@ -297,7 +297,7 @@ mr.ash2s <- function(expr,
 
   # prepare mr.ash beta.init
   print("prepare mr.ash.init")
-  if (is.null(mr.ash.init)){
+  if (mr.ash.init == "zero"){
     b <- NULL
   } else if (mr.ash.init == "lasso"){
     X.bm <- X$bm()

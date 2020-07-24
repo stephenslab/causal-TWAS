@@ -1,0 +1,227 @@
+---
+title: "Summarize twas"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,  message= F)
+```
+
+Run simulation 9 times for ukb chr 22. 
+
+```{r plot functions}
+library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+library(tidyr)
+library(plyr)
+```
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
+susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200616/"
+tags <- paste0('20200616-8-', 1:9)
+tag2s <- c('zeroes-es', 'zerose-es', 'lassoes-es','lassoes-se')
+```
+
+```{r getfile function}
+get_files <- function(tag, tag2){
+  par <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt")
+  rpip <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".rPIP.txt")
+  
+  gmrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt")
+  smrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt")   
+  
+  ggwas <- paste0(outputdir, tag, ".exprgwas.txt.gz")
+  sgwas <- paste0(outputdir, tag, ".snpgwas.txt.gz")
+  
+  gsusie <- paste0(susiedir, tag, ".", tag2, ".L3.susieres.expr.txt")
+  ssusie <- paste0(susiedir, tag, ".", tag2, ".L3.susieres.snp.txt")
+  
+  return(tibble::lst(par, rpip, gmrash, ggwas, smrash, sgwas, gsusie, ssusie))
+}
+```
+# Mr.ash2 parameter estimation
+Results for 9 simulations runs, using different initiate and update strategy
+```{r param function}
+show_param <- function(tag2){
+  f <- lapply(tags, get_files, tag2 = tag2)
+  parf <- lapply(f, '[[', "par")
+  param <- do.call(rbind, lapply(parf, function(x) t(read.table(x))[2:1,]))
+  knitr::kable(param)
+}
+```
+
+## NULL; expr-snp; expr-snp 
+
+```{r param 1}
+show_param(tag2s[1])
+```
+
+## NULL; snp-expr; expr-snp
+
+```{r param 2}
+show_param(tag2s[2])
+```
+
+## lasso; expr-snp; expr-snp
+
+```{r param 3}
+show_param(tag2s[3])
+```
+
+## lasso; expr-snp; snp-expr
+
+```{r param 4}
+show_param(tag2s[4])
+```
+
+
+# Regional mr.ash2s PIP overview
+Take simulation 1 (NULL; expr-snp; expr-snp) as examples. We use region size *500kb* and PIP cut off at *0.5* for SUSIE.
+
+```{r rpip 1, fig.height=4, fig.width=10}
+f <- get_files(tag= tags[1], tag2 = tag2s[1])
+a <- read.table(f[["rpip"]], header = T)
+plot(a$p0, a$rPIP, pch =19, col ='salmon', xlab = "position", ylab= "Sum of PIP")
+grid()
+```
+
+# PIP scatter plot
+mr.ash2s PIP vs. susie PIP.
+```{r scatterplot}
+scatter_plot_PIP<- function(tag2){
+  f <- lapply(tags, get_files, tag2 = tag2)
+  mrashf <- lapply(f, '[[', "gmrash")
+  names(mrashf) <- tags
+  
+  susief <- lapply(f, '[[', "gsusie")
+  names(susief) <- tags
+
+  .tagname <- function(x, flist){
+    a <- read.table(flist[[x]], header =T)
+    a[, "name"] <- paste0(x, ":", a[, "name"])
+    a
+  }
+  mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
+  susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
+ 
+  res <- merge(mrashres, susieres, by = "name", all = T)
+  
+  res <- res[complete.cases(res),]
+  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null") )
+  res$ifcausal <- mapvalues(res$ifcausal, 
+          from=c(0,1), 
+          to=c("Non causal", "Causal"))
+  
+  fig1 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP, color = ~ ifcausal, 
+                 colors = c( "salmon", "darkgreen"))
+  
+  fig2 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_null, color = ~ ifcausal, 
+                 colors = c( "salmon", "darkgreen"))
+  
+  fig <- subplot(fig1, fig2, titleX = TRUE, titleY = T, margin = 0.1)
+  fig
+}
+```
+## NULL; expr-snp; expr-snp 
+```{r sca 1, fig.height=4, fig.width=10}
+scatter_plot_PIP(tag2s[1])
+```
+
+## NULL; snp-expr; expr-snp
+
+```{r sca 2, fig.height=4, fig.width=10}
+scatter_plot_PIP(tag2s[2])
+```
+
+## lasso; expr-snp; expr-snp
+
+```{r sca 3, fig.height=4, fig.width=10}
+scatter_plot_PIP(tag2s[3])
+```
+
+## lasso; expr-snp; snp-expr
+
+```{r sca 4, fig.height=4, fig.width=10}
+scatter_plot_PIP(tag2s[4])
+```
+
+
+# ROC curve
+```{r roc}
+ROC_plot<- function(tag2){
+  f <- lapply(tags, get_files, tag2 = tag2)
+  mrashf <- lapply(f, '[[', "gmrash")
+  names(mrashf) <- tags
+  
+  susief <- lapply(f, '[[', "gsusie")
+  names(susief) <- tags
+  
+  gwasf <- lapply(f, '[[', "ggwas")
+  names(gwasf) <- tags
+
+  .tagname <- function(x, flist, colnames = NULL){
+    a <- read.table(flist[[x]], header =T)
+    if (!is.null(colnames)){
+      colnames(a) <- colnames
+    }
+    a[, "name"] <- paste0(x, ":", a[, "name"])
+    a
+  }
+  mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
+  susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
+  gwasres <- do.call(rbind, lapply(tags, .tagname, flist = gwasf, 
+                                   colnames =  c("chr",	"p0",	"p1", "name", "Estimate", "Std.Error", "t-value", "PVALUE")))
+
+  res <- merge(mrashres, susieres, by = "name", all = T)
+  res <- merge(res, gwasres, by = "name", all = T)
+  
+  res <- res[complete.cases(res),]
+  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE", "PVALUE" = "TWAS") )
+  res[,"TWAS"] <- -log10(res[, "TWAS"])
+  
+  roccolors <-  c("red", "green", "blue")
+  methods <- c("mr.ash", "SUSIE", "TWAS")
+  plot(0, xlim=c(0,1), ylim=c(0,1), col="white", xlab = "FPR", ylab = "TPR")
+  for (i in 1:3){
+    method <- methods[i]
+    bordered <- res[order(res[,method]),] 
+    actuals <- bordered$ifcausal == 1
+    sens <- (sum(actuals) - cumsum(actuals))/sum(actuals)
+    spec <- cumsum(!actuals)/sum(!actuals)
+    lines(1 - spec, sens, type = "l", col = roccolors[i])
+    abline(c(0,0),c(1,1))
+    auc <- sum(spec*diff(c(0, 1 - sens)))
+    cat("AUC for ", method, ": ", auc)
+  }
+  legend(0.6,0.3, legend= methods, col=roccolors, lty=1, cex=0.8)
+  grid()
+}
+```
+
+## NULL; expr-snp; expr-snp 
+```{r roc 1, fig.height=4, fig.width=4}
+ROC_plot(tag2s[1])
+```
+
+## NULL; snp-expr; expr-snp
+
+```{r roc 2, fig.height=4, fig.width=4}
+ROC_plot(tag2s[2])
+```
+
+## lasso; expr-snp; expr-snp
+
+```{r roc 3, fig.height=4, fig.width=4}
+ROC_plot(tag2s[3])
+```
+
+## lasso; expr-snp; snp-expr
+
+```{r roc 4, fig.height=4, fig.width=4}
+ROC_plot(tag2s[4])
+```
+
+
+

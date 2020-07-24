@@ -40,6 +40,11 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
     }
     if (!(g.method %in% names(cv.performance[1,]))) next
 
+    wgt.matrix <- wgt.matrix[abs(wgt.matrix[, g.method]) > 0, , drop = F]
+    wgt.matrix <- wgt.matrix[complete.cases(wgt.matrix), ,drop = F]
+
+    if (dim(wgt.matrix)[1] == 0) next
+
     wgt.idx <- match(rownames(wgt.matrix), dat$snp)
 
     if (checksnps){
