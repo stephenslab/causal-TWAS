@@ -31,7 +31,7 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
   columns<-c("#CHROM",	"BEGIN",	"END", "MARKER_ID", "Estimate", "Std.Error", "t-value", "PVALUE") # header for LOCUSZOOM.
   write.table(t(columns), outname, row.names=FALSE, col.names=FALSE, quote=FALSE, sep = "\t")
 
-  foreach (part=1:nSplits) %do% {
+  for (part in 1:nSplits) {
 
     geno.i <- geno[ ,snp.start[part]:snp.stop[part]]
     snpname.i <- snpname[snp.start[part]:snp.stop[part]]
@@ -55,6 +55,7 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
                 sep = "\t")
 
     cat(sprintf("GWAS SNPs %s%% finished\n", 100 * part/nSplits))
+    rm(geno.i, anno.i, snpname.i);gc()
   }
 
   stopCluster(cl)

@@ -26,7 +26,7 @@ get_phi <- function(fit) {
   if (class(X) == "matrix") {
     Xt <- t(X)
   } else if (class(X) == "FBM") {
-    if (file.exists(paste0(drop_ext(X$backingfile), ".t.bk"))){
+    if (file.exists(paste0(drop_ext(X$backingfile), ".t.rds"))){
       Xt <- readRDS(paste0(drop_ext(X$backingfile), ".t.rds"))
     } else{
       Xt <- big_transpose(X, backingfile = paste0(drop_ext(X$backingfile), ".t"))

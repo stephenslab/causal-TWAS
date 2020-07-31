@@ -23,7 +23,7 @@ for (wgtf in wgtfs){
 
 write.table(snpannoall, file= paste(weight, method, "eqtl.txt", sep= ".") , row.names=F, col.names=T, sep="\t", quote = F)
 
-pfiles <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", 17:22, "_s20000.pgen")
+pfiles <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", 17:22, "_s80000.pgen")
 
 mtxall <- NULL
 varall <- NULL
@@ -46,11 +46,11 @@ dat <- list("G"       = mtxall,
             "snp"     = as.matrix(varall[,3]),
             "counted" = as.matrix(varall[,4]),
             "alt"     = as.matrix(varall[,5]))
-save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17:22_s20000.Rd")
+save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s80000.Rd")
 
-m <- as_FBM(mtxall, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17:22_s20000")$save()
+m <- as_FBM(mtxall, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s80000")$save()
 dat$G <- m
-save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17:22_s20000.FBM.Rd")
+save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s80000.FBM.Rd")
 
 #----------------------------chr22 only-------------------
 pfile <- "/home/simingz/causalTWAS/ukbiobank/ukb_chr22_s20000"

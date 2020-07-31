@@ -275,7 +275,7 @@ mr.ash2s <- function(expr,
   p.snp <- snp$ncol
 
   # prepare X
-  if (file.exists(paste0(backingfile,".bk"))) {
+  if (file.exists(paste0(backingfile,".rds"))) {
     X <- readRDS(paste0(backingfile, ".rds"))
   } else {
     X <- as_FBM(expr, backingfile = backingfile)$save()
@@ -283,14 +283,14 @@ mr.ash2s <- function(expr,
 
     a <- big_apply(snp, a.FUN = function(m, ind) {
       X[, ind + p.expr] <<- m[, ind, drop = FALSE]; return(0)
-    }, a.combine = 'c', block.size = 2000, ncores = ncores)
+    }, a.combine = 'c', ncores = 1)
   }
 
   # prepare w
   print("calculating w")
   w.snp <- big_apply(snp, a.FUN = function(m, ind) {
     colSums(m[, ind, drop = FALSE]^2)
-  }, a.combine = 'c', block.size = 2000, ncores = ncores)
+  }, a.combine = 'c', ncores = 1, block.size = 10000)
 
   w.expr <- colSums(expr^2)
   w = c(w.expr, w.snp)

@@ -23,7 +23,7 @@ source(paste0(codedir,"input_reformat.R"))
 addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
 loginfo('script started ... ')
 
-PIPfilter <- 0.5
+PIPfilter <- 0.2
 chunksize = 500000
 
 loginfo("regional PIP cut: %s ", PIPfilter)
@@ -65,7 +65,8 @@ for (chrom in chroms){
   p1 <- stpos + 1: ceiling((edpos - stpos)/chunksize) * chunksize
   itv <- cbind(p0, p1)
   rPIP <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "PIP"]))
-  itv <- cbind(chrom, itv, rPIP)
+  nCausal <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "ifcausal"]))
+  itv <- cbind(chrom, itv, rPIP, nCausal)
   regions <- rbind(regions, itv)
 }
 
@@ -89,7 +90,9 @@ loginfo("susie started for %s", outname)
 
 outlist <- list()
 
+
 for (i in 1:nrow(regions)){
+
   chr <- regions[i, "chrom"]
   p0 <- regions[i, "p0"]
   p1 <- regions[i, "p1"]
@@ -103,21 +106,24 @@ for (i in 1:nrow(regions)){
   X.SNP <-  dat$G[ , idx.SNP]
 
   prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
+  wgt_null <- max(0, 1 - prior.gene * dim(X.gene)[2] - prior.SNP * dim(X.SNP)[2])
 
   #-----------------run susie------------
   susieres <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, prior_weights = prior)
   susieres.null <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L)
+  susieres.w0 <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, null_weight = wgt_null, prior_weights = prior)
   #--------------------------------------
 
   anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene])
   anno.SNP <- cbind(dat$snp[idx.SNP,], dat$chr[idx.SNP,], dat$pos[idx.SNP,])
   anno <- rbind(anno.gene, anno.SNP)
 
-  outdf <- cbind(anno, susieres$pip, susieres.null$pip, "SNP")
-  colnames(outdf) <- c("name", "chr", "pos", "pip", "pip.null", "type")
+  outdf <- cbind(anno, susieres$pip, susieres.null$pip, susieres.w0$pip, "SNP")
+  colnames(outdf) <- c("name", "chr", "pos", "pip", "pip.null", "pip.w0", "type")
   outdf[1:nrow(anno.gene), "type"] <- "gene"
 
   outlist[[name]] <- outdf
+  rm(susieres,  susieres.null,  susieres.w0);gc()
 }
 
 loginfo("susie done for %s", outname)

@@ -29,7 +29,7 @@ if (!file.exists(pfileRd)) {
 
 load(pfileRd)
 
-dat$G <- dat$G[] # TODO: revise other functions in this script to take FBM as input.
+dat$G <- dat$G[]
 
 snpname = dat$snp[,1]
 anno <- cbind(dat$chr, dat$pos, dat$pos) # EPACT format
@@ -38,7 +38,7 @@ if (length(args) == 3){
 
   geno <- dat$G
 
-  GWAA(geno, pheno, snpname = snpname, anno = anno, outname, family = gaussian, ncore = 3, nSplits = 30, compress = T)
+  GWAA(geno, pheno, snpname = snpname, anno = anno, outname, family = gaussian, ncore = 3, nSplits = 100, compress = T)
 
 } else {
   regions <- read.table(args[4], stringsAsFactors = F)

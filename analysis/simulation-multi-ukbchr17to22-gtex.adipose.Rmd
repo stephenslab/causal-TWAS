@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE,  message= F)
 ```
 
-Run simulation 8 times for ukb chr 17 to chr 22 combined. 
+Run simulation 8 times for ukb chr 17 to chr 22 combined. SNPs are downsampled to 1/10, eQTLs defined by FUSION-TWAS (Adipose/GTEx) lasso effect size > 0 were kept, p= 86k, n = 20k.
 
 ```{r plot functions}
 library(mr.ash.alpha)
@@ -15,12 +15,15 @@ library(data.table)
 suppressMessages({library(plotly)})
 library(tidyr)
 library(plyr)
+library(kableExtra)
 ```
 ```{r output dir}
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/"
 tags <- paste0('20200721-1-', c(2,4:9))
+tags_ext <- paste0('20200721-1-', 1:50)
+tags_ext2 <- paste0('20200721-1-', c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 19, 21, 22, 23, 26, 27, 28, 29, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50))
 tag2s <- c('zeroes-es', 'zerose-es', 'lassoes-es','lassoes-se')
 ```
 
@@ -42,13 +45,24 @@ get_files <- function(tag, tag2){
 }
 ```
 # Mr.ash2 parameter estimation
-Results for 9 simulations runs, using different initiate and update strategy
+
+Results for 7 simulations runs, using different initiate and update strategy
+
 ```{r param function}
 show_param <- function(tag2){
   f <- lapply(tags, get_files, tag2 = tag2)
   parf <- lapply(f, '[[', "par")
   param <- do.call(rbind, lapply(parf, function(x) t(read.table(x))[2:1,]))
-  knitr::kable(param)
+  truth <- param[1:(nrow(param)/2)*2-1,]
+  est <- param[1:(nrow(param)/2)*2,]
+  outdt <- matrix(0, ncol = 2*ncol(param), nrow = nrow(param)/2)
+  outdt[,c(1,3,5,7)] <- truth
+  outdt[,c(2,4,6,8)] <- est
+  outdt <-cbind(1:nrow(outdt),outdt)
+  colnames(outdt) <- c("Simulation#", paste0(rep(c("Truth","Est."),4)))
+  knitr::kable(outdt) %>%
+  kable_styling("striped") %>%
+  add_header_above(c(" " = 1, "Gene.pi1" = 2, "Gene.PVE" = 2, "SNP.pi1" = 2, "SNP.PVE" =2))
 }
 ```
 
@@ -76,16 +90,82 @@ show_param(tag2s[3])
 show_param(tag2s[4])
 ```
 
-
 # Regional mr.ash2s PIP overview
-Take simulation 1 (NULL; expr-snp; expr-snp) as examples. We use region size *500kb* and PIP cut off at *0.5* for SUSIE.
+Take simulation 1 (NULL; expr-snp; expr-snp) as examples. We use region size *500kb* and PIP cut off at *0.2* for SUSIE.
 
 ```{r rpip 1, fig.height=4, fig.width=10}
+chrom = 18
 f <- get_files(tag= tags[1], tag2 = tag2s[1])
-a <- read.table(f[["rpip"]], header = T)
-plot(a$p0, a$rPIP, pch =19, col ='salmon', xlab = "position", ylab= "Sum of PIP")
+allchr <- read.table(f[["rpip"]], header = T)
+a <- allchr[allchr["chrom"]==chrom,]
+print(paste("plot for chr", chrom))
+par(mar=c(5, 4, 4, 6) + 0.1)
+with(a, plot(p0, rPIP, col ='salmon', xlab = "position", ylab= "Sum of PIP", type = 'h', lwd = 2))
+par(new = T)
+with(a, plot(p0, nCausal, pch =19, col = "darkgreen",axes = FALSE, bty = "n", xlab = "", ylab = ""))
+axis(side = 4)
+mtext(side = 4, line = 3, 'No. causal signals')
+legend("topleft",
+       legend=c("Mr.ASH PIP", "# Causal"),
+       lty=c(1,0), pch=c(NA, 19), col=c("salmon", "darkgreen"))
 grid()
 ```
+```{r rpip 2, fig.height=4, fig.width=4}
+plot( allchr$rPIP, allchr$nCausal, bg = rgb(red = 1, green = 0, blue = 0, alpha = 0.1), col= "red", pch = 21, cex =2,
+     ylab = "# Causal", xlab= "Sum of PIP")
+```
+
+
+# PIP calibration
+We run 50 simulations and combine results.
+```{r caliplot}
+cp_plot <- function(pip, ifcausal, main = "PIP"){
+  # ifcausal:0,1
+  a_bin <- cut(pip, breaks= seq(0,1, by=0.1))
+  PIP_mean = c(by(pip, a_bin, FUN = mean))
+  Freq = c(by(ifcausal, a_bin, FUN = mean))
+  plot(PIP_mean, Freq, xlim= c(0,1), ylim=c(0,1), pch =19, main = main)
+  lines(x = c(0,1), y = c(0,1), col ="red")
+}
+
+caliPIP_plot <- function(tags, tag2){
+  f <- lapply(tags, get_files, tag2 = tag2)
+  mrashf <- lapply(f, '[[', "gmrash")
+  names(mrashf) <- tags
+  
+  susief <- lapply(f, '[[', "gsusie")
+  names(susief) <- tags
+
+  .tagname <- function(x, flist){
+    a <- read.table(flist[[x]], header =T)
+    a[, "name"] <- paste0(x, ":", a[, "name"])
+    a
+  }
+  mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
+  susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
+ 
+  res <- merge(mrashres, susieres, by = "name", all = T)
+  
+  res <- res[complete.cases(res),]
+  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null", "pip.w0" = "SUSIE_PIP_w0"))
+  par(mfrow=c(1,4), mar=c(5, 6, 4, 1))
+  cp_plot(res$mr.ash_PIP, res$ifcausal, main = "Mr.ash PIP")
+  cp_plot(res$SUSIE_PIP, res$ifcausal, main = "SUSIE PIP")
+  cp_plot(res$SUSIE_PIP_null, res$ifcausal, main = "SUSIE PIP null")
+  cp_plot(res$SUSIE_PIP_w0, res$ifcausal, main = "SUSIE PIP weighted null")
+}
+```
+
+## NULL; expr-snp; expr-snp 
+```{r cali 1, fig.height=4, fig.width=14}
+res <- caliPIP_plot(tags = tags_ext2, tag2 = "zeroes-es")
+```
+
+## Lasso; expr-snp; expr-snp 
+```{r cali 2, fig.height=4, fig.width=14}
+caliPIP_plot(tags = tags_ext, tag2 = "lassoes-es")
+```
+
 
 # PIP scatter plot
 mr.ash2s PIP vs. susie PIP.
@@ -109,7 +189,7 @@ scatter_plot_PIP<- function(tag2){
   res <- merge(mrashres, susieres, by = "name", all = T)
   
   res <- res[complete.cases(res),]
-  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null") )
+  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null", "pip.w0" = "SUSIE_PIP_w0") )
   res$ifcausal <- mapvalues(res$ifcausal, 
           from=c(0,1), 
           to=c("Non causal", "Causal"))
@@ -120,33 +200,33 @@ scatter_plot_PIP<- function(tag2){
   fig2 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_null, color = ~ ifcausal, 
                  colors = c( "salmon", "darkgreen"))
   
-  fig <- subplot(fig1, fig2, titleX = TRUE, titleY = T, margin = 0.1)
+  fig3 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_w0, color = ~ ifcausal, 
+                 colors = c( "salmon", "darkgreen"))
+  
+  fig <- subplot(fig1, fig2, fig3, titleX = TRUE, titleY = T, margin = 0.05)
   fig
 }
 ```
 ## NULL; expr-snp; expr-snp 
-```{r sca 1, fig.height=4, fig.width=10}
+```{r sca 1, fig.height=3, fig.width=10}
 scatter_plot_PIP(tag2s[1])
 ```
-
 ## NULL; snp-expr; expr-snp
 
-```{r sca 2, fig.height=4, fig.width=10}
+```{r sca 2, fig.height=3, fig.width=10}
 scatter_plot_PIP(tag2s[2])
 ```
-
 ## lasso; expr-snp; expr-snp
 
-```{r sca 3, fig.height=4, fig.width=10}
+```{r sca 3, fig.height=3, fig.width=10}
 scatter_plot_PIP(tag2s[3])
 ```
 
 ## lasso; expr-snp; snp-expr
 
-```{r sca 4, fig.height=4, fig.width=10}
+```{r sca 4, fig.height=3, fig.width=10}
 scatter_plot_PIP(tag2s[4])
 ```
-
 
 # ROC curve
 ```{r roc}
@@ -178,13 +258,13 @@ ROC_plot<- function(tag2){
   res <- merge(res, gwasres, by = "name", all = T)
   
   res <- res[complete.cases(res),]
-  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE", "PVALUE" = "TWAS") )
+  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE", "pip.null"= "SUSIE.null", "pip.w0" = "SUSIE.w0", "PVALUE" = "TWAS") )
   res[,"TWAS"] <- -log10(res[, "TWAS"])
   
-  roccolors <-  c("red", "green", "blue")
-  methods <- c("mr.ash", "SUSIE", "TWAS")
+  roccolors <-  c("red", "green", "orange", "pink", "blue")
+  methods <- c("mr.ash", "SUSIE", "SUSIE.null", "SUSIE.w0", "TWAS")
   plot(0, xlim=c(0,1), ylim=c(0,1), col="white", xlab = "FPR", ylab = "TPR")
-  for (i in 1:3){
+  for (i in 1:length(methods)){
     method <- methods[i]
     bordered <- res[order(res[,method]),] 
     actuals <- bordered$ifcausal == 1
@@ -195,7 +275,7 @@ ROC_plot<- function(tag2){
     auc <- sum(spec*diff(c(0, 1 - sens)))
     cat("AUC for ", method, ": ", auc)
   }
-  legend(0.6,0.3, legend= methods, col=roccolors, lty=1, cex=0.8)
+  legend(0.6,0.3, legend= methods, col=roccolors, lty=1, cex=0.5 )
   grid()
 }
 ```
@@ -224,4 +304,14 @@ ROC_plot(tag2s[4])
 ```
 
 
+# Mr.ash2 parameter estimation, n=80k
+
+## lasso; expr-snp; expr-snp
+
+```{r param80k 3}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200730/"
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200730/"
+tags <- paste0('20200730-1-', 1:3)
+show_param(tag2s[3])
+```
 

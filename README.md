@@ -56,7 +56,11 @@ backup file and in R: 3G.
 
 Change from `matrix` type in R to `FBM` type in `bigstatr` package. Advantage: 1. can apply `biglasso` on it: save memory for lasso step. 2. Call by reference, so this will not copy the matrix. 3. easy connect to Rcpp. 4. file backed, no need to load everything to memory.
 
-After switch to FBM, all parts should not limit by memory except for mr.ash. However, when using multiple cores, which means each core will have 1/ncore allocation of total memory, biglasso can take a very long time. so currently, need to ensure each core has genotype size memory.
+After switch to FBM, all parts should not limit by memory except for mr.ash. However, when using multiple cores, and core can't read simutaneously from the same back up file. 
+1. For `bigstatsr::big_apply`, only use one core. when using multiple cores, even if they are from the same node, they will interfere with each other 
+2. For `biglasso`, only one node can access the .bk file at one time. can use multiple core from the same node. 
+
+When writing code, pay attention to 1. and when running, use multiple copies of gentype file to avoid reading from the same file.
 
 simulate phenotype: need to change for FBM class type.
 

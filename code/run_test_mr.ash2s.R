@@ -44,7 +44,7 @@ phenores$Y <-  phenores$Y - mean(phenores$Y)
 outname <- args[4]
 
 # run mr.ash2s (a simplified version of veb_boost)
-## run mr.ash2s
+# run mr.ash2s
 loginfo("mr.ash2s initiation (beta: NULL, update order: expr-snp)")
 mr.ash2s.fit <- mr.ash2s(snp = dat$G,
                          expr = dat$expr,
