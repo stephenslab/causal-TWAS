@@ -9,7 +9,8 @@ library(biglasso)
 #' - precalculation for w can be provided as an argument `w`.
 
 mr.ashs                      = function(X, y, sa2 = NULL,
-                                       K = 20, method = c("caisa","accelerate","block","sigma_scaled","sigma_indep"),
+                                       K = 20,
+                                       method = c("caisa","accelerate","block","sigma_scaled","sigma_indep"),
                                        w = NULL,
                                        max.iter = 1000, min.iter = 1,
                                        beta.init = NULL,
@@ -166,6 +167,8 @@ mr.ash2 <- function(X1, X2, y, iter = 20){
 #' X1, X2, y need to be preprocessed consistently (all either centered/standardized or not)
 #' @param X1, matrix
 #' @param X2, matrix
+#' @param ..., other parameters that will be passed to mr.ashs, will be the same for the two
+#' components.
 
 mr.ash2s_iter <- function(X1, X2,
                           y,
@@ -173,7 +176,7 @@ mr.ash2s_iter <- function(X1, X2,
                           beta1 = NULL, beta2 = NULL,
                           pi1 = NULL, pi2 = NULL,
                           sigma2 = NULL,
-                          iter = 30){
+                          iter = 30, ... ){
   n <- dim(X1)[1]
   p1 <- dim(X1)[2]
   p2 <- dim(X2)[2]
@@ -201,7 +204,7 @@ mr.ash2s_iter <- function(X1, X2,
                     sigma2 = sigma2,
                     pi = pi1,
                     w = w1,
-                    max.iter = 1)
+                    max.iter = 1, ...)
 
     beta1 <- fit1$beta
 
@@ -212,7 +215,7 @@ mr.ash2s_iter <- function(X1, X2,
                     sigma2 = sigma2,
                     pi = pi2,
                     w = w2,
-                    max.iter = 1)
+                    max.iter = 1, ...)
 
     beta2 <- fit2$beta
 
@@ -254,7 +257,7 @@ mr.ash2s_iter <- function(X1, X2,
 #' - "lassoSNP", init with lasso for SNP and NULL for gene
 #' @param init.order "es", expr-snp; "se", "snp-expr"
 #' @param iter.order "es", expr-snp; "se", "snp-expr"
-#'
+#' @param ... additional arguments that will be passed to `mr.ash2s_iter`.
 mr.ash2s <- function(expr,
                      snp,
                      y,
@@ -263,7 +266,8 @@ mr.ash2s <- function(expr,
                      iter.order =c("es", "se"),
                      outname = "mr.ash2s",
                      backingfile = outname,
-                     ncores = 1, iter = 30
+                     ncores = 1, iter = 30,
+                     ...
                      ){
 
   mr.ash.init <- match.arg(mr.ash.init)
@@ -348,7 +352,7 @@ mr.ash2s <- function(expr,
       beta1 = beta.expr, beta2 = beta.snp,
       pi1 = pi.expr, pi2 = pi.snp,
       sigma2 = sigma2,
-      iter = iter)
+      iter = iter, ...)
 
   } else if (iter.order == "se"){
 
@@ -359,7 +363,7 @@ mr.ash2s <- function(expr,
       beta2 = beta.expr, beta1 = beta.snp,
       pi2 = pi.expr, pi1 = pi.snp,
       sigma2 = sigma2,
-      iter = iter)
+      iter = iter, ...)
   }
 
   mr.ash2s.fit$init.order <- init.order

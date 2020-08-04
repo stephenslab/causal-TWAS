@@ -35,7 +35,7 @@ if (!file.exists(pfileRd)) {
 
 load(pfileRd)
 
-dat$G <- as.matrix(dat$G$bm()) # TODO: revise other functions in this script to take FBM as input.
+dat$G <- dat$G[] # TODO: revise other functions in this script to take FBM as input.
 
 # simulate phenotype
 outname <- args[4]

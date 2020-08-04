@@ -23,7 +23,7 @@ source(paste0(codedir,"input_reformat.R"))
 addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
 loginfo('script started ... ')
 
-PIPfilter <- 0.2
+PIPfilter <- 0.5
 chunksize = 500000
 
 loginfo("regional PIP cut: %s ", PIPfilter)

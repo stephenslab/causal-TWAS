@@ -45,12 +45,15 @@ outname <- args[4]
 
 # run mr.ash2s (a simplified version of veb_boost)
 # run mr.ash2s
+Sa2 = (2^(c(seq(0,20,2)/200, seq(2,19,2)/20)) - 1)^2
+
+save.image("temp.Rd")
 loginfo("mr.ash2s initiation (beta: NULL, update order: expr-snp)")
 mr.ash2s.fit <- mr.ash2s(snp = dat$G,
                          expr = dat$expr,
                          y= phenores$Y,
                          mr.ash.init = NULL,
-                         init.order = "es", iter = 30, outname = outname, ncores = 5)
+                         init.order = "es", iter = 30, outname = outname, ncores = 5, sa2 = Sa2)
 mr.ash2s_save(mr.ash2s.fit, outname)
 rm(mr.ash2s.fit); gc()
 
@@ -59,7 +62,7 @@ rm(mr.ash2s.fit); gc()
 #                          expr = dat$expr,
 #                          y= phenores$Y,
 #                          mr.ash.init = NULL,
-#                          init.order = "se", iter = 30, outname = outname, ncores = 5)
+#                          init.order = "se", iter = 30, outname = outname, ncores = 5, sa2 = Sa2)
 # mr.ash2s_save(mr.ash2s.fit, outname)
 # rm(mr.ash2s.fit); gc()
 
@@ -69,7 +72,7 @@ mr.ash2s.fit <- mr.ash2s(snp = dat$G,
                          expr = dat$expr,
                          y= phenores$Y,
                          mr.ash.init = "lasso",
-                         init.order = "es", iter = 30, outname = outname, ncores = 5)
+                         init.order = "es", iter = 30, outname = outname, ncores = 5, sa2 = Sa2)
 mr.ash2s_save(mr.ash2s.fit, outname)
 rm(mr.ash2s.fit); gc()
 
@@ -78,7 +81,7 @@ rm(mr.ash2s.fit); gc()
 #                          expr = dat$expr,
 #                          y= phenores$Y,
 #                          mr.ash.init = "lasso",
-#                          init.order = "es", iter.order = "se", iter = 30, outname = outname, ncores = 5)
+#                          init.order = "es", iter.order = "se", iter = 30, outname = outname, ncores = 5, sa2 = Sa2)
 # mr.ash2s_save(mr.ash2s.fit, outname)
 # rm(mr.ash2s.fit); gc()
 #

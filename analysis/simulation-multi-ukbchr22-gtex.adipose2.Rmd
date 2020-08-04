@@ -15,12 +15,16 @@ library(data.table)
 suppressMessages({library(plotly)})
 library(tidyr)
 library(plyr)
+library(stringr)
+library(kableExtra)
 ```
 ```{r output dir}
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
 outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200616/"
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200616/"
 tags <- paste0('20200616-8-', 1:9)
+tagglob <- '20200616-8-*'
+tagextr <- '20200616-8-\\d+'
 tag2s <- c('zeroes-es', 'zerose-es', 'lassoes-es','lassoes-se')
 ```
 
@@ -40,40 +44,53 @@ get_files <- function(tag, tag2){
   
   return(tibble::lst(par, rpip, gmrash, ggwas, smrash, sgwas, gsusie, ssusie))
 }
+
+get_tags <- function(globpattern, extrpattern, tag2){
+  lapply(lapply(get_files(globpattern, tag2), Sys.glob), str_extract, pattern = extrpattern)
+}
 ```
 # Mr.ash2 parameter estimation
 Results for 9 simulations runs, using different initiate and update strategy
 ```{r param function}
-show_param <- function(tag2){
+show_param <- function(tags, tag2){
   f <- lapply(tags, get_files, tag2 = tag2)
   parf <- lapply(f, '[[', "par")
   param <- do.call(rbind, lapply(parf, function(x) t(read.table(x))[2:1,]))
-  knitr::kable(param)
+  truth <- param[1:(nrow(param)/2)*2-1,]
+  est <- param[1:(nrow(param)/2)*2,]
+  outdt <- matrix(0, ncol = 2*ncol(param), nrow = nrow(param)/2)
+  outdt[,c(1,3,5,7)] <- truth
+  outdt[,c(2,4,6,8)] <- est
+  outdt <-cbind(1:nrow(outdt),outdt)
+  colnames(outdt) <- c("Simulation#", paste0(rep(c("Truth","Est."),4)))
+  knitr::kable(outdt) %>%
+  kable_styling("striped") %>%
+  add_header_above(c(" " = 1, "Gene.pi1" = 2, "Gene.PVE" = 2, "SNP.pi1" = 2, "SNP.PVE" =2))
 }
 ```
 
 ## NULL; expr-snp; expr-snp 
 
 ```{r param 1}
-show_param(tag2s[1])
+show_param(tags = tags, tag2 = tag2s[1])
 ```
 
 ## NULL; snp-expr; expr-snp
 
 ```{r param 2}
-show_param(tag2s[2])
+show_param(tags = tags, tag2 = tag2s[2])
 ```
 
 ## lasso; expr-snp; expr-snp
 
 ```{r param 3}
-show_param(tag2s[3])
+show_param(tags = tags, tag2 = tag2s[3])
 ```
 
 ## lasso; expr-snp; snp-expr
 
 ```{r param 4}
-show_param(tag2s[4])
+show_param(tags = tags, tag2 = tag2s[4])
 ```
 
 
@@ -83,14 +100,138 @@ Take simulation 1 (NULL; expr-snp; expr-snp) as examples. We use region size *50
 ```{r rpip 1, fig.height=4, fig.width=10}
 f <- get_files(tag= tags[1], tag2 = tag2s[1])
 a <- read.table(f[["rpip"]], header = T)
-plot(a$p0, a$rPIP, pch =19, col ='salmon', xlab = "position", ylab= "Sum of PIP")
+par(mar=c(5, 4, 4, 6) + 0.1)
+with(a, plot(p0, rPIP, col ='salmon', xlab = "position", ylab= "Sum of PIP", type = 'h', lwd = 2))
+par(new = T)
+with(a, plot(p0, nCausal, pch =19, col = "darkgreen",axes = FALSE, bty = "n", xlab = "", ylab = ""))
+axis(side = 4)
+mtext(side = 4, line = 3, 'No. causal signals')
+legend("topleft",
+       legend=c("Mr.ASH PIP", "# Causal"),
+       lty=c(1,0), pch=c(NA, 19), col=c("salmon", "darkgreen"))
 grid()
 ```
+
+# PIP calibration
+We run 100 simulations and combine results.
+```{r caliplot}
+#' s is pip or fdr.
+cp_plot <- function(s, ifcausal, mode = c("PIP", "FDR"), main = mode[1]){
+  # ifcausal:0,1
+  a_bin <- cut(s, breaks= seq(0,1, by=0.1))
+  if (mode == "PIP") {
+     expected = c(by(s, a_bin, FUN = mean))
+     observed = c(by(ifcausal, a_bin, FUN = mean))
+  } else if (mode == "FDR"){
+     expected = c(by(s, a_bin, FUN = mean))
+     observed = 1 - c(by(ifcausal, a_bin, FUN = mean))
+  }
+  plot(expected, observed, xlim= c(0,1), ylim=c(0,1), pch =19, main = main)
+  lines(x = c(0,1), y = c(0,1), col ="red")
+}
+
+caliPIP_plot <- function(tags, tag2){
+  f <- lapply(tags, get_files, tag2 = tag2)
+  mrashf <- lapply(f, '[[', "gmrash")
+  names(mrashf) <- tags
+  
+  susief <- lapply(f, '[[', "gsusie")
+  names(susief) <- tags
+
+  .tagname <- function(x, flist){
+    a <- read.table(flist[[x]], header =T)
+    a[, "name"] <- paste0(x, ":", a[, "name"])
+    a
+  }
+  mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
+  susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
+ 
+  res <- merge(mrashres, susieres, by = "name", all = T)
+  
+  res <- res[complete.cases(res),]
+  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null", "pip.w0" = "SUSIE_PIP_w0"))
+  par(mfrow=c(1,4), mar=c(5, 6, 4, 1))
+  cp_plot(res$mr.ash_PIP, res$ifcausal, main = "Mr.ash PIP")
+  cp_plot(res$SUSIE_PIP, res$ifcausal, main = "SUSIE PIP")
+  cp_plot(res$SUSIE_PIP_null, res$ifcausal, main = "SUSIE PIP null")
+  cp_plot(res$SUSIE_PIP_w0, res$ifcausal, main = "SUSIE PIP weighted null")
+}
+
+caliFDR_plot <- function(tags, tag2){
+  
+  f <- lapply(tags, get_files, tag2 = tag2)
+  gwasf <- lapply(f, '[[', "ggwas")
+  names(gwasf) <- tags
+
+  .tagname <- function(x, flist, colnames = NULL){
+    a <- read.table(flist[[x]], header =T)
+    if (!is.null(colnames)){
+      colnames(a) <- colnames
+    }
+    a[, "name"] <- paste0(x, ":", a[, "name"])
+    a
+  }
+  
+  .addFDR <- function(res){
+    res$FDR <- p.adjust(res$PVALUE, method = "fdr")
+    res
+  }
+  
+  
+  gwasres <- do.call(rbind, lapply(lapply(tags, .tagname, flist = gwasf, 
+                                   colnames =  c("chr",	"p0",	"p1", "name", 
+                                                 "Estimate", "Std.Error", "t-value", "PVALUE")), .addFDR))
+  
+  f <- lapply(tags, get_files, tag2 = tag2)
+  mrashf <- lapply(f, '[[', "gmrash")
+  names(mrashf) <- tags
+  
+  susief <- lapply(f, '[[', "gsusie")
+  names(susief) <- tags
+
+  .tagname <- function(x, flist){
+    a <- read.table(flist[[x]], header =T)
+    a[, "name"] <- paste0(x, ":", a[, "name"])
+    a
+  }
+  mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
+  susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
+ 
+  res <- merge(mrashres, susieres, by = "name", all = T)
+  
+  res <- merge(res, gwasres, by = "name", all = T)
+  
+  res <- res[complete.cases(res),]
+  
+  cp_plot(res$FDR, res$ifcausal, mode ="FDR", main = "TWAS FDR")
+  cat("FDR at bonferroni corrected p = 0.05: ", 1 - mean(res[gwasres$PVALUE < 0.05 /dim(res)[1], "ifcausal"]))
+}
+```
+
+## NULL; expr-snp; expr-snp 
+```{r cali 1, fig.height=4, fig.width=14}
+tag2 = "zeroes-es"
+tags_ext <- Reduce(intersect, get_tags(tagglob, tagextr, tag2 = tag2)['gsusie'])
+res <- caliPIP_plot(tags = tags_ext, tag2 = tag2)
+```
+```{r cali 1fdr, fig.height=4, fig.width=4}
+caliFDR_plot(tags = tags_ext, tag2 = tag2)
+```
+
+## Lasso; expr-snp; expr-snp 
+```{r cali 2, fig.height=4, fig.width=14}
+caliPIP_plot(tags = tags_ext, tag2 = "lassoes-es")
+```
+
+```{r cali 2fdr, fig.height=4, fig.width=4}
+caliFDR_plot(tags = tags_ext, tag2 = "lassoes-es")
+```
+
 
 # PIP scatter plot
 mr.ash2s PIP vs. susie PIP.
 ```{r scatterplot}
-scatter_plot_PIP<- function(tag2){
+scatter_plot_PIP<- function(tags, tag2){
   f <- lapply(tags, get_files, tag2 = tag2)
   mrashf <- lapply(f, '[[', "gmrash")
   names(mrashf) <- tags
@@ -126,31 +267,31 @@ scatter_plot_PIP<- function(tag2){
 ```
 ## NULL; expr-snp; expr-snp 
 ```{r sca 1, fig.height=4, fig.width=10}
-scatter_plot_PIP(tag2s[1])
+scatter_plot_PIP(tags = tags, tag2 = tag2s[1])
 ```
 
 ## NULL; snp-expr; expr-snp
 
 ```{r sca 2, fig.height=4, fig.width=10}
-scatter_plot_PIP(tag2s[2])
+scatter_plot_PIP(tags = tags, tag2 = tag2s[2])
 ```
 
 ## lasso; expr-snp; expr-snp
 
 ```{r sca 3, fig.height=4, fig.width=10}
-scatter_plot_PIP(tag2s[3])
+scatter_plot_PIP(tags = tags, tag2 = tag2s[3])
 ```
 
 ## lasso; expr-snp; snp-expr
 
 ```{r sca 4, fig.height=4, fig.width=10}
-scatter_plot_PIP(tag2s[4])
+scatter_plot_PIP(tags = tags, tag2 = tag2s[4])
 ```
 
 
 # ROC curve
 ```{r roc}
-ROC_plot<- function(tag2){
+ROC_plot<- function(tags, tag2){
   f <- lapply(tags, get_files, tag2 = tag2)
   mrashf <- lapply(f, '[[', "gmrash")
   names(mrashf) <- tags
@@ -202,25 +343,25 @@ ROC_plot<- function(tag2){
 
 ## NULL; expr-snp; expr-snp 
 ```{r roc 1, fig.height=4, fig.width=4}
-ROC_plot(tag2s[1])
+ROC_plot(tags = tags, tag2 = tag2s[1])
 ```
 
 ## NULL; snp-expr; expr-snp
 
 ```{r roc 2, fig.height=4, fig.width=4}
-ROC_plot(tag2s[2])
+ROC_plot(tags = tags, tag2 = tag2s[2])
 ```
 
 ## lasso; expr-snp; expr-snp
 
 ```{r roc 3, fig.height=4, fig.width=4}
-ROC_plot(tag2s[3])
+ROC_plot(tags = tags, tag2 = tag2s[3])
 ```
 
 ## lasso; expr-snp; snp-expr
 
 ```{r roc 4, fig.height=4, fig.width=4}
-ROC_plot(tag2s[4])
+ROC_plot(tags = tags, tag2 = tag2s[4])
 ```
 
 
