@@ -1,5 +1,5 @@
 ---
-title: "Summarize twas"
+title: "Summarize twas: chr17 to 22"
 output: html_document
 ---
 

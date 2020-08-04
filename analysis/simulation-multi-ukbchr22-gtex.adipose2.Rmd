@@ -1,10 +1,11 @@
 ---
-title: "Summarize twas"
-output: html_document
+title: "Summarize twas: chr22"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,  message= F)
+knitr::opts_chunk$set(echo = TRUE,  message= F, warning = F)
 ```
 
 Run simulation 9 times for ukb chr 22. 

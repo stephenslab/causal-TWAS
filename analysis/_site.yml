@@ -11,10 +11,12 @@ navbar:
     href: license.html
   right:
   - icon: fa-github
+    text: Source code
     href: https://github.com/stephenslab/causal-TWAS
 output:
   workflowr::wflow_html:
     toc: yes
     toc_float: yes
+    code_folding: "hide"
     theme: journal
     highlight: textmate
