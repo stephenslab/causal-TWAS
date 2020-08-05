@@ -25,7 +25,7 @@ source("analysis/summarize_twas_plots.R")
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/"
-tags <- paste0('20200721-1-', 1:7)
+tags <- paste0('20200721-1-', c(2, 4:9))
 tagglob <- '20200721-1-*'
 tagextr <- '20200721-1-\\d+'
 tag2s <- c('zeroes-es', 'zerose-es', 'lassoes-es','lassoes-se')

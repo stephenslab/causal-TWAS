@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,  message= F)
+knitr::opts_chunk$set(echo = TRUE,  message= F, warning = F)
 ```
 
 Run simulation 8 times for ukb chr 17 to chr 22 combined. SNPs are downsampled to 1/10, eQTLs defined by FUSION-TWAS (Adipose/GTEx) lasso effect size > 0 were kept, p= 86k, n = 20k.

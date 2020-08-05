@@ -36,8 +36,8 @@ Using UKbiobank data (chr22)
   * [Test mr.ash performance: only SNP effect](simulation-mr.ash-ukbchr22.html)
 
   
-## Test veb_boost
-A simplified version (mr.ash2): interative update of two mr.ash components
+## Test mr.ash2s
+A simplified version (mr.ash2) of `Veb_boost`: interative update of two mr.ash components
 
   * [Using some simple data](simulation_simpleveb-boost.html)
   
@@ -51,6 +51,8 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
   * [Using UKbiobank data (chr22), fusion weights YFS ](https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost2-ukbchr22.html)
   
   * [Using UKbiobank data (chr22), fusion weights Adipose subcutaneous](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-gtex.adipose.html)
+  
+  * [Using UKbiobank data (chr17 to 22), fusion weights Adipose subcutaneous](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr17to22-gtex.adipose.html)
   
   * [Using UKbiobank data (chr22), weights of H3K27 from Xiaotong](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-H3K27.html)
   

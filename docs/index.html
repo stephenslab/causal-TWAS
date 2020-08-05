@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
@@ -176,6 +177,14 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 
@@ -304,6 +313,7 @@ div.tocify {
   <a href="https://github.com/stephenslab/causal-TWAS">
     <span class="fa fa-github"></span>
      
+    Source code
   </a>
 </li>
       </ul>
@@ -312,6 +322,14 @@ div.tocify {
 </div><!--/.navbar -->
 
 <div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
 
@@ -340,7 +358,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-08-04
+<strong>Last updated:</strong> 2020-08-05
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -371,16 +389,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreedff432c17579ffae91dba8e55b18fd9518d0d7d7targetblankdff432ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/dff432c17579ffae91dba8e55b18fd9518d0d7d7" target="_blank">dff432c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree958f7947e7bb242516618e5a8a0facd6e0856081targetblank958f794a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/958f7947e7bb242516618e5a8a0facd6e0856081" target="_blank">958f794</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreedff432c17579ffae91dba8e55b18fd9518d0d7d7targetblankdff432ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree958f7947e7bb242516618e5a8a0facd6e0856081targetblank958f794a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/dff432c17579ffae91dba8e55b18fd9518d0d7d7" target="_blank">dff432c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/958f7947e7bb242516618e5a8a0facd6e0856081" target="_blank">958f794</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -393,19 +411,13 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-multi-ukbchr17to22-gtex.adipose_sa2_v2.Rmd
-    Untracked:  code/run_test_mr.ash2s_temp.R
+    Untracked:  analysis/simulation-mr.ash2s-ukbchr17to22-gtex.adipose.Rmd
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
     Modified:   analysis/simulation-multi-ukbchr17to22-gtex.adipose.Rmd
-    Modified:   analysis/simulation-multi-ukbchr22-gtex.adipose2.Rmd
-    Modified:   code/mr.ash2_FBM.R
-    Modified:   code/run_simulate_data.R
-    Modified:   code/run_test_mr.ash2s.R
-    Modified:   code/run_test_susie.R
-    Modified:   code/workflow/workflow-ashtest-20200730.ipynb
-    Modified:   code/workflow/workflow-ashtest3.ipynb
+    Modified:   analysis/simulation-multi-ukbchr17to22-gtex.adipose_sa2_v2.Rmd
+    Modified:   code/gen_mr.ash2_output.R
     Modified:   code/workflow/workflow-ashtest4.ipynb
 
 </code></pre>
@@ -445,6 +457,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f6ea15c1092f46bb13c46e76ef35f151c468ba5e/analysis/index.Rmd" target="_blank">f6ea15c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-08-04
+</td>
+<td>
+change sa2 grid
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/f6ea15c1092f46bb13c46e76ef35f151c468ba5e/docs/index.html" target="_blank">f6ea15c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-08-04
+</td>
+<td>
+change sa2 grid
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1274,9 +1320,9 @@ model and Xin’s simulation
 <li><a href="simulation-mr.ash-ukbchr22.html">Test mr.ash performance: only SNP effect</a></li>
 </ul>
 </div>
-<div id="test-veb_boost" class="section level2">
-<h2>Test veb_boost</h2>
-<p>A simplified version (mr.ash2): interative update of two mr.ash components</p>
+<div id="test-mr.ash2s" class="section level2">
+<h2>Test mr.ash2s</h2>
+<p>A simplified version (mr.ash2) of <code>Veb_boost</code>: interative update of two mr.ash components</p>
 <ul>
 <li><p><a href="simulation_simpleveb-boost.html">Using some simple data</a></p></li>
 <li><p><a href="https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost-ukbchr22.html">Using UKbiobank data (chr22)</a></p></li>
@@ -1286,6 +1332,7 @@ model and Xin’s simulation
 <li><p><a href="simulation_simpleveb-boost2.html">Using some simple data</a></p></li>
 <li><p><a href="https://users.rcc.uchicago.edu/~simingz/simulation-simpleveb-boost2-ukbchr22.html">Using UKbiobank data (chr22), fusion weights YFS</a></p></li>
 <li><p><a href="https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-gtex.adipose.html">Using UKbiobank data (chr22), fusion weights Adipose subcutaneous</a></p></li>
+<li><p><a href="https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr17to22-gtex.adipose.html">Using UKbiobank data (chr17 to 22), fusion weights Adipose subcutaneous</a></p></li>
 <li><p><a href="https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-H3K27.html">Using UKbiobank data (chr22), weights of H3K27 from Xiaotong</a></p></li>
 </ul>
 </div>

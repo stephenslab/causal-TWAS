@@ -1,0 +1,166 @@
+---
+title: "Test mr.ash2s on ukbiobank data, chr17-22"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
+```
+
+We test the performance of mr.ash2s on ukbiobank data (chr17 to 22, n sample = 20,000). 
+We use weights from Fusion website, using [Adipose (subcutaneous) p < 0.01](http://gusevlab.org/projects/fusion/weights/GTEx.Adipose_Subcutaneous.P01.tar.bz2).
+Total features > 8,000. On chr17 to 22: ~1500.
+
+```{r plot functions}
+library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+
+source("~/causalTWAS/causal-TWAS/code/fit_mr.ash.R")
+
+plot_pip <- function(dt){
+  
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+  
+  if ( "max_r2" %in% colnames(dt)) {
+    fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', 
+                   mode = 'markers', color = ~ ifcausal, 
+                   text = ~ paste("Name: ", name, 
+                                  "\nmax R^2: ", round(max_r2, digits = 2), 
+                                  "\nMax pair: ", max_pair))
+  } else {
+    fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+  }
+
+  fig <- fig %>% layout(yaxis = list(title = "PIP"))
+  return(fig)
+}
+
+plot_beta <- function(dt){
+  fig <- plot_ly(dt, x = ~p0, y = ~ TrueBeta, type = 'scatter', mode = 'markers', name ="Truth", text = ~paste("Name: ", name))
+  fig <- fig %>% add_trace(y = ~ EstBeta, name = 'Estimated',mode = 'markers')
+
+  fig <- fig %>% layout(yaxis = list(title = "beta"))
+  return(fig)
+}
+
+plot_p <- function(dt){
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+  
+  fig <- plot_ly(dt, x = ~p0, y = ~ PVALUE , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "p value"))
+  return(fig)
+}
+
+plot_susie_pip <- function(dt) {
+   pal <- c("salmon", "darkgreen")
+   pal <- setNames(pal, c("Causal", "Non causal"))
+   
+   fig <- plot_ly(dt, x = ~ p0, y = ~ susiePIP , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+   fig <- fig %>% layout(yaxis = list(title = "SUSIE PIP"))
+}
+
+plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp, susieres.gene, susieres.snp, ldres = NULL, chrom=NULL){
+  a <- read.table(mrashres.gene , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+  
+  if (!is.null(ldres)){
+    ld <- read.table(ldres, header =T)
+    a <- merge(a, ld, by = "name", all.x = T)}
+
+  
+  su <- read.table(susieres.gene, header =T)
+  colnames(su)[colnames(su) == "pip"] <-  "susiePIP"
+  a <- merge(a, su, by = "name", all.x = T)
+  
+  p <- fread(gwasres.gene, header =T)
+  p[,"PVALUE"] <- -log10(p[,"PVALUE"])
+  colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
+  dt.gene <- merge(a, p, by = "name", all.x = T)
+
+  a <- read.table(mrashres.snp , header =T)
+  a[a$ifcausal == 1, "ifcausal"] = "Causal"
+  a[a$ifcausal == 0, "ifcausal"] = "Non causal"
+  
+  su <- read.table(susieres.snp, header =T)
+  colnames(su)[colnames(su) == "pip"] <-  "susiePIP"
+  a <- merge(a, su, by = "name", all.x = T)
+
+  p <- fread(gwasres.snp, header =T)
+  p[,"PVALUE"] <- -log10(p[,"PVALUE"])
+  colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
+  dt.snp <- merge(a, p, by = "name", all.x = T)
+  
+  if (!is.null(chrom)){
+    dt.gene <- dt.gene[dt.gene$chr.x == chrom,]
+    dt.snp <- dt.snp[dt.snp$chr.x == chrom,]
+  }
+
+  
+  fig1 <- plot_pip(dt.gene)  
+  fig2 <- plot_beta(dt.gene) 
+  fig3 <- plot_p(dt.gene) 
+  fig4 <- plot_susie_pip(dt.gene) 
+  fig5 <- plot_pip(dt.snp) 
+  fig6 <- plot_beta(dt.snp) 
+  fig7 <- plot_p(dt.snp)
+  fig8 <- plot_susie_pip(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
+  
+  fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, fig7, fig8, nrows=8, shareX = T, titleY = T)
+  
+  fig <- fig %>% layout(autosize = F, width = 600, height = 1100, margin = 0.02,
+    xaxis = list(title = "Genomic position"))
+  
+  fig <- fig %>% toWebGL()
+  fig
+}
+
+```
+
+
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
+susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/"
+```
+
+```{r getfile function}
+get_files <- function(tag, tag2){
+  par <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt")
+  gmrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt")
+  ggwas <- paste0(outputdir, tag, ".exprgwas.txt.gz")
+  smrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt")
+  sgwas <- paste0(outputdir, tag, ".snpgwas.txt.gz")
+  gsusie <- paste0(susiedir, tag, ".", tag2, ".L3.susieres.expr.txt")
+  ssusie <- paste0(susiedir, tag, ".", tag2, ".L3.susieres.snp.txt")
+  rsq <- paste0(outputdir, tag, ".LD.txt")
+  return(tibble::lst(par, gmrash, ggwas, smrash, sgwas, gsusie, ssusie, rsq))
+}
+```
+
+## Simulation 1
+## NULL; expr-snp; expr-snp
+```{r sim 1 gene, out.width = "98%", out.height="95%"}
+tag <- "20200721-1-2"
+tag2s <- c('zeroes-es', 'zerose-es', 'lassoes-es','lassoes-se')
+tag2 <-tag2s[1]
+
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, chrom = "17")
+```
+
+```{r sim 2 gene, out.width = "98%", out.height="95%"}
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, chrom = "18")
+```
+
+```{r sim 3 gene, out.width = "98%", out.height="95%"}
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, chrom = "19")
+```

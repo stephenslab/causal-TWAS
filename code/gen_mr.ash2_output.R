@@ -42,6 +42,7 @@ ld_max <- function(x,  y, stats = "R.squared"){
 
 .eqtl_geno <- function(gname){
   x <- exprres$exprlist[[gname]]
+  x$wgt <- as.matrix(x$wgt,)
   eqtlgeno <- dat$G[ , x$wgt[abs(x$wgt[, "wgt"]) > 0, "idx"], drop = F]
   colnames(eqtlgeno) <- paste(gname, dat$snp[x$wgt[abs(x$wgt[, "wgt"]) > 0, "idx"], 1], sep = ".")
   return(eqtlgeno)
