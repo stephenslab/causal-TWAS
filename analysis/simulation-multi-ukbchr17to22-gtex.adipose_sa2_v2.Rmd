@@ -65,7 +65,7 @@ Take simulation 1 (NULL; expr-snp; expr-snp) as examples. We use region size *50
 
 ```{r rpip 1, fig.height=4, fig.width=10}
 chrom = 18
-f <- get_files(tag= "20200721-1-2" , tag2 = tag2s[1])
+f <- get_files(tag= "20200721-1-3" , tag2 = tag2s[1])
 allchr <- read.table(f[["rpip"]], header = T)
 a <- allchr[allchr["chrom"]==chrom,]
 print(paste("plot for chr", chrom))
@@ -128,6 +128,7 @@ scatter_plot_PIP(tags, tag2s[3])
 scatter_plot_PIP(tags, tag2s[4])
 ```
 
+
 # ROC curve
 
 ## NULL; expr-snp; expr-snp 
@@ -152,6 +153,14 @@ ROC_plot(tags, tag2s[3])
 
 ```{r roc 4, fig.height=4, fig.width=4}
 ROC_plot(tags, tag2s[4])
+```
+
+
+# PIP vs p value
+
+## NULL; expr-snp; expr-snp 
+```{r sca_p 1, fig.height=7, fig.width=7}
+scatter_plot_PIP_p(tags, tag2s[1])
 ```
 
 

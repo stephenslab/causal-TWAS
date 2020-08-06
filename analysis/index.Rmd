@@ -52,7 +52,7 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
   
   * [Using UKbiobank data (chr22), fusion weights Adipose subcutaneous](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-gtex.adipose.html)
   
-  * [Using UKbiobank data (chr17 to 22), fusion weights Adipose subcutaneous](simulation-mr.ash2s-ukbchr17to22-gtex.adipose.html)
+  * [Using UKbiobank data (chr17 to 22), fusion weights Adipose subcutaneous](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr17to22-gtex.adipose.html)
   
   * [Using UKbiobank data (chr22), weights of H3K27 from Xiaotong](https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr22-H3K27.html)
   

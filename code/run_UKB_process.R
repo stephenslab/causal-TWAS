@@ -23,9 +23,10 @@ for (wgtf in wgtfs){
 
 write.table(snpannoall, file= paste(weight, method, "eqtl.txt", sep= ".") , row.names=F, col.names=T, sep="\t", quote = F)
 
-pfiles <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", 17:22, "_s80000.pgen")
+pfiles <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", 17:22, "_s20000.pgen")
 
 mtxall <- NULL
+mtxall.unscaled <- NULL
 varall <- NULL
 for (pfile in pfiles){
   pfile <- drop_ext(pfile)
@@ -36,21 +37,33 @@ for (pfile in pfiles){
   select <- (1:nrow(var))["|"(eqtl, prunetag)]
   varall <- rbind(varall, var[select,])
   mtx <- pgen2mtx(pfile, nb_parts = 1, select=select, progress = T)
-  mtx.scaled <- scaleRcpp(mtx)
-  mtxall <- cbind(mtxall, mtx.scaled)
+  mtxall.unscaled <- cbind(mtxall.unscaled, mtx)
+  # mtx.scaled <- scaleRcpp(mtx)
+  # mtxall <- cbind(mtxall, mtx.scaled)
 }
 
-dat <- list("G"       = mtxall,
+# dat <- list("G"       = mtxall,
+#             "chr"     = as.matrix(varall[,1]),
+#             "pos"     = as.matrix(varall[,2]),
+#             "snp"     = as.matrix(varall[,3]),
+#             "counted" = as.matrix(varall[,4]),
+#             "alt"     = as.matrix(varall[,5]))
+#
+#
+# m <- as_FBM(mtxall, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000")$save()
+# dat$G <- m
+# save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.FBM.Rd")
+
+dat <- list("G"       = mtxall.unscaled,
             "chr"     = as.matrix(varall[,1]),
             "pos"     = as.matrix(varall[,2]),
             "snp"     = as.matrix(varall[,3]),
             "counted" = as.matrix(varall[,4]),
             "alt"     = as.matrix(varall[,5]))
-save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s80000.Rd")
 
-m <- as_FBM(mtxall, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s80000")$save()
+m <- as_FBM(mtxall.unscaled, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.unscaled")$save()
 dat$G <- m
-save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s80000.FBM.Rd")
+save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.unscaled.FBM.Rd")
 
 #----------------------------chr22 only-------------------
 pfile <- "/home/simingz/causalTWAS/ukbiobank/ukb_chr22_s20000"

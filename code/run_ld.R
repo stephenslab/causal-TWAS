@@ -1,10 +1,11 @@
 library(logging)
 
 args = commandArgs(trailingOnly=TRUE)
-if (length(args) != 3) {
+if (length(args) != 4) {
   stop("3 arguments must be supplied:
        * genotype file name
        * expr Rd
+       * pheno Rd
        * out file name", call.=FALSE)
 }
 
@@ -13,7 +14,8 @@ loginfo('script started ... ')
 
 loginfo("input arg 1 (genotype): %s ", args[1])
 loginfo("input arg 2 (expr): %s ", args[2])
-loginfo("input arg 3 (outname): %s ", args[3])
+loginfo("input arg 3 (expr): %s ", args[3])
+loginfo("input arg 4 (outname): %s ", args[4])
 
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
@@ -21,14 +23,17 @@ source(paste0(codedir,"gen_mr.ash2_output.R"))
 
 # load genotype data
 pfile <- args[1]
-pfileRd <- paste0(pfile, ".Rd")
+pfileRd <- paste0(pfile, ".unscaled.FBM.Rd")
 load(pfileRd)
 
 # load expression Rd file, variable: exprres
 load(args[2])
 gc()
 
-outname <- args[3]
+# load pheno Rd file, variable: pheno
+load(args[3])
+
+outname <- args[4]
 
 # get ld information before genotype scaling
 get_ld(outname)

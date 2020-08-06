@@ -47,7 +47,6 @@ outname <- args[4]
 # run mr.ash2s
 Sa2 = (2^(c(seq(0,20,2)/200, seq(2,19,2)/20)) - 1)^2
 
-save.image("temp.Rd")
 loginfo("mr.ash2s initiation (beta: NULL, update order: expr-snp)")
 mr.ash2s.fit <- mr.ash2s(snp = dat$G,
                          expr = dat$expr,

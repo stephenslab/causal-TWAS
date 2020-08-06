@@ -26,10 +26,10 @@ plot_pip <- function(dt){
   
   if ( "max_r2" %in% colnames(dt)) {
     fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', 
-                   mode = 'markers', color = ~ ifcausal, 
+                   mode = 'markers', color = ~ ifcausal, colors = pal,
                    text = ~ paste("Name: ", name, 
-                                  "\nmax R^2: ", round(max_r2, digits = 2), 
-                                  "\nMax pair: ", max_pair))
+                                  "\nmax R^2: ", round(max_r2, digits = 2)))
+                                  #,"\nMax pair: ", max_pair))
   } else {
     fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
   }
@@ -146,21 +146,47 @@ get_files <- function(tag, tag2){
 
 ## Simulation 1
 ## NULL; expr-snp; expr-snp
-```{r sim 1 gene, out.width = "98%", out.height="95%"}
-tag <- "20200721-1-2"
-tag2s <- c('zeroes-es', 'zerose-es', 'lassoes-es','lassoes-se')
-tag2 <-tag2s[1]
-
+```{r sim 1-4, out.width = "98%", out.height="95%"}
+tag <- "20200721-1-4"
+tag2 <- "zeroes-es"
 f <- get_files(tag= tag, tag2 = tag2)
 param <- read.table(f$par, header = T, row.names = 1)
 print(param)
-plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, chrom = "17")
+```
+```{r 1-4-17, out.width = "98%", out.height="95%"}
+chrom <- "17"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
 ```
 
-```{r sim 2 gene, out.width = "98%", out.height="95%"}
-plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, chrom = "18")
+```{r 1-4-19 gene, out.width = "98%", out.height="95%"}
+chrom <- "19"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
 ```
 
-```{r sim 3 gene, out.width = "98%", out.height="95%"}
-plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, chrom = "19")
+```{r sim 1-8, out.width = "98%", out.height="95%"}
+tag <- "20200721-1-8"
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
 ```
+```{r 1-8-20, out.width = "98%", out.height="95%"}
+chrom <- "20"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
+```
+
+```{r sim 1-9, out.width = "98%", out.height="95%"}
+tag <- "20200721-1-9"
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+```
+```{r 1-9-19, out.width = "98%", out.height="95%"}
+chrom <- "19"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
+```
+
+

@@ -155,3 +155,9 @@ ROC_plot(tags, tag2s[4])
 ```
 
 
+# PIP vs p value
+
+## NULL; expr-snp; expr-snp 
+```{r sca_p 1, fig.height=7, fig.width=7}
+scatter_plot_PIP_p(tags, tag2s[1])
+```

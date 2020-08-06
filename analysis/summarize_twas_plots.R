@@ -1,16 +1,16 @@
 get_files <- function(tag, tag2){
   par <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt")
   rpip <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".rPIP.txt")
-  
+
   gmrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".expr.txt")
-  smrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt")   
-  
+  smrash <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".snp.txt")
+
   ggwas <- paste0(outputdir, tag, ".exprgwas.txt.gz")
   sgwas <- paste0(outputdir, tag, ".snpgwas.txt.gz")
-  
+
   gsusie <- paste0(susiedir, tag, ".", tag2, ".L3.susieres.expr.txt")
   ssusie <- paste0(susiedir, tag, ".", tag2, ".L3.susieres.snp.txt")
-  
+
   return(tibble::lst(par, rpip, gmrash, ggwas, smrash, sgwas, gsusie, ssusie))
 }
 
@@ -52,10 +52,10 @@ caliPIP_plot <- function(tags, tag2){
   f <- lapply(tags, get_files, tag2 = tag2)
   mrashf <- lapply(f, '[[', "gmrash")
   names(mrashf) <- tags
-  
+
   susief <- lapply(f, '[[', "gsusie")
   names(susief) <- tags
-  
+
   .tagname <- function(x, flist){
     a <- read.table(flist[[x]], header =T)
     a[, "name"] <- paste0(x, ":", a[, "name"])
@@ -63,9 +63,9 @@ caliPIP_plot <- function(tags, tag2){
   }
   mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
   susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
-  
+
   res <- merge(mrashres, susieres, by = "name", all = T)
-  
+
   res <- res[complete.cases(res),]
   res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null", "pip.w0" = "SUSIE_PIP_w0"))
   par(mfrow=c(1,4), mar=c(5, 6, 4, 1))
@@ -78,11 +78,11 @@ caliPIP_plot <- function(tags, tag2){
 
 #' s is pip or fdr.
 caliFDR_plot <- function(tags, tag2){
-  
+
   f <- lapply(tags, get_files, tag2 = tag2)
   gwasf <- lapply(f, '[[', "ggwas")
   names(gwasf) <- tags
-  
+
   .tagname <- function(x, flist, colnames = NULL){
     a <- read.table(flist[[x]], header =T)
     if (!is.null(colnames)){
@@ -91,24 +91,24 @@ caliFDR_plot <- function(tags, tag2){
     a[, "name"] <- paste0(x, ":", a[, "name"])
     a
   }
-  
+
   .addFDR <- function(res){
     res$FDR <- p.adjust(res$PVALUE, method = "fdr")
     res
   }
-  
-  
-  gwasres <- do.call(rbind, lapply(lapply(tags, .tagname, flist = gwasf, 
-                                          colnames =  c("chr",	"p0",	"p1", "name", 
+
+
+  gwasres <- do.call(rbind, lapply(lapply(tags, .tagname, flist = gwasf,
+                                          colnames =  c("chr",	"p0",	"p1", "name",
                                                         "Estimate", "Std.Error", "t-value", "PVALUE")), .addFDR))
-  
+
   f <- lapply(tags, get_files, tag2 = tag2)
   mrashf <- lapply(f, '[[', "gmrash")
   names(mrashf) <- tags
-  
+
   susief <- lapply(f, '[[', "gsusie")
   names(susief) <- tags
-  
+
   .tagname <- function(x, flist){
     a <- read.table(flist[[x]], header =T)
     a[, "name"] <- paste0(x, ":", a[, "name"])
@@ -116,13 +116,13 @@ caliFDR_plot <- function(tags, tag2){
   }
   mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
   susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
-  
+
   res <- merge(mrashres, susieres, by = "name", all = T)
-  
+
   res <- merge(res, gwasres, by = "name", all = T)
-  
+
   res <- res[complete.cases(res),]
-  
+
   cp_plot(res$FDR, res$ifcausal, mode ="FDR", main = "TWAS FDR")
   cat("FDR at bonferroni corrected p = 0.05: ", 1 - mean(res[res$PVALUE < 0.05 /dim(res)[1], "ifcausal"]))
 }
@@ -131,10 +131,10 @@ scatter_plot_PIP<- function(tags, tag2){
   f <- lapply(tags, get_files, tag2 = tag2)
   mrashf <- lapply(f, '[[', "gmrash")
   names(mrashf) <- tags
-  
+
   susief <- lapply(f, '[[', "gsusie")
   names(susief) <- tags
-  
+
   .tagname <- function(x, flist){
     a <- read.table(flist[[x]], header =T)
     a[, "name"] <- paste0(x, ":", a[, "name"])
@@ -142,39 +142,40 @@ scatter_plot_PIP<- function(tags, tag2){
   }
   mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
   susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
-  
+
   res <- merge(mrashres, susieres, by = "name", all = T)
-  
+
   res <- res[complete.cases(res),]
   res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null", "pip.w0" = "SUSIE_PIP_w0") )
-  res$ifcausal <- mapvalues(res$ifcausal, 
-                            from=c(0,1), 
+  res$ifcausal <- mapvalues(res$ifcausal,
+                            from=c(0,1),
                             to=c("Non causal", "Causal"))
-  
-  fig1 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP, color = ~ ifcausal, 
+
+  fig1 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"))
-  
-  fig2 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_null, color = ~ ifcausal, 
+
+  fig2 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_null, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"))
-  
-  fig3 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_w0, color = ~ ifcausal, 
+
+  fig3 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_w0, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"))
-  
+
   fig <- subplot(fig1, fig2, fig3, titleX = TRUE, titleY = T, margin = 0.05)
   fig
 }
 
-ROC_plot<- function(tags, tag2){
+
+scatter_plot_PIP_p <- function(tags, tag2){
   f <- lapply(tags, get_files, tag2 = tag2)
   mrashf <- lapply(f, '[[', "gmrash")
   names(mrashf) <- tags
-  
+
   susief <- lapply(f, '[[', "gsusie")
   names(susief) <- tags
-  
+
   gwasf <- lapply(f, '[[', "ggwas")
   names(gwasf) <- tags
-  
+
   .tagname <- function(x, flist, colnames = NULL){
     a <- read.table(flist[[x]], header =T)
     if (!is.null(colnames)){
@@ -185,22 +186,80 @@ ROC_plot<- function(tags, tag2){
   }
   mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
   susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
-  gwasres <- do.call(rbind, lapply(tags, .tagname, flist = gwasf, 
+  gwasres <- do.call(rbind, lapply(tags, .tagname, flist = gwasf,
                                    colnames =  c("chr",	"p0",	"p1", "name", "Estimate", "Std.Error", "t-value", "PVALUE")))
-  
+
   res <- merge(mrashres, susieres, by = "name", all = T)
   res <- merge(res, gwasres, by = "name", all = T)
-  
+
   res <- res[complete.cases(res),]
   res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE", "pip.null"= "SUSIE.null", "pip.w0" = "SUSIE.w0", "PVALUE" = "TWAS") )
   res[,"TWAS"] <- -log10(res[, "TWAS"])
-  
+  res$ifcausal <- mapvalues(res$ifcausal,
+                            from=c(0,1),
+                            to=c("Non causal", "Causal"))
+
+  fig1 <- plot_ly(data = res, x = ~ TWAS, y = ~ mr.ash, color = ~ ifcausal,
+                  colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
+                                                                       "\nChr: ", chr.x,
+                                                                       "\nPos:", p0.x))
+
+  fig2 <- plot_ly(data = res, x = ~ TWAS, y = ~ SUSIE, color = ~ ifcausal,
+                  colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
+                                                                     "\nChr: ", chr.x,
+                                                                     "\nPos:", p0.x))
+
+  fig3 <- plot_ly(data = res, x = ~ TWAS, y = ~ SUSIE.null, color = ~ ifcausal,
+                  colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
+                                                                     "\nChr: ", chr.x,
+                                                                     "\nPos:", p0.x))
+
+  fig4 <- plot_ly(data = res, x = ~ TWAS, y = ~ SUSIE.w0, color = ~ ifcausal,
+                  colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
+                                                                     "\nChr: ", chr.x,
+                                                                     "\nPos:", p0.x))
+
+  fig <- subplot(fig1, fig2, fig3, fig4, nrows=2, titleY = T, margin = 0.05)
+  fig
+}
+
+ROC_plot<- function(tags, tag2){
+  f <- lapply(tags, get_files, tag2 = tag2)
+  mrashf <- lapply(f, '[[', "gmrash")
+  names(mrashf) <- tags
+
+  susief <- lapply(f, '[[', "gsusie")
+  names(susief) <- tags
+
+  gwasf <- lapply(f, '[[', "ggwas")
+  names(gwasf) <- tags
+
+  .tagname <- function(x, flist, colnames = NULL){
+    a <- read.table(flist[[x]], header =T)
+    if (!is.null(colnames)){
+      colnames(a) <- colnames
+    }
+    a[, "name"] <- paste0(x, ":", a[, "name"])
+    a
+  }
+  mrashres <- do.call(rbind, lapply(tags, .tagname, flist = mrashf))
+  susieres <- do.call(rbind, lapply(tags, .tagname, flist = susief))
+  gwasres <- do.call(rbind, lapply(tags, .tagname, flist = gwasf,
+                                   colnames =  c("chr",	"p0",	"p1", "name", "Estimate", "Std.Error", "t-value", "PVALUE")))
+
+  res <- merge(mrashres, susieres, by = "name", all = T)
+  res <- merge(res, gwasres, by = "name", all = T)
+
+  res <- res[complete.cases(res),]
+  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE", "pip.null"= "SUSIE.null", "pip.w0" = "SUSIE.w0", "PVALUE" = "TWAS") )
+  res[,"TWAS"] <- -log10(res[, "TWAS"])
+
   roccolors <-  c("red", "green", "orange", "pink", "blue")
   methods <- c("mr.ash", "SUSIE", "SUSIE.null", "SUSIE.w0", "TWAS")
   plot(0, xlim=c(0,1), ylim=c(0,1), col="white", xlab = "FPR", ylab = "TPR")
   for (i in 1:length(methods)){
     method <- methods[i]
-    bordered <- res[order(res[,method]),] 
+    bordered <- res[order(res[,method]),]
     actuals <- bordered$ifcausal == 1
     sens <- (sum(actuals) - cumsum(actuals))/sum(actuals)
     spec <- cumsum(!actuals)/sum(!actuals)
