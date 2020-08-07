@@ -67,12 +67,12 @@ caliPIP_plot <- function(tags, tag2){
   res <- merge(mrashres, susieres, by = "name", all = T)
 
   res <- res[complete.cases(res),]
-  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null", "pip.w0" = "SUSIE_PIP_w0"))
+  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE.w_PIP", "pip.null" = "SUSIE.u_PIP", "pip.w0" = "SUSIE.w0_PIP"))
   par(mfrow=c(1,4), mar=c(5, 6, 4, 1))
   cp_plot(res$mr.ash_PIP, res$ifcausal, main = "Mr.ash PIP")
-  cp_plot(res$SUSIE_PIP, res$ifcausal, main = "SUSIE PIP")
-  cp_plot(res$SUSIE_PIP_null, res$ifcausal, main = "SUSIE PIP null")
-  cp_plot(res$SUSIE_PIP_w0, res$ifcausal, main = "SUSIE PIP weighted null")
+  cp_plot(res$SUSIE.w_PIP, res$ifcausal, main = "SUSIE.weighted PIP")
+  cp_plot(res$SUSIE.u_PIP, res$ifcausal, main = "SUSIE.uniform PIP")
+  cp_plot(res$SUSIE.w0_PIP, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 }
 
 
@@ -146,18 +146,18 @@ scatter_plot_PIP<- function(tags, tag2){
   res <- merge(mrashres, susieres, by = "name", all = T)
 
   res <- res[complete.cases(res),]
-  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE_PIP", "pip.null" = "SUSIE_PIP_null", "pip.w0" = "SUSIE_PIP_w0") )
+  res <- rename(res, c("PIP" = "mr.ash_PIP", "pip" = "SUSIE.w_PIP", "pip.null" = "SUSIE.u_PIP", "pip.w0" = "SUSIE.w0_PIP") )
   res$ifcausal <- mapvalues(res$ifcausal,
                             from=c(0,1),
                             to=c("Non causal", "Causal"))
 
-  fig1 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP, color = ~ ifcausal,
+  fig1 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE.w_PIP, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"))
 
-  fig2 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_null, color = ~ ifcausal,
+  fig2 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE.u_PIP, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"))
 
-  fig3 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE_PIP_w0, color = ~ ifcausal,
+  fig3 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE.w0_PIP, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"))
 
   fig <- subplot(fig1, fig2, fig3, titleX = TRUE, titleY = T, margin = 0.05)
@@ -193,7 +193,7 @@ scatter_plot_PIP_p <- function(tags, tag2){
   res <- merge(res, gwasres, by = "name", all = T)
 
   res <- res[complete.cases(res),]
-  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE", "pip.null"= "SUSIE.null", "pip.w0" = "SUSIE.w0", "PVALUE" = "TWAS") )
+  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE.w", "pip.null"= "SUSIE.u", "pip.w0" = "SUSIE.w0", "PVALUE" = "TWAS") )
   res[,"TWAS"] <- -log10(res[, "TWAS"])
   res$ifcausal <- mapvalues(res$ifcausal,
                             from=c(0,1),
@@ -204,12 +204,12 @@ scatter_plot_PIP_p <- function(tags, tag2){
                                                                        "\nChr: ", chr.x,
                                                                        "\nPos:", p0.x))
 
-  fig2 <- plot_ly(data = res, x = ~ TWAS, y = ~ SUSIE, color = ~ ifcausal,
+  fig2 <- plot_ly(data = res, x = ~ TWAS, y = ~ SUSIE.w, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
                                                                      "\nChr: ", chr.x,
                                                                      "\nPos:", p0.x))
 
-  fig3 <- plot_ly(data = res, x = ~ TWAS, y = ~ SUSIE.null, color = ~ ifcausal,
+  fig3 <- plot_ly(data = res, x = ~ TWAS, y = ~ SUSIE.u, color = ~ ifcausal,
                   colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
                                                                      "\nChr: ", chr.x,
                                                                      "\nPos:", p0.x))
@@ -251,11 +251,11 @@ ROC_plot<- function(tags, tag2){
   res <- merge(res, gwasres, by = "name", all = T)
 
   res <- res[complete.cases(res),]
-  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE", "pip.null"= "SUSIE.null", "pip.w0" = "SUSIE.w0", "PVALUE" = "TWAS") )
+  res <- rename(res, c("PIP" = "mr.ash", "pip" = "SUSIE.w", "pip.null"= "SUSIE.u", "pip.w0" = "SUSIE.w0", "PVALUE" = "TWAS") )
   res[,"TWAS"] <- -log10(res[, "TWAS"])
 
   roccolors <-  c("red", "green", "orange", "pink", "blue")
-  methods <- c("mr.ash", "SUSIE", "SUSIE.null", "SUSIE.w0", "TWAS")
+  methods <- c("mr.ash", "SUSIE.w", "SUSIE.u", "SUSIE.w0", "TWAS")
   plot(0, xlim=c(0,1), ylim=c(0,1), col="white", xlab = "FPR", ylab = "TPR")
   for (i in 1:length(methods)){
     method <- methods[i]

@@ -33,7 +33,7 @@ tag2s <- c('zeroes-es', 'zerose-es', 'lassoes-es','lassoes-se')
 
 # Mr.ash2 parameter estimation
 
-Results for 10 simulations runs, using different initiate and update strategy
+Results for 10 simulations runs, using different initialize and update strategy
 
 
 ## NULL; expr-snp; expr-snp 
