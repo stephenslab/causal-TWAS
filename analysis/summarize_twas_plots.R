@@ -123,7 +123,7 @@ caliFDR_plot <- function(tags, tag2){
 
   res <- res[complete.cases(res),]
 
-  cp_plot(res$FDR, res$ifcausal, mode ="FDR", main = "TWAS FDR")
+  cp_plot(res$FDR, res$ifcausal, mode ="FDR", main = "TWAS FDP")
   cat("FDR at bonferroni corrected p = 0.05: ", 1 - mean(res[res$PVALUE < 0.05 /dim(res)[1], "ifcausal"]))
 }
 
