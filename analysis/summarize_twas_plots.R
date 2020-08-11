@@ -152,13 +152,19 @@ scatter_plot_PIP<- function(tags, tag2){
                             to=c("Non causal", "Causal"))
 
   fig1 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE.w_PIP, color = ~ ifcausal,
-                  colors = c( "salmon", "darkgreen"))
+                  colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
+                                                                     "\nChr: ", chr.x,
+                                                                     "\nPos:", p0))
 
   fig2 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE.u_PIP, color = ~ ifcausal,
-                  colors = c( "salmon", "darkgreen"))
+                  colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
+                                                                     "\nChr: ", chr.x,
+                                                                     "\nPos:", p0))
 
   fig3 <- plot_ly(data = res, x = ~ mr.ash_PIP, y = ~ SUSIE.w0_PIP, color = ~ ifcausal,
-                  colors = c( "salmon", "darkgreen"))
+                  colors = c( "salmon", "darkgreen"), text = ~ paste("Name: ", name,
+                                                                     "\nChr: ", chr.x,
+                                                                     "\nPos:", p0))
 
   fig <- subplot(fig1, fig2, fig3, titleX = TRUE, titleY = T, margin = 0.05)
   fig

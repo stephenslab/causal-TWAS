@@ -20,11 +20,11 @@ loginfo("input arg 4 (outname): %s ", args[4])
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
-source(paste0(codedir,"input_reformat.R"))
-source(paste0(codedir,"simulate_phenotype.R"))
-source(paste0(codedir,"mr.ash2_FBM.R"))
-source(paste0(codedir,"fit_mr.ash.R"))
-source(paste0(codedir,"gen_mr.ash2_output.R"))
+source(paste0(codedir, "input_reformat.R"))
+source(paste0(codedir, "simulate_phenotype.R"))
+source(paste0(codedir, "mr.ash2_FBM.R"))
+source(paste0(codedir, "fit_mr.ash.R"))
+source(paste0(codedir, "gen_mr.ash2_output.R"))
 
 # load genotype data
 pfile <- args[1]
