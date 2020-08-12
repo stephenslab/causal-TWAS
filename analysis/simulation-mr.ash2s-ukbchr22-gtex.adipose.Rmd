@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = F)
 ```
 
 We test the performance of mr.ash2s on ukbiobank data (chr22, n sample = 20,000). 
@@ -228,7 +228,7 @@ print(param)
 ## Simulation 5
 
 MR.ASH results (start from gene):
-```{r sim 5 gene, out.width = "98%", out.height="95%"}
+```{r sim 5 gene, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-5"
 tag2 <- "expr-res"
 
@@ -252,7 +252,7 @@ plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ## Simulation 6
 
 MR.ASH results (start from gene):
-```{r sim 6 gene, out.width = "98%", out.height="95%"}
+```{r sim 6 gene, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-6"
 tag2 <- "expr-res"
 
@@ -279,7 +279,7 @@ Use lasso trained weight model from FUSION twas. This makes eQTLs (SNP weights !
 Use beta.init = lasso for mr.ash.
 
 MR.ASH results (use lasso for all):
-```{r sim 7 lasso, out.width = "98%", out.height="95%", eval = T}
+```{r sim 7 lasso, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-7"
 tag2 <- "lasso"
 
@@ -290,7 +290,7 @@ plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ```
 
 MR.ASH results (use lasso for just for SNPs):
-```{r sim 7 lassosnp, out.width = "98%", out.height="95%", eval = T}
+```{r sim 7 lassosnp, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-7"
 tag2 <- "lassoSNP"
 
@@ -305,8 +305,8 @@ Use lasso trained weight model from FUSION twas. This makes eQTLs (SNP weights !
 
 Use beta.init = lasso for mr.ash.
 
-MR.ASH results (use lasso for all):
-```{r sim 8 lasso, out.width = "98%", out.height="95%", eval = T}
+### MR.ASH results (use lasso for all):
+```{r sim 8 lasso, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-8"
 tag2 <- "lasso"
 
@@ -316,8 +316,8 @@ print(param)
 plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ```
 
-MR.ASH results (use lasso for just for SNPs):
-```{r sim 8 lassosnp, out.width = "98%", out.height="95%", eval = T}
+### MR.ASH results (use lasso for just for SNPs):
+```{r sim 8 lassosnp, out.width = "98%", out.height="95%", eval = F}
 tag <- "20200616-8"
 tag2 <- "lassoSNP"
 
@@ -326,4 +326,18 @@ param <- read.table(f$par, header = T, row.names = 1)
 print(param)
 plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$susie, f$rsq)
 ```
+
+### More examples from separate runs: 
+```{r sim 20200616-8-7, out.width = "98%", out.height="95%"}
+source("analysis/visual_twas_plots.R")
+tag <- "20200616-8-7"
+tag2 <- "lassoes-es"
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+```
+```{r 20200616-8-7, out.width = "98%", out.height="95%"}
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq)
+```
+
 

@@ -24,7 +24,12 @@ source(paste0(codedir,"gen_mr.ash2_output.R"))
 # load genotype data
 pfile <- args[1]
 pfileRd <- paste0(pfile, ".unscaled.FBM.Rd")
-load(pfileRd)
+if (file.exists(pfileRd)){
+  load(pfileRd)
+} else {
+  load(paste0(pfile, ".Rd"))
+}
+
 
 # load expression Rd file, variable: exprres
 load(args[2])
