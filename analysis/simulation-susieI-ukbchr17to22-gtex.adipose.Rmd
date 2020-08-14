@@ -50,8 +50,7 @@ legend("topleft",
 grid()
 ```
 
-
-```{r rpip 1, fig.height=4, fig.width=10}
+```{r rpip 2, fig.height=4, fig.width=10}
  hist(a$rPIP, breaks = 100, col = "salmon", xlab = "PIP", main = "PIP distribution")
 ```
 

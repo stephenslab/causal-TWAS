@@ -73,7 +73,12 @@ We compare cTWAS results with other methods, summarizing results over multiple s
   * [Using UKbiobank data (chr22), fusion weights Adipose, setting 2](simulation-multi-ukbchr22-gtex.adipose2.html)
   * [Using UKbiobank data (chr17:22), fusion weights Adipose](simulation-multi-ukbchr17to22-gtex.adipose.html) 
   * [Using UKbiobank data (chr17:22), fusion weights Adipose, using smaller sa2 grid in mr.ash](simulation-multi-ukbchr17to22-gtex.adipose_sa2_v2.html) 
-  
+
+## mr.ash + SUSIE iterative
+
+*  [Using UKbiobank data (chr17:22), fusion weights Adipose](simulation-susieI-ukbchr17to22-gtex.adipose.html) 
+
+
 # Related software
   * VEB-boost
     * [Problem description](VEB-boost-fitting.html)

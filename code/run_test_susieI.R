@@ -79,9 +79,9 @@ for (rn in unique(regions[, "rname"])){
   regions.n <- regions[regions[, "rname"] == rn, ,drop = F]
   regionlist[[rn]] <- list(X = NULL, anno = NULL)
   for (i in 1:nrow(regions.n)){
-    chr <- regions[i, "chrom"]
-    p0 <- regions[i, "p0"]
-    p1 <- regions[i, "p1"]
+    chr <- regions.n[i, "chrom"]
+    p0 <- regions.n[i, "p0"]
+    p1 <- regions.n[i, "p1"]
 
     name <- paste(chr, p0, p1, sep = "-")
 
@@ -101,12 +101,14 @@ for (rn in unique(regions[, "rname"])){
   }
 }
 
+rm(dat);gc()
+save.image(file = "temp.Rd")
+
 outname <- args[5]
 loginfo("susie started for %s", outname)
-outlist <- list()
+
 prior.SNP <- NULL
 prior.gene <- NULL
-
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
 for (iter in 1:Niter){
@@ -114,6 +116,7 @@ for (iter in 1:Niter){
   susieres <- list()
   snp.rpiplist <- list()
   gene.rpiplist <- list()
+  outdf <- NULL
   for (rn in names(regionlist)){
     if (iter == 1) {
       prior <- NULL
@@ -125,7 +128,10 @@ for (iter in 1:Niter){
     susieres[[rn]] <- susie(regionlist[[rn]][["X"]], phenores$Y, L=1, prior_weights = prior)
     snp.rpiplist[[rn]] <- sum(susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "SNP"])
     gene.rpiplist[[rn]] <- sum(susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "gene"])
+    outdf <- rbind(outdf, cbind(regionlist[[rn]]$anno, t(susieres[[rn]]$alpha), susieres[[rn]]$pip))
   }
+
+  write.table( outdf , file= paste0(outname, ".", iter, ".txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
   prior.SNP <- mean(unlist(snp.rpiplist))
   prior.gene <- mean(unlist(gene.rpiplist))
   print(c(prior.SNP, prior.gene))
@@ -135,7 +141,7 @@ for (iter in 1:Niter){
 
 loginfo("susie done for %s", outname)
 
-save(prior.gene_rec, prior.SNP_rec, susieres, file = paste(outname, "susieIres.Rd", sep = "."))
+save(prior.gene_rec, prior.SNP_rec, file = paste(outname, "susieIres.Rd", sep = "."))
 
 
 
