@@ -61,8 +61,8 @@ show_param(tags, tag2s[4])
 Take simulation 1 (NULL; expr-snp; expr-snp) as examples. We use region size *500kb* and PIP cut off at *0.2* for SUSIE.
 
 ```{r rpip 1, fig.height=4, fig.width=10}
-chrom = 18
-f <- get_files(tag= "20200721-1-2" , tag2 = tag2s[1])
+chrom = 17
+f <- get_files(tag= "20200721-1-1" , tag2 = tag2s[1])
 allchr <- read.table(f[["rpip"]], header = T)
 a <- allchr[allchr["chrom"]==chrom,]
 print(paste("plot for chr", chrom))

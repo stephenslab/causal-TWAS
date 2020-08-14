@@ -1,5 +1,3 @@
-# global variables: phenores, exprres, dat
-library(snpStats)
 
 para_mr.ash <- function(fit){
   pi1 <-  1-fit$pi[[1]]
@@ -26,50 +24,7 @@ para_mr.ash2 <- function(g.fit, s.fit){
   return(outdf)
 }
 
-#' @description calculates measures of linkage disequilibrium
-#' between each column of x and each column of y
-#' @return the maximum of ld measures of these pairs
-#'
-ld_max <- function(x,  y, stats = "R.squared"){
-  x <- as(round(x),"SnpMatrix")
-  y <- as(round(y),"SnpMatrix")
-  s <- ld(x, y =y, stats = stats)
-  inds <- arrayInd(which.max(s), dim(s))
-  s.max <- max(s)
-  names(s.max) <- paste(rownames(s)[inds[,1]], colnames(s)[inds[,2]], sep = ':')
-  return(s.max)
-}
-
-.eqtl_geno <- function(gname){
-  x <- exprres$exprlist[[gname]]
-  if (is.null(dim(x$wgt))){
-    dim(x$wgt) <- c(1,2)
-    colnames(x$wgt) <- c("idx", "wgt")
-  }
-  eqtlgeno <- dat$G[ , x$wgt[abs(x$wgt[, "wgt"]) > 0, "idx"], drop = F]
-  colnames(eqtlgeno) <- paste(gname, dat$snp[x$wgt[abs(x$wgt[, "wgt"]) > 0, "idx"], 1], sep = ".")
-  return(eqtlgeno)
-}
-
-get_ld <- function(outname){
-  g.eqtl <- lapply(colnames(exprres$expr), .eqtl_geno)
-
-  causalg.eqtl <-lapply(colnames(exprres$expr)[phenores$param$idx.cgene], .eqtl_geno)
-  cg <- do.call(cbind, causalg.eqtl)
-
-  csnp <- dat$G[ ,phenores$param$idx.cSNP]
-  colnames(csnp) <- dat$snp[phenores$param$idx.cSNP, 1]
-
-  rsq <- unlist(lapply(g.eqtl, ld_max, y = cbind(cg,csnp), stats = "R.squared"))
-
-  outdf <- cbind(colnames(exprres$expr), rsq, names(rsq))
-  colnames(outdf) <- c("name", "max_r2", "max_pair")
-
-  write.table(outdf, file= paste0(outname, ".LD.txt") , row.names=F, col.names=T, sep="\t", quote = F)
-}
-
-
-gen_mr.ash2_output <- function(g.fit, s.fit, outname){
+gen_mr.ash_gene_output <- function(g.fit, outname){
   e.b <- rep(0, length(g.fit$beta))
   e.b[phenores$param$idx.cgene] <- phenores$param$e.beta
 
@@ -88,7 +43,10 @@ gen_mr.ash2_output <- function(g.fit, s.fit, outname){
 
   g.outdf.sorted <- g.outdf[with(g.outdf, order(chr, p0)), ]
   write.table(g.outdf.sorted , file= paste0(outname, ".expr.txt") , row.names=F, col.names=T, sep="\t", quote = F)
+  return(g.outdf.sorted)
+}
 
+gen_mr.ash_snp_output <- function(s.fit, outname){
   s.b <- rep(0, length(s.fit$beta))
   s.b[phenores$param$idx.cSNP] <- phenores$param$s.theta
 
@@ -107,6 +65,12 @@ gen_mr.ash2_output <- function(g.fit, s.fit, outname){
 
   s.outdf.sorted <- s.outdf[with(s.outdf, order(chr, p0)), ]
   write.table(s.outdf.sorted , file= paste0(outname, ".snp.txt") , row.names=F, col.names=T, sep="\t", quote = F)
+  return(s.outdf.sorted)
+}
+
+gen_mr.ash2_output <- function(g.fit, s.fit, outname){
+  g.outdf <- gen_mr.ash_gene_output(g.fit, outname)
+  s.outdf <- gen_mr.ash_snp_output(s.fit, outname)
 
   cg.outdf <- g.outdf[g.outdf[, "ifcausal"] == 1, ]
   cg.outdf[, "ifcausal"] <- "causal gene"

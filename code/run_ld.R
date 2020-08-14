@@ -19,7 +19,7 @@ loginfo("input arg 4 (outname): %s ", args[4])
 
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
-source(paste0(codedir,"gen_mr.ash2_output.R"))
+source(paste0(codedir,"ld.R"))
 
 # load genotype data
 pfile <- args[1]

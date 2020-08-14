@@ -3,15 +3,13 @@ library(dplyr)
 library(logging)
 
 args = commandArgs(trailingOnly=TRUE)
-if (length(args) < 6) {
-  stop("at least 6 arguments must be supplied:
+if (length(args) < 5) {
+  stop("at least 5 arguments must be supplied:
        * genotype file name
        * expr Rd
        * pheno Rd
-       * param txt
        * mr.ash.res file
        * out file name
-       * L (default 1, L in susie, optional)
        ", call.=FALSE)
 }
 
@@ -23,8 +21,9 @@ source(paste0(codedir,"input_reformat.R"))
 addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
 loginfo('script started ... ')
 
-PIPfilter <- 0.5
+PIPfilter <- 0.02
 chunksize = 500000
+Niter <- 10
 
 loginfo("regional PIP cut: %s ", PIPfilter)
 loginfo("region size: %s", chunksize)
@@ -44,16 +43,9 @@ dat$expr <-  scaleRcpp(exprres$expr)
 load(args[3])
 phenores$Y <-  phenores$Y - mean(phenores$Y)
 
-# run susie using given priors
-param <- read.table(args[4], header = T, row.names = 1)
 
-prior.gene <- param["gene.pi1", "estimated"]
-prior.SNP <- param["snp.pi1", "estimated"]
-
-gres <- paste0(args[5], ".expr.txt")
-sres <- paste0(args[5], ".snp.txt")
-pipres <- rbind(read.table(gres, header =T),
-                 read.table(sres, header =T))
+gres <- paste0(args[4], ".expr.txt")
+pipres <- read.table(gres, header =T)
 
 regions <- NULL
 chroms <- unique(pipres$chr)
@@ -70,69 +62,80 @@ for (chrom in chroms){
   regions <- rbind(regions, itv)
 }
 
-loginfo("No. intervals for chr %s : %s", chrom, nrow(regions))
-write.table(regions , file = paste0(args[5], ".rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+loginfo("No. intervals: %s", nrow(regions))
+write.table(regions , file = paste0(args[4], ".rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
 
 regions <- regions[regions[, "rPIP"] > PIPfilter,  ]
-loginfo("No. intervals for chr %s after PIP filter: %s", chrom, nrow(regions))
+loginfo("No. intervals for after PIP filter: %s", nrow(regions))
 
-outname <- args[6]
+#TODO: join regions based on LD genes, add a column indicating which region should be linked
+regions <- as.data.frame(regions)
+regions$rname <- as.character(1:nrow(regions))
 
-L = 3
-loginfo("L = %s for susie run", L)
+loginfo("prepare geno for each region ...")
 
-if (length(args) == 7){
-  L = as.numeric(args[7])
-  outname <- paste0(outname, ".L", L)
+regionlist <- list()
+for (rn in unique(regions[, "rname"])){
+  regions.n <- regions[regions[, "rname"] == rn, ,drop = F]
+  regionlist[[rn]] <- list(X = NULL, anno = NULL)
+  for (i in 1:nrow(regions.n)){
+    chr <- regions[i, "chrom"]
+    p0 <- regions[i, "p0"]
+    p1 <- regions[i, "p1"]
+
+    name <- paste(chr, p0, p1, sep = "-")
+
+    idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p1 < p1
+    idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
+
+    X.gene <- exprres$expr[ , idx.gene, drop = F]
+    X.SNP <-  dat$G[ ,idx.SNP]
+    X <- cbind(X.gene, X.SNP)
+
+    anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene], "gene")
+    anno.SNP <- cbind(dat$snp[idx.SNP,], dat$chr[idx.SNP,], dat$pos[idx.SNP,], "SNP")
+    anno <- rbind(anno.gene, anno.SNP)
+    colnames(anno) <-  c("name", "chr", "pos", "type")
+    regionlist[[rn]][["X"]] <- cbind(regionlist[[rn]][["X"]], X)
+    regionlist[[rn]][["anno"]] <- rbind(regionlist[[rn]][["anno"]], anno)
+  }
 }
 
+outname <- args[5]
 loginfo("susie started for %s", outname)
-
 outlist <- list()
+prior.SNP <- NULL
+prior.gene <- NULL
 
-
-for (i in 1:nrow(regions)){
-
-  chr <- regions[i, "chrom"]
-  p0 <- regions[i, "p0"]
-  p1 <- regions[i, "p1"]
-
-  name <- paste(chr,p0,p1, sep="-")
-
-  idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p1 < p1
-  idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
-
-  X.gene <- exprres$expr[ , idx.gene, drop = F]
-  X.SNP <-  dat$G[ , idx.SNP]
-
-  prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
-  wgt_null <- max(0, 1 - prior.gene * dim(X.gene)[2] - prior.SNP * dim(X.SNP)[2])
-
-  #-----------------run susie------------
-  susieres <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, prior_weights = prior)
-  susieres.null <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L)
-  susieres.w0 <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, null_weight = wgt_null, prior_weights = prior)
-  #--------------------------------------
-
-  anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene])
-  anno.SNP <- cbind(dat$snp[idx.SNP,], dat$chr[idx.SNP,], dat$pos[idx.SNP,])
-  anno <- rbind(anno.gene, anno.SNP)
-
-  outdf <- cbind(anno, susieres$pip, susieres.null$pip, susieres.w0$pip, "SNP")
-  colnames(outdf) <- c("name", "chr", "pos", "pip", "pip.null", "pip.w0", "type")
-  outdf[1:nrow(anno.gene), "type"] <- "gene"
-
-  outlist[[name]] <- outdf
-  rm(susieres,  susieres.null,  susieres.w0);gc()
+prior.SNP_rec <- rep(0, Niter)
+prior.gene_rec <- rep(0, Niter)
+for (iter in 1:Niter){
+  print(iter)
+  susieres <- list()
+  snp.rpiplist <- list()
+  gene.rpiplist <- list()
+  for (rn in names(regionlist)){
+    if (iter == 1) {
+      prior <- NULL
+    } else {
+      prior <- rep(0, dim(regionlist[[rn]][["X"]])[2])
+      prior[regionlist[[rn]][["anno"]][, "type"] == "SNP"] <- prior.SNP
+      prior[regionlist[[rn]][["anno"]][, "type"] == "gene"] <- prior.gene
+    }
+    susieres[[rn]] <- susie(regionlist[[rn]][["X"]], phenores$Y, L=1, prior_weights = prior)
+    snp.rpiplist[[rn]] <- sum(susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "SNP"])
+    gene.rpiplist[[rn]] <- sum(susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "gene"])
+  }
+  prior.SNP <- mean(unlist(snp.rpiplist))
+  prior.gene <- mean(unlist(gene.rpiplist))
+  print(c(prior.SNP, prior.gene))
+  prior.SNP_rec[iter] <- prior.SNP
+  prior.gene_rec[iter] <- prior.gene
 }
 
 loginfo("susie done for %s", outname)
 
-saveRDS(outlist, file = paste(outname, "susieres.rds", sep = "."))
-
-outgdf <- do.call(rbind, outlist)
-write.table(outgdf[outgdf[, "type"] == "gene", ], file= paste(outname, "susieres.expr.txt", sep = ".")  , row.names=F, col.names= T, sep="\t", quote = F)
-write.table(outgdf[outgdf[, "type"] == "SNP", ], file= paste(outname, "susieres.snp.txt", sep = ".")  , row.names=F, col.names= T, sep="\t", quote = F)
+save(prior.gene_rec, prior.SNP_rec, susieres, file = paste(outname, "susieIres.Rd", sep = "."))
 
 
 

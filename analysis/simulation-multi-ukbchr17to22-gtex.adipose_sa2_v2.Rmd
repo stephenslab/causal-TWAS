@@ -65,8 +65,7 @@ Take simulation 1 (NULL; expr-snp; expr-snp) as examples. We use region size *50
 
 ```{r rpip 1, fig.height=4, fig.width=10}
 chrom = 18
-f <- get_files(tag= "20200721-1-3" , tag2 = tag2s[1])
-allchr <- read.table(f[["rpip"]], header = T)
+allchr <- read.table(, header = T)
 a <- allchr[allchr["chrom"]==chrom,]
 print(paste("plot for chr", chrom))
 par(mar=c(5, 4, 4, 6) + 0.1)

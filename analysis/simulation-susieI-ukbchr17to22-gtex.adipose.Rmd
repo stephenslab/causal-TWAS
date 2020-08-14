@@ -1,0 +1,58 @@
+---
+title: "Test susieI using chr17 to 22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,  message= F, warning = F)
+```
+
+Test susieI for ukb chr 17 to chr 22 combined. SNPs are downsampled to 1/10, eQTLs defined by FUSION-TWAS (Adipose/GTEx) lasso effect size > 0 were kept, p= 86k, n = 20k.
+
+susieI is an iterative version of susie, learning parameters (`prior weights`) iteratively using the top region from mr.ash for genes only.
+
+```{r plot functions}
+library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+library(tidyr)
+library(plyr)
+library(stringr)
+library(kableExtra)
+source("analysis/summarize_twas_plots.R")
+```
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
+outputdir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
+susiedir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
+tag <- '20200813-1-1'
+```
+
+# MR.ASH for genes only
+
+pip distribution
+
+```{r rpip 1, fig.height=4, fig.width=10}
+chrom = 17
+rpipf <- paste0(outputdir, tag, "-mr.ash.rPIP.txt")
+allchr <- read.table(rpipf, header = T)
+a <- allchr[allchr["chrom"]==chrom,]
+print(paste("plot for chr", chrom))
+par(mar=c(5, 4, 4, 6) + 0.1)
+with(a, plot(p0, rPIP, col ='salmon', xlab = "position", ylab= "Sum of PIP", type = 'h', lwd = 2))
+par(new = T)
+with(a, plot(p0, nCausal, pch =19, col = "darkgreen",axes = FALSE, bty = "n", xlab = "", ylab = ""))
+axis(side = 4)
+mtext(side = 4, line = 3, 'No. causal signals')
+legend("topleft",
+       legend=c("Mr.ASH PIP", "# Causal"),
+       lty=c(1,0), pch=c(NA, 19), col=c("salmon", "darkgreen"))
+grid()
+```
+
+
+```{r rpip 1, fig.height=4, fig.width=10}
+ hist(a$rPIP, breaks = 100, col = "salmon", xlab = "PIP", main = "PIP distribution")
+```
+
+
