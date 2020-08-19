@@ -26,32 +26,91 @@ simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 outputdir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
 susiedir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
 tag <- '20200813-1-1'
+Niter <- 10
 ```
 
-# MR.ASH for genes only
+# MR.ASH pip distribution
 
-pip distribution
+* Use mr.ash for gene only:
 
-```{r rpip 1, fig.height=4, fig.width=10}
-chrom = 17
+```{r rpip 1, fig.height=6, fig.width=6}
 rpipf <- paste0(outputdir, tag, "-mr.ash.rPIP.txt")
-allchr <- read.table(rpipf, header = T)
-a <- allchr[allchr["chrom"]==chrom,]
-print(paste("plot for chr", chrom))
-par(mar=c(5, 4, 4, 6) + 0.1)
-with(a, plot(p0, rPIP, col ='salmon', xlab = "position", ylab= "Sum of PIP", type = 'h', lwd = 2))
-par(new = T)
-with(a, plot(p0, nCausal, pch =19, col = "darkgreen",axes = FALSE, bty = "n", xlab = "", ylab = ""))
-axis(side = 4)
-mtext(side = 4, line = 3, 'No. causal signals')
-legend("topleft",
-       legend=c("Mr.ASH PIP", "# Causal"),
-       lty=c(1,0), pch=c(NA, 19), col=c("salmon", "darkgreen"))
-grid()
+
+a <- read.table(rpipf, header = T)
+a.c <- a[a$nCausal > 0, ]
+ax <- pretty(0:max(a$rPIP), n = 30)
+
+par(mfrow=c(2,1))
+h1 <- hist(a$rPIP, breaks = 100, xlab = "PIP", main = "PIP distribution-all", col = "grey"); grid()
+h2 <- hist(a.c$rPIP, breaks = h1$breaks, xlab = "PIP", main = "PIP distribution-causal", col = "salmon");grid()
 ```
 
-```{r rpip 2, fig.height=4, fig.width=10}
- hist(a$rPIP, breaks = 100, col = "salmon", xlab = "PIP", main = "PIP distribution")
+* MR.ash2s results for the same simulated data
+
+```{r rpip 2, fig.height=6, fig.width=6}
+rpipf <- "~/causalTWAS/simulations/simulation_ashtest_20200721/20200721-1-1-mr.ash2s.lassoes-es.rPIP.txt"
+
+a <- read.table(rpipf, header = T)
+a.c <- a[a$nCausal > 0 ,]
+ax <- pretty(0:max(a$rPIP), n = 30) # Make a neat vector for the breakpoints
+
+par(mfrow=c(2,1))
+h1 <- hist(a$rPIP, breaks = 100, xlab = "PIP", main = "PIP distribution-all", col = "grey"); grid()
+h2 <- hist(a.c$rPIP, breaks = h1$breaks, xlab = "PIP", main = "PIP distribution-causal", col = "salmon");grid()
 ```
 
+# susieI genes
 
+Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3 , and also require at least one causal gene or SNP is present, also, at least one gene.
+
+Prior change for each iteration:
+```{r iter}
+load(paste0(outputdir, tag, ".susieIres.Rd"))
+df <- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) <- paste("Iteration", 1:Niter)
+colnames(df) <- c("Prior.gene", "Prior.SNP")
+df
+```
+
+Results for each region:
+```{r regions}
+regionlist <- readRDS(paste0(outputdir, tag, "_regionlist.rds"))
+ng <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene", , drop = F ])[1]))
+ng.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene" & x$ifcausal == 1, , drop = F])[1]))
+ns.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "SNP" & x$ifcausal == 1, , drop = F])[1]))
+ngdf <- data.frame("ngene" = ng, "ncausalgene" = ng.c, "ncausalSNP" = ns.c)
+for (i in Niter){
+  resf <- paste0(outputdir, tag, ".", i, ".susieIres.Rd") 
+  load(resf)
+  ngdf[, paste("Prior.gene", i)] <- unlist(gene.rpiplist)
+}
+ngdf
+```
+
+# susieI shuffle genes
+Shuffle genes to different regions. 
+
+Prior change for each iteration:
+```{r iter shuffle}
+tag <- '20200813-1-1-shuffleg'
+load(paste0(outputdir, tag, ".susieIres.Rd"))
+df <- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) <- paste("Iteration", 1:Niter)
+colnames(df) <- c("Prior.gene", "Prior.SNP")
+df
+```
+
+Results for each region:
+```{r regions shuffle}
+regionlist <- readRDS(paste0(outputdir, tag, "_regionlist.rds"))
+ng <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene", , drop = F ])[1]))
+ng.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene" & x$ifcausal == 1, , drop = F])[1]))
+ns.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "SNP" & x$ifcausal == 1, , drop = F])[1]))
+ngdf <- data.frame("ngene" = ng, "ncausalgene" = ng.c, "ncausalSNP" = ns.c)
+for (i in 1:Niter){
+  resf <- paste0(outputdir, tag, ".", i, ".susieIres.Rd") 
+  load(resf)
+  ngdf[, paste("Prior.gene", i)] <- unlist(gene.rpiplist)
+}
+ngdf
+```
