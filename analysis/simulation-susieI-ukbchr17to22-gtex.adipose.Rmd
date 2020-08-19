@@ -76,13 +76,19 @@ Results for each region:
 ```{r regions}
 regionlist <- readRDS(paste0(outputdir, tag, "_regionlist.rds"))
 ng <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene", , drop = F ])[1]))
+ns <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "SNP", , drop = F ])[1]))
 ng.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene" & x$ifcausal == 1, , drop = F])[1]))
 ns.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "SNP" & x$ifcausal == 1, , drop = F])[1]))
-ngdf <- data.frame("ngene" = ng, "ncausalgene" = ng.c, "ncausalSNP" = ns.c)
+ngdf <- data.frame("ngene" = ng, "nsnp" = ns, "ncausalgene" = ng.c, "ncausalSNP" = ns.c)
+
+cat("causal gene fraction:", sum(ngdf$ncausalgene)/sum(ngdf$ngene) )
+cat("causal snp fraction:", sum(ngdf$ncausalSNP)/sum(ngdf$ns))
+
 for (i in 1:Niter){
   resf <- paste0(outputdir, tag, ".", i, ".susieIres.Rd") 
   load(resf)
-  ngdf[, paste("Prior.gene", i)] <- unlist(gene.rpiplist)
+  ngdf[, paste("Prior.gene", i)] <- unlist(lapply(gene.rpiplist, "mean"))
+  ngdf[, paste("Prior.SNP", i)] <- unlist(lapply(snp.rpiplist, "mean"))
 }
 ngdf
 ```
@@ -104,13 +110,19 @@ Results for each region:
 ```{r regions shuffle}
 regionlist <- readRDS(paste0(outputdir, tag, "_regionlist.rds"))
 ng <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene", , drop = F ])[1]))
+ns <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "SNP", , drop = F ])[1]))
 ng.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene" & x$ifcausal == 1, , drop = F])[1]))
 ns.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "SNP" & x$ifcausal == 1, , drop = F])[1]))
-ngdf <- data.frame("ngene" = ng, "ncausalgene" = ng.c, "ncausalSNP" = ns.c)
+ngdf <- data.frame("ngene" = ng, "nsnp" = ns, "ncausalgene" = ng.c, "ncausalSNP" = ns.c)
+
+cat("causal gene fraction:", sum(ngdf$ncausalgene)/sum(ngdf$ngene) )
+cat("causal snp fraction:", sum(ngdf$ncausalSNP)/sum(ngdf$ns))
+
 for (i in 1:Niter){
   resf <- paste0(outputdir, tag, ".", i, ".susieIres.Rd") 
   load(resf)
-  ngdf[, paste("Prior.gene", i)] <- unlist(gene.rpiplist)
+  ngdf[, paste("Prior.gene", i)] <- unlist(lapply(gene.rpiplist, "mean"))
+  ngdf[, paste("Prior.SNP", i)] <- unlist(lapply(snp.rpiplist, "mean"))
 }
 ngdf
 ```

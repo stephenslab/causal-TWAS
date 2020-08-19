@@ -22,8 +22,8 @@ loginfo('script started ... ')
 
 PIPfilter <- 0.3
 chunksize = 500000
-Niter <- 10
-ifshuffle <- T
+Niter <- 50
+ifshuffle <- F
 
 loginfo("regional PIP cut: %s ", PIPfilter)
 loginfo("region size: %s", chunksize)
@@ -174,8 +174,8 @@ for (iter in 1:Niter){
       prior[regionlist[[rn]][["anno"]][, "type"] == "gene"] <- prior.gene
     }
     susieres[[rn]] <- susie(regionlist[[rn]][["X"]], phenores$Y, L=1, prior_weights = prior)
-    snp.rpiplist[[rn]] <- sum(susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "SNP"])
-    gene.rpiplist[[rn]] <- sum(susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "gene"])
+    snp.rpiplist[[rn]] <- susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "SNP"]
+    gene.rpiplist[[rn]] <- susieres[[rn]]$alpha[regionlist[[rn]][["anno"]][,"type"] == "gene"]
     outdf <- rbind(outdf, cbind(regionlist[[rn]]$anno, t(susieres[[rn]]$alpha), susieres[[rn]]$pip))
   }
   colnames(outdf)[6:7] <- c("susie_alpha", "susie_pip")
