@@ -23,7 +23,7 @@ loginfo('script started ... ')
 PIPfilter <- 0.3
 chunksize = 500000
 Niter <- 50
-ifshuffle <- F
+ifshuffle <- T
 
 loginfo("regional PIP cut: %s ", PIPfilter)
 loginfo("region size: %s", chunksize)

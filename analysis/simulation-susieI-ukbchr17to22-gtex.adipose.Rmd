@@ -26,7 +26,7 @@ simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 outputdir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
 susiedir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
 tag <- '20200813-1-1'
-Niter <- 10
+Niter <- 50
 ```
 
 # MR.ASH pip distribution
@@ -84,7 +84,7 @@ ngdf <- data.frame("ngene" = ng, "nsnp" = ns, "ncausalgene" = ng.c, "ncausalSNP"
 cat("causal gene fraction:", sum(ngdf$ncausalgene)/sum(ngdf$ngene) )
 cat("causal snp fraction:", sum(ngdf$ncausalSNP)/sum(ngdf$ns))
 
-for (i in 1:Niter){
+for (i in seq(1, Niter, 10)){
   resf <- paste0(outputdir, tag, ".", i, ".susieIres.Rd") 
   load(resf)
   ngdf[, paste("Prior.gene", i)] <- unlist(lapply(gene.rpiplist, "mean"))
@@ -118,7 +118,7 @@ ngdf <- data.frame("ngene" = ng, "nsnp" = ns, "ncausalgene" = ng.c, "ncausalSNP"
 cat("causal gene fraction:", sum(ngdf$ncausalgene)/sum(ngdf$ngene) )
 cat("causal snp fraction:", sum(ngdf$ncausalSNP)/sum(ngdf$ns))
 
-for (i in 1:Niter){
+for (i in seq(1, Niter, 10)){
   resf <- paste0(outputdir, tag, ".", i, ".susieIres.Rd") 
   load(resf)
   ngdf[, paste("Prior.gene", i)] <- unlist(lapply(gene.rpiplist, "mean"))
