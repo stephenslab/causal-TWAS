@@ -79,7 +79,7 @@ ng <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type =
 ng.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "gene" & x$ifcausal == 1, , drop = F])[1]))
 ns.c <- unlist(lapply(lapply(regionlist, '[[', "anno"), function(x) dim(x[x$type == "SNP" & x$ifcausal == 1, , drop = F])[1]))
 ngdf <- data.frame("ngene" = ng, "ncausalgene" = ng.c, "ncausalSNP" = ns.c)
-for (i in Niter){
+for (i in 1:Niter){
   resf <- paste0(outputdir, tag, ".", i, ".susieIres.Rd") 
   load(resf)
   ngdf[, paste("Prior.gene", i)] <- unlist(gene.rpiplist)
