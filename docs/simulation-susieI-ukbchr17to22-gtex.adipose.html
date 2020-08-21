@@ -26,6 +26,7 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
 <script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
 <script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
@@ -358,7 +359,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-08-19
+<strong>Last updated:</strong> 2020-08-20
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -449,16 +450,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebd402eb26c2f35ca44146dca6f8599f57654d42ctargetblankbd402eba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/bd402eb26c2f35ca44146dca6f8599f57654d42c" target="_blank">bd402eb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree86ac96e9b891fcb09092cbe298c22725d7d68a31targetblank86ac96ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/86ac96e9b891fcb09092cbe298c22725d7d68a31" target="_blank">86ac96e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebd402eb26c2f35ca44146dca6f8599f57654d42ctargetblankbd402eba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree86ac96e9b891fcb09092cbe298c22725d7d68a31targetblank86ac96ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/bd402eb26c2f35ca44146dca6f8599f57654d42c" target="_blank">bd402eb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/86ac96e9b891fcb09092cbe298c22725d7d68a31" target="_blank">86ac96e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -470,12 +471,12 @@ Ignored files:
     Ignored:    code/workflow/.ipynb_checkpoints/
     Ignored:    data/
 
-Untracked files:
-    Untracked:  analysis/figure/
-
 Unstaged changes:
     Modified:   analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd
+    Modified:   code/run_test_mr.ash2s.R
     Modified:   code/run_test_susieI.R
+    Modified:   code/workflow/workflow-ashtest4.ipynb
+    Modified:   code/workflow/workflow-susieI-20200813.ipynb
 
 </code></pre>
 <p>
@@ -514,6 +515,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/86ac96e9b891fcb09092cbe298c22725d7d68a31/analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd" target="_blank">86ac96e</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-08-19
+</td>
+<td>
+more iterations
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/86ac96e9b891fcb09092cbe298c22725d7d68a31/docs/simulation-susieI-ukbchr17to22-gtex.adipose.html" target="_blank">86ac96e</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-08-19
+</td>
+<td>
+more iterations
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -687,8 +722,9 @@ source(&quot;analysis/summarize_twas_plots.R&quot;)</code></pre>
 <pre class="r"><code>simdatadir &lt;- &quot;~/causalTWAS/simulations/simulation_ashtest_20200721/&quot;
 outputdir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20200813/&quot;
 susiedir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20200813/&quot;
+mrashdir &lt;- &quot;~/causalTWAS/simulations/simulation_ashtest_20200721/&quot;
 tag &lt;- &#39;20200813-1-1&#39;
-Niter &lt;- 50</code></pre>
+Niter &lt;- 30</code></pre>
 <div id="mr.ash-pip-distribution" class="section level1">
 <h1>MR.ASH pip distribution</h1>
 <ul>
@@ -817,6 +853,8 @@ simingz
 <div id="susiei-genes" class="section level1">
 <h1>susieI genes</h1>
 <p>Regions: We use regional PIP of both SNP and gene from mr.ash2s &gt; 0.3 , and also require at least one causal gene or SNP is present, also, at least one gene.</p>
+<div id="one-example" class="section level2">
+<h2>One example</h2>
 <p>Prior change for each iteration:</p>
 <pre class="r"><code>load(paste0(outputdir, tag, &quot;.susieIres.Rd&quot;))
 df &lt;- cbind(prior.gene_rec, prior.SNP_rec)
@@ -853,27 +891,7 @@ Iteration 26 0.01641563 0.005770125
 Iteration 27 0.01641636 0.005770102
 Iteration 28 0.01641688 0.005770085
 Iteration 29 0.01641726 0.005770073
-Iteration 30 0.01641754 0.005770064
-Iteration 31 0.01641774 0.005770058
-Iteration 32 0.01641788 0.005770054
-Iteration 33 0.01641798 0.005770050
-Iteration 34 0.01641806 0.005770048
-Iteration 35 0.01641811 0.005770046
-Iteration 36 0.01641815 0.005770045
-Iteration 37 0.01641818 0.005770044
-Iteration 38 0.01641820 0.005770043
-Iteration 39 0.01641821 0.005770043
-Iteration 40 0.01641823 0.005770043
-Iteration 41 0.01641823 0.005770042
-Iteration 42 0.01641824 0.005770042
-Iteration 43 0.01641824 0.005770042
-Iteration 44 0.01641825 0.005770042
-Iteration 45 0.01641825 0.005770042
-Iteration 46 0.01641825 0.005770042
-Iteration 47 0.01641825 0.005770042
-Iteration 48 0.01641825 0.005770042
-Iteration 49 0.01641825 0.005770042
-Iteration 50 0.01641825 0.005770042</code></pre>
+Iteration 30 0.01641754 0.005770064</code></pre>
 <p>Results for each region:</p>
 <pre class="r"><code>regionlist &lt;- readRDS(paste0(outputdir, tag, &quot;_regionlist.rds&quot;))
 ng &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;gene&quot;, , drop = F ])[1]))
@@ -941,111 +959,576 @@ ngdf</code></pre>
 62     3  123           0          2 7.342575e-04 0.0081121726
 63     3  193           0          1 3.341177e-03 0.0051294118
 64    12  146           1          0 7.098813e-03 0.0062658510
-   Prior.gene 11 Prior.SNP 11 Prior.gene 21 Prior.SNP 21 Prior.gene 31
-1   3.084535e-03 0.0056322908  3.180950e-03 0.0056317460  3.184700e-03
-2   3.764638e-02 0.0073462109  3.878124e-02 0.0073375478  3.882532e-02
-3   2.775258e-02 0.0069459650  2.844939e-02 0.0069039159  2.847632e-02
-4   3.963215e-03 0.0087870280  4.086279e-03 0.0087826329  4.091064e-03
-5   5.881132e-03 0.0096851725  6.058213e-03 0.0096726516  6.065091e-03
-6   9.596150e-02 0.0002622402  9.607958e-02 0.0002545729  9.608403e-02
-7   9.954318e-04 0.0111912165  1.026553e-03 0.0111898178  1.027763e-03
-8   2.934224e-04 0.0112326582  3.026202e-04 0.0112325548  3.029779e-04
-10  2.621497e-02 0.0058117943  2.690438e-02 0.0057832670  2.693106e-02
-11  8.483562e-03 0.0058495536  8.731592e-03 0.0058319515  8.741217e-03
-12  1.714378e-05 0.0057801486  1.768125e-05 0.0057801424  1.770215e-05
-13  1.609830e-02 0.0048603637  1.650836e-02 0.0048307212  1.652421e-02
-14  1.068784e-03 0.0064449254  1.102056e-03 0.0064434130  1.103350e-03
-18  8.738874e-02 0.0085074486  8.964968e-02 0.0084608313  8.973712e-02
-19  1.959184e-02 0.0060811160  2.018215e-02 0.0060736437  2.020508e-02
-22  1.301286e-02 0.0047224265  1.341536e-02 0.0047205007  1.343101e-02
-24  1.327761e-02 0.0048185044  1.365976e-02 0.0048064996  1.367459e-02
-25  1.583544e-02 0.0052621248  1.629960e-02 0.0052516943  1.631762e-02
-26  3.765524e-07 0.0092592453  3.883578e-07 0.0092592449  3.888169e-07
-27  3.826661e-02 0.0057716673  3.937740e-02 0.0057577825  3.942050e-02
-28  1.213778e-02 0.0044048559  1.249929e-02 0.0043981612  1.251333e-02
-29  7.306144e-03 0.0097077542  7.529344e-03 0.0096988262  7.538017e-03
-30  9.449546e-03 0.0035461729  9.737281e-03 0.0035430225  9.748461e-03
-31  1.275585e-02 0.0046291542  1.313475e-02 0.0046217610  1.314946e-02
-32  2.776620e-02 0.0041960238  2.846341e-02 0.0041706049  2.849035e-02
-33  4.210671e-02 0.0073262926  4.331543e-02 0.0073069532  4.336231e-02
-34  2.010746e-07 0.0075187834  2.073785e-07 0.0075187830  2.076237e-07
-35  1.208195e-02 0.0041628772  1.242524e-02 0.0041502217  1.243854e-02
-36  2.569632e-05 0.0042366348  2.650187e-05 0.0042366144  2.653320e-05
-37  1.304024e-02 0.0047323612  1.338886e-02 0.0047111745  1.340235e-02
-39  2.157407e-04 0.0111087140  2.225034e-04 0.0111086389  2.227664e-04
-43  6.573432e-03 0.0071469537  6.778533e-03 0.0071454782  6.786508e-03
-44  3.648856e-03 0.0062204618  3.762221e-03 0.0062183229  3.766628e-03
-46  1.889997e-11 0.0072992701  1.949251e-11 0.0072992701  1.951555e-11
-47  1.934185e-02 0.0050694100  1.991257e-02 0.0050568666  1.993472e-02
-53  2.260495e-03 0.0058502812  2.330793e-03 0.0058482014  2.333527e-03
-54  2.165175e-02 0.0078575188  2.228518e-02 0.0078415500  2.230977e-02
-55  4.944899e-03 0.0054820938  5.096684e-03 0.0054769486  5.102583e-03
-56  1.423868e-02 0.0070400191  1.467438e-02 0.0070337046  1.469131e-02
-57  1.170211e-02 0.0038224195  1.202510e-02 0.0038084371  1.203762e-02
-58  1.204464e-02 0.0043710548  1.239885e-02 0.0043628175  1.241260e-02
-59  1.694286e-02 0.0046797543  1.734628e-02 0.0046451045  1.736185e-02
-60  1.601855e-02 0.0058132037  1.648763e-02 0.0058015495  1.650584e-02
-61  4.465785e-03 0.0051152961  4.604931e-03 0.0051123973  4.610341e-03
-62  2.017586e-03 0.0080808719  2.080552e-03 0.0080793361  2.083000e-03
-63  9.125601e-03 0.0050394984  9.407651e-03 0.0050351142  9.418616e-03
-64  1.701870e-02 0.0054505177  1.744068e-02 0.0054158341  1.745699e-02
-   Prior.SNP 31 Prior.gene 41 Prior.SNP 41
-1  0.0056317249  3.184844e-03 0.0056317240
-2  0.0073372113  3.882702e-02 0.0073371983
-3  0.0069022909  2.847736e-02 0.0069022282
-4  0.0087824620  4.091248e-03 0.0087824554
-5  0.0096721653  6.065356e-03 0.0096721465
-6  0.0002542837  9.608420e-02 0.0002542726
-7  0.0111897634  1.027810e-03 0.0111897613
-8  0.0112325508  3.029917e-04 0.0112325507
-10 0.0057821632  2.693208e-02 0.0057821207
-11 0.0058312684  8.741588e-03 0.0058312421
-12 0.0057801422  1.770296e-05 0.0057801422
-13 0.0048295753  1.652482e-02 0.0048295312
-14 0.0064433542  1.103400e-03 0.0064433520
-18 0.0084590284  8.974049e-02 0.0084589589
-19 0.0060733535  2.020596e-02 0.0060733423
-22 0.0047204258  1.343161e-02 0.0047204229
-24 0.0048060339  1.367516e-02 0.0048060159
-25 0.0052512895  1.631831e-02 0.0052512739
-26 0.0092592449  3.888346e-07 0.0092592449
-27 0.0057572438  3.942216e-02 0.0057572230
-28 0.0043979013  1.251387e-02 0.0043978913
-29 0.0096984793  7.538351e-03 0.0096984659
-30 0.0035429001  9.748892e-03 0.0035428953
-31 0.0046214740  1.315003e-02 0.0046214629
-32 0.0041696226  2.849139e-02 0.0041695848
-33 0.0073062031  4.336412e-02 0.0073061741
-34 0.0075187829  2.076332e-07 0.0075187829
-35 0.0041497312  1.243905e-02 0.0041497123
-36 0.0042366136  2.653441e-05 0.0042366135
-37 0.0047103544  1.340287e-02 0.0047103227
-39 0.0111086359  2.227766e-04 0.0111086358
-43 0.0071454208  6.786815e-03 0.0071454186
-44 0.0062182397  3.766798e-03 0.0062182365
-46 0.0072992701  1.951644e-11 0.0072992701
-47 0.0050563798  1.993557e-02 0.0050563610
-53 0.0058481205  2.333632e-03 0.0058481174
-54 0.0078409303  2.231071e-02 0.0078409064
-55 0.0054767486  5.102811e-03 0.0054767409
-56 0.0070334592  1.469197e-02 0.0070334498
-57 0.0038078954  1.203810e-02 0.0038078745
-58 0.0043624978  1.241313e-02 0.0043624854
-59 0.0046437673  1.736245e-02 0.0046437158
-60 0.0058010972  1.650654e-02 0.0058010798
-61 0.0051122846  4.610550e-03 0.0051122802
-62 0.0080792764  2.083095e-03 0.0080792741
-63 0.0050349438  9.419038e-03 0.0050349372
-64 0.0054144942  1.745762e-02 0.0054144426</code></pre>
+   Prior.gene 11 Prior.SNP 11 Prior.gene 21 Prior.SNP 21
+1   3.084535e-03 0.0056322908  3.180950e-03 0.0056317460
+2   3.764638e-02 0.0073462109  3.878124e-02 0.0073375478
+3   2.775258e-02 0.0069459650  2.844939e-02 0.0069039159
+4   3.963215e-03 0.0087870280  4.086279e-03 0.0087826329
+5   5.881132e-03 0.0096851725  6.058213e-03 0.0096726516
+6   9.596150e-02 0.0002622402  9.607958e-02 0.0002545729
+7   9.954318e-04 0.0111912165  1.026553e-03 0.0111898178
+8   2.934224e-04 0.0112326582  3.026202e-04 0.0112325548
+10  2.621497e-02 0.0058117943  2.690438e-02 0.0057832670
+11  8.483562e-03 0.0058495536  8.731592e-03 0.0058319515
+12  1.714378e-05 0.0057801486  1.768125e-05 0.0057801424
+13  1.609830e-02 0.0048603637  1.650836e-02 0.0048307212
+14  1.068784e-03 0.0064449254  1.102056e-03 0.0064434130
+18  8.738874e-02 0.0085074486  8.964968e-02 0.0084608313
+19  1.959184e-02 0.0060811160  2.018215e-02 0.0060736437
+22  1.301286e-02 0.0047224265  1.341536e-02 0.0047205007
+24  1.327761e-02 0.0048185044  1.365976e-02 0.0048064996
+25  1.583544e-02 0.0052621248  1.629960e-02 0.0052516943
+26  3.765524e-07 0.0092592453  3.883578e-07 0.0092592449
+27  3.826661e-02 0.0057716673  3.937740e-02 0.0057577825
+28  1.213778e-02 0.0044048559  1.249929e-02 0.0043981612
+29  7.306144e-03 0.0097077542  7.529344e-03 0.0096988262
+30  9.449546e-03 0.0035461729  9.737281e-03 0.0035430225
+31  1.275585e-02 0.0046291542  1.313475e-02 0.0046217610
+32  2.776620e-02 0.0041960238  2.846341e-02 0.0041706049
+33  4.210671e-02 0.0073262926  4.331543e-02 0.0073069532
+34  2.010746e-07 0.0075187834  2.073785e-07 0.0075187830
+35  1.208195e-02 0.0041628772  1.242524e-02 0.0041502217
+36  2.569632e-05 0.0042366348  2.650187e-05 0.0042366144
+37  1.304024e-02 0.0047323612  1.338886e-02 0.0047111745
+39  2.157407e-04 0.0111087140  2.225034e-04 0.0111086389
+43  6.573432e-03 0.0071469537  6.778533e-03 0.0071454782
+44  3.648856e-03 0.0062204618  3.762221e-03 0.0062183229
+46  1.889997e-11 0.0072992701  1.949251e-11 0.0072992701
+47  1.934185e-02 0.0050694100  1.991257e-02 0.0050568666
+53  2.260495e-03 0.0058502812  2.330793e-03 0.0058482014
+54  2.165175e-02 0.0078575188  2.228518e-02 0.0078415500
+55  4.944899e-03 0.0054820938  5.096684e-03 0.0054769486
+56  1.423868e-02 0.0070400191  1.467438e-02 0.0070337046
+57  1.170211e-02 0.0038224195  1.202510e-02 0.0038084371
+58  1.204464e-02 0.0043710548  1.239885e-02 0.0043628175
+59  1.694286e-02 0.0046797543  1.734628e-02 0.0046451045
+60  1.601855e-02 0.0058132037  1.648763e-02 0.0058015495
+61  4.465785e-03 0.0051152961  4.604931e-03 0.0051123973
+62  2.017586e-03 0.0080808719  2.080552e-03 0.0080793361
+63  9.125601e-03 0.0050394984  9.407651e-03 0.0050351142
+64  1.701870e-02 0.0054505177  1.744068e-02 0.0054158341</code></pre>
+</div>
+<div id="more-examples" class="section level2">
+<h2>more examples</h2>
+<p>Each row represents one simulation run. Runs labeled <code>1-x</code> have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled <code>2-x</code> and <code>3-x</code>)</p>
+<pre class="r"><code>show_param &lt;- function(tags){
+  mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot; )
+  param &lt;- do.call(rbind, lapply(mr.ashfs, function(x) t(read.table(x))[2:1,]))
+ 
+  pars &lt;- cbind(param[seq(1,nrow(param), 2), 1], param[seq(2,nrow(param), 2), 1], param[seq(1,nrow(param), 2), 3], param[seq(2,nrow(param), 2), 3])
+  colnames(pars) &lt;- paste(rep(c(&quot;pi1.gene_&quot;, &quot;pi1.SNP_&quot;), each = 2), c(&quot;truth&quot;, &quot;mr.ash2&quot;), sep = &quot;&quot;)
+    
+  susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.susieIres.Rd&quot; )
+  param.s &lt;- do.call(rbind, lapply(susieIfs, function(x) {load(x); c(tail(prior.gene_rec, 1), tail(prior.SNP_rec,1))}))
+  
+  susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.1.txt&quot;)
+  param.s.truth &lt;- do.call(rbind, lapply(susieIfs, function(x) {
+    a &lt;- read.table(x, header = T);
+    c(nrow(a[a$ifcausal == 1 &amp; a$type == &quot;gene&quot;, , drop = F])/ nrow(a[a$type == &quot;gene&quot;, , drop = F]),
+      nrow(a[a$ifcausal == 1 &amp; a$type == &quot;SNP&quot;, , drop = F])/ nrow(a[a$type == &quot;SNP&quot;, , drop = F]))
+    }))
+  
+  pars.s &lt;- cbind(param.s.truth, param.s)[, c(1,3,2,4)]
+  colnames(pars.s) &lt;-  paste(rep(c(&quot;pi1.gene_&quot;, &quot;pi1.SNP_&quot;), each = 2), c(&quot;susietruth&quot;, &quot;susieI&quot;), sep = &quot;&quot;)
+  
+  df &lt;- cbind(pars, pars.s)
+  rownames(df) &lt;- tags
+  
+  df %&gt;% 
+  kable(format = &quot;html&quot;, col.names = colnames(df)) %&gt;%
+  kable_styling() %&gt;%
+  kableExtra::scroll_box(width = &quot;100%&quot;)
+
+}
+
+
+tags &lt;- paste(rep(1:3, each = 5), 1:5, sep =&quot;-&quot;)
+
+show_param(tags)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+pi1.gene_truth
+</th>
+<th style="text-align:right;">
+pi1.gene_mr.ash2
+</th>
+<th style="text-align:right;">
+pi1.SNP_truth
+</th>
+<th style="text-align:right;">
+pi1.SNP_mr.ash2
+</th>
+<th style="text-align:right;">
+pi1.gene_susietruth
+</th>
+<th style="text-align:right;">
+pi1.gene_susieI
+</th>
+<th style="text-align:right;">
+pi1.SNP_susietruth
+</th>
+<th style="text-align:right;">
+pi1.SNP_susieI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1-1
+</td>
+<td style="text-align:right;">
+0.0502117
+</td>
+<td style="text-align:right;">
+0.0031626
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0017442
+</td>
+<td style="text-align:right;">
+0.0635593
+</td>
+<td style="text-align:right;">
+0.0164175
+</td>
+<td style="text-align:right;">
+0.0062885
+</td>
+<td style="text-align:right;">
+0.0057701
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-2
+</td>
+<td style="text-align:right;">
+0.0502117
+</td>
+<td style="text-align:right;">
+0.0023143
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0019384
+</td>
+<td style="text-align:right;">
+0.0898876
+</td>
+<td style="text-align:right;">
+0.0272836
+</td>
+<td style="text-align:right;">
+0.0068851
+</td>
+<td style="text-align:right;">
+0.0055209
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-3
+</td>
+<td style="text-align:right;">
+0.0502117
+</td>
+<td style="text-align:right;">
+0.0237669
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0022848
+</td>
+<td style="text-align:right;">
+0.0961003
+</td>
+<td style="text-align:right;">
+0.0514446
+</td>
+<td style="text-align:right;">
+0.0054195
+</td>
+<td style="text-align:right;">
+0.0050422
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-4
+</td>
+<td style="text-align:right;">
+0.0502117
+</td>
+<td style="text-align:right;">
+0.0159417
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0025405
+</td>
+<td style="text-align:right;">
+0.0989957
+</td>
+<td style="text-align:right;">
+0.0425986
+</td>
+<td style="text-align:right;">
+0.0053842
+</td>
+<td style="text-align:right;">
+0.0053504
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-5
+</td>
+<td style="text-align:right;">
+0.0502117
+</td>
+<td style="text-align:right;">
+0.0588623
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0015320
+</td>
+<td style="text-align:right;">
+0.1041968
+</td>
+<td style="text-align:right;">
+0.0761682
+</td>
+<td style="text-align:right;">
+0.0054099
+</td>
+<td style="text-align:right;">
+0.0042034
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-1
+</td>
+<td style="text-align:right;">
+0.0998185
+</td>
+<td style="text-align:right;">
+0.0105981
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0022373
+</td>
+<td style="text-align:right;">
+0.1428571
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0062785
+</td>
+<td style="text-align:right;">
+0.0062785
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-2
+</td>
+<td style="text-align:right;">
+0.0998185
+</td>
+<td style="text-align:right;">
+0.0220761
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0021912
+</td>
+<td style="text-align:right;">
+0.1366906
+</td>
+<td style="text-align:right;">
+0.0329071
+</td>
+<td style="text-align:right;">
+0.0090887
+</td>
+<td style="text-align:right;">
+0.0052631
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-3
+</td>
+<td style="text-align:right;">
+0.0998185
+</td>
+<td style="text-align:right;">
+0.0352456
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0015849
+</td>
+<td style="text-align:right;">
+0.0930233
+</td>
+<td style="text-align:right;">
+0.0727722
+</td>
+<td style="text-align:right;">
+0.0123698
+</td>
+<td style="text-align:right;">
+0.0057753
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-4
+</td>
+<td style="text-align:right;">
+0.0998185
+</td>
+<td style="text-align:right;">
+0.0190760
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0016220
+</td>
+<td style="text-align:right;">
+0.1379310
+</td>
+<td style="text-align:right;">
+0.0409841
+</td>
+<td style="text-align:right;">
+0.0090259
+</td>
+<td style="text-align:right;">
+0.0058046
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-5
+</td>
+<td style="text-align:right;">
+0.0998185
+</td>
+<td style="text-align:right;">
+0.0111937
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0021376
+</td>
+<td style="text-align:right;">
+0.1881188
+</td>
+<td style="text-align:right;">
+0.0370117
+</td>
+<td style="text-align:right;">
+0.0081091
+</td>
+<td style="text-align:right;">
+0.0063626
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-1
+</td>
+<td style="text-align:right;">
+0.0199637
+</td>
+<td style="text-align:right;">
+0.0132199
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0031756
+</td>
+<td style="text-align:right;">
+0.0782609
+</td>
+<td style="text-align:right;">
+0.0658229
+</td>
+<td style="text-align:right;">
+0.0056657
+</td>
+<td style="text-align:right;">
+0.0042274
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-2
+</td>
+<td style="text-align:right;">
+0.0199637
+</td>
+<td style="text-align:right;">
+0.0187323
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0026544
+</td>
+<td style="text-align:right;">
+0.0858896
+</td>
+<td style="text-align:right;">
+0.0508288
+</td>
+<td style="text-align:right;">
+0.0089696
+</td>
+<td style="text-align:right;">
+0.0045318
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-3
+</td>
+<td style="text-align:right;">
+0.0199637
+</td>
+<td style="text-align:right;">
+0.0093039
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0018025
+</td>
+<td style="text-align:right;">
+0.0666667
+</td>
+<td style="text-align:right;">
+0.0439207
+</td>
+<td style="text-align:right;">
+0.0068643
+</td>
+<td style="text-align:right;">
+0.0056309
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-4
+</td>
+<td style="text-align:right;">
+0.0199637
+</td>
+<td style="text-align:right;">
+0.0252941
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0024017
+</td>
+<td style="text-align:right;">
+0.0833333
+</td>
+<td style="text-align:right;">
+0.1054679
+</td>
+<td style="text-align:right;">
+0.0064229
+</td>
+<td style="text-align:right;">
+0.0030996
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-5
+</td>
+<td style="text-align:right;">
+0.0199637
+</td>
+<td style="text-align:right;">
+0.0128022
+</td>
+<td style="text-align:right;">
+0.0024981
+</td>
+<td style="text-align:right;">
+0.0024385
+</td>
+<td style="text-align:right;">
+0.0495050
+</td>
+<td style="text-align:right;">
+0.0395866
+</td>
+<td style="text-align:right;">
+0.0084349
+</td>
+<td style="text-align:right;">
+0.0056238
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="susiei-shuffle-genes" class="section level1">
 <h1>susieI shuffle genes</h1>
+</div>
+<div id="one-example-1" class="section level1">
+<h1>one example</h1>
 <p>Shuffle genes to different regions.</p>
 <p>Prior change for each iteration:</p>
 <pre class="r"><code>tag &lt;- &#39;20200813-1-1-shuffleg&#39;
 load(paste0(outputdir, tag, &quot;.susieIres.Rd&quot;))
 df &lt;- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) &lt;- paste(&quot;Iteration&quot;, 1:Niter)
+rownames(df) &lt;- paste(&quot;Iteration&quot;, 1:nrow(df))
 colnames(df) &lt;- c(&quot;Prior.gene&quot;, &quot;Prior.SNP&quot;)
 df</code></pre>
 <pre><code>             Prior.gene   Prior.SNP
@@ -1107,7 +1590,7 @@ ng.c &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), fun
 ns.c &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;SNP&quot; &amp; x$ifcausal == 1, , drop = F])[1]))
 ngdf &lt;- data.frame(&quot;ngene&quot; = ng, &quot;nsnp&quot; = ns, &quot;ncausalgene&quot; = ng.c, &quot;ncausalSNP&quot; = ns.c)
 
-cat(&quot;causal gene fraction:&quot;, sum(ngdf$ncausalgene)/sum(ngdf$ngene) )</code></pre>
+cat(&quot;causal gene fraction:&quot;, sum(ngdf$ncausalgene)/sum(ngdf$ngene))</code></pre>
 <pre><code>causal gene fraction: 0.06355932</code></pre>
 <pre class="r"><code>cat(&quot;causal snp fraction:&quot;, sum(ngdf$ncausalSNP)/sum(ngdf$ns))</code></pre>
 <pre><code>causal snp fraction: 0.006288467</code></pre>
@@ -1166,102 +1649,54 @@ ngdf</code></pre>
 62     9  123           0          2 6.773697e-03 7.634445e-03
 63     7  193           0          1 8.651600e-02 2.043461e-03
 64     4  146           0          0 4.394473e-03 6.728919e-03
-   Prior.gene 11 Prior.SNP 11 Prior.gene 21 Prior.SNP 21 Prior.gene 31
-1   1.525338e-06 5.649692e-03  1.529241e-06 5.649692e-03  1.529247e-06
-2   1.937611e-02 7.041951e-03  1.942352e-02 7.040503e-03  1.942359e-02
-3   8.865712e-02 3.270691e-03  8.874525e-02 3.265373e-03  8.874538e-02
-4   1.211209e-02 8.604141e-03  1.214243e-02 8.603328e-03  1.214248e-02
-5   9.167296e-04 1.006397e-02  9.190709e-04 1.006388e-02  9.190743e-04
-6   2.864862e-06 6.493395e-03  2.872192e-06 6.493395e-03  2.872203e-06
-7   4.135651e-03 1.077128e-02  4.145901e-03 1.077012e-02  4.145916e-03
-8   9.048265e-03 1.062596e-02  9.070440e-03 1.062446e-02  9.070472e-03
-10  9.462254e-02 2.328567e-03  9.470595e-02 2.324540e-03  9.470607e-02
-11  2.476081e-02 4.694394e-03  2.481072e-02 4.690852e-03  2.481079e-02
-12  1.533590e-04 5.778574e-03  1.537513e-04 5.778569e-03  1.537519e-04
-13  5.530764e-02 4.691382e-03  5.541932e-02 4.688691e-03  5.541948e-02
-14  3.210410e-05 6.492464e-03  3.218624e-05 6.492461e-03  3.218635e-05
-18  9.492147e-01 5.235593e-04  9.493378e-01 5.222905e-04  9.493380e-01
-19  1.213501e-02 6.252310e-03  1.216591e-02 6.252115e-03  1.216595e-02
-22  4.075168e-02 4.589705e-03  4.085169e-02 4.589226e-03  4.085183e-02
-24  1.279402e-01 4.565758e-03  1.282585e-01 4.564092e-03  1.282590e-01
-25  4.473792e-02 4.612631e-03  4.483189e-02 4.610519e-03  4.483202e-02
-26  1.162566e-05 9.259044e-03  1.165541e-05 9.259043e-03  1.165545e-05
-27  4.678708e-01 4.016154e-04  4.679488e-01 4.006403e-04  4.679489e-01
-28  3.323960e-02 3.706308e-03  3.330814e-02 3.704404e-03  3.330824e-02
-29  8.968987e-03 9.282481e-03  8.990889e-03 9.280729e-03  8.990920e-03
-30  1.759843e-02 3.521179e-03  1.764236e-02 3.520859e-03  1.764242e-02
-31  4.389208e-01 5.958942e-04  4.390601e-01 5.945354e-04  4.390603e-01
-32  2.581906e-02 4.939385e-03  2.588213e-02 4.938728e-03  2.588223e-02
-33  3.599408e-04 7.991361e-03  3.608612e-04 7.991339e-03  3.608625e-04
-34  1.901619e-08 7.518796e-03  1.906484e-08 7.518796e-03  1.906491e-08
-35  3.383258e-02 2.737369e-03  3.388516e-02 2.734461e-03  3.388523e-02
-36  2.007378e-04 4.236438e-03  2.012513e-04 4.236435e-03  2.012521e-04
-37  3.815143e-02 4.892518e-03  3.824009e-02 4.891048e-03  3.824021e-02
-39  1.457049e-04 1.110140e-02  1.460775e-04 1.110137e-02  1.460781e-04
-43  4.475378e-02 4.940457e-03  4.483365e-02 4.936435e-03  4.483377e-02
-44  6.680545e-03 6.247292e-03  6.697556e-03 6.247185e-03  6.697580e-03
-46  1.378271e-10 7.299270e-03  1.381798e-10 7.299270e-03  1.381803e-10
-47  3.707958e-02 4.679570e-03  3.717470e-02 4.677479e-03  3.717484e-02
-53  4.986926e-03 5.592567e-03  4.999267e-03 5.591764e-03  4.999285e-03
-54  2.282058e-02 6.102126e-03  2.286797e-02 6.097348e-03  2.286804e-02
-55  2.766829e-02 3.461265e-03  2.771250e-02 3.457768e-03  2.771256e-02
-56  1.456335e-02 6.824251e-03  1.459966e-02 6.823198e-03  1.459971e-02
-57  9.999964e-02 1.540769e-08  9.999964e-02 1.536836e-08  9.999964e-02
-58  3.544261e-02 3.991765e-03  3.552041e-02 3.990318e-03  3.552053e-02
-59  2.213809e-02 5.591703e-03  2.219149e-02 5.590393e-03  2.219157e-02
-60  6.177075e-02 5.060172e-03  6.190255e-02 5.057716e-03  6.190274e-02
-61  4.834652e-02 4.201114e-03  4.844647e-02 4.199032e-03  4.844662e-02
-62  4.071366e-02 5.151033e-03  4.077977e-02 5.146196e-03  4.077986e-02
-63  1.339318e-01 3.237160e-04  1.339535e-01 3.229313e-04  1.339535e-01
-64  3.813653e-02 5.804479e-03  3.823352e-02 5.801821e-03  3.823366e-02
-   Prior.SNP 31 Prior.gene 41 Prior.SNP 41
-1  5.649692e-03  1.529247e-06 5.649692e-03
-2  7.040501e-03  1.942359e-02 7.040501e-03
-3  3.265365e-03  8.874538e-02 3.265365e-03
-4  8.603327e-03  1.214248e-02 8.603327e-03
-5  1.006388e-02  9.190743e-04 1.006388e-02
-6  6.493395e-03  2.872203e-06 6.493395e-03
-7  1.077012e-02  4.145916e-03 1.077012e-02
-8  1.062446e-02  9.070472e-03 1.062446e-02
-10 2.324534e-03  9.470607e-02 2.324534e-03
-11 4.690847e-03  2.481079e-02 4.690847e-03
-12 5.778569e-03  1.537519e-04 5.778569e-03
-13 4.688687e-03  5.541948e-02 4.688687e-03
-14 6.492461e-03  3.218635e-05 6.492461e-03
-18 5.222886e-04  9.493380e-01 5.222886e-04
-19 6.252114e-03  1.216595e-02 6.252114e-03
-22 4.589226e-03  4.085183e-02 4.589226e-03
-24 4.564089e-03  1.282590e-01 4.564089e-03
-25 4.610516e-03  4.483202e-02 4.610516e-03
-26 9.259043e-03  1.165545e-05 9.259043e-03
-27 4.006389e-04  4.679489e-01 4.006389e-04
-28 3.704401e-03  3.330824e-02 3.704401e-03
-29 9.280726e-03  8.990920e-03 9.280726e-03
-30 3.520858e-03  1.764242e-02 3.520858e-03
-31 5.945334e-04  4.390603e-01 5.945334e-04
-32 4.938727e-03  2.588223e-02 4.938727e-03
-33 7.991339e-03  3.608625e-04 7.991339e-03
-34 7.518796e-03  1.906491e-08 7.518796e-03
-35 2.734457e-03  3.388523e-02 2.734457e-03
-36 4.236435e-03  2.012521e-04 4.236435e-03
-37 4.891046e-03  3.824021e-02 4.891046e-03
-39 1.110137e-02  1.460781e-04 1.110137e-02
-43 4.936429e-03  4.483377e-02 4.936429e-03
-44 6.247185e-03  6.697580e-03 6.247185e-03
-46 7.299270e-03  1.381803e-10 7.299270e-03
-47 4.677476e-03  3.717484e-02 4.677476e-03
-53 5.591763e-03  4.999285e-03 5.591763e-03
-54 6.097341e-03  2.286804e-02 6.097341e-03
-55 3.457763e-03  2.771256e-02 3.457763e-03
-56 6.823197e-03  1.459971e-02 6.823197e-03
-57 1.536831e-08  9.999964e-02 1.536831e-08
-58 3.990316e-03  3.552053e-02 3.990316e-03
-59 5.590391e-03  2.219157e-02 5.590391e-03
-60 5.057713e-03  6.190274e-02 5.057713e-03
-61 4.199029e-03  4.844662e-02 4.199029e-03
-62 5.146189e-03  4.077986e-02 5.146189e-03
-63 3.229302e-04  1.339535e-01 3.229302e-04
-64 5.801818e-03  3.823366e-02 5.801818e-03</code></pre>
+   Prior.gene 11 Prior.SNP 11 Prior.gene 21 Prior.SNP 21
+1   1.525338e-06 5.649692e-03  1.529241e-06 5.649692e-03
+2   1.937611e-02 7.041951e-03  1.942352e-02 7.040503e-03
+3   8.865712e-02 3.270691e-03  8.874525e-02 3.265373e-03
+4   1.211209e-02 8.604141e-03  1.214243e-02 8.603328e-03
+5   9.167296e-04 1.006397e-02  9.190709e-04 1.006388e-02
+6   2.864862e-06 6.493395e-03  2.872192e-06 6.493395e-03
+7   4.135651e-03 1.077128e-02  4.145901e-03 1.077012e-02
+8   9.048265e-03 1.062596e-02  9.070440e-03 1.062446e-02
+10  9.462254e-02 2.328567e-03  9.470595e-02 2.324540e-03
+11  2.476081e-02 4.694394e-03  2.481072e-02 4.690852e-03
+12  1.533590e-04 5.778574e-03  1.537513e-04 5.778569e-03
+13  5.530764e-02 4.691382e-03  5.541932e-02 4.688691e-03
+14  3.210410e-05 6.492464e-03  3.218624e-05 6.492461e-03
+18  9.492147e-01 5.235593e-04  9.493378e-01 5.222905e-04
+19  1.213501e-02 6.252310e-03  1.216591e-02 6.252115e-03
+22  4.075168e-02 4.589705e-03  4.085169e-02 4.589226e-03
+24  1.279402e-01 4.565758e-03  1.282585e-01 4.564092e-03
+25  4.473792e-02 4.612631e-03  4.483189e-02 4.610519e-03
+26  1.162566e-05 9.259044e-03  1.165541e-05 9.259043e-03
+27  4.678708e-01 4.016154e-04  4.679488e-01 4.006403e-04
+28  3.323960e-02 3.706308e-03  3.330814e-02 3.704404e-03
+29  8.968987e-03 9.282481e-03  8.990889e-03 9.280729e-03
+30  1.759843e-02 3.521179e-03  1.764236e-02 3.520859e-03
+31  4.389208e-01 5.958942e-04  4.390601e-01 5.945354e-04
+32  2.581906e-02 4.939385e-03  2.588213e-02 4.938728e-03
+33  3.599408e-04 7.991361e-03  3.608612e-04 7.991339e-03
+34  1.901619e-08 7.518796e-03  1.906484e-08 7.518796e-03
+35  3.383258e-02 2.737369e-03  3.388516e-02 2.734461e-03
+36  2.007378e-04 4.236438e-03  2.012513e-04 4.236435e-03
+37  3.815143e-02 4.892518e-03  3.824009e-02 4.891048e-03
+39  1.457049e-04 1.110140e-02  1.460775e-04 1.110137e-02
+43  4.475378e-02 4.940457e-03  4.483365e-02 4.936435e-03
+44  6.680545e-03 6.247292e-03  6.697556e-03 6.247185e-03
+46  1.378271e-10 7.299270e-03  1.381798e-10 7.299270e-03
+47  3.707958e-02 4.679570e-03  3.717470e-02 4.677479e-03
+53  4.986926e-03 5.592567e-03  4.999267e-03 5.591764e-03
+54  2.282058e-02 6.102126e-03  2.286797e-02 6.097348e-03
+55  2.766829e-02 3.461265e-03  2.771250e-02 3.457768e-03
+56  1.456335e-02 6.824251e-03  1.459966e-02 6.823198e-03
+57  9.999964e-02 1.540769e-08  9.999964e-02 1.536836e-08
+58  3.544261e-02 3.991765e-03  3.552041e-02 3.990318e-03
+59  2.213809e-02 5.591703e-03  2.219149e-02 5.590393e-03
+60  6.177075e-02 5.060172e-03  6.190255e-02 5.057716e-03
+61  4.834652e-02 4.201114e-03  4.844647e-02 4.199032e-03
+62  4.071366e-02 5.151033e-03  4.077977e-02 5.146196e-03
+63  1.339318e-01 3.237160e-04  1.339535e-01 3.229313e-04
+64  3.813653e-02 5.804479e-03  3.823352e-02 5.801821e-03</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1301,17 +1736,17 @@ loaded via a namespace (and not attached):
 [13] glue_1.4.1        withr_2.1.2       lifecycle_0.2.0  
 [16] munsell_0.5.0     gtable_0.2.0      workflowr_1.6.2  
 [19] rvest_0.3.2       htmlwidgets_1.3   evaluate_0.12    
-[22] knitr_1.20        httpuv_1.4.5      Rcpp_1.0.4.6     
-[25] readr_1.3.1       promises_1.0.1    scales_1.0.0     
-[28] backports_1.1.2   webshot_0.5.1     jsonlite_1.6.1   
-[31] fs_1.3.1          hms_0.4.2         digest_0.6.25    
-[34] stringi_1.3.1     dplyr_1.0.0       grid_3.5.1       
-[37] rprojroot_1.3-2   tools_3.5.1       magrittr_1.5     
-[40] lazyeval_0.2.1    tibble_3.0.1      crayon_1.3.4     
-[43] whisker_0.3-2     pkgconfig_2.0.2   ellipsis_0.3.1   
-[46] Matrix_1.2-15     xml2_1.2.0        rmarkdown_1.10   
-[49] httr_1.4.1        rstudioapi_0.11   R6_2.3.0         
-[52] git2r_0.26.1      compiler_3.5.1   </code></pre>
+[22] knitr_1.20        httpuv_1.4.5      highr_0.7        
+[25] Rcpp_1.0.4.6      readr_1.3.1       promises_1.0.1   
+[28] scales_1.0.0      backports_1.1.2   webshot_0.5.1    
+[31] jsonlite_1.6.1    fs_1.3.1          hms_0.4.2        
+[34] digest_0.6.25     stringi_1.3.1     dplyr_1.0.0      
+[37] grid_3.5.1        rprojroot_1.3-2   tools_3.5.1      
+[40] magrittr_1.5      lazyeval_0.2.1    tibble_3.0.1     
+[43] crayon_1.3.4      whisker_0.3-2     pkgconfig_2.0.2  
+[46] ellipsis_0.3.1    Matrix_1.2-15     xml2_1.2.0       
+[49] rmarkdown_1.10    httr_1.4.1        rstudioapi_0.11  
+[52] R6_2.3.0          git2r_0.26.1      compiler_3.5.1   </code></pre>
 </div>
 </div>
 

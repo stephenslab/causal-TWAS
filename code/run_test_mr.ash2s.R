@@ -51,7 +51,7 @@ mr.ash2s.fit <- mr.ash2s(snp = dat$G,
                          expr = dat$expr,
                          y= phenores$Y,
                          mr.ash.init = "lasso",
-                         init.order = "es", iter = 30, outname = outname, ncores = 5)
+                         init.order = "es", iter = 30, outname = outname, ncores = 5, sa2 = Sa2)
 mr.ash2s_save(mr.ash2s.fit, outname)
 rm(mr.ash2s.fit); gc()
 
@@ -60,19 +60,19 @@ mr.ash2s.fit <- mr.ash2s(snp = dat$G,
                          expr = dat$expr,
                          y= phenores$Y,
                          mr.ash.init = "lasso",
-                         init.order = "es", iter.order = "se", iter = 30, outname = outname, ncores = 5)
+                         init.order = "es", iter.order = "se", iter = 30, outname = outname, ncores = 5, sa2 = Sa2)
 mr.ash2s_save(mr.ash2s.fit, outname)
 rm(mr.ash2s.fit); gc()
 
 
-loginfo("mr.ash2s initiation (beta: lassoSNP, update order: expr-snp)")
-mr.ash2s.fit <- mr.ash2s(snp = dat$G,
-                         expr = dat$expr,
-                         y= phenores$Y,
-                         mr.ash.init = "lassoSNP",
-                         init.order = "es", iter = 30, outname = outname, ncores = 5)
-mr.ash2s_save(mr.ash2s.fit, outname)
-rm(mr.ash2s.fit); gc()
+# loginfo("mr.ash2s initiation (beta: lassoSNP, update order: expr-snp)")
+# mr.ash2s.fit <- mr.ash2s(snp = dat$G,
+#                          expr = dat$expr,
+#                          y= phenores$Y,
+#                          mr.ash.init = "lassoSNP",
+#                          init.order = "es", iter = 30, outname = outname, ncores = 5)
+# mr.ash2s_save(mr.ash2s.fit, outname)
+# rm(mr.ash2s.fit); gc()
 
 # clean up
 unlink(paste0(outname, c(".bk", ".rds")))

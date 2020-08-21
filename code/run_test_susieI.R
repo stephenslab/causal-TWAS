@@ -22,8 +22,8 @@ loginfo('script started ... ')
 
 PIPfilter <- 0.3
 chunksize = 500000
-Niter <- 50
-ifshuffle <- T
+Niter <- 30
+ifshuffle <- F
 
 loginfo("regional PIP cut: %s ", PIPfilter)
 loginfo("region size: %s", chunksize)
@@ -62,17 +62,37 @@ phenores$Y <-  phenores$Y - mean(phenores$Y)
 #   regions <- rbind(regions, itv)
 # }
 #
-# loginfo("No. intervals: %s", nrow(regions))
 # write.table(regions , file = paste0(args[4], ".rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
-
-regions <- read.table(paste0(args[4], ".rPIP.txt"), header = T)
-print(nrow(regions))
 
 gres <- paste0(args[4], ".expr.txt")
 sres <- paste0(args[4], ".snp.txt")
 pipres <- rbind(read.table(gres, header =T), read.table(sres, header =T))
 cau <- pipres[pipres$ifcausal == 1, "name"]
 
+regf <- paste0(args[4], ".rPIP.txt")
+if (!file.exists(regf)) {
+  regions <- NULL
+  chroms <- unique(pipres$chr)
+  for (chrom in chroms){
+    pipres.chr <- pipres[pipres$chr == chrom, ]
+    stpos <- min(pipres.chr$p0) - chunksize/2
+    edpos <- max(pipres.chr$p1) + chunksize/2
+    p0 <- stpos + 0: floor((edpos - stpos)/chunksize) * chunksize
+    p1 <- stpos + 1: ceiling((edpos - stpos)/chunksize) * chunksize
+    itv <- cbind(p0, p1)
+    rPIP <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "PIP"]))
+    nCausal <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "ifcausal"]))
+    itv <- cbind(chrom, itv, rPIP, nCausal)
+    regions <- rbind(regions, itv)
+  }
+
+  loginfo("No. intervals for chr %s : %s", chrom, nrow(regions))
+  write.table(regions , file = paste0(args[4], ".rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+} else{
+  regions <- read.table(regf, header = T)
+}
+
+loginfo("No. intervals: %s", nrow(regions))
 
 regions <- regions[regions[, "rPIP"] > PIPfilter & regions[, "nCausal"] > 0,  ] # select regions
 loginfo("No. intervals after PIP filter: %s", nrow(regions))
@@ -151,9 +171,7 @@ outname <- args[5]
 loginfo("susie started for %s", outname)
 
 rm(dat); gc()
-save.image(file = "temp.Rd")
 saveRDS(regionlist, file = paste0(outname, "_regionlist.rds"))
-
 
 prior.SNP <- NULL
 prior.gene <- NULL
