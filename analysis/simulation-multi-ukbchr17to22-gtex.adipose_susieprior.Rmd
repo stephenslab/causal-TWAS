@@ -1,0 +1,176 @@
+---
+title: "Summarize twas: chr17 to 22"
+date: "`r Sys.Date()`"
+output: workflowr::wflow_html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,  message= F, warning = F)
+```
+`
+
+* Run susie with different priors and see how much prior affects results. 
+
+* Data: ukb chr 17 to chr 22 combined. SNPs are downsampled to 1/10, eQTLs defined by FUSION-TWAS (Adipose/GTEx) lasso effect size > 0 were kept, p= 86k, n = 20k.
+
+```{r plot functions}
+library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+library(tidyr)
+library(plyr)
+library(stringr)
+library(kableExtra)
+source("analysis/summarize_twas_plots.R")
+```
+
+# PIP calibration: filter regions
+
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
+susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/20200721-1-fixprior_rpip0.5/"
+```
+
+We run 100 simulations and run susie using different priors and `L= 1`. We only apply susie for regions with mr.ash2 regional PIP > 0.5.
+
+## Truth
+
+* The true parameters we used to simulate data: 
+```{r  true par}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_1.txt"), header = T)
+t(par[,2, drop = F])
+```
+
+## Using uniform prior:
+
+```{r cali 0, fig.height=6, fig.width=6}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior1.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
+```
+
+## Use overestimated prior
+
+* The prior used is: 
+```{r  par1}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_1.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+* susie results: 
+```{r cali 1, fig.height=6, fig.width=14}
+par(mfrow=c(1,2))
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+
+## Use priors close to truth
+
+* The prior used is: 
+```{r  par2}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_2.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+
+```{r cali 2, fig.height=6, fig.width=14}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior2.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+
+par(mfrow=c(1,2))
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+
+## Use under estimated priors
+
+* The prior used is: 
+```{r  par3}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_3.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+
+* susie results: 
+```{r cali 3, fig.height=6, fig.width=14}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior3.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+
+par(mfrow=c(1,2))
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+
+# PIP calibration: use all regions
+
+```{r output dir all}
+susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/"
+```
+
+We run 100 simulations and run susie using different priors and `L= 1`. We only apply susie for all regions.
+
+## Truth
+
+* The true parameters we used to simulate data: 
+```{r  true par all}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_1.txt"), header = T)
+t(par[,2, drop = F])
+```
+
+## Using uniform prior:
+
+```{r cali 0 all, fig.height=6, fig.width=6}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior1.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
+```
+
+## Use overestimated prior
+
+* The prior used is: 
+```{r  par1 all}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_1.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+* susie results: 
+```{r cali 1 all, fig.height=6, fig.width=14}
+par(mfrow=c(1,2))
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+
+## Use priors close to truth
+
+* The prior used is: 
+```{r  par2 all}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_2.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+
+```{r cali 2 all, fig.height=6, fig.width=14}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior2.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+
+par(mfrow=c(1,2))
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+
+## Use under estimated priors
+
+* The prior used is: 
+```{r  par3 all}
+par <- read.table(paste0(susiedir, "20200721-1-fixedprior_3.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+
+* susie results: 
+```{r cali 3 all, fig.height=6, fig.width=14}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior3.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+
+par(mfrow=c(1,2))
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+

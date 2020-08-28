@@ -23,7 +23,7 @@ source(paste0(codedir,"input_reformat.R"))
 addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
 loginfo('script started ... ')
 
-PIPfilter <- 0
+PIPfilter <- 0.5
 chunksize = 500000
 
 loginfo("regional PIP cut: %s ", PIPfilter)
@@ -133,7 +133,7 @@ saveRDS(outlist, file = paste(outname, "susieres.rds", sep = "."))
 outgdf <- do.call(rbind, outlist)
 outgdf <- as.data.frame(outgdf)
 
-cau <- c(dat$snp[phenores$param$idx.cSNP,], colnames(exprres$expr)[phenores$param$idx.cgene])
+cau <- c(dat$snp[phenores$param$idx.cSNP,], colnames(exprres)[phenores$param$idx.cgene])
 outgdf$ifcausal <- ifelse(outgdf$name %in% cau, 1, 0)
 
 write.table(outgdf[outgdf[, "type"] == "gene", ], file= paste(outname, "susieres.expr.txt", sep = ".")  , row.names=F, col.names= T, sep="\t", quote = F)

@@ -27,6 +27,7 @@
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
 <script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
 <script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
@@ -359,7 +360,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-08-20
+<strong>Last updated:</strong> 2020-08-28
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -450,16 +451,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree86ac96e9b891fcb09092cbe298c22725d7d68a31targetblank86ac96ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/86ac96e9b891fcb09092cbe298c22725d7d68a31" target="_blank">86ac96e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree41c884986857f5d52c745f04c4c4a25b95ddaba9targetblank41c8849a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/41c884986857f5d52c745f04c4c4a25b95ddaba9" target="_blank">41c8849</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree86ac96e9b891fcb09092cbe298c22725d7d68a31targetblank86ac96ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree41c884986857f5d52c745f04c4c4a25b95ddaba9targetblank41c8849a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/86ac96e9b891fcb09092cbe298c22725d7d68a31" target="_blank">86ac96e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/41c884986857f5d52c745f04c4c4a25b95ddaba9" target="_blank">41c8849</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -471,10 +472,16 @@ Ignored files:
     Ignored:    code/workflow/.ipynb_checkpoints/
     Ignored:    data/
 
+Untracked files:
+    Untracked:  analysis/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd
+    Untracked:  code/run_test_susie_temp.R
+
 Unstaged changes:
+    Modified:   analysis/index.Rmd
     Modified:   analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd
-    Modified:   code/run_test_mr.ash2s.R
+    Modified:   code/run_test_susie.R
     Modified:   code/run_test_susieI.R
+    Modified:   code/temp.R
     Modified:   code/workflow/workflow-ashtest4.ipynb
     Modified:   code/workflow/workflow-susieI-20200813.ipynb
 
@@ -515,6 +522,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/41c884986857f5d52c745f04c4c4a25b95ddaba9/analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd" target="_blank">41c8849</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-08-20
+</td>
+<td>
+more parameter examples for susieI
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/41c884986857f5d52c745f04c4c4a25b95ddaba9/docs/simulation-susieI-ukbchr17to22-gtex.adipose.html" target="_blank">41c8849</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-08-20
+</td>
+<td>
+more parameter examples for susieI
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -850,9 +891,12 @@ simingz
 </div>
 </div>
 </div>
-<div id="susiei-genes" class="section level1">
-<h1>susieI genes</h1>
-<p>Regions: We use regional PIP of both SNP and gene from mr.ash2s &gt; 0.3 , and also require at least one causal gene or SNP is present, also, at least one gene.</p>
+<div id="susiei-genes---setting-1" class="section level1">
+<h1>susieI genes - setting 1</h1>
+<ul>
+<li><p>Regions: We use regional PIP of both SNP and gene from mr.ash2s &gt; 0.3, and also require at least one causal gene or SNP is present, also, at least one gene.</p></li>
+<li><p>Susie run parameters: <code>L=1</code>, <code>null_weight = 0</code>, didn’t update <code>null_weight</code> in iterations.</p></li>
+</ul>
 <div id="one-example" class="section level2">
 <h2>One example</h2>
 <p>Prior change for each iteration:</p>
@@ -892,137 +936,19 @@ Iteration 27 0.01641636 0.005770102
 Iteration 28 0.01641688 0.005770085
 Iteration 29 0.01641726 0.005770073
 Iteration 30 0.01641754 0.005770064</code></pre>
-<p>Results for each region:</p>
-<pre class="r"><code>regionlist &lt;- readRDS(paste0(outputdir, tag, &quot;_regionlist.rds&quot;))
-ng &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;gene&quot;, , drop = F ])[1]))
-ns &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;SNP&quot;, , drop = F ])[1]))
-ng.c &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;gene&quot; &amp; x$ifcausal == 1, , drop = F])[1]))
-ns.c &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;SNP&quot; &amp; x$ifcausal == 1, , drop = F])[1]))
-ngdf &lt;- data.frame(&quot;ngene&quot; = ng, &quot;nsnp&quot; = ns, &quot;ncausalgene&quot; = ng.c, &quot;ncausalSNP&quot; = ns.c)
-
-cat(&quot;causal gene fraction:&quot;, sum(ngdf$ncausalgene)/sum(ngdf$ngene) )</code></pre>
-<pre><code>causal gene fraction: 0.06355932</code></pre>
-<pre class="r"><code>cat(&quot;causal snp fraction:&quot;, sum(ngdf$ncausalSNP)/sum(ngdf$ns))</code></pre>
-<pre><code>causal snp fraction: 0.006288467</code></pre>
-<pre class="r"><code>for (i in seq(1, Niter, 10)){
-  resf &lt;- paste0(outputdir, tag, &quot;.&quot;, i, &quot;.susieIres.Rd&quot;) 
-  load(resf)
-  ngdf[, paste(&quot;Prior.gene&quot;, i)] &lt;- unlist(lapply(gene.rpiplist, &quot;mean&quot;))
-  ngdf[, paste(&quot;Prior.SNP&quot;, i)] &lt;- unlist(lapply(snp.rpiplist, &quot;mean&quot;))
-}
-ngdf</code></pre>
-<pre><code>   ngene nsnp ncausalgene ncausalSNP Prior.gene 1  Prior.SNP 1
-1      1  177           1          2 1.121460e-03 0.0056433816
-2      1  131           0          1 1.399491e-02 0.0075267564
-3      7  116           1          0 1.149406e-02 0.0079270825
-4      4  112           0          2 1.446824e-03 0.0088768991
-5      7   99           0          1 2.187797e-03 0.0099463174
-6     10  154           1          1 8.959135e-02 0.0006758864
-7      4   89           0          1 3.618684e-04 0.0112196913
-8      1   89           0          1 1.064940e-04 0.0112347585
-10     6  145           1          0 1.057093e-02 0.0064591341
-11    11  155           2          1 3.212361e-03 0.0062236389
-12     2  173           0          2 6.221626e-06 0.0057802749
-13    12  166           2          0 6.603292e-03 0.0055467500
-14     7  154           0          2 3.895577e-04 0.0064757993
-18     2   97           1          0 3.556363e-02 0.0095760076
-19     2  158           1          0 7.285274e-03 0.0062368953
-22     1  209           0          1 4.761905e-03 0.0047619048
-24     6  191           0          1 4.803413e-03 0.0050847096
-25     4  178           1          0 5.987876e-03 0.0054834185
-26     4  108           0          1 1.366526e-07 0.0092592542
-27     2  160           0          1 1.455019e-02 0.0060681226
-28     4  216           0          1 4.545455e-03 0.0045454545
-29     4  100           0          1 2.693962e-03 0.0098922415
-30     3  274           0          1 3.491355e-03 0.0036114085
-31     4  205           1          0 4.784689e-03 0.0047846890
-32     7  192           1          0 1.149907e-02 0.0047890964
-33     2  125           0          2 1.612216e-02 0.0077420454
-34     9  133           0          1 7.297093e-08 0.0075187921
-35     8  217           0          1 4.444444e-03 0.0044444444
-36     6  236           0          1 9.325782e-06 0.0042370510
-37    11  181           0          1 5.208333e-03 0.0052083333
-39     1   90           0          1 7.830050e-05 0.0111102411
-43     1  139           0          2 2.392592e-03 0.0071770317
-44     3  159           0          1 1.331606e-03 0.0062641835
-46     4  137           0          1 6.858883e-12 0.0072992701
-47     4  182           1          0 7.264653e-03 0.0053348428
-53     5  169           0          3 8.244458e-04 0.0058927679
-54     3  119           0          1 8.196721e-03 0.0081967213
-55     6  177           0          1 1.818031e-03 0.0055880894
-56     2  138           0          1 5.244884e-03 0.0071703640
-57    10  231           0          2 4.586726e-03 0.0041304448
-58     5  215           0          1 4.545455e-03 0.0045454545
-59    14  163           0          1 7.228010e-03 0.0055141587
-60     4  161           0          1 6.060606e-03 0.0060606061
-61     4  192           0          1 1.626941e-03 0.0051744387
-62     3  123           0          2 7.342575e-04 0.0081121726
-63     3  193           0          1 3.341177e-03 0.0051294118
-64    12  146           1          0 7.098813e-03 0.0062658510
-   Prior.gene 11 Prior.SNP 11 Prior.gene 21 Prior.SNP 21
-1   3.084535e-03 0.0056322908  3.180950e-03 0.0056317460
-2   3.764638e-02 0.0073462109  3.878124e-02 0.0073375478
-3   2.775258e-02 0.0069459650  2.844939e-02 0.0069039159
-4   3.963215e-03 0.0087870280  4.086279e-03 0.0087826329
-5   5.881132e-03 0.0096851725  6.058213e-03 0.0096726516
-6   9.596150e-02 0.0002622402  9.607958e-02 0.0002545729
-7   9.954318e-04 0.0111912165  1.026553e-03 0.0111898178
-8   2.934224e-04 0.0112326582  3.026202e-04 0.0112325548
-10  2.621497e-02 0.0058117943  2.690438e-02 0.0057832670
-11  8.483562e-03 0.0058495536  8.731592e-03 0.0058319515
-12  1.714378e-05 0.0057801486  1.768125e-05 0.0057801424
-13  1.609830e-02 0.0048603637  1.650836e-02 0.0048307212
-14  1.068784e-03 0.0064449254  1.102056e-03 0.0064434130
-18  8.738874e-02 0.0085074486  8.964968e-02 0.0084608313
-19  1.959184e-02 0.0060811160  2.018215e-02 0.0060736437
-22  1.301286e-02 0.0047224265  1.341536e-02 0.0047205007
-24  1.327761e-02 0.0048185044  1.365976e-02 0.0048064996
-25  1.583544e-02 0.0052621248  1.629960e-02 0.0052516943
-26  3.765524e-07 0.0092592453  3.883578e-07 0.0092592449
-27  3.826661e-02 0.0057716673  3.937740e-02 0.0057577825
-28  1.213778e-02 0.0044048559  1.249929e-02 0.0043981612
-29  7.306144e-03 0.0097077542  7.529344e-03 0.0096988262
-30  9.449546e-03 0.0035461729  9.737281e-03 0.0035430225
-31  1.275585e-02 0.0046291542  1.313475e-02 0.0046217610
-32  2.776620e-02 0.0041960238  2.846341e-02 0.0041706049
-33  4.210671e-02 0.0073262926  4.331543e-02 0.0073069532
-34  2.010746e-07 0.0075187834  2.073785e-07 0.0075187830
-35  1.208195e-02 0.0041628772  1.242524e-02 0.0041502217
-36  2.569632e-05 0.0042366348  2.650187e-05 0.0042366144
-37  1.304024e-02 0.0047323612  1.338886e-02 0.0047111745
-39  2.157407e-04 0.0111087140  2.225034e-04 0.0111086389
-43  6.573432e-03 0.0071469537  6.778533e-03 0.0071454782
-44  3.648856e-03 0.0062204618  3.762221e-03 0.0062183229
-46  1.889997e-11 0.0072992701  1.949251e-11 0.0072992701
-47  1.934185e-02 0.0050694100  1.991257e-02 0.0050568666
-53  2.260495e-03 0.0058502812  2.330793e-03 0.0058482014
-54  2.165175e-02 0.0078575188  2.228518e-02 0.0078415500
-55  4.944899e-03 0.0054820938  5.096684e-03 0.0054769486
-56  1.423868e-02 0.0070400191  1.467438e-02 0.0070337046
-57  1.170211e-02 0.0038224195  1.202510e-02 0.0038084371
-58  1.204464e-02 0.0043710548  1.239885e-02 0.0043628175
-59  1.694286e-02 0.0046797543  1.734628e-02 0.0046451045
-60  1.601855e-02 0.0058132037  1.648763e-02 0.0058015495
-61  4.465785e-03 0.0051152961  4.604931e-03 0.0051123973
-62  2.017586e-03 0.0080808719  2.080552e-03 0.0080793361
-63  9.125601e-03 0.0050394984  9.407651e-03 0.0050351142
-64  1.701870e-02 0.0054505177  1.744068e-02 0.0054158341</code></pre>
 </div>
 <div id="more-examples" class="section level2">
 <h2>more examples</h2>
 <p>Each row represents one simulation run. Runs labeled <code>1-x</code> have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled <code>2-x</code> and <code>3-x</code>)</p>
-<pre class="r"><code>show_param &lt;- function(tags){
-  mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot; )
+<pre class="r"><code>show_param &lt;- function(mrashfs, susieIfs, susieIfs2){
   param &lt;- do.call(rbind, lapply(mr.ashfs, function(x) t(read.table(x))[2:1,]))
  
   pars &lt;- cbind(param[seq(1,nrow(param), 2), 1], param[seq(2,nrow(param), 2), 1], param[seq(1,nrow(param), 2), 3], param[seq(2,nrow(param), 2), 3])
   colnames(pars) &lt;- paste(rep(c(&quot;pi1.gene_&quot;, &quot;pi1.SNP_&quot;), each = 2), c(&quot;truth&quot;, &quot;mr.ash2&quot;), sep = &quot;&quot;)
     
-  susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.susieIres.Rd&quot; )
   param.s &lt;- do.call(rbind, lapply(susieIfs, function(x) {load(x); c(tail(prior.gene_rec, 1), tail(prior.SNP_rec,1))}))
   
-  susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.1.txt&quot;)
-  param.s.truth &lt;- do.call(rbind, lapply(susieIfs, function(x) {
+  param.s.truth &lt;- do.call(rbind, lapply(susieIfs2, function(x) {
     a &lt;- read.table(x, header = T);
     c(nrow(a[a$ifcausal == 1 &amp; a$type == &quot;gene&quot;, , drop = F])/ nrow(a[a$type == &quot;gene&quot;, , drop = F]),
       nrow(a[a$ifcausal == 1 &amp; a$type == &quot;SNP&quot;, , drop = F])/ nrow(a[a$type == &quot;SNP&quot;, , drop = F]))
@@ -1031,48 +957,51 @@ ngdf</code></pre>
   pars.s &lt;- cbind(param.s.truth, param.s)[, c(1,3,2,4)]
   colnames(pars.s) &lt;-  paste(rep(c(&quot;pi1.gene_&quot;, &quot;pi1.SNP_&quot;), each = 2), c(&quot;susietruth&quot;, &quot;susieI&quot;), sep = &quot;&quot;)
   
-  df &lt;- cbind(pars, pars.s)
-  rownames(df) &lt;- tags
+  df &lt;- cbind(tags, format(pars, digits = 4), format(pars.s, digits =4))
+  rownames(df) &lt;- NULL
   
   df %&gt;% 
-  kable(format = &quot;html&quot;, col.names = colnames(df)) %&gt;%
-  kable_styling() %&gt;%
-  kableExtra::scroll_box(width = &quot;100%&quot;)
+  kable(&quot;html&quot;, escape = F) %&gt;%
+  kable_styling(&quot;striped&quot;, full_width = F) %&gt;%
+  scroll_box(width = &quot;100%&quot;)
 
 }
 
+tags &lt;- paste(rep(1:3, each = 5), 1:5, sep = &quot;-&quot;)
+mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.1.txt&quot;)
 
-tags &lt;- paste(rep(1:3, each = 5), 1:5, sep =&quot;-&quot;)
-
-show_param(tags)</code></pre>
+show_param(mrashfs, susieIfs, susieIfs2)</code></pre>
 <div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
+tags
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.gene_truth
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.gene_mr.ash2
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.SNP_truth
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.SNP_mr.ash2
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.gene_susietruth
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.gene_susieI
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.SNP_susietruth
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 pi1.SNP_susieI
 </th>
 </tr>
@@ -1082,435 +1011,2016 @@ pi1.SNP_susieI
 <td style="text-align:left;">
 1-1
 </td>
-<td style="text-align:right;">
-0.0502117
+<td style="text-align:left;">
+0.050212
 </td>
-<td style="text-align:right;">
-0.0031626
+<td style="text-align:left;">
+0.003163
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0017442
+<td style="text-align:left;">
+0.001744
 </td>
-<td style="text-align:right;">
-0.0635593
+<td style="text-align:left;">
+6.356e-02
 </td>
-<td style="text-align:right;">
-0.0164175
+<td style="text-align:left;">
+1.642e-02
 </td>
-<td style="text-align:right;">
-0.0062885
+<td style="text-align:left;">
+6.288e-03
 </td>
-<td style="text-align:right;">
-0.0057701
+<td style="text-align:left;">
+5.770e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 1-2
 </td>
-<td style="text-align:right;">
-0.0502117
+<td style="text-align:left;">
+0.050212
 </td>
-<td style="text-align:right;">
-0.0023143
+<td style="text-align:left;">
+0.002314
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0019384
+<td style="text-align:left;">
+0.001938
 </td>
-<td style="text-align:right;">
-0.0898876
+<td style="text-align:left;">
+8.989e-02
 </td>
-<td style="text-align:right;">
-0.0272836
+<td style="text-align:left;">
+2.728e-02
 </td>
-<td style="text-align:right;">
-0.0068851
+<td style="text-align:left;">
+6.885e-03
 </td>
-<td style="text-align:right;">
-0.0055209
+<td style="text-align:left;">
+5.521e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 1-3
 </td>
-<td style="text-align:right;">
-0.0502117
+<td style="text-align:left;">
+0.050212
 </td>
-<td style="text-align:right;">
-0.0237669
+<td style="text-align:left;">
+0.023767
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0022848
+<td style="text-align:left;">
+0.002285
 </td>
-<td style="text-align:right;">
-0.0961003
+<td style="text-align:left;">
+9.610e-02
 </td>
-<td style="text-align:right;">
-0.0514446
+<td style="text-align:left;">
+5.144e-02
 </td>
-<td style="text-align:right;">
-0.0054195
+<td style="text-align:left;">
+5.420e-03
 </td>
-<td style="text-align:right;">
-0.0050422
+<td style="text-align:left;">
+5.042e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 1-4
 </td>
-<td style="text-align:right;">
-0.0502117
+<td style="text-align:left;">
+0.050212
 </td>
-<td style="text-align:right;">
-0.0159417
+<td style="text-align:left;">
+0.015942
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0025405
+<td style="text-align:left;">
+0.002540
 </td>
-<td style="text-align:right;">
-0.0989957
+<td style="text-align:left;">
+9.900e-02
 </td>
-<td style="text-align:right;">
-0.0425986
+<td style="text-align:left;">
+4.260e-02
 </td>
-<td style="text-align:right;">
-0.0053842
+<td style="text-align:left;">
+5.384e-03
 </td>
-<td style="text-align:right;">
-0.0053504
+<td style="text-align:left;">
+5.350e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 1-5
 </td>
-<td style="text-align:right;">
-0.0502117
+<td style="text-align:left;">
+0.050212
 </td>
-<td style="text-align:right;">
-0.0588623
+<td style="text-align:left;">
+0.058862
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0015320
+<td style="text-align:left;">
+0.001532
 </td>
-<td style="text-align:right;">
-0.1041968
+<td style="text-align:left;">
+1.042e-01
 </td>
-<td style="text-align:right;">
-0.0761682
+<td style="text-align:left;">
+7.617e-02
 </td>
-<td style="text-align:right;">
-0.0054099
+<td style="text-align:left;">
+5.410e-03
 </td>
-<td style="text-align:right;">
-0.0042034
+<td style="text-align:left;">
+4.203e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 2-1
 </td>
-<td style="text-align:right;">
-0.0998185
+<td style="text-align:left;">
+0.099819
 </td>
-<td style="text-align:right;">
-0.0105981
+<td style="text-align:left;">
+0.010598
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0022373
+<td style="text-align:left;">
+0.002237
 </td>
-<td style="text-align:right;">
-0.1428571
+<td style="text-align:left;">
+1.429e-01
 </td>
-<td style="text-align:right;">
-0.0000000
+<td style="text-align:left;">
+2.165e-08
 </td>
-<td style="text-align:right;">
-0.0062785
+<td style="text-align:left;">
+6.279e-03
 </td>
-<td style="text-align:right;">
-0.0062785
+<td style="text-align:left;">
+6.279e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 2-2
 </td>
-<td style="text-align:right;">
-0.0998185
+<td style="text-align:left;">
+0.099819
 </td>
-<td style="text-align:right;">
-0.0220761
+<td style="text-align:left;">
+0.022076
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0021912
+<td style="text-align:left;">
+0.002191
 </td>
-<td style="text-align:right;">
-0.1366906
+<td style="text-align:left;">
+1.367e-01
 </td>
-<td style="text-align:right;">
-0.0329071
+<td style="text-align:left;">
+3.291e-02
 </td>
-<td style="text-align:right;">
-0.0090887
+<td style="text-align:left;">
+9.089e-03
 </td>
-<td style="text-align:right;">
-0.0052631
+<td style="text-align:left;">
+5.263e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 2-3
 </td>
-<td style="text-align:right;">
-0.0998185
+<td style="text-align:left;">
+0.099819
 </td>
-<td style="text-align:right;">
-0.0352456
+<td style="text-align:left;">
+0.035246
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0015849
+<td style="text-align:left;">
+0.001585
 </td>
-<td style="text-align:right;">
-0.0930233
+<td style="text-align:left;">
+9.302e-02
 </td>
-<td style="text-align:right;">
-0.0727722
+<td style="text-align:left;">
+7.277e-02
 </td>
-<td style="text-align:right;">
-0.0123698
+<td style="text-align:left;">
+1.237e-02
 </td>
-<td style="text-align:right;">
-0.0057753
+<td style="text-align:left;">
+5.775e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 2-4
 </td>
-<td style="text-align:right;">
-0.0998185
+<td style="text-align:left;">
+0.099819
 </td>
-<td style="text-align:right;">
-0.0190760
+<td style="text-align:left;">
+0.019076
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0016220
+<td style="text-align:left;">
+0.001622
 </td>
-<td style="text-align:right;">
-0.1379310
+<td style="text-align:left;">
+1.379e-01
 </td>
-<td style="text-align:right;">
-0.0409841
+<td style="text-align:left;">
+4.098e-02
 </td>
-<td style="text-align:right;">
-0.0090259
+<td style="text-align:left;">
+9.026e-03
 </td>
-<td style="text-align:right;">
-0.0058046
+<td style="text-align:left;">
+5.805e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 2-5
 </td>
-<td style="text-align:right;">
-0.0998185
+<td style="text-align:left;">
+0.099819
 </td>
-<td style="text-align:right;">
-0.0111937
+<td style="text-align:left;">
+0.011194
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0021376
+<td style="text-align:left;">
+0.002138
 </td>
-<td style="text-align:right;">
-0.1881188
+<td style="text-align:left;">
+1.881e-01
 </td>
-<td style="text-align:right;">
-0.0370117
+<td style="text-align:left;">
+3.701e-02
 </td>
-<td style="text-align:right;">
-0.0081091
+<td style="text-align:left;">
+8.109e-03
 </td>
-<td style="text-align:right;">
-0.0063626
+<td style="text-align:left;">
+6.363e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 3-1
 </td>
-<td style="text-align:right;">
-0.0199637
+<td style="text-align:left;">
+0.019964
 </td>
-<td style="text-align:right;">
-0.0132199
+<td style="text-align:left;">
+0.013220
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0031756
+<td style="text-align:left;">
+0.003176
 </td>
-<td style="text-align:right;">
-0.0782609
+<td style="text-align:left;">
+7.826e-02
 </td>
-<td style="text-align:right;">
-0.0658229
+<td style="text-align:left;">
+6.582e-02
 </td>
-<td style="text-align:right;">
-0.0056657
+<td style="text-align:left;">
+5.666e-03
 </td>
-<td style="text-align:right;">
-0.0042274
+<td style="text-align:left;">
+4.227e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 3-2
 </td>
-<td style="text-align:right;">
-0.0199637
+<td style="text-align:left;">
+0.019964
 </td>
-<td style="text-align:right;">
-0.0187323
+<td style="text-align:left;">
+0.018732
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0026544
+<td style="text-align:left;">
+0.002654
 </td>
-<td style="text-align:right;">
-0.0858896
+<td style="text-align:left;">
+8.589e-02
 </td>
-<td style="text-align:right;">
-0.0508288
+<td style="text-align:left;">
+5.083e-02
 </td>
-<td style="text-align:right;">
-0.0089696
+<td style="text-align:left;">
+8.970e-03
 </td>
-<td style="text-align:right;">
-0.0045318
+<td style="text-align:left;">
+4.532e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 3-3
 </td>
-<td style="text-align:right;">
-0.0199637
+<td style="text-align:left;">
+0.019964
 </td>
-<td style="text-align:right;">
-0.0093039
+<td style="text-align:left;">
+0.009304
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0018025
+<td style="text-align:left;">
+0.001802
 </td>
-<td style="text-align:right;">
-0.0666667
+<td style="text-align:left;">
+6.667e-02
 </td>
-<td style="text-align:right;">
-0.0439207
+<td style="text-align:left;">
+4.392e-02
 </td>
-<td style="text-align:right;">
-0.0068643
+<td style="text-align:left;">
+6.864e-03
 </td>
-<td style="text-align:right;">
-0.0056309
+<td style="text-align:left;">
+5.631e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 3-4
 </td>
-<td style="text-align:right;">
-0.0199637
+<td style="text-align:left;">
+0.019964
 </td>
-<td style="text-align:right;">
-0.0252941
+<td style="text-align:left;">
+0.025294
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0024017
+<td style="text-align:left;">
+0.002402
 </td>
-<td style="text-align:right;">
-0.0833333
+<td style="text-align:left;">
+8.333e-02
 </td>
-<td style="text-align:right;">
-0.1054679
+<td style="text-align:left;">
+1.055e-01
 </td>
-<td style="text-align:right;">
-0.0064229
+<td style="text-align:left;">
+6.423e-03
 </td>
-<td style="text-align:right;">
-0.0030996
+<td style="text-align:left;">
+3.100e-03
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 3-5
 </td>
-<td style="text-align:right;">
-0.0199637
+<td style="text-align:left;">
+0.019964
 </td>
-<td style="text-align:right;">
-0.0128022
+<td style="text-align:left;">
+0.012802
 </td>
-<td style="text-align:right;">
-0.0024981
+<td style="text-align:left;">
+0.002498
 </td>
-<td style="text-align:right;">
-0.0024385
+<td style="text-align:left;">
+0.002439
 </td>
-<td style="text-align:right;">
-0.0495050
+<td style="text-align:left;">
+4.950e-02
 </td>
-<td style="text-align:right;">
-0.0395866
+<td style="text-align:left;">
+3.959e-02
 </td>
-<td style="text-align:right;">
-0.0084349
+<td style="text-align:left;">
+8.435e-03
 </td>
-<td style="text-align:right;">
-0.0056238
+<td style="text-align:left;">
+5.624e-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="susiei-genes---setting-2" class="section level1">
+<h1>susieI genes - setting 2</h1>
+<ul>
+<li><p>Regions: All regions.</p></li>
+<li><p>Susie run parameters: <code>L=1</code>. Initiate with <code>null_weight = 0</code> and update <code>null_weight</code> based on last iteration results.</p></li>
+</ul>
+<div id="one-example-1" class="section level2">
+<h2>One example</h2>
+<p>Prior change for each iteration:</p>
+<pre class="r"><code>load(paste0(outputdir, tag, &quot;.config1.susieIres.Rd&quot;))
+df &lt;- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) &lt;- paste(&quot;Iteration&quot;, 1:Niter)
+colnames(df) &lt;- c(&quot;Prior.gene&quot;, &quot;Prior.SNP&quot;)
+df</code></pre>
+<pre><code>               Prior.gene    Prior.SNP
+Iteration 1  0.0042939376 3.927826e-03
+Iteration 2  0.0022949947 1.834679e-03
+Iteration 3  0.0010887830 6.261872e-04
+Iteration 4  0.0006670077 1.887757e-04
+Iteration 5  0.0006069632 8.284829e-05
+Iteration 6  0.0006029904 5.534014e-05
+Iteration 7  0.0006020495 4.568706e-05
+Iteration 8  0.0006012293 4.161309e-05
+Iteration 9  0.0006007693 3.976660e-05
+Iteration 10 0.0006004784 3.890228e-05
+Iteration 11 0.0006003633 3.849407e-05
+Iteration 12 0.0006003019 3.829982e-05
+Iteration 13 0.0006002719 3.820714e-05
+Iteration 14 0.0006002574 3.816285e-05
+Iteration 15 0.0006002504 3.814168e-05
+Iteration 16 0.0006002471 3.813156e-05
+Iteration 17 0.0006002455 3.812671e-05
+Iteration 18 0.0006002447 3.812440e-05
+Iteration 19 0.0006002444 3.812329e-05
+Iteration 20 0.0006002442 3.812276e-05
+Iteration 21 0.0006002441 3.812251e-05
+Iteration 22 0.0006002441 3.812238e-05
+Iteration 23 0.0006002441 3.812233e-05
+Iteration 24 0.0006002441 3.812230e-05
+Iteration 25 0.0006002441 3.812228e-05
+Iteration 26 0.0006002441 3.812228e-05
+Iteration 27 0.0006002441 3.812228e-05
+Iteration 28 0.0006002440 3.812227e-05
+Iteration 29 0.0006002440 3.812227e-05
+Iteration 30 0.0006002440 3.812227e-05</code></pre>
+</div>
+<div id="more-examples-1" class="section level2">
+<h2>More examples</h2>
+<pre class="r"><code>mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config1.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config1.susieI.txt&quot;)
+
+show_param(mrashfs, susieIfs, susieIfs2)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+tags
+</th>
+<th style="text-align:left;">
+pi1.gene_truth
+</th>
+<th style="text-align:left;">
+pi1.gene_mr.ash2
+</th>
+<th style="text-align:left;">
+pi1.SNP_truth
+</th>
+<th style="text-align:left;">
+pi1.SNP_mr.ash2
+</th>
+<th style="text-align:left;">
+pi1.gene_susietruth
+</th>
+<th style="text-align:left;">
+pi1.gene_susieI
+</th>
+<th style="text-align:left;">
+pi1.SNP_susietruth
+</th>
+<th style="text-align:left;">
+pi1.SNP_susieI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1-1
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.003163
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001744
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+6.002e-04
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+3.812e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-2
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.002314
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001938
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+1.873e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.567e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-3
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.023767
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002285
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+5.378e-15
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+4.347e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-4
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.015942
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002540
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+2.501e-04
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+2.254e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-5
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.058862
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001532
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+0.000e+00
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+4.876e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-1
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.010598
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002237
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+0.000e+00
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+4.081e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-2
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.022076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002191
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+1.145e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.518e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-3
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.035246
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001585
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+3.852e-04
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+6.283e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-4
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.019076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001622
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+8.148e-07
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+3.860e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-5
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.011194
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002138
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+5.420e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+3.004e-03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-1
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.013220
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003176
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+2.628e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.246e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-2
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.018732
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002654
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+3.672e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.447e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-3
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.009304
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001802
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+4.068e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+2.391e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-4
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.025294
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002402
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+7.020e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.548e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-5
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.012802
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002439
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+5.143e-04
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+8.153e-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="susiei-genes---setting-3" class="section level1">
+<h1>susieI genes - setting 3</h1>
+<ul>
+<li><p>Regions: All regions.</p></li>
+<li><p>Susie run parameters: <code>L=2</code>. Initiate with <code>null_weight = 0</code> and update <code>null_weight</code> based on last iteration results.</p></li>
+</ul>
+<div id="one-example-2" class="section level2">
+<h2>One example</h2>
+<p>Prior change for each iteration:</p>
+<pre class="r"><code>load(paste0(outputdir, tag, &quot;.config2.susieIres.Rd&quot;))
+df &lt;- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) &lt;- paste(&quot;Iteration&quot;, 1:Niter)
+colnames(df) &lt;- c(&quot;Prior.gene&quot;, &quot;Prior.SNP&quot;)
+df</code></pre>
+<pre><code>               Prior.gene    Prior.SNP
+Iteration 1  0.0066993297 6.584306e-03
+Iteration 2  0.0056787027 5.455210e-03
+Iteration 3  0.0050337726 4.612196e-03
+Iteration 4  0.0043467028 3.754690e-03
+Iteration 5  0.0036153401 2.851934e-03
+Iteration 6  0.0026731079 1.875408e-03
+Iteration 7  0.0016861836 9.690431e-04
+Iteration 8  0.0009732381 3.791106e-04
+Iteration 9  0.0006853260 1.445436e-04
+Iteration 10 0.0006245655 7.569032e-05
+Iteration 11 0.0006136886 5.453603e-05
+Iteration 12 0.0006106502 4.650609e-05
+Iteration 13 0.0006090173 4.302479e-05
+Iteration 14 0.0006082797 4.140850e-05
+Iteration 15 0.0006079140 4.063401e-05
+Iteration 16 0.0006076843 4.025587e-05
+Iteration 17 0.0006075553 4.006912e-05
+Iteration 18 0.0006075079 3.997749e-05
+Iteration 19 0.0006074857 3.993250e-05
+Iteration 20 0.0006074749 3.991039e-05
+Iteration 21 0.0006074696 3.989953e-05
+Iteration 22 0.0006074670 3.989419e-05
+Iteration 23 0.0006074657 3.989157e-05
+Iteration 24 0.0006074650 3.989028e-05
+Iteration 25 0.0006074647 3.988965e-05
+Iteration 26 0.0006074646 3.988933e-05
+Iteration 27 0.0006074645 3.988918e-05
+Iteration 28 0.0006074645 3.988911e-05
+Iteration 29 0.0006074644 3.988907e-05
+Iteration 30 0.0006074644 3.988905e-05</code></pre>
+</div>
+<div id="more-examples-2" class="section level2">
+<h2>More examples</h2>
+<pre class="r"><code>mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config2.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config2.susieI.txt&quot;)
+
+show_param(mrashfs, susieIfs, susieIfs2)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+tags
+</th>
+<th style="text-align:left;">
+pi1.gene_truth
+</th>
+<th style="text-align:left;">
+pi1.gene_mr.ash2
+</th>
+<th style="text-align:left;">
+pi1.SNP_truth
+</th>
+<th style="text-align:left;">
+pi1.SNP_mr.ash2
+</th>
+<th style="text-align:left;">
+pi1.gene_susietruth
+</th>
+<th style="text-align:left;">
+pi1.gene_susieI
+</th>
+<th style="text-align:left;">
+pi1.SNP_susietruth
+</th>
+<th style="text-align:left;">
+pi1.SNP_susieI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1-1
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.003163
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001744
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+6.075e-04
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+3.989e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-2
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.002314
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001938
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+2.523e-02
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+5.641e-03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-3
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.023767
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002285
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+2.436e-02
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+8.315e-03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-4
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.015942
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002540
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+7.602e-04
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+2.410e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-5
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.058862
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001532
+</td>
+<td style="text-align:left;">
+5.021e-02
+</td>
+<td style="text-align:left;">
+3.049e-17
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+5.010e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-1
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.010598
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002237
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+2.384e-02
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+8.353e-03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-2
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.022076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002191
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+1.165e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.863e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-3
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.035246
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001585
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+4.951e-04
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+6.351e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-4
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.019076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001622
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+1.763e-05
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+4.017e-05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-5
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.011194
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002138
+</td>
+<td style="text-align:left;">
+9.982e-02
+</td>
+<td style="text-align:left;">
+1.354e-02
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.159e-02
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-1
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.013220
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003176
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+1.216e-02
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+9.847e-03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-2
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.018732
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002654
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+4.399e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.622e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-3
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.009304
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001802
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+3.834e-02
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+7.942e-03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-4
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.025294
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002402
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+7.789e-03
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+1.657e-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-5
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.012802
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002439
+</td>
+<td style="text-align:left;">
+1.996e-02
+</td>
+<td style="text-align:left;">
+2.044e-02
+</td>
+<td style="text-align:left;">
+2.498e-03
+</td>
+<td style="text-align:left;">
+6.743e-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="susiei-genes---setting-4" class="section level1">
+<h1>susieI genes - setting 4</h1>
+<ul>
+<li><p>Regions: All regions.</p></li>
+<li><p>Susie run parameters: <code>L=1</code>. Did not update <code>null_weight</code> in each iteration.</p></li>
+</ul>
+<div id="one-example-3" class="section level2">
+<h2>One example</h2>
+<p>Prior change for each iteration:</p>
+<pre class="r"><code>load(paste0(outputdir, tag, &quot;.config3.susieIres.Rd&quot;))
+df &lt;- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) &lt;- paste(&quot;Iteration&quot;, 1:Niter)
+colnames(df) &lt;- c(&quot;Prior.gene&quot;, &quot;Prior.SNP&quot;)
+df</code></pre>
+<pre><code>              Prior.gene   Prior.SNP
+Iteration 1  0.004293938 0.003927826
+Iteration 2  0.004628671 0.003921336
+Iteration 3  0.004887227 0.003916324
+Iteration 4  0.005108334 0.003900309
+Iteration 5  0.005320663 0.003896192
+Iteration 6  0.005511267 0.003892497
+Iteration 7  0.005681650 0.003889194
+Iteration 8  0.005833397 0.003886252
+Iteration 9  0.005942095 0.003872416
+Iteration 10 0.006053236 0.003870262
+Iteration 11 0.006151198 0.003868363
+Iteration 12 0.006300427 0.003877198
+Iteration 13 0.006416455 0.003874948
+Iteration 14 0.006518892 0.003872962
+Iteration 15 0.006609166 0.003871212
+Iteration 16 0.006645557 0.003858779
+Iteration 17 0.006770023 0.003868094
+Iteration 18 0.006863567 0.003866280
+Iteration 19 0.006946413 0.003864674
+Iteration 20 0.007019537 0.003863257
+Iteration 21 0.007123598 0.003872967
+Iteration 22 0.007197194 0.003871541
+Iteration 23 0.007261948 0.003870285
+Iteration 24 0.007318829 0.003869182
+Iteration 25 0.007368722 0.003868215
+Iteration 26 0.007412434 0.003867368
+Iteration 27 0.007450689 0.003866626
+Iteration 28 0.007484139 0.003865978
+Iteration 29 0.007513365 0.003865411
+Iteration 30 0.007538883 0.003864916</code></pre>
+</div>
+<div id="more-examples-3" class="section level2">
+<h2>More examples</h2>
+<pre class="r"><code>mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config3.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config3.susieI.txt&quot;)
+
+show_param(mrashfs, susieIfs, susieIfs2)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+tags
+</th>
+<th style="text-align:left;">
+pi1.gene_truth
+</th>
+<th style="text-align:left;">
+pi1.gene_mr.ash2
+</th>
+<th style="text-align:left;">
+pi1.SNP_truth
+</th>
+<th style="text-align:left;">
+pi1.SNP_mr.ash2
+</th>
+<th style="text-align:left;">
+pi1.gene_susietruth
+</th>
+<th style="text-align:left;">
+pi1.gene_susieI
+</th>
+<th style="text-align:left;">
+pi1.SNP_susietruth
+</th>
+<th style="text-align:left;">
+pi1.SNP_susieI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1-1
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.003163
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001744
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.007539
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003865
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-2
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.002314
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001938
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.016912
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.004516
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-3
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.023767
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002285
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.020157
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.005145
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-4
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.015942
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002540
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.019758
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.004074
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1-5
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.058862
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001532
+</td>
+<td style="text-align:left;">
+0.050212
+</td>
+<td style="text-align:left;">
+0.031572
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-1
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.010598
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002237
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.018729
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.005137
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-2
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.022076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002191
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.027621
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003722
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-3
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.035246
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001585
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.034116
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003092
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-4
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.019076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001622
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.028365
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003555
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-5
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.011194
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002138
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.007000
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.006890
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-1
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.013220
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003176
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.011169
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.005870
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-2
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.018732
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002654
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.028055
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003948
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-3
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.009304
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001802
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.027042
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.005164
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-4
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.025294
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002402
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.028733
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.003583
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3-5
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.012802
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002439
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.017204
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.004792
 </td>
 </tr>
 </tbody>
@@ -1520,10 +3030,12 @@ pi1.SNP_susieI
 </div>
 <div id="susiei-shuffle-genes" class="section level1">
 <h1>susieI shuffle genes</h1>
-</div>
-<div id="one-example-1" class="section level1">
-<h1>one example</h1>
-<p>Shuffle genes to different regions.</p>
+<div id="one-example-4" class="section level2">
+<h2>one example</h2>
+<ul>
+<li><p>Shuffle genes to different regions. Regions: We use regional PIP of both SNP and gene from mr.ash2s &gt; 0.3 , and also require at least one causal gene or SNP is present, also, at least one gene.</p></li>
+<li><p>Susie run parameters: <code>L=1</code>, <code>null_weight = 0</code>.</p></li>
+</ul>
 <p>Prior change for each iteration:</p>
 <pre class="r"><code>tag &lt;- &#39;20200813-1-1-shuffleg&#39;
 load(paste0(outputdir, tag, &quot;.susieIres.Rd&quot;))
@@ -1582,121 +3094,6 @@ Iteration 47 0.04369587 0.004908720
 Iteration 48 0.04369587 0.004908720
 Iteration 49 0.04369587 0.004908720
 Iteration 50 0.04369587 0.004908720</code></pre>
-<p>Results for each region:</p>
-<pre class="r"><code>regionlist &lt;- readRDS(paste0(outputdir, tag, &quot;_regionlist.rds&quot;))
-ng &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;gene&quot;, , drop = F ])[1]))
-ns &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;SNP&quot;, , drop = F ])[1]))
-ng.c &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;gene&quot; &amp; x$ifcausal == 1, , drop = F])[1]))
-ns.c &lt;- unlist(lapply(lapply(regionlist, &#39;[[&#39;, &quot;anno&quot;), function(x) dim(x[x$type == &quot;SNP&quot; &amp; x$ifcausal == 1, , drop = F])[1]))
-ngdf &lt;- data.frame(&quot;ngene&quot; = ng, &quot;nsnp&quot; = ns, &quot;ncausalgene&quot; = ng.c, &quot;ncausalSNP&quot; = ns.c)
-
-cat(&quot;causal gene fraction:&quot;, sum(ngdf$ncausalgene)/sum(ngdf$ngene))</code></pre>
-<pre><code>causal gene fraction: 0.06355932</code></pre>
-<pre class="r"><code>cat(&quot;causal snp fraction:&quot;, sum(ngdf$ncausalSNP)/sum(ngdf$ns))</code></pre>
-<pre><code>causal snp fraction: 0.006288467</code></pre>
-<pre class="r"><code>for (i in seq(1, Niter, 10)){
-  resf &lt;- paste0(outputdir, tag, &quot;.&quot;, i, &quot;.susieIres.Rd&quot;) 
-  load(resf)
-  ngdf[, paste(&quot;Prior.gene&quot;, i)] &lt;- unlist(lapply(gene.rpiplist, &quot;mean&quot;))
-  ngdf[, paste(&quot;Prior.SNP&quot;, i)] &lt;- unlist(lapply(snp.rpiplist, &quot;mean&quot;))
-}
-ngdf</code></pre>
-<pre><code>   ngene nsnp ncausalgene ncausalSNP Prior.gene 1  Prior.SNP 1
-1      3  177           0          2 1.717934e-07 5.649715e-03
-2      4  131           0          1 2.270815e-03 7.564250e-03
-3      7  116           0          0 2.096937e-02 7.355296e-03
-4      3  112           0          2 1.389850e-03 8.891343e-03
-5      4   99           0          1 1.034140e-04 1.009683e-02
-6      6  154           0          1 3.226609e-07 6.493494e-03
-7     10   89           0          1 4.790372e-04 1.118213e-02
-8      6   89           1          1 1.058470e-03 1.116460e-02
-10     7  145           1          0 2.449904e-02 5.713839e-03
-11    11  155           0          1 3.414922e-03 6.209264e-03
-12     2  173           0          2 1.727517e-05 5.780147e-03
-13     4  166           1          0 7.619547e-03 5.840493e-03
-14     5  154           0          2 3.616045e-06 6.493389e-03
-18     1   97           1          0 6.775795e-01 3.323923e-03
-19     1  158           0          0 1.372879e-03 6.320425e-03
-22     1  209           0          1 4.761905e-03 4.761905e-03
-24     1  191           0          1 1.279136e-02 5.168632e-03
-25     4  178           1          0 5.987876e-03 5.483419e-03
-26     2  108           0          1 1.309371e-06 9.259235e-03
-27     2  160           0          1 2.954673e-01 2.556658e-03
-28     6  216           0          1 4.504505e-03 4.504505e-03
-29     8  100           0          1 1.052669e-03 9.915786e-03
-30     2  274           0          1 2.025748e-03 3.634849e-03
-31     2  205           1          0 2.102774e-01 2.826562e-03
-32     2  192           1          0 3.028851e-03 5.176783e-03
-33     3  125           0          2 4.055900e-05 7.999027e-03
-34     4  133           0          1 2.141720e-09 7.518797e-03
-35    12  217           2          1 5.544644e-03 4.301679e-03
-36     1  236           0          1 2.261070e-05 4.237192e-03
-37     3  181           0          1 5.434783e-03 5.434783e-03
-39     6   90           0          1 1.641715e-05 1.111002e-02
-43     7  139           1          2 6.858337e-03 6.848861e-03
-44     1  159           0          1 7.556348e-04 6.284556e-03
-46     5  137           0          1 1.552294e-11 7.299270e-03
-47     4  182           1          0 4.251523e-03 5.401065e-03
-53    11  169           2          3 5.785313e-04 5.879504e-03
-54    12  119           1          1 3.079473e-03 8.092826e-03
-55    14  177           0          1 4.639140e-03 5.282780e-03
-56     4  138           0          1 1.679274e-03 7.197702e-03
-57    10  231           1          2 9.999684e-02 1.368013e-07
-58     4  215           0          1 4.566210e-03 4.566210e-03
-59     4  163           0          1 2.626825e-03 6.070507e-03
-60     3  161           0          1 8.139826e-03 6.059506e-03
-61     4  192           0          1 6.556847e-03 5.071732e-03
-62     9  123           0          2 6.773697e-03 7.634445e-03
-63     7  193           0          1 8.651600e-02 2.043461e-03
-64     4  146           0          0 4.394473e-03 6.728919e-03
-   Prior.gene 11 Prior.SNP 11 Prior.gene 21 Prior.SNP 21
-1   1.525338e-06 5.649692e-03  1.529241e-06 5.649692e-03
-2   1.937611e-02 7.041951e-03  1.942352e-02 7.040503e-03
-3   8.865712e-02 3.270691e-03  8.874525e-02 3.265373e-03
-4   1.211209e-02 8.604141e-03  1.214243e-02 8.603328e-03
-5   9.167296e-04 1.006397e-02  9.190709e-04 1.006388e-02
-6   2.864862e-06 6.493395e-03  2.872192e-06 6.493395e-03
-7   4.135651e-03 1.077128e-02  4.145901e-03 1.077012e-02
-8   9.048265e-03 1.062596e-02  9.070440e-03 1.062446e-02
-10  9.462254e-02 2.328567e-03  9.470595e-02 2.324540e-03
-11  2.476081e-02 4.694394e-03  2.481072e-02 4.690852e-03
-12  1.533590e-04 5.778574e-03  1.537513e-04 5.778569e-03
-13  5.530764e-02 4.691382e-03  5.541932e-02 4.688691e-03
-14  3.210410e-05 6.492464e-03  3.218624e-05 6.492461e-03
-18  9.492147e-01 5.235593e-04  9.493378e-01 5.222905e-04
-19  1.213501e-02 6.252310e-03  1.216591e-02 6.252115e-03
-22  4.075168e-02 4.589705e-03  4.085169e-02 4.589226e-03
-24  1.279402e-01 4.565758e-03  1.282585e-01 4.564092e-03
-25  4.473792e-02 4.612631e-03  4.483189e-02 4.610519e-03
-26  1.162566e-05 9.259044e-03  1.165541e-05 9.259043e-03
-27  4.678708e-01 4.016154e-04  4.679488e-01 4.006403e-04
-28  3.323960e-02 3.706308e-03  3.330814e-02 3.704404e-03
-29  8.968987e-03 9.282481e-03  8.990889e-03 9.280729e-03
-30  1.759843e-02 3.521179e-03  1.764236e-02 3.520859e-03
-31  4.389208e-01 5.958942e-04  4.390601e-01 5.945354e-04
-32  2.581906e-02 4.939385e-03  2.588213e-02 4.938728e-03
-33  3.599408e-04 7.991361e-03  3.608612e-04 7.991339e-03
-34  1.901619e-08 7.518796e-03  1.906484e-08 7.518796e-03
-35  3.383258e-02 2.737369e-03  3.388516e-02 2.734461e-03
-36  2.007378e-04 4.236438e-03  2.012513e-04 4.236435e-03
-37  3.815143e-02 4.892518e-03  3.824009e-02 4.891048e-03
-39  1.457049e-04 1.110140e-02  1.460775e-04 1.110137e-02
-43  4.475378e-02 4.940457e-03  4.483365e-02 4.936435e-03
-44  6.680545e-03 6.247292e-03  6.697556e-03 6.247185e-03
-46  1.378271e-10 7.299270e-03  1.381798e-10 7.299270e-03
-47  3.707958e-02 4.679570e-03  3.717470e-02 4.677479e-03
-53  4.986926e-03 5.592567e-03  4.999267e-03 5.591764e-03
-54  2.282058e-02 6.102126e-03  2.286797e-02 6.097348e-03
-55  2.766829e-02 3.461265e-03  2.771250e-02 3.457768e-03
-56  1.456335e-02 6.824251e-03  1.459966e-02 6.823198e-03
-57  9.999964e-02 1.540769e-08  9.999964e-02 1.536836e-08
-58  3.544261e-02 3.991765e-03  3.552041e-02 3.990318e-03
-59  2.213809e-02 5.591703e-03  2.219149e-02 5.590393e-03
-60  6.177075e-02 5.060172e-03  6.190255e-02 5.057716e-03
-61  4.834652e-02 4.201114e-03  4.844647e-02 4.199032e-03
-62  4.071366e-02 5.151033e-03  4.077977e-02 5.146196e-03
-63  1.339318e-01 3.237160e-04  1.339535e-01 3.229313e-04
-64  3.813653e-02 5.804479e-03  3.823352e-02 5.801821e-03</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1724,29 +3121,29 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] kableExtra_1.1.0    stringr_1.4.0       plyr_1.8.6         
+[1] kableExtra_1.2.1    stringr_1.4.0       plyr_1.8.6         
 [4] tidyr_0.8.3         plotly_4.9.2.9000   ggplot2_3.3.1      
 [7] data.table_1.12.7   mr.ash.alpha_0.1-34
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.1.0  purrr_0.3.4       lattice_0.20-38  
- [4] colorspace_1.3-2  vctrs_0.3.1       generics_0.0.2   
- [7] htmltools_0.3.6   viridisLite_0.3.0 yaml_2.2.0       
-[10] rlang_0.4.6       later_0.7.5       pillar_1.4.4     
-[13] glue_1.4.1        withr_2.1.2       lifecycle_0.2.0  
-[16] munsell_0.5.0     gtable_0.2.0      workflowr_1.6.2  
-[19] rvest_0.3.2       htmlwidgets_1.3   evaluate_0.12    
-[22] knitr_1.20        httpuv_1.4.5      highr_0.7        
-[25] Rcpp_1.0.4.6      readr_1.3.1       promises_1.0.1   
-[28] scales_1.0.0      backports_1.1.2   webshot_0.5.1    
-[31] jsonlite_1.6.1    fs_1.3.1          hms_0.4.2        
-[34] digest_0.6.25     stringi_1.3.1     dplyr_1.0.0      
-[37] grid_3.5.1        rprojroot_1.3-2   tools_3.5.1      
-[40] magrittr_1.5      lazyeval_0.2.1    tibble_3.0.1     
-[43] crayon_1.3.4      whisker_0.3-2     pkgconfig_2.0.2  
-[46] ellipsis_0.3.1    Matrix_1.2-15     xml2_1.2.0       
-[49] rmarkdown_1.10    httr_1.4.1        rstudioapi_0.11  
-[52] R6_2.3.0          git2r_0.26.1      compiler_3.5.1   </code></pre>
+ [1] Rcpp_1.0.4.6      compiler_3.5.1    pillar_1.4.4     
+ [4] later_0.7.5       git2r_0.26.1      workflowr_1.6.2  
+ [7] tools_3.5.1       digest_0.6.25     viridisLite_0.3.0
+[10] jsonlite_1.6.1    evaluate_0.12     tibble_3.0.1     
+[13] lifecycle_0.2.0   gtable_0.2.0      lattice_0.20-38  
+[16] pkgconfig_2.0.2   rlang_0.4.6       Matrix_1.2-15    
+[19] rstudioapi_0.11   yaml_2.2.0        xml2_1.2.0       
+[22] httr_1.4.1        withr_2.1.2       dplyr_1.0.0      
+[25] knitr_1.20        htmlwidgets_1.3   generics_0.0.2   
+[28] fs_1.3.1          vctrs_0.3.1       webshot_0.5.1    
+[31] tidyselect_1.1.0  rprojroot_1.3-2   grid_3.5.1       
+[34] glue_1.4.1        R6_2.3.0          rmarkdown_1.10   
+[37] purrr_0.3.4       magrittr_1.5      whisker_0.3-2    
+[40] backports_1.1.2   scales_1.0.0      promises_1.0.1   
+[43] htmltools_0.3.6   ellipsis_0.3.1    rvest_0.3.2      
+[46] colorspace_1.3-2  httpuv_1.4.5      stringi_1.3.1    
+[49] lazyeval_0.2.1    munsell_0.5.0     crayon_1.3.4     </code></pre>
+</div>
 </div>
 </div>
 
