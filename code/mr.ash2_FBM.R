@@ -294,7 +294,7 @@ mr.ash2s <- function(expr,
   print("calculating w")
   w.snp <- big_apply(snp, a.FUN = function(m, ind) {
     colSums(m[, ind, drop = FALSE]^2)
-  }, a.combine = 'c', ncores = 1, block.size = 10000)
+  }, a.combine = 'c', ncores = 1, block.size = 2000)
 
   w.expr <- colSums(expr^2)
   w = c(w.expr, w.snp)

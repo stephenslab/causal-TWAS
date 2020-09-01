@@ -64,7 +64,7 @@ h2 <- hist(a.c$rPIP, breaks = h1$breaks, xlab = "PIP", main = "PIP distribution-
 
 * Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3, and also require at least one causal gene or SNP is present, also, at least one gene.
 
-* Susie run parameters: `L=1`, `null_weight = 0`, didn't update `null_weight` in iterations.
+* Susie run parameters: `L=1`, `null_weight = 0`, didn't update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform.
 
 ## One example
 
@@ -85,8 +85,8 @@ Each row represents one simulation run. Runs labeled `1-x` have the same simulat
 show_param <- function(mrashfs, susieIfs, susieIfs2){
   param <- do.call(rbind, lapply(mr.ashfs, function(x) t(read.table(x))[2:1,]))
  
-  pars <- cbind(param[seq(1,nrow(param), 2), 1], param[seq(2,nrow(param), 2), 1], param[seq(1,nrow(param), 2), 3], param[seq(2,nrow(param), 2), 3])
-  colnames(pars) <- paste(rep(c("pi1.gene_", "pi1.SNP_"), each = 2), c("truth", "mr.ash2"), sep = "")
+  pars <- cbind(param[seq(1,nrow(param), 2), 2], param[seq(1,nrow(param), 2), 4], param[seq(1,nrow(param), 2), 1], param[seq(2,nrow(param), 2), 1], param[seq(1,nrow(param), 2), 3], param[seq(2,nrow(param), 2), 3])
+  colnames(pars) <- c("PVE.gene_truth", "PVE.SNP_truth", paste(rep(c("pi1.gene_", "pi1.SNP_"), each = 2), c("truth", "mr.ash2"), sep = ""))
     
   param.s <- do.call(rbind, lapply(susieIfs, function(x) {load(x); c(tail(prior.gene_rec, 1), tail(prior.SNP_rec,1))}))
   
@@ -105,8 +105,8 @@ show_param <- function(mrashfs, susieIfs, susieIfs2){
   df %>% 
   kable("html", escape = F) %>%
   kable_styling("striped", full_width = F) %>%
-  scroll_box(width = "100%")
-
+   row_spec(c(1:5, 11:15), background = "#FEF3B9") %>%
+  scroll_box(width = "100%", height = "600px", fixed_thead = T)
 }
 
 tags <- paste(rep(1:3, each = 5), 1:5, sep = "-")
@@ -122,7 +122,7 @@ show_param(mrashfs, susieIfs, susieIfs2)
 
 * Regions: All regions. 
 
-* Susie run parameters: `L=1`. Initiate with `null_weight = 0` and update `null_weight` based on last iteration results.
+* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform.
 
 ## One example
 
@@ -138,6 +138,7 @@ df
 ## More examples
 
 ```{r param2}
+tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
 mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
 susieIfs <- paste0(outputdir, "20200813-", tags, ".config1.susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config1.susieI.txt")
@@ -149,7 +150,7 @@ show_param(mrashfs, susieIfs, susieIfs2)
 
 * Regions: All regions. 
 
-* Susie run parameters: `L=2`. Initiate with `null_weight = 0` and update `null_weight` based on last iteration results.
+* Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform.
 
 ## One example
 
@@ -177,7 +178,7 @@ show_param(mrashfs, susieIfs, susieIfs2)
 
 * Regions: All regions. 
 
-* Susie run parameters: `L=1`. Did not update `null_weight` in each iteration.
+* Susie run parameters: `L=1`. Did not update `null_weight` in each iteration. We initialize with prior for genes and SNPs as uniform.
 
 ## One example
 
@@ -200,6 +201,32 @@ susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config3.susieI.txt")
 show_param(mrashfs, susieIfs, susieIfs2)
 ```
 
+# susieI genes - setting 5
+
+* Regions: All regions. 
+
+* Susie run parameters: `L=2`. Update `null_weight` in each iteration. We initialize prior for gene as `0.05` and prior for SNPs as `2.5E-3`, we initialize `null_weight` as 0.
+
+## One example
+
+Prior change for each iteration:
+```{r iter5}
+load(paste0(outputdir, tag, ".config4.susieIres.Rd"))
+df <- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) <- paste("Iteration", 1:Niter)
+colnames(df) <- c("Prior.gene", "Prior.SNP")
+df
+```
+
+## More examples
+
+```{r param5}
+mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config4.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config4.susieI.txt")
+
+show_param(mrashfs, susieIfs, susieIfs2)
+```
 
 
 # susieI shuffle genes

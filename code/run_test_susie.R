@@ -78,7 +78,7 @@ loginfo("No. intervals for chr %s after PIP filter: %s", chrom, nrow(regions))
 
 outname <- args[6]
 
-L = 3
+L = 1
 if (length(args) == 7){
   L = as.numeric(args[7])
   outname <- paste0(outname, ".L", L)
@@ -106,7 +106,7 @@ for (i in 1:nrow(regions)){
   if (ncol(X.gene) + ncol(X.SNP) == 0) next
 
   prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
-  wgt_null <- max(0, 1 - prior.gene * dim(X.gene)[2] - prior.SNP * dim(X.SNP)[2])
+  wgt_null <- max(0, prod(1 - prior))
 
   #-----------------run susie------------
   susieres <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, prior_weights = prior)
