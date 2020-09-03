@@ -205,7 +205,7 @@ show_param(mrashfs, susieIfs, susieIfs2)
 
 * Regions: All regions. 
 
-* Susie run parameters: `L=2`. Update `null_weight` in each iteration. We initialize prior for gene as `0.05` and prior for SNPs as `2.5E-3`, we initialize `null_weight` as 0.
+* Susie run parameters: `L=5`. Update `null_weight` in each iteration. We initialize prior for gene as `0.05` and prior for SNPs as `2.5E-3`, we initialize `null_weight` as 0.
 
 ## One example
 
@@ -228,6 +228,32 @@ susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config4.susieI.txt")
 show_param(mrashfs, susieIfs, susieIfs2)
 ```
 
+# susieI genes - setting 6
+
+* Regions: All regions. 
+
+* Susie run parameters: `L=2`. Update `null_weight` in each iteration. We initialize prior for gene as `0.05` and prior for SNPs as `2.5E-3`, we initialize `null_weight` as 0.
+
+## One example
+
+Prior change for each iteration:
+```{r iter6}
+load(paste0(outputdir, tag, ".config5.susieIres.Rd"))
+df <- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) <- paste("Iteration", 1:Niter)
+colnames(df) <- c("Prior.gene", "Prior.SNP")
+df
+```
+
+## More examples
+
+```{r param6}
+mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config5.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config5.susieI.txt")
+
+show_param(mrashfs, susieIfs, susieIfs2)
+```
 
 # susieI shuffle genes
 ## one example

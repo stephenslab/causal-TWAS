@@ -175,6 +175,7 @@ loginfo("susie started for %s", outname)
 
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
+elbo_rec <- list()
 for (iter in 1:Niter){
   susieres <- list()
   snp.rpiplist <- list()
@@ -224,7 +225,8 @@ for (iter in 1:Niter){
 
   prior.SNP_rec[iter] <- prior.SNP
   prior.gene_rec[iter] <- prior.gene
-  save(prior.gene_rec, prior.SNP_rec, file = paste(outname, "susieIres.Rd", sep = "."))
+  elbo_rec[[iter]] <- lapply(susieres, '[[', "elbo")
+  save(prior.gene_rec, prior.SNP_rec, elbo_rec, file = paste(outname, "susieIres.Rd", sep = "."))
   gc()
 }
 

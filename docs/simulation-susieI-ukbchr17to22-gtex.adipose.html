@@ -360,7 +360,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-01
+<strong>Last updated:</strong> 2020-09-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -451,16 +451,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree86681eb8a15bafa9652b2c1a8c1168c5d9fd400dtargetblank86681eba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/86681eb8a15bafa9652b2c1a8c1168c5d9fd400d" target="_blank">86681eb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree193a8df072266e1059903a30187e37ca00be98detargetblank193a8dfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/193a8df072266e1059903a30187e37ca00be98de" target="_blank">193a8df</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree86681eb8a15bafa9652b2c1a8c1168c5d9fd400dtargetblank86681eba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree193a8df072266e1059903a30187e37ca00be98detargetblank193a8dfa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/86681eb8a15bafa9652b2c1a8c1168c5d9fd400d" target="_blank">86681eb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/193a8df072266e1059903a30187e37ca00be98de" target="_blank">193a8df</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -475,7 +475,6 @@ Ignored files:
 Unstaged changes:
     Modified:   analysis/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd
     Modified:   analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd
-    Modified:   code/mr.ash2_FBM.R
     Modified:   code/run_test_susie.R
     Modified:   code/run_test_susieI.R
     Modified:   code/workflow/workflow-ashtest4.ipynb
@@ -518,6 +517,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/193a8df072266e1059903a30187e37ca00be98de/analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd" target="_blank">193a8df</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-01
+</td>
+<td>
+increase gene pve
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/193a8df072266e1059903a30187e37ca00be98de/docs/simulation-susieI-ukbchr17to22-gtex.adipose.html" target="_blank">193a8df</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-01
+</td>
+<td>
+increase gene pve
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -3972,12 +4005,810 @@ pi1.SNP_susieI
 <h1>susieI genes - setting 5</h1>
 <ul>
 <li><p>Regions: All regions.</p></li>
-<li><p>Susie run parameters: <code>L=2</code>. Update <code>null_weight</code> in each iteration. We initialize prior for gene as <code>0.05</code> and prior for SNPs as <code>2.5E-3</code>, we initialize <code>null_weight</code> as 0.</p></li>
+<li><p>Susie run parameters: <code>L=5</code>. Update <code>null_weight</code> in each iteration. We initialize prior for gene as <code>0.05</code> and prior for SNPs as <code>2.5E-3</code>, we initialize <code>null_weight</code> as 0.</p></li>
 </ul>
 <div id="one-example-4" class="section level2">
 <h2>One example</h2>
 <p>Prior change for each iteration:</p>
 <pre class="r"><code>load(paste0(outputdir, tag, &quot;.config4.susieIres.Rd&quot;))
+df &lt;- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) &lt;- paste(&quot;Iteration&quot;, 1:Niter)
+colnames(df) &lt;- c(&quot;Prior.gene&quot;, &quot;Prior.SNP&quot;)
+df</code></pre>
+<pre><code>              Prior.gene  Prior.SNP
+Iteration 1  0.128448763 0.01158279
+Iteration 2  0.094168925 0.01149096
+Iteration 3  0.076063912 0.01178310
+Iteration 4  0.064524110 0.01212570
+Iteration 5  0.055119850 0.01229631
+Iteration 6  0.048102245 0.01233622
+Iteration 7  0.042120368 0.01232301
+Iteration 8  0.037456936 0.01240276
+Iteration 9  0.033310491 0.01238190
+Iteration 10 0.030195811 0.01238656
+Iteration 11 0.027329944 0.01236479
+Iteration 12 0.024712911 0.01228908
+Iteration 13 0.022706543 0.01232025
+Iteration 14 0.021054701 0.01237728
+Iteration 15 0.019502100 0.01238979
+Iteration 16 0.017963015 0.01238032
+Iteration 17 0.016656702 0.01239216
+Iteration 18 0.015540301 0.01240985
+Iteration 19 0.014511437 0.01238932
+Iteration 20 0.013736011 0.01245430
+Iteration 21 0.013082786 0.01246666
+Iteration 22 0.012476337 0.01245043
+Iteration 23 0.011952295 0.01244994
+Iteration 24 0.011490005 0.01245502
+Iteration 25 0.011078000 0.01246174
+Iteration 26 0.010708610 0.01246864
+Iteration 27 0.010376228 0.01247518
+Iteration 28 0.010076332 0.01248121
+Iteration 29 0.009805134 0.01248671
+Iteration 30 0.009559407 0.01249170</code></pre>
+</div>
+<div id="more-examples-4" class="section level2">
+<h2>More examples</h2>
+<pre class="r"><code>mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config4.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config4.susieI.txt&quot;)
+
+show_param(mrashfs, susieIfs, susieIfs2)</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:600px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+tags
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+PVE.gene_truth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+PVE.SNP_truth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.gene_truth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.gene_mr.ash2
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.SNP_truth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.SNP_mr.ash2
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.gene_susietruth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.gene_susieI
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.SNP_susietruth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pi1.SNP_susieI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+1-1
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.006683
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.051070
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.003163
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.001744
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.009559
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.012492
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+1-2
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.009196
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.043706
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002314
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.001938
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.023603
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.015701
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+1-3
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.011473
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.047521
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.023767
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002285
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.029077
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.018980
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+1-4
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.011460
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.054859
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.015942
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002540
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.028906
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.014768
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+1-5
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.011086
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.047848
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.058862
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.001532
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050212
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.050957
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.012467
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-1
+</td>
+<td style="text-align:left;">
+0.009457
+</td>
+<td style="text-align:left;">
+0.044345
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.010598
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002237
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.027189
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.018974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-2
+</td>
+<td style="text-align:left;">
+0.011067
+</td>
+<td style="text-align:left;">
+0.056852
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.022076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002191
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.024997
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.012936
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-3
+</td>
+<td style="text-align:left;">
+0.010324
+</td>
+<td style="text-align:left;">
+0.045895
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.035246
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001585
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.052765
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.010592
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-4
+</td>
+<td style="text-align:left;">
+0.011733
+</td>
+<td style="text-align:left;">
+0.047672
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.019076
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001622
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.056156
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.011524
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2-5
+</td>
+<td style="text-align:left;">
+0.008494
+</td>
+<td style="text-align:left;">
+0.047920
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.011194
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002138
+</td>
+<td style="text-align:left;">
+0.099819
+</td>
+<td style="text-align:left;">
+0.023854
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.024732
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+3-1
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.011578
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.048473
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.013220
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.003176
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.017983
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.021351
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+3-2
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.011964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.052832
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.018732
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002654
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.036252
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.014132
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+3-3
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.006031
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.061836
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.009304
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.001802
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.056365
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.017616
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+3-4
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.017024
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.052816
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.025294
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002402
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.044908
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.011689
+</td>
+</tr>
+<tr>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+3-5
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.007322
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.052574
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.012802
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002439
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.019964
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.025246
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.002498
+</td>
+<td style="text-align:left;background-color: #FEF3B9 !important;">
+0.016104
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4-1
+</td>
+<td style="text-align:left;">
+0.057488
+</td>
+<td style="text-align:left;">
+0.048139
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.029905
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002066
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.052581
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.017496
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4-2
+</td>
+<td style="text-align:left;">
+0.059249
+</td>
+<td style="text-align:left;">
+0.052328
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.013600
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001880
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.055914
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.013129
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4-3
+</td>
+<td style="text-align:left;">
+0.030658
+</td>
+<td style="text-align:left;">
+0.062869
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.027449
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001603
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.077002
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.015812
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4-4
+</td>
+<td style="text-align:left;">
+0.082776
+</td>
+<td style="text-align:left;">
+0.051363
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.018648
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.001731
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.061251
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.021152
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4-5
+</td>
+<td style="text-align:left;">
+0.037037
+</td>
+<td style="text-align:left;">
+0.053187
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.009693
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.002194
+</td>
+<td style="text-align:left;">
+0.019964
+</td>
+<td style="text-align:left;">
+0.054815
+</td>
+<td style="text-align:left;">
+0.002498
+</td>
+<td style="text-align:left;">
+0.019761
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="susiei-genes---setting-6" class="section level1">
+<h1>susieI genes - setting 6</h1>
+<ul>
+<li><p>Regions: All regions.</p></li>
+<li><p>Susie run parameters: <code>L=2</code>. Update <code>null_weight</code> in each iteration. We initialize prior for gene as <code>0.05</code> and prior for SNPs as <code>2.5E-3</code>, we initialize <code>null_weight</code> as 0.</p></li>
+</ul>
+<div id="one-example-5" class="section level2">
+<h2>One example</h2>
+<p>Prior change for each iteration:</p>
+<pre class="r"><code>load(paste0(outputdir, tag, &quot;.config5.susieIres.Rd&quot;))
 df &lt;- cbind(prior.gene_rec, prior.SNP_rec)
 rownames(df) &lt;- paste(&quot;Iteration&quot;, 1:Niter)
 colnames(df) &lt;- c(&quot;Prior.gene&quot;, &quot;Prior.SNP&quot;)
@@ -4014,11 +4845,11 @@ Iteration 28 0.0006072974 3.981612e-05
 Iteration 29 0.0006072974 3.981611e-05
 Iteration 30 0.0006072974 3.981611e-05</code></pre>
 </div>
-<div id="more-examples-4" class="section level2">
+<div id="more-examples-5" class="section level2">
 <h2>More examples</h2>
 <pre class="r"><code>mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot;)
-susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config4.susieIres.Rd&quot;)
-susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config4.susieI.txt&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config5.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config5.susieI.txt&quot;)
 
 show_param(mrashfs, susieIfs, susieIfs2)</code></pre>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:600px; overflow-x: scroll; width:100%; ">
@@ -4768,7 +5599,7 @@ pi1.SNP_susieI
 </div>
 <div id="susiei-shuffle-genes" class="section level1">
 <h1>susieI shuffle genes</h1>
-<div id="one-example-5" class="section level2">
+<div id="one-example-6" class="section level2">
 <h2>one example</h2>
 <ul>
 <li><p>Shuffle genes to different regions. Regions: We use regional PIP of both SNP and gene from mr.ash2s &gt; 0.3 , and also require at least one causal gene or SNP is present, also, at least one gene.</p></li>

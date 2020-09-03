@@ -25,6 +25,8 @@ loginfo('script started ... ')
 
 PIPfilter <- 0
 chunksize = 500000
+ifcausal <- T
+L = 1
 
 loginfo("regional PIP cut: %s ", PIPfilter)
 loginfo("region size: %s", chunksize)
@@ -43,6 +45,9 @@ dat$expr <-  scaleRcpp(exprres$expr)
 # load phenotype Rd file, variable: phenores
 load(args[3])
 phenores$Y <-  phenores$Y - mean(phenores$Y)
+
+# causal signal names
+cau <- c(dat$snp[phenores$param$idx.cSNP,], colnames(exprres$expr)[phenores$param$idx.cgene])
 
 # run susie using given priors
 param <- read.table(args[4], header = T, row.names = 1)
@@ -65,7 +70,7 @@ for (chrom in chroms){
   p1 <- stpos + 1: ceiling((edpos - stpos)/chunksize) * chunksize
   itv <- cbind(p0, p1)
   rPIP <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "PIP"]))
-  nCausal <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "ifcausal"]))
+  nCausal <- apply(itv, 1, function(x) {gnames <- pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "name"]; sum(ifelse(gnames %in% cau, 1, 0))})
   itv <- cbind(chrom, itv, rPIP, nCausal)
   regions <- rbind(regions, itv)
 }
@@ -74,11 +79,16 @@ loginfo("No. intervals for chr %s : %s", chrom, nrow(regions))
 write.table(regions, file = paste0(args[5], ".rPIP.txt"), row.names=F, col.names=T, sep="\t", quote = F)
 
 regions <- regions[regions[, "rPIP"] > PIPfilter,  ]
+
+if (isTRUE(ifcausal)){
+  regions <- regions[regions[, "nCausal"] > 0,  ]
+}
+
 loginfo("No. intervals for chr %s after PIP filter: %s", chrom, nrow(regions))
 
 outname <- args[6]
 
-L = 1
+
 if (length(args) == 7){
   L = as.numeric(args[7])
   outname <- paste0(outname, ".L", L)
@@ -133,7 +143,6 @@ saveRDS(outlist, file = paste(outname, "susieres.rds", sep = "."))
 outgdf <- do.call(rbind, outlist)
 outgdf <- as.data.frame(outgdf)
 
-cau <- c(dat$snp[phenores$param$idx.cSNP,], colnames(exprres$expr)[phenores$param$idx.cgene])
 outgdf$ifcausal <- ifelse(outgdf$name %in% cau, 1, 0)
 
 write.table(outgdf[outgdf[, "type"] == "gene", ], file= paste(outname, "susieres.expr.txt", sep = ".")  , row.names=F, col.names= T, sep="\t", quote = F)

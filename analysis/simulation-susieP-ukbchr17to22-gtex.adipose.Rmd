@@ -1,0 +1,71 @@
+---
+title: "Test mr.ash2s on ukbiobank data, chr17-22"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
+```
+
+We test the performance of mr.ash2s on ukbiobank data (chr17 to 22, n sample = 20,000). 
+We use weights from Fusion website, using [Adipose (subcutaneous) p < 0.01](http://gusevlab.org/projects/fusion/weights/GTEx.Adipose_Subcutaneous.P01.tar.bz2).
+Total features > 8,000. On chr17 to 22: ~1500.
+
+
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
+susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/"
+```
+
+```{r source file}
+source("analysis/visual_twas_plots.R")
+```
+
+## Simulation 1
+## NULL; expr-snp; expr-snp
+```{r sim 1-4, out.width = "98%", out.height="95%"}
+tag <- "20200721-1-4"
+tag2 <- "zeroes-es"
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+```
+```{r 1-4-17, out.width = "98%", out.height="95%"}
+chrom <- "17"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
+```
+
+```{r 1-4-19 gene, out.width = "98%", out.height="95%"}
+chrom <- "19"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
+```
+
+```{r sim 1-8, out.width = "98%", out.height="95%"}
+tag <- "20200721-1-8"
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+```
+```{r 1-8-20, out.width = "98%", out.height="95%"}
+chrom <- "20"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
+```
+
+```{r sim 1-9, out.width = "98%", out.height="95%"}
+tag <- "20200721-1-9"
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+```
+```{r 1-9-19, out.width = "98%", out.height="95%"}
+chrom <- "19"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
+```
+
+
