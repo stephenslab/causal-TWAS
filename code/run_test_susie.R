@@ -11,7 +11,7 @@ if (length(args) < 6) {
        * param txt
        * mr.ash.res file
        * out file name
-       * L (default 1, L in susie, optional)
+       * config file (optional)
        ", call.=FALSE)
 }
 
@@ -23,10 +23,16 @@ source(paste0(codedir,"input_reformat.R"))
 addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
 loginfo('script started ... ')
 
-PIPfilter <- 0
+# default parameters
+PIPfilter <- 0.3
 chunksize = 500000
 ifcausal <- T
 L = 1
+
+# user provided parameters
+if (length(args) == 7){
+  source(args[7])
+}
 
 loginfo("regional PIP cut: %s ", PIPfilter)
 loginfo("region size: %s", chunksize)

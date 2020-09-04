@@ -177,6 +177,7 @@ prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
 elbo_rec <- list()
 for (iter in 1:Niter){
+  print(iter)
   susieres <- list()
   snp.rpiplist <- list()
   gene.rpiplist <- list()
@@ -232,5 +233,5 @@ for (iter in 1:Niter){
 
 loginfo("susie done for %s", outname)
 
-write.table(outdf , file= paste0(outname, ".susieI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
+write.table(outdf, file= paste0(outname, ".susieI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
 

@@ -60,7 +60,7 @@ h1 <- hist(a$rPIP, breaks = 100, xlab = "PIP", main = "PIP distribution-all", co
 h2 <- hist(a.c$rPIP, breaks = h1$breaks, xlab = "PIP", main = "PIP distribution-causal", col = "salmon");grid()
 ```
 
-# susieI genes - setting 1
+# susieI (filtered regions) - setting 1
 
 * Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3, and also require at least one causal gene or SNP is present, also, at least one gene.
 
@@ -117,8 +117,96 @@ susieIfs2 <- paste0(outputdir, "20200813-", tags, ".1.txt")
 show_param(mrashfs, susieIfs, susieIfs2)
 ```
 
+# susieI (filtered regions) - setting 2
 
-# susieI genes - setting 2
+* Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3.
+
+* Susie run parameters: `L=2`, initialize `null_weight = 0`, update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform.
+
+## One example
+
+Prior change for each iteration:
+```{r iter-6}
+load(paste0(outputdir, tag, ".config6.susieIres.Rd"))
+df <- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) <- paste("Iteration", 1:Niter)
+colnames(df) <- c("Prior.gene", "Prior.SNP")
+df
+```
+
+## more examples
+
+Each row represents one simulation run. Runs labeled `1-x` have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled `2-x` and `3-x`)
+
+```{r param-6}
+tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
+mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config6.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config6.susieI.txt")
+
+show_param(mrashfs, susieIfs, susieIfs2)
+```
+
+# susieI (filtered regions) - setting 3
+
+* Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3.
+
+* Susie run parameters: `L=2`, initialize `null_weight = 0`, update `null_weight` in iterations. We initialize with prior for genes and SNPs as 0.05 and 2.5e-3.
+
+## One example
+
+Prior change for each iteration:
+```{r iter-8}
+load(paste0(outputdir, tag, ".config8.susieIres.Rd"))
+df <- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) <- paste("Iteration", 1:Niter)
+colnames(df) <- c("Prior.gene", "Prior.SNP")
+df
+```
+
+## more examples
+
+Each row represents one simulation run. Runs labeled `1-x` have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled `2-x` and `3-x`)
+
+```{r param-8}
+tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config8.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config8.susieI.txt")
+
+show_param(mrashfs, susieIfs, susieIfs2)
+```
+
+# susieI (filtered regions) - setting 4
+
+* Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3.
+
+* Susie run parameters: `L=2`, `null_weight = 0`. Didn't update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform.
+
+## One example
+
+Prior change for each iteration:
+```{r iter-7}
+load(paste0(outputdir, tag, ".config7.susieIres.Rd"))
+df <- cbind(prior.gene_rec, prior.SNP_rec)
+rownames(df) <- paste("Iteration", 1:Niter)
+colnames(df) <- c("Prior.gene", "Prior.SNP")
+df
+```
+
+## more examples
+
+Each row represents one simulation run. Runs labeled `1-x` have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled `2-x` and `3-x`)
+
+```{r param-7}
+tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config7.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config7.susieI.txt")
+
+show_param(mrashfs, susieIfs, susieIfs2)
+```
+
+
+# susieI (all regions) - setting 1
 
 * Regions: All regions. 
 
@@ -146,7 +234,7 @@ susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config1.susieI.txt")
 show_param(mrashfs, susieIfs, susieIfs2)
 ```
 
-# susieI genes - setting 3
+# susieI (all regions) - setting 2
 
 * Regions: All regions. 
 
@@ -174,7 +262,7 @@ show_param(mrashfs, susieIfs, susieIfs2)
 ```
 
 
-# susieI genes - setting 4
+# susieI (all regions) - setting 3
 
 * Regions: All regions. 
 
@@ -201,7 +289,7 @@ susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config3.susieI.txt")
 show_param(mrashfs, susieIfs, susieIfs2)
 ```
 
-# susieI genes - setting 5
+# susieI (all regions) - setting 4
 
 * Regions: All regions. 
 
@@ -228,7 +316,7 @@ susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config4.susieI.txt")
 show_param(mrashfs, susieIfs, susieIfs2)
 ```
 
-# susieI genes - setting 6
+# susieI (all regions) - setting 5
 
 * Regions: All regions. 
 
