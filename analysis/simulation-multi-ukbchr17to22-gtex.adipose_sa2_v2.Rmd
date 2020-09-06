@@ -166,7 +166,7 @@ a <- scatter_plot_PIP_p(tags, "lassoes-es")
 # Pretty plots
 A) PIP calibration plot; B) FDP inflation of TWAS; C) Scatter plot of individual genes: PIPs vs. -log10-p values from TWAS.
 
-We use SNP genotype data from chr 17 to chr 22 combined. These genomic regions represents 12.5% of the genome. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. We used lasso to train expression model using GTEx adipose tissue v7. In this simulation, we simulate phenotype with PVE explained by gene as 0.01, by SNP 0.05. pi1 for gene 0.05, pi1 for SNP 0.0025. 
+We use SNP genotype data from chr 17 to chr 22 combined. These genomic regions represents 12.5% of the genome. SNPs are downsampled to 1/10 (randomly), eQTLs used in building the expression model were added back. We used lasso to train expression model using GTEx adipose tissue v7. In this simulation, we simulate phenotype with PVE explained by gene as 0.01, by SNP 0.05. pi1 for gene 0.05, pi1 for SNP 0.0025. 
 
 For our method, we run mr.ash2s for both genes and SNPs (initiated with lasso). Then apply SUSIE for regions with sum of PIP > 0.5. This gives us PIP for individual genes.
 
