@@ -95,10 +95,6 @@ loginfo("No. intervals for chr %s after PIP filter: %s", chrom, nrow(regions))
 outname <- args[6]
 
 
-if (length(args) == 7){
-  L = as.numeric(args[7])
-  outname <- paste0(outname, ".L", L)
-}
 loginfo("L = %s for susie run", L)
 
 loginfo("susie started for %s", outname)

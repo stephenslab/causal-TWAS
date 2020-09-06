@@ -34,18 +34,18 @@ show_param <- function(tags, tag2){
     add_header_above(c(" " = 1, "Gene.pi1" = 2, "Gene.PVE" = 2, "SNP.pi1" = 2, "SNP.PVE" =2))
 }
 
-cp_plot <- function(s, ifcausal, mode = c("PIP", "FDR"), main = mode[1]){
+cp_plot <- function(s, ifcausal, mode = c("PIP", "FDR"), main = mode[1], ...){
   # ifcausal:0,1
   a_bin <- cut(s, breaks= seq(0,1, by=0.1))
   if (mode == "PIP") {
-    expected = c(by(s, a_bin, FUN = mean))
-    observed = c(by(ifcausal, a_bin, FUN = mean))
+    Expected = c(by(s, a_bin, FUN = mean))
+    Observed = c(by(ifcausal, a_bin, FUN = mean))
   } else if (mode == "FDR"){
-    expected = c(by(s, a_bin, FUN = mean))
-    observed = 1 - c(by(ifcausal, a_bin, FUN = mean))
+    Expected = c(by(s, a_bin, FUN = mean))
+    Observed = 1 - c(by(ifcausal, a_bin, FUN = mean))
   }
-  plot(expected, observed, xlim= c(0,1), ylim=c(0,1), pch =19, main = main)
-  lines(x = c(0,1), y = c(0,1), col ="red")
+  plot(Expected, Observed, xlim= c(0,1), ylim=c(0,1), pch =19, main = main, ...)
+  lines(x = c(0,1), y = c(0,1), col ="grey", lty = 2)
 }
 
 caliPIP_plot <- function(tags, tag2){
@@ -73,6 +73,7 @@ caliPIP_plot <- function(tags, tag2){
   cp_plot(res$SUSIE.w_PIP, res$ifcausal, main = "SUSIE.weighted PIP")
   cp_plot(res$SUSIE.u_PIP, res$ifcausal, main = "SUSIE.uniform PIP")
   cp_plot(res$SUSIE.w0_PIP, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+  return(res)
 }
 
 
@@ -125,6 +126,7 @@ caliFDR_plot <- function(tags, tag2){
 
   cp_plot(res$FDR, res$ifcausal, mode ="FDR", main = "TWAS FDP")
   cat("FDR at bonferroni corrected p = 0.05: ", 1 - mean(res[res$PVALUE < 0.05 /dim(res)[1], "ifcausal"]))
+  return(res)
 }
 
 scatter_plot_PIP<- function(tags, tag2){
@@ -226,7 +228,8 @@ scatter_plot_PIP_p <- function(tags, tag2){
                                                                      "\nPos:", p0.x))
 
   fig <- subplot(fig1, fig2, fig3, fig4, nrows=2, titleY = T, margin = 0.05)
-  fig
+  print(fig)
+  return(res)
 }
 
 ROC_plot<- function(tags, tag2){
