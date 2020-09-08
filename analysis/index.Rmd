@@ -66,7 +66,7 @@ A simplified version (mr.ash2s): interative update of two mr.ash components, now
   
 # Test parameters for susie
  * [Using UKbiobank data (chr17:22), fusion weights Adipose, test prior's effect for susie](simulation-multi-ukbchr17to22-gtex.adipose_susieprior.html)
-    * [Visualization](https://users.rcc.uchicago.edu/~simingz/simulation-susieP-ukbchr17to22-gtex.adipose.html)
+    * [Visualization](https://users.rcc.uchicago.edu/~simingz/simulation-susieP-ukbchr17to22-gtex.adipose.html) (TODO)
 
 ## Summarize cTWAS results
 We compare cTWAS results with other methods, summarizing results over multiple simulation runs.
