@@ -118,7 +118,7 @@ for (i in 1:nrow(regions)){
   if (ncol(X.gene) + ncol(X.SNP) == 0) next
 
   prior <- c(rep(prior.gene, dim(X.gene)[2]), rep(prior.SNP, dim(X.SNP)[2]))
-  wgt_null <- max(0, prod(1 - prior))
+  wgt_null <- max(0, 1- sum(prior))
 
   #-----------------run susie------------
   susieres <- susie(cbind(X.gene, X.SNP), phenores$Y, L=L, prior_weights = prior)

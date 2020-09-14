@@ -6,12 +6,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,  message= F, warning = F)
 ```
-
-Test susieI for ukb chr 17 to chr 22 combined. SNPs are downsampled to 1/10, eQTLs defined by FUSION-TWAS (Adipose/GTEx) lasso effect size > 0 were kept, p= 86k, n = 20k.
-
-susieI is an iterative version of susie, learning parameters (`prior weights`) iteratively using the top region from mr.ash for genes only.
-
-```{r plot functions}
+```{r libs}
 library(mr.ash.alpha)
 library(data.table)
 suppressMessages({library(plotly)})
@@ -21,7 +16,12 @@ library(stringr)
 library(kableExtra)
 source("analysis/summarize_twas_plots.R")
 ```
-```{r output dir}
+
+```{r des, child = here::here("analysis/description.Rmd")}
+```
+
+
+```{r dirs}
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 outputdir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
 susiedir <- "~/causalTWAS/simulations/simulation_susieI_20200813/"
@@ -30,12 +30,43 @@ tag <- '20200813-1-1'
 Niter <- 30
 ```
 
-# MR.ASH pip distribution
+# Regional minimum p value distribution
+
+* minimum TWAS p value of genes for each region:
+
+```{r rpip twas, fig.height=6, fig.width=6}
+simtag <- "20200721-1-1"
+rpipf <- paste0(simdatadir, simtag, ".pgenerprank.txt")
+
+a <- read.table(rpipf, header = T)
+a.c <- a[a$nCausal > 0, ]
+ax <- pretty(0:max(-log10(a$rpmin)), n = 30)
+
+par(mfrow=c(2,1))
+h1 <- hist(-log10(a$rpmin), breaks = 100, xlab = "PIP", main = "min P value distribution-all", col = "grey"); grid()
+h2 <- hist(-log10(a.c$rpmin), breaks = h1$breaks, xlab = "PIP", main = "min p distribution-causal", col = "salmon");grid()
+```
+
+* minimum TWAS p value of genes and SNPs for each region:
+
+```{r rpip twas2, fig.height=6, fig.width=6}
+rpipf <- paste0(simdatadir, simtag, ".p2rprank.txt")
+
+a <- read.table(rpipf, header = T)
+a.c <- a[a$nCausal > 0, ]
+ax <- pretty(0:max(-log10(a$rpmin)), n = 30)
+
+par(mfrow=c(2,1))
+h1 <- hist(-log10(a$rpmin), breaks = 100, xlab = "PIP", main = "min P value distribution-all", col = "grey"); grid()
+h2 <- hist(-log10(a.c$rpmin), breaks = h1$breaks, xlab = "PIP", main = "min p distribution-causal", col = "salmon");grid()
+```
+
+# MR.ASH regional pip sum distribution
 
 * Use mr.ash for gene only:
 
-```{r rpip 1, fig.height=6, fig.width=6}
-rpipf <- paste0(outputdir, tag, "-mr.ash.rPIP.txt")
+```{r rpip 1, fig.height=6, fig.width=6, eval=F}
+rpipf <- paste0(simdatadir, simtag, "-mr.ash.mrashrPIP.txt")
 
 a <- read.table(rpipf, header = T)
 a.c <- a[a$nCausal > 0, ]
@@ -46,10 +77,10 @@ h1 <- hist(a$rPIP, breaks = 100, xlab = "PIP", main = "PIP distribution-all", co
 h2 <- hist(a.c$rPIP, breaks = h1$breaks, xlab = "PIP", main = "PIP distribution-causal", col = "salmon");grid()
 ```
 
-* MR.ash2s results for the same simulated data
+* MR.ash2s for both genes and SNPs using the same data
 
 ```{r rpip 2, fig.height=6, fig.width=6}
-rpipf <- "~/causalTWAS/simulations/simulation_ashtest_20200721/20200721-1-1-mr.ash2s.lassoes-es.rPIP.txt"
+rpipf <- paste0(simdatadir, simtag, "-mr.ash2s.lassoes-es.mrash2srPIP.txt")
 
 a <- read.table(rpipf, header = T)
 a.c <- a[a$nCausal > 0 ,]
@@ -60,28 +91,19 @@ h1 <- hist(a$rPIP, breaks = 100, xlab = "PIP", main = "PIP distribution-all", co
 h2 <- hist(a.c$rPIP, breaks = h1$breaks, xlab = "PIP", main = "PIP distribution-causal", col = "salmon");grid()
 ```
 
-# susieI (filtered regions) - setting 1
+
+# Parameter estimation results
+
+Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). each row has two plots, one for gene pi1 estimation, one for enrichment (gene pi1/snp pi1). Results from each run were represented by one dot, dots with the same color come from the same run. horizontal dash lines: simulation truth, `mr.ash2`, mr.ash for gene and SNPs; `susietruth`, the truth in selected regions that were used to run susie iteractively (susieI).
+
+
+## Regions: causal
 
 * Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3, and also require at least one causal gene or SNP is present, also, at least one gene.
 
 * Susie run parameters: `L=1`, `null_weight = 0`, didn't update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform.
 
-## One example
-
-Prior change for each iteration:
-```{r iter}
-load(paste0(outputdir, tag, ".susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## more examples
-
-Each row represents one simulation run. Runs labeled `1-x` have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled `2-x` and `3-x`)
-
-```{r param}
+```{r param functions}
 show_param <- function(mrashfs, susieIfs, susieIfs2){
   param <- do.call(rbind, lapply(mr.ashfs, function(x) t(read.table(x))[2:1,]))
  
@@ -101,261 +123,196 @@ show_param <- function(mrashfs, susieIfs, susieIfs2){
   
   df <- cbind(tags, format(pars, digits = 4), format(pars.s, digits =4))
   rownames(df) <- NULL
+  return(df)
   
-  df %>% 
-  kable("html", escape = F) %>%
-  kable_styling("striped", full_width = F) %>%
-   row_spec(c(1:5, 11:15), background = "#FEF3B9") %>%
-  scroll_box(width = "100%", height = "600px", fixed_thead = T)
+  # df %>% 
+  # kable("html", escape = F) %>%
+  # kable_styling("striped", full_width = F) %>%
+  #  row_spec(c(1:5, 11:15), background = "#FEF3B9") %>%
+  # scroll_box(width = "100%", height = "600px", fixed_thead = T)
 }
 
+plot_param <- function(df, ...){
+  df <- apply(df[ , 2:ncol(df)], 2, function(x) as.numeric(x))
+  m <- cbind(df[,"pi1.gene_mr.ash2"], 1:nrow(df), 1 + 1:nrow(df)/nrow(df)/3)
+  st <-  cbind(df[,"pi1.gene_susietruth"], 1:nrow(df), 2 + 1:nrow(df)/nrow(df)/3)
+  s <- cbind(df[,"pi1.gene_susieI"], 1:nrow(df), 3 + 1:nrow(df)/nrow(df)/3)
+  t <- df[1,"pi1.gene_truth"]
+  dfp <- rbind(m,st,s)
+  plot(dfp[,3], dfp[,1], col = dfp[,2], pch = 19, ylab = "gene pi1", xaxt = "n", xlab="", xlim = c(0.8, 3.5), frame.plot=FALSE, ylim = c(0, max(dfp[,1],t) *1.05), ...)
+  axis(side=1, at=1:3, labels = FALSE, tick = F)
+  text(x=1:3, 0, labels = c("mr.ash2", "susieI_truth", "susieI"), xpd = T, pos =1)
+  abline(h=t, lty = 2, col= "salmon", lwd=1.5)
+  grid()
+  
+  m <- cbind(df[,"pi1.gene_mr.ash2"]/df[,"pi1.SNP_mr.ash2"], 1:nrow(df), 1 + 1:nrow(df)/nrow(df)/3)
+  st <-  cbind(df[,"pi1.gene_susietruth"]/df[,"pi1.SNP_susietruth"], 1:nrow(df), 2 + 1:nrow(df)/nrow(df)/3)
+  s <- cbind(df[,"pi1.gene_susieI"]/df[,"pi1.SNP_susieI"], 1:nrow(df), 3 + 1:nrow(df)/nrow(df)/3)
+  t <- df[1,"pi1.gene_truth"]/df[1,"pi1.SNP_truth"]
+  dfp <- rbind(m,st,s)
+  plot(dfp[,3], dfp[,1], col = dfp[,2], pch = 19, ylab = "Enrichment (gene/snp)", xaxt = "n", xlab="", xlim = c(0.8, 3.5),frame.plot=FALSE, ylim = c(0, max(dfp[,1],t, 150) *1.05))
+  axis(side=1, at=1:3, labels = FALSE, tick = F)
+  text(x=1:3, 0, labels = c("mr.ash2", "susieI_truth", "susieI"), xpd = T, pos =1)
+  abline(h= t, lty = 2, col= "darkgreen", lwd=1.5)
+  grid()
+}
+```
+
+
+```{r param, fig.height=8, fig.width=6}
 tags <- paste(rep(1:3, each = 5), 1:5, sep = "-")
 mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
 susieIfs <- paste0(outputdir, "20200813-", tags, ".susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20200813-", tags, ".1.txt")
 
-show_param(mrashfs, susieIfs, susieIfs2)
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(3,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05") 
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
 ```
 
-# susieI (filtered regions) - setting 2
+## Regions: mrash gene+SNP (1)
 
 * Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3.
 
-* Susie run parameters: `L=2`, initialize `null_weight = 0`, update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform.
+* Susie run parameters: `L=2`, initialize `null_weight = 0`, update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform. (We also tried initialize with prior for genes and SNPs as 0.05 and 2.5e-3, results are the same.)
 
-## One example
-
-Prior change for each iteration:
-```{r iter-6}
-load(paste0(outputdir, tag, ".config6.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## more examples
-
-Each row represents one simulation run. Runs labeled `1-x` have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled `2-x` and `3-x`)
-
-```{r param-6}
+```{r param-6, fig.height=11, fig.width=6}
 tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
 mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
 susieIfs <- paste0(outputdir, "20200813-", tags, ".config6.susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config6.susieI.txt")
 
-show_param(mrashfs, susieIfs, susieIfs2)
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
 ```
 
-# susieI (filtered regions) - setting 3
-
-* Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3.
-
-* Susie run parameters: `L=2`, initialize `null_weight = 0`, update `null_weight` in iterations. We initialize with prior for genes and SNPs as 0.05 and 2.5e-3.
-
-## One example
-
-Prior change for each iteration:
-```{r iter-8}
-load(paste0(outputdir, tag, ".config8.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## more examples
-
-Each row represents one simulation run. Runs labeled `1-x` have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled `2-x` and `3-x`)
-
-```{r param-8}
-tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
-susieIfs <- paste0(outputdir, "20200813-", tags, ".config8.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config8.susieI.txt")
-
-show_param(mrashfs, susieIfs, susieIfs2)
-```
-
-# susieI (filtered regions) - setting 4
+## Regions: mrash gene+SNP (2)
 
 * Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3.
 
 * Susie run parameters: `L=2`, `null_weight = 0`. Didn't update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform.
 
-## One example
 
-Prior change for each iteration:
-```{r iter-7}
-load(paste0(outputdir, tag, ".config7.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## more examples
-
-Each row represents one simulation run. Runs labeled `1-x` have the same simulation parameters, as you can tell from the true parameters. (and so are runs labled `2-x` and `3-x`)
-
-```{r param-7}
+```{r param-7, fig.height=11, fig.width=6}
 tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
 susieIfs <- paste0(outputdir, "20200813-", tags, ".config7.susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config7.susieI.txt")
 
-show_param(mrashfs, susieIfs, susieIfs2)
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
 ```
 
 
-# susieI (all regions) - setting 1
+## Regions: mrash gene only
 
-* Regions: All regions. 
+* Regions: We use regional sum of PIP for genes from mr.ash for genes only > 0.1.
 
-* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform.
+* Susie run parameters: `L=2`. Update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform, `null_weight = 0`.
 
-## One example
 
-Prior change for each iteration:
-```{r iter2}
-load(paste0(outputdir, tag, ".config1.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## More examples
-
-```{r param2}
+```{r param-9, fig.height=11, fig.width=6}
 tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
-mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
-susieIfs <- paste0(outputdir, "20200813-", tags, ".config1.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config1.susieI.txt")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config9.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config9.susieI.txt")
 
-show_param(mrashfs, susieIfs, susieIfs2)
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
 ```
 
-# susieI (all regions) - setting 2
+
+## Regions: TWAS gene only
+
+* Regions: We use regional min p value for genes from twas for genes only, requiring this p value in top 5%.
+
+* Susie run parameters: `L=2`. Update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform, `null_weight = 0`.
+
+
+```{r param-10, fig.height=11, fig.width=6}
+tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config10.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config10.susieI.txt")
+
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
+```
+
+## Regions: TWAS gene+SNP
+
+* Regions: We use regional min p value for genes or SNPs from twas for genes and snps, requiring this p value in top 5% for genes or 1% for SNPs.
+
+* Susie run parameters: `L=2`. Update `null_weight` in iterations. We initialize with prior for genes and SNPs as uniform, `null_weight = 0`.
+
+```{r param-11, fig.height=11, fig.width=6}
+tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config11.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config11.susieI.txt")
+
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
+```
+
+## Regions: all (1)
 
 * Regions: All regions. 
 
 * Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform.
 
-## One example
-
-Prior change for each iteration:
-```{r iter3}
-load(paste0(outputdir, tag, ".config2.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## More examples
-
-```{r param3}
+```{r param3, fig.height=11, fig.width=6}
 mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
 susieIfs <- paste0(outputdir, "20200813-", tags, ".config2.susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config2.susieI.txt")
 
-show_param(mrashfs, susieIfs, susieIfs2)
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
 ```
 
-
-# susieI (all regions) - setting 3
+## Regions: all (2)
 
 * Regions: All regions. 
 
 * Susie run parameters: `L=1`. Did not update `null_weight` in each iteration. We initialize with prior for genes and SNPs as uniform.
 
-## One example
-
-Prior change for each iteration:
-```{r iter4}
-load(paste0(outputdir, tag, ".config3.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## More examples
-
-```{r param4}
+```{r param4, fig.height=11, fig.width=6}
 mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
 susieIfs <- paste0(outputdir, "20200813-", tags, ".config3.susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config3.susieI.txt")
 
-show_param(mrashfs, susieIfs, susieIfs2)
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
 ```
 
-# susieI (all regions) - setting 4
-
-* Regions: All regions. 
-
-* Susie run parameters: `L=5`. Update `null_weight` in each iteration. We initialize prior for gene as `0.05` and prior for SNPs as `2.5E-3`, we initialize `null_weight` as 0.
-
-## One example
-
-Prior change for each iteration:
-```{r iter5}
-load(paste0(outputdir, tag, ".config4.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## More examples
-
-```{r param5}
-mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
-susieIfs <- paste0(outputdir, "20200813-", tags, ".config4.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config4.susieI.txt")
-
-show_param(mrashfs, susieIfs, susieIfs2)
-```
-
-# susieI (all regions) - setting 5
-
-* Regions: All regions. 
-
-* Susie run parameters: `L=2`. Update `null_weight` in each iteration. We initialize prior for gene as `0.05` and prior for SNPs as `2.5E-3`, we initialize `null_weight` as 0.
-
-## One example
-
-Prior change for each iteration:
-```{r iter6}
-load(paste0(outputdir, tag, ".config5.susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:Niter)
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
-
-## More examples
-
-```{r param6}
-mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
-susieIfs <- paste0(outputdir, "20200813-", tags, ".config5.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config5.susieI.txt")
-
-show_param(mrashfs, susieIfs, susieIfs2)
-```
-
-# susieI shuffle genes
-## one example
-* Shuffle genes to different regions. Regions: We use regional PIP of both SNP and gene from mr.ash2s > 0.3 , and also require at least one causal gene or SNP is present, also, at least one gene.
-
-* Susie run parameters: `L=1`, `null_weight = 0`.
-
-Prior change for each iteration:
-```{r iter shuffle}
-tag <- '20200813-1-1-shuffleg'
-load(paste0(outputdir, tag, ".susieIres.Rd"))
-df <- cbind(prior.gene_rec, prior.SNP_rec)
-rownames(df) <- paste("Iteration", 1:nrow(df))
-colnames(df) <- c("Prior.gene", "Prior.SNP")
-df
-```
+## Regions: all (others)
+* Susie run parameters: `L=1`. initialize with null_weight = 0 and update null_weight based on last iteration results. We initialize with prior for genes and SNPs as uniform. The prior for genes is underestimated for low power settings (1-x, 2-x), many converged to close to 0, for high power settings it is better. 
+* Susie run parameters: `L=5`. initialize with null_weight = 0 and update null_weight based on last iteration results. The prior for gene estimation is fine for all runs, however prior for SNPs overestimated about 10 times.
+* We have tried different initiation strategies, but the results remain the same.
 

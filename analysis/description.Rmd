@@ -1,7 +1,7 @@
 
 # Analysis description
 
-```{r param}
+```{r parameters}
 n <- 20000 # number of samples
 p <- 86000 # number of SNPs
 J <- 1653 # number of genes
@@ -13,16 +13,19 @@ Our analysis consists of the following steps:
 
 1. Build expression predictors using another expression-genotype dataset. 
 
-The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples. FUSION/TWAS were used to train expression model and we used their lasso results. eQTLs are defined as SNPs with abs(effectize) > 1e-8.  There are `r as.character(J)` genes with expression from chr17 to chr22. 
+The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples. [FUSION/TWAS](http://gusevlab.org/projects/fusion/) were used to train expression model and we used their lasso results. SNPs included in eQTL anlaysis are restricted to cis-locus 500kb on either side of the gene boundary. eQTLs are defined as SNPs with abs(effectize) > 1e-8 in lasso results.  
 
-2. Run susie iteratively for regions.
+2. Impute expression. 
 
-We impute gene expression for our genotype data. Next, the analysis is done at the “region” level, which is about 500kb bins along the genome. Each bin would contain all the SNPs, as well as all the genes in that bin. The “genes” here mean the imputed expression from genotypes using the expression predictors.
-10:18 AM
-So the features of SuSiE are: SNPs and imputed genes (not cis-eQTLs of that gene). (edited) 
-10:22 AM
-Actually I just realize that there may be potential issues here: the cis-eQTLs of the gene may be outside the bins containing the gene. In that case, if eQTL is in LD with a causal SNP in another bin, SuSiE may still find that gene as causal, which is false.
-10:22 AM
-This may not be common though, if the bin is relatively large.
-10:23 AM
-Also to give an idea of the size of bin: on average, it contains about 7 genes and 120 SNPs in Siming’s simualation.
+We impute gene expression for our genotype data using expression models obtained from step 1. There are `r as.character(J)` genes with expression model from chr17 to chr22. We imputed expression from genotypes using the expression predictors. 
+
+3. Define and select regions
+
+Next, the analysis is done at the “region” level, which is 500kb bins along the genome. Each bin would contain all the SNPs, as well as all the genes in that bin. We are exploring several ways to select regions that contain true signals, e.g. based on regional sum of mr.ash PIP for genes/SNPs, region smallest TWAS p value for gene/SNPs, or regional bayes factors, etc.
+
+4. Run susie iteratively
+We then run susie for each of these regions. So the features of SuSiE are: SNPs and "genes" (not cis-eQTLs of that gene). We use the same prior for all SNPs and another prior for all "genes" when running SUSIE. In some settings, we also run SUSIE with null weight, which is calculated as `1- prior.SNP * n.SNP - prior.gene * n.gene`. We obtain the PIP for SNPs and gene in the region. After we run susie for all regions (one iteration), we take the average of all SNP PIPs as the prior of SNPs for the next iteration and similarly for the prior for genes. 
+
+5. We obtain PIP for genes from the last iteration as results.
+
+

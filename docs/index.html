@@ -358,7 +358,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-03
+<strong>Last updated:</strong> 2020-09-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -389,16 +389,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree193a8df072266e1059903a30187e37ca00be98detargetblank193a8dfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/193a8df072266e1059903a30187e37ca00be98de" target="_blank">193a8df</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreec989c968853dc767548d5cd75594ae405cd32d0etargetblankc989c96a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/c989c968853dc767548d5cd75594ae405cd32d0e" target="_blank">c989c96</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree193a8df072266e1059903a30187e37ca00be98detargetblank193a8dfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreec989c968853dc767548d5cd75594ae405cd32d0etargetblankc989c96a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/193a8df072266e1059903a30187e37ca00be98de" target="_blank">193a8df</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/c989c968853dc767548d5cd75594ae405cd32d0e" target="_blank">c989c96</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -411,11 +411,13 @@ Ignored files:
     Ignored:    data/
 
 Unstaged changes:
+    Modified:   analysis/description.Rmd
     Modified:   analysis/index.Rmd
     Modified:   analysis/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd
     Modified:   analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd
     Modified:   code/run_test_susie.R
     Modified:   code/run_test_susieI.R
+    Deleted:    code/run_test_susie_temp.R
     Modified:   code/workflow/workflow-ashtest4.ipynb
     Modified:   code/workflow/workflow-susieI-20200813.ipynb
 
@@ -456,6 +458,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c989c968853dc767548d5cd75594ae405cd32d0e/analysis/index.Rmd" target="_blank">c989c96</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-08
+</td>
+<td>
+pretty plot for Xin’s grant
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/bb0bce08924572a23cd173c6caa7e8c8e2ad3b33/analysis/index.Rmd" target="_blank">bb0bce0</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-03
+</td>
+<td>
+susie prior
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/bb0bce08924572a23cd173c6caa7e8c8e2ad3b33/docs/index.html" target="_blank">bb0bce0</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-03
+</td>
+<td>
+susie prior
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1515,15 +1568,6 @@ model and Xin’s simulation
 <li><p><a href="simulation-susie-ukbchr22-gtex.adipose-L=3.html">Using UKbiobank data (chr22), fusion weights Adipose, <code>L=3</code></a></p></li>
 </ul>
 </div>
-</div>
-<div id="test-parameters-for-susie" class="section level1">
-<h1>Test parameters for susie</h1>
-<ul>
-<li><a href="simulation-multi-ukbchr17to22-gtex.adipose_susieprior.html">Using UKbiobank data (chr17:22), fusion weights Adipose, test prior’s effect for susie</a>
-<ul>
-<li><a href="https://users.rcc.uchicago.edu/~simingz/simulation-susieP-ukbchr17to22-gtex.adipose.html">Visualization</a></li>
-</ul></li>
-</ul>
 <div id="summarize-ctwas-results" class="section level2">
 <h2>Summarize cTWAS results</h2>
 <p>We compare cTWAS results with other methods, summarizing results over multiple simulation runs.</p>
@@ -1533,7 +1577,7 @@ model and Xin’s simulation
 <li><a href="simulation-multi-ukbchr17to22-gtex.adipose.html">Using UKbiobank data (chr17:22), fusion weights Adipose</a></li>
 <li><a href="simulation-multi-ukbchr17to22-gtex.adipose_sa2_v2.html">Using UKbiobank data (chr17:22), fusion weights Adipose, using smaller sa2 grid in mr.ash</a>
 <ul>
-<li><a href="https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr17to22-gtex.adipose.html">Visualization: Using UKbiobank data (chr17 to 22), fusion weights Adipose subcutaneous</a></li>
+<li><a href="https://users.rcc.uchicago.edu/~simingz/simulation-mr.ash2s-ukbchr17to22-gtex.adipose.html">Visualization</a></li>
 </ul></li>
 </ul>
 </div>
@@ -1541,6 +1585,7 @@ model and Xin’s simulation
 <h2>mr.ash + SUSIE iterative</h2>
 <ul>
 <li><a href="simulation-susieI-ukbchr17to22-gtex.adipose.html">Using UKbiobank data (chr17:22), fusion weights Adipose</a></li>
+<li><a href="simulation-multi-ukbchr17to22-gtex.adipose_susieprior.html">Using UKbiobank data (chr17:22), fusion weights Adipose, test prior’s effect for susie</a></li>
 </ul>
 </div>
 </div>
