@@ -26,7 +26,7 @@ source("analysis/summarize_twas_plots.R")
 ```
 
 # Simulation 1-x, setting 1
-- filter criteria: rpip 0.3 and causal
+
 
 ```{r output dir}
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
@@ -34,7 +34,7 @@ outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/20200721-1-fixprior_rpip0.3_causal/"
 ```
 
-We run 100 simulations and run susie using different priors and `L= 1`. We only apply susie for regions with mr.ash2 regional PIP > 0.3.
+We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in [here](https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_causal). Regions are rpip from mr.ash2 > 0.3 and causal. We take simulation setting 1-x.
 
 ## Truth
 
@@ -78,13 +78,12 @@ cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 
 
 # simulation 1-x, setting 2
-- filter criteria: rpip 0.3
 
 ```{r output a dir}
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/20200721-1-fixprior_rpip0.3/"
 ```
 
-We run 50 simulations and run susie using different priors and `L= 1`. We apply susie for all regions.
+We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in [here](https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_mrash_gene+snp_(1)). Regions are rpip from mr.ash2 > 0.3. We take simulation setting 1-x.
 
 ## Truth
 
@@ -127,13 +126,12 @@ cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
 
 # Simulation 3-x, setting 1
-- filter criteria: rpip 0.3 and causal
 
 ```{r output 3.1 dir}
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/20200721-3-fixprior_rpip0.3_causal/"
 ```
 
-We run 100 simulations and run susie using different priors and `L= 1`. We only apply susie for regions with mr.ash2 regional PIP > 0.5.
+We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in [here](https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_causal). Regions are rpip from mr.ash2 > 0.3 and causal. We take simulation setting 3-x.
 
 ## Truth
 
@@ -176,13 +174,12 @@ cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
 
 # Simulation 3-x, setting 2
-- filter criteria: rpip 0.3
 
 ```{r output dir 3.2}
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/20200721-3-fixprior_rpip0.3/"
 ```
 
-We run 100 simulations and run susie using different priors and `L= 1`. We only apply susie for regions with mr.ash2 regional PIP > 0.5.
+We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in [here](https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_mrash_gene+snp_(1)). Regions are rpip from mr.ash2 > 0.3. We take simulation setting 1-x.
 
 ## Truth
 
