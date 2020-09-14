@@ -34,7 +34,7 @@ outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20200721/"
 susiedir <- "~/causalTWAS/simulations/simulation_susietest_20200721/20200721-1-fixprior_rpip0.3_causal/"
 ```
 
-We run 100 simulations and run susie using different priors and `L= 1`. We only apply susie for regions with mr.ash2 regional PIP > 0.5.
+We run 100 simulations and run susie using different priors and `L= 1`. We only apply susie for regions with mr.ash2 regional PIP > 0.3.
 
 ## Truth
 
