@@ -24,7 +24,7 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
                                  paste(ID, ave(ID, ID, FUN=seq_along), sep='_ID'),
                                  ID))
 
-  write.table(wgtpos , file= paste0(wgtposfile, ".IDfixed") , row.names=F, col.names=T, sep="\t", quote = F)
+  write.table(wgtpos, file= paste0(wgtposfile, ".IDfixed") , row.names=F, col.names=T, sep="\t", quote = F)
 
   print(paste0("Number of genes with weights provided: ", dim(wgtpos)[1]))
 
@@ -99,27 +99,32 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
   return(list("expr"= expr, "exprlist" = exprlist, "qclist" = qclist, "chrom" = chrom, "p0" = p0, "p1" = p1))
 }
 
-# dat: a list with the following items:
-#   - G: matrix, N x M, genotype, need to be scaled
-#   - snp: matrix, N x 1, SNP name
-#   - ref
-#   - alt
-#   - chr
-#   - pos
-#   - expr: matrix, N x J
-# mode: string, "snp-only", "snp-expr"
-# pve.expr: scalar [0,1]
-# pve.snp: scalar [0,1]
-# pi_beta: scalar [0,1]
-# pi_theta: scalar [0,1]
-# tau: 1 (to add)
+#' @param dat a list with the following items:
+#'   - G: matrix, N x M, genotype, need to be scaled
+#'   - snp: matrix, N x 1, SNP name
+#'   - ref
+#'   - alt
+#'   - chr
+#'   - pos
+#'   - expr: matrix, N x J
+#' @param mode string, "snp-only", "snp-expr"
+#' @param pve.expr scalar [0,1], not used when if `sigma_beta` is given
+#' @param pve.snp scalar [0,1], not used if `sigma_theta` is given
+#' @param pi_beta scalar [0,1]
+#' @param pi_theta scalar [0,1]
+#' @param sigma_beta default NULL, if not given, will calculate from pve.
+#' @param sigma_theta default NULL, if not given, will calculate from pve.
+#' @return a list, Y.g is phenotype determined by genetic, will need to add
+#'  error term ( pve calculation is based on N(0,1)).
 simulate_phenotype<- function(dat,
                               mode = "snp-expr",
                               pve.expr = 0.1,
                               pve.snp = 0.1,
                               pi_beta = 0.01,
                               pi_theta = 0.0001,
-                              tau = 1) {
+                              sigma_beta = NULL,
+                              sigma_theta = NULL
+                              ) {
 
   N <- dim(dat$G)[1]
   M <- dim(dat$G)[2]
@@ -135,38 +140,45 @@ simulate_phenotype<- function(dat,
     idx.cgene <- NULL
     idx.cSNP <- sample(1:M, M.c)
     sigma_beta <- NULL
-    sigma_theta <- sqrt(pve.snp / (M.c * (1 - pve.snp - pve.expr)))
+    if (is.null(sigma_theta)){
+      sigma_theta <- sqrt(pve.snp / (M.c * (1 - pve.snp - pve.expr)))
+    }
+
     e.beta <- NULL
     s.theta <- rnorm(M.c, mean = 0, sd = sigma_theta)
 
-    Y <- dat$G[, idx.cSNP, drop = F] %*% s.theta +
-          rnorm(N)
+    Y.g <- dat$G[, idx.cSNP, drop = F] %*% s.theta
 
-    pve.expr.truth <- 0
-    pve.snp.truth <- var(dat$G[ , idx.cSNP, drop = F] %*% s.theta)/var(Y)
+    var.gene <- NULL
+    var.snp <- var(dat$G[ , idx.cSNP, drop = F] %*% s.theta)
   }
   if (mode == "snp-expr"){
-    expr.meanvar <- mean(apply(dat$expr, 2, var))
     idx.cgene <- sample(1:J, J.c)
     idx.cSNP <- sample(1:M, M.c)
-    sigma_beta <- sqrt(pve.expr / (J.c * expr.meanvar * (1 - pve.snp - pve.expr)))
-    sigma_theta <- sqrt(pve.snp / (M.c * (1 - pve.snp - pve.expr)))
+
+    expr.meanvar <- mean(apply(dat$expr, 2, var))
+    if (is.null(sigma_beta)){
+      sigma_beta <- sqrt(pve.expr / (J.c * expr.meanvar * (1 - pve.snp - pve.expr)))
+    }
+
+    if (is.null(sigma_theta)){
+      sigma_theta <- sqrt(pve.snp / (M.c * (1 - pve.snp - pve.expr)))
+    }
     e.beta <- rnorm(J.c, mean = 0, sd = sigma_beta)
     s.theta <- rnorm(M.c, mean = 0, sd = sigma_theta)
 
-    Y <- dat$expr[, idx.cgene, drop = F] %*% e.beta +
-        dat$G[, idx.cSNP, drop = F] %*% s.theta +
-        rnorm(N)
+    Y.g <- dat$expr[, idx.cgene, drop = F] %*% e.beta +
+        dat$G[, idx.cSNP, drop = F] %*% s.theta
 
-    pve.expr.truth <- var(dat$expr[ , idx.cgene, drop = F] %*% e.beta)/var(Y)
-    pve.snp.truth <- var(dat$G[ , idx.cSNP, drop = F] %*% s.theta)/var(Y)
+    var.gene <- var(dat$expr[ , idx.cgene, drop = F] %*% e.beta)
+    var.snp <- var(dat$G[ , idx.cSNP, drop = F] %*% s.theta)
   }
 
   param <- tibble::lst(s.theta, e.beta,
                        sigma_theta, sigma_beta,
                        idx.cSNP, idx.cgene, M.c, J.c,
                        expr.meanvar,
-                       pve.snp.truth, pve.expr.truth, J, M)
+                       J, M, N, var.gene, var.snp)
 
-  return(list("Y" = Y,"param" = param))
+  return(list("Y.g" = Y.g, "param" = param))
 }

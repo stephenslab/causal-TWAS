@@ -61,6 +61,21 @@ h1 <- hist(-log10(a$rpmin), breaks = 100, xlab = "PIP", main = "min P value dist
 h2 <- hist(-log10(a.c$rpmin), breaks = h1$breaks, xlab = "PIP", main = "min p distribution-causal", col = "salmon");grid()
 ```
 
+# Regional BF distribution
+mean BF of both SNPs and genes in region as the regional BF.
+
+```{r rBF twas, fig.height=6, fig.width=6}
+rpipf <- paste0(simdatadir, simtag, ".rBF.txt")
+
+a <- read.table(rpipf, header = T)
+a.c <- a[a$nCausal > 0, ]
+
+par(mfrow=c(2,1))
+h1 <- hist(a$rBF, breaks = 5000, xlab = "PIP", main = "regional BF distribution-all", col = "grey", xlim = c(0,10)); grid()
+h2 <- hist(a.c$rBF, breaks = h1$breaks, xlab = "PIP", main = "regional BF distribution-causal", col = "salmon",xlim = c(0,10));grid()
+```
+
+
 # MR.ASH regional pip sum distribution
 
 * Use mr.ash for gene only:
@@ -316,3 +331,20 @@ plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
 * Susie run parameters: `L=5`. initialize with null_weight = 0 and update null_weight based on last iteration results. The prior for gene estimation is fine for all runs, however prior for SNPs overestimated about 10 times.
 * We have tried different initiation strategies, but the results remain the same.
 
+## Regions: TWAS BF
+
+* Regions: regional TWAS BF > 2
+
+```{r param 5, fig.height=11, fig.width=6}
+tags <- paste(rep(1:4, each = 5), 1:5, sep = "-")
+mr.ashfs <- paste0(mrashdir, "20200721-", tags, "-mr.ash2s.lassoes-es.param.txt")
+susieIfs <- paste0(outputdir, "20200813-", tags, ".config12.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200813-", tags, ".config12.susieI.txt")
+
+df <- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = "1-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[6:10,], main = "2-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[11:15,], main = "3-x: gene.pve ~ 0.01, snp.pve ~ 0.05")
+plot_param(df[16:20,], main = "4-x: gene.pve ~ 0.05, snp.pve ~ 0.05")
+```

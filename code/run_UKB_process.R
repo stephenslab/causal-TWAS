@@ -68,3 +68,50 @@ save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.unscal
 #----------------------------chr22 only-------------------
 pfile <- "/home/simingz/causalTWAS/ukbiobank/ukb_chr22_s20000"
 pgen2fbm(pfile, select = NULL, scale = T, type = "double")
+
+
+#---------chr17-22 multiple copies with different names---
+setwd("/home/simingz/causalTWAS/ukbiobank")
+for (i in 1:6) {
+  load("/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.FBM.Rd")
+  tag <- paste0("-B", i)
+  dat$chr <- paste0(dat$chr, tag)
+  dat$snp <- paste0(dat$snp, tag)
+  save(dat, file = paste0("ukb_chr17to22_s20000", tag, ".FBM.Rd"))
+}
+
+setwd("/home/simingz/causalTWAS/fusion_weights")
+posf0 <- "Adipose_Subcutaneous.pos"
+posf = "Adipose_Subcutaneous_B.pos"
+pos0 = read.table(posf0, header = T, stringsAsFactors = F)
+pos <- read.table(posf, header = T, stringsAsFactors = F)
+
+pos0 <- pos0[pos0$CHR <=22 & pos0$CHR >=17,]
+pos <- pos[pos$CHR <=22 & pos$CHR >=17,]
+
+renamesnps <- function(row, tag) {
+  f0 <- row[1]
+  f <- row[2]
+  load(f0)
+  rownames(wgt.matrix) <- paste0(rownames(wgt.matrix), tag)
+  snps[,1] <- paste0(snps[,1], tag)
+  snps[,2] <- paste0(snps[,2], tag)
+  save(wgt.matrix, snps, cv.performance, hsq, hsq.pv, N.tot, file = f)
+}
+
+
+outdfall <- NULL
+for (i in 1:6) {
+  tag <- paste0("-B", i)
+  outdf <- pos
+  outdf$WGT <- gsub(".wgt", paste0(tag, ".wgt"), outdf$WGT)
+  outdf$ID <- paste0(outdf$ID, tag)
+  outdf$CHR <- paste0(outdf$CHR, tag)
+  rd <- cbind(pos0$WGT, outdf$WGT)
+  apply(rd, 1, renamesnps, tag = tag)
+  outdfall <- rbind(outdfall, outdf)
+}
+
+write.table(outdfall , file= posf, row.names=F, col.names=T, sep="\t", quote = F)
+
+

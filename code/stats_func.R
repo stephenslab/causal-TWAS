@@ -29,3 +29,12 @@ scaleRcpp <- function(x) {
   return(x.scaled)
 }
 
+# GWAS BF
+gwasbf <- function(mle, std, w = 0.1){
+  v <- std ** 2
+  r <- w/(v+w)
+  z <- mle/std
+  bf <- sqrt(1 - r)/exp(-z**2 * r / 2)
+  bf
+}
+

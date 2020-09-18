@@ -27,13 +27,10 @@ filtertype <- "mrash2s" # or mrash: mr.ash for genes only
                         # or pgene: twas for genes only
                         # or p2: twas for genes and snps
                         # mrash2s: mr.ash2s for genes and snps
-                        # rBF: regional BF for genes and snps
 
 PIPfilter <- 0.3 # for "mrash2s" or "mrash", regions with sum of PIP < PIPfilter will be filtered
 prankfilter.gene <- 1 # for pgene or p2, lowest rank of gene/SNP pvalues > prankfilter that will be filtered.
 prankfilter.snp <- 1 # for pgene or p2, lowest rank of gene/SNP pvalues > prankfilter that will be filtered.
-rBFfilter <- 1 # for rBF, regional BF of genes & SNPs < rBFfilter will be filtered
-
 ifshuffle <- F # if shuffle genes to different regions to break LD
 ifgene <- F # if limiting to regions with at least one gene.
 ifca <- T # if limiting to regions with at least one causal signal
@@ -56,8 +53,15 @@ loginfo("region size: %s", chunksize)
 
 # load genotype data
 pfile <- args[1]
-pfileRd <- paste0(drop_ext(pfile), ".FBM.Rd")
-load(pfileRd)
+outname <- args[4]
+if (file_ext(pfile) == "txt"){
+  pfiles <- read.table(pfile, header =F, stringsAsFactors = F)[,1]
+  outnames <- paste0(outname, "-B", 1:length(pfiles))
+} else {
+  outnames <- outname
+  pfiles <- pfile
+}
+pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
 
 dat$G <- dat$G[]
 
@@ -101,7 +105,7 @@ if (filtertype %in% c("mrash2s", "mrash")){
   gres <- read.table(gres, header = T, comment.char = "")
   gres[, "prank"] <- rank(gres$PVALUE)/nrow(gres)
   pres <- gres
-  if (filtertype =="p2"){
+  if (filtertype == "p2"){
     sres <- paste0(args[4],".snpgwas.txt.gz")
     sres <- read.table(sres, header =T, comment.char = "")
     sres[, "prank"] <- apply(cbind(rank(sres$PVALUE)/nrow(sres) * prankfilter.gene/prankfilter.snp, 1), 1, min)
@@ -121,34 +125,10 @@ if (filtertype %in% c("mrash2s", "mrash")){
   colnames(regions) <- c("chrom", "p0", "p1", "rpmin", "rprank", "nCausal")
   write.table(regions, file = paste0(args[4], ".", filtertype, "rprank.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
   regions <- regions[regions[, "rprank"] <= prankfilter.gene,  ]
-} else if (filtertype == "rBF") {
-  gres <- paste0(args[4],".exprgwas.txt.gz")
-  gres <- read.table(gres, header = T, comment.char = "")
-  gres[, "BF"] <- apply(gres[, c("Estimate", "Std.Error")], 1, function(x) gwasbf(x[1], x[2], w = 0.02**2*0.1))
-  sres <- paste0(args[4],".snpgwas.txt.gz")
-  sres <- read.table(sres, header =T, comment.char = "")
-  sres[, "BF"] <- apply(sres[, c("Estimate", "Std.Error")], 1, function(x) gwasbf(x[1], x[2], w = 0.02**2*0.1))
-  pres <- rbind(gres, sres)
-  regions <- NULL
-  chroms <- unique(reg$chrom)
-  for (chrom in chroms){
-    pres.chr <- pres[pres$X.CHROM == chrom, ]
-    itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
-    rBF <- apply(itv, 1, function(x) mean(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "BF"]))
-    nCausal <- apply(itv, 1, function(x) {gnames <- pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "MARKER_ID"]; sum(ifelse(gnames %in% cau, 1, 0))})
-    itv <- cbind(chrom, itv, rBF, nCausal)
-    regions <- rbind(regions, itv)
-  }
-  colnames(regions) <- c("chrom", "p0", "p1", "rBF", "nCausal")
-  write.table(regions, file = paste0(args[4], ".", filtertype, ".txt")  , row.names=F, col.names=T, sep="\t", quote = F)
-  regions <- regions[regions[, "rBF"] > rBFfilter,  ]
-  regions <- regions[complete.cases(regions),]
-} else {
+}  else {
   stop("unknown filter type")
 }
 
-outname <- args[5]
-write.table(regions, file = paste0(outname, ".", filtertype, ".txt")  , row.names=F, col.names=T, sep="\t", quote = F)
 # filter regions based on ifca
 if (isTRUE(ifca)){
   loginfo("keep only causal regions")
@@ -164,6 +144,7 @@ regions$rname <- as.character(1:nrow(regions))
 
 # prep geno for each region
 loginfo("prepare geno for each region ...")
+
 regionlist <- list()
 for (rn in unique(regions[, "rname"])){
   regions.n <- regions[regions[, "rname"] == rn, ,drop = F]
@@ -174,11 +155,12 @@ for (rn in unique(regions[, "rname"])){
     p1 <- regions.n[i, "p1"]
 
     name <- paste(chr, p0, p1, sep = "-")
+
     idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p0 < p1
     idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
+
     X.gene <- exprres$expr[ , idx.gene, drop = F]
     X.SNP <-  dat$G[ ,idx.SNP, drop = F]
-
     X <- cbind(X.gene, X.SNP)
 
     anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene],
@@ -192,7 +174,7 @@ for (rn in unique(regions[, "rname"])){
 
     regionlist[[rn]][["X"]] <- cbind(regionlist[[rn]][["X"]], X)
     regionlist[[rn]][["anno"]] <- rbind(regionlist[[rn]][["anno"]], anno)
-    print(gc())
+    gc()
   }
 }
 
@@ -207,6 +189,7 @@ if (isTRUE(ifgene)){
       regionlist[[rn]] <- NULL
     }
   }
+
 }
 
 if (isTRUE(ifshuffle)){

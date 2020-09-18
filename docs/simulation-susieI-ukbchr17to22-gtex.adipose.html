@@ -358,7 +358,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-14
+<strong>Last updated:</strong> 2020-09-18
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -449,16 +449,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree4d39fd6f40c31582e182b7a4d5808bd2f9ea5015targetblank4d39fd6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015" target="_blank">4d39fd6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree13cad06b80a6c96e3f872cde9d95764c1fdf4bd7targetblank13cad06a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/13cad06b80a6c96e3f872cde9d95764c1fdf4bd7" target="_blank">13cad06</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree4d39fd6f40c31582e182b7a4d5808bd2f9ea5015targetblank4d39fd6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree13cad06b80a6c96e3f872cde9d95764c1fdf4bd7targetblank13cad06a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015" target="_blank">4d39fd6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/13cad06b80a6c96e3f872cde9d95764c1fdf4bd7" target="_blank">13cad06</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -471,10 +471,19 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/figure/
+    Untracked:  code/run_test_susieI_temp.R
+    Untracked:  code/workflow/workflow-ashtest-20200915.ipynb
+    Untracked:  code/workflow/workflow-susieI-20200915.ipynb
 
 Unstaged changes:
     Modified:   analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd
+    Modified:   code/run_UKB_process.R
+    Modified:   code/run_simulate_data.R
+    Modified:   code/run_test_susieI.R
+    Modified:   code/simulate_phenotype.R
+    Modified:   code/stats_func.R
+    Modified:   code/workflow/workflow-data.ipynb
+    Modified:   code/workflow/workflow-susieI-20200813.ipynb
 
 </code></pre>
 <p>
@@ -513,6 +522,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/analysis/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+<td>
+susieI plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/simulation-susieI-ukbchr17to22-gtex.adipose.html" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+<td>
+susieI plots
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1053,6 +1096,19 @@ simingz
 </div>
 </div>
 </div>
+<div id="regional-bf-distribution" class="section level1">
+<h1>Regional BF distribution</h1>
+<p>mean BF of both SNPs and genes in region as the regional BF.</p>
+<pre class="r"><code>rpipf &lt;- paste0(simdatadir, simtag, &quot;.rBF.txt&quot;)
+
+a &lt;- read.table(rpipf, header = T)
+a.c &lt;- a[a$nCausal &gt; 0, ]
+
+par(mfrow=c(2,1))
+h1 &lt;- hist(a$rBF, breaks = 5000, xlab = &quot;PIP&quot;, main = &quot;regional BF distribution-all&quot;, col = &quot;grey&quot;, xlim = c(0,10)); grid()
+h2 &lt;- hist(a.c$rBF, breaks = h1$breaks, xlab = &quot;PIP&quot;, main = &quot;regional BF distribution-causal&quot;, col = &quot;salmon&quot;,xlim = c(0,10));grid()</code></pre>
+<p><img src="figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/rBF%20twas-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
 <div id="mr.ash-regional-pip-sum-distribution" class="section level1">
 <h1>MR.ASH regional pip sum distribution</h1>
 <ul>
@@ -1225,6 +1281,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1279,6 +1346,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-6-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-6-1.png" target="_blank">4d39fd6</a>
@@ -1336,6 +1414,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-7-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-7-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1389,6 +1478,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-9-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-9-1.png" target="_blank">4d39fd6</a>
@@ -1446,6 +1546,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-10-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-10-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1499,6 +1610,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-11-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param-11-1.png" target="_blank">4d39fd6</a>
@@ -1556,6 +1678,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param3-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param3-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1611,6 +1744,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c1c6bcca58a82f18785036d19b2baff9776eca36/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param4-1.png" target="_blank">c1c6bcc</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param4-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1632,6 +1776,24 @@ simingz
 <li>Susie run parameters: <code>L=5</code>. initialize with null_weight = 0 and update null_weight based on last iteration results. The prior for gene estimation is fine for all runs, however prior for SNPs overestimated about 10 times.</li>
 <li>We have tried different initiation strategies, but the results remain the same.</li>
 </ul>
+</div>
+<div id="regions-twas-bf" class="section level2">
+<h2>Regions: TWAS BF</h2>
+<ul>
+<li>Regions: regional TWAS BF &gt; 2</li>
+</ul>
+<pre class="r"><code>tags &lt;- paste(rep(1:4, each = 5), 1:5, sep = &quot;-&quot;)
+mr.ashfs &lt;- paste0(mrashdir, &quot;20200721-&quot;, tags, &quot;-mr.ash2s.lassoes-es.param.txt&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config12.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20200813-&quot;, tags, &quot;.config12.susieI.txt&quot;)
+
+df &lt;- show_param(mrashfs, susieIfs, susieIfs2)
+par(mfrow = c(4,2))
+plot_param(df[1:5,], main = &quot;1-x: gene.pve ~ 0.01, snp.pve ~ 0.05&quot;)
+plot_param(df[6:10,], main = &quot;2-x: gene.pve ~ 0.01, snp.pve ~ 0.05&quot;)
+plot_param(df[11:15,], main = &quot;3-x: gene.pve ~ 0.01, snp.pve ~ 0.05&quot;)
+plot_param(df[16:20,], main = &quot;4-x: gene.pve ~ 0.05, snp.pve ~ 0.05&quot;)</code></pre>
+<p><img src="figure/simulation-susieI-ukbchr17to22-gtex.adipose.Rmd/param%205-1.png" width="576" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
