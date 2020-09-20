@@ -65,13 +65,13 @@ outc[1:3] <- c("CHR", "P0", "P1")
 out <- fo[,outc]
 colnames(out)[1:3] <- colnames(fi)[1:3]
 write.table( out , file= fi0 , row.names=F, col.names=T, sep="\t", quote = F)
-
+#====================================================================================
 load("/project2/mstephens/causalTWAS/ukbiobank/ukb_chr17to22_s20000.FBM.Rd")
 for (i in 1:50) {
   load(paste0(simdatadir, "simu_20200721-1-",i, "-pheno.Rd"))
   load(paste0(simdatadir, "simu_20200721-1-",i, "-cis-expr.Rd"))
   cau <- c(dat$snp[phenores$param$idx.cSNP,], colnames(exprres$expr)[phenores$param$idx.cgene])
-  tf <- paste0(susiedir,"20200721-1-", i, ".fixedprior3.L1.susieres.expr.txt")
+  tf <- paste0(susiedir,"20200721-1-", i, ".fixedprior2.L1.susieres.expr.txt")
   outgdf <- read.table(tf, header = T)
   outgdf$ifcausal <- ifelse(outgdf$name %in% cau, 1, 0)
   write.table(outgdf, file = tf , row.names=F, col.names= T, sep="\t", quote = F)
