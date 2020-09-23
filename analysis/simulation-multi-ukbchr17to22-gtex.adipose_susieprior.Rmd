@@ -53,10 +53,11 @@ t(par[c(1,3),1, drop = F])
 susiedir <- "/home/simingz/causalTWAS/simulations/simulation_susietest_20200721/20200721-1-fixprior_rpip0.5/"
 ```
 * susie results: 
-```{r cali 1-t, fig.height=6, fig.width=14}
+```{r cali 1-t, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior2.L1.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3)); cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP"); cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP"); cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -81,10 +82,58 @@ par <- read.table(paste0(susiedir, "20200721-3-fixedprior_2.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 * susie results: 
-```{r cali 1-t3, fig.height=6, fig.width=14}
+```{r cali 1-t3, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-3-*.fixedprior2.L1.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3)); 
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+
+
+# Test over and underestimated gene pi1
+We intentionally use over or underestimated gene pi1 and use the same snp pi1 (close to truth) when running SUSIE. Run susie `L=1`.
+
+## Causal regions, simulation 3-x
+
+* The true parameters we used to simulate data: 
+```{r  par-over-t}
+susiedir <- "/home/simingz/causalTWAS/simulations/simulation_susietest_20200721/20200721-3-fixprior_causal/"
+par <- read.table(paste0(susiedir, "20200721-3-fixedprior_2.txt"), header = T)
+t(par[,2, drop = F])
+```
+
+### Use overestimated gene pi1
+
+* The prior used is: 
+```{r  par1-t3-over}
+par <- read.table(paste0(susiedir, "20200721-3-fixedprior_1.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+* susie results: 
+```{r cali 1-t3-over, fig.height=4, fig.width=12}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-3-*.fixedprior1.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
+cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
+cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
+```
+
+### Use underrestimated gene pi1
+
+* The prior used is: 
+```{r  par1-t3-under}
+par <- read.table(paste0(susiedir, "20200721-3-fixedprior_3.txt"), header = T)
+t(par[c(1,3),1, drop = F])
+```
+* susie results: 
+```{r cali 1-t3-under, fig.height=4, fig.width=12}
+pipfs <- Sys.glob(paste0(susiedir,"20200721-3-*.fixedprior3.L1.susieres.expr.txt"))
+res <- do.call(rbind, lapply(pipfs, read.table, header = T))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -116,10 +165,11 @@ par <- read.table(paste0(susiedir, "20200721-1-fixedprior_1.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 * susie results: 
-```{r cali 1, fig.height=6, fig.width=14}
+```{r cali 1, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior1.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -132,10 +182,11 @@ par <- read.table(paste0(susiedir, "20200721-1-fixedprior_2.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 
-```{r cali 2, fig.height=6, fig.width=14}
+```{r cali 2, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior2.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -165,10 +216,11 @@ par <- read.table(paste0(susiedir, "20200721-1-fixedprior_1.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 * susie results: 
-```{r cali 1 a, fig.height=6, fig.width=14}
+```{r cali 1 a, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior1.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -181,10 +233,11 @@ par <- read.table(paste0(susiedir, "20200721-1-fixedprior_2.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 
-```{r cali 2 a, fig.height=6, fig.width=14}
+```{r cali 2 a, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-1-*.fixedprior2.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3)) 
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -213,10 +266,11 @@ par <- read.table(paste0(susiedir, "20200721-3-fixedprior_1.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 * susie results: 
-```{r cali 1-2, fig.height=6, fig.width=14}
+```{r cali 1-2, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-3-*.fixedprior1.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -229,10 +283,11 @@ par <- read.table(paste0(susiedir, "20200721-3-fixedprior_2.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 * susie results: 
-```{r cali 2-2, fig.height=6, fig.width=14}
+```{r cali 2-2, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-3-*.fixedprior2.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -261,10 +316,11 @@ par <- read.table(paste0(susiedir, "20200721-3-fixedprior_1.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 * susie results: 
-```{r cali 3.2.1, fig.height=6, fig.width=14}
+```{r cali 3.2.1, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-3-*.fixedprior2.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```
@@ -277,10 +333,11 @@ par <- read.table(paste0(susiedir, "20200721-3-fixedprior_2.txt"), header = T)
 t(par[c(1,3),1, drop = F])
 ```
 * susie results: 
-```{r cali 3.2.2, fig.height=6, fig.width=14}
+```{r cali 3.2.2, fig.height=4, fig.width=12}
 pipfs <- Sys.glob(paste0(susiedir,"20200721-3-*.fixedprior2.susieres.expr.txt"))
 res <- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,2))
+par(mfrow=c(1,3)) 
+cp_plot(res$pip.null, res$ifcausal, main = "SUSIE.uniform PIP")
 cp_plot(res$pip, res$ifcausal, main = "SUSIE.weighted PIP")
 cp_plot(res$pip.w0, res$ifcausal, main = "SUSIE.weighted-w-null PIP")
 ```

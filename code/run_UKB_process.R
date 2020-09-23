@@ -50,7 +50,7 @@ for (pfile in pfiles){
 #             "alt"     = as.matrix(varall[,5]))
 #
 #
-# m <- as_FBM(mtxall, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000")$save()
+# m <- as_FBM(mtxall, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000", is_read_only = T)$save()
 # dat$G <- m
 # save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.FBM.Rd")
 
@@ -61,7 +61,7 @@ dat <- list("G"       = mtxall.unscaled,
             "counted" = as.matrix(varall[,4]),
             "alt"     = as.matrix(varall[,5]))
 
-m <- as_FBM(mtxall.unscaled, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.unscaled")$save()
+m <- as_FBM(mtxall.unscaled, backingfile = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.unscaled", is_read_only = T)$save()
 dat$G <- m
 save(dat, file = "/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.unscaled.FBM.Rd")
 
