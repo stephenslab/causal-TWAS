@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2020-09-22" />
+<meta name="date" content="2020-09-25" />
 
 <title>Summarize twas: chr17 to 22</title>
 
@@ -335,7 +335,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Summarize twas: chr17 to 22</h1>
-<h4 class="date"><em>2020-09-22</em></h4>
+<h4 class="date"><em>2020-09-25</em></h4>
 
 </div>
 
@@ -360,7 +360,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-09-22
+<strong>Last updated:</strong> 2020-09-25
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -451,16 +451,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreee9d56aac1f47ac6918305f5af0b8829d63c6d701targetblanke9d56aaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/e9d56aac1f47ac6918305f5af0b8829d63c6d701" target="_blank">e9d56aa</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef55918ceeadb6984237ae5d6340d7747ee6d8acatargetblankf55918ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/f55918ceeadb6984237ae5d6340d7747ee6d8aca" target="_blank">f55918c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreee9d56aac1f47ac6918305f5af0b8829d63c6d701targetblanke9d56aaa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef55918ceeadb6984237ae5d6340d7747ee6d8acatargetblankf55918ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/e9d56aac1f47ac6918305f5af0b8829d63c6d701" target="_blank">e9d56aa</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/f55918ceeadb6984237ae5d6340d7747ee6d8aca" target="_blank">f55918c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -473,11 +473,14 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  code/run_test_susieI_m.R
+    Untracked:  code/susie_filter.R
 
 Unstaged changes:
     Modified:   analysis/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd
     Modified:   code/run_UKB_process.R
+    Modified:   code/run_simulate_data.R
+    Modified:   code/run_test_susieI_m.R
+    Modified:   code/workflow/workflow-ashtest4.ipynb
 
 </code></pre>
 <p>
@@ -516,6 +519,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/analysis/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+<td>
+susie prior
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.html" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+<td>
+susie prior
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -824,7 +861,10 @@ estimated 0.05118395 0.002274899</code></pre>
 </ul>
 <pre class="r"><code>pipfs &lt;- Sys.glob(paste0(susiedir,&quot;20200721-1-*.fixedprior2.L1.susieres.expr.txt&quot;))
 res &lt;- do.call(rbind, lapply(pipfs, read.table, header = T))
-par(mfrow=c(1,3)); cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;); cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;); cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;)</code></pre>
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;)
+cp_plot(res$pip, res$ifcausal, main = &quot;SUSIE.weighted PIP&quot;)
+cp_plot(res$pip.w0, res$ifcausal, main = &quot;SUSIE.weighted-w-null PIP&quot;)</code></pre>
 <p><img src="figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali%201-t-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-cali-1-t-1">
@@ -850,6 +890,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-t-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/cab7999d31947acb45f8708f263d169603ad36e3/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-t-1.png" target="_blank">cab7999</a>
 </td>
 <td>
@@ -863,16 +914,47 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code>cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;)
+</div>
+</div>
+<div id="regions-rpip-0.9-simulation-3-x" class="section level2">
+<h2>Regions rPIP &gt; 0.9, simulation 3-x</h2>
+<p>We run 50 simulations and run susie using the true parameter (gene and snp pi1) as prior. We run susie for regions with regional sum of pip from mr.ash2s for both genes and snps &gt; 0.9. run susie with L= 2.</p>
+<div id="truth-1" class="section level3">
+<h3>Truth</h3>
+<ul>
+<li>The true parameters we used to simulate data:</li>
+</ul>
+<pre class="r"><code>susiedir &lt;- &quot;/home/simingz/causalTWAS/simulations/simulation_susietest_20200721/20200721-3-fixprior_rpip0.9/&quot;
+par &lt;- read.table(paste0(susiedir, &quot;20200721-3-fixedprior_2.txt&quot;), header = T)
+t(par[,2, drop = F])</code></pre>
+<pre><code>       gene.pi1    gene.pve     snp.pi1    snp.pve
+truth 0.0199637 0.007322058 0.002498094 0.05257447</code></pre>
+</div>
+<div id="use-truth-as-prior-1" class="section level3">
+<h3>Use truth as prior</h3>
+<ul>
+<li>The prior used is:</li>
+</ul>
+<pre class="r"><code>par &lt;- read.table(paste0(susiedir, &quot;20200721-3-fixedprior_2.txt&quot;), header = T)
+t(par[c(1,3),1, drop = F])</code></pre>
+<pre><code>          gene.pi1 snp.pi1
+estimated     0.02  0.0025</code></pre>
+<ul>
+<li>susie results:</li>
+</ul>
+<pre class="r"><code>pipfs &lt;- Sys.glob(paste0(susiedir,&quot;20200721-3-*.fixedprior2.susieres.expr.txt&quot;))
+res &lt;- do.call(rbind, lapply(pipfs, read.table, header = T))
+par(mfrow=c(1,3))
+cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;)
 cp_plot(res$pip, res$ifcausal, main = &quot;SUSIE.weighted PIP&quot;)
 cp_plot(res$pip.w0, res$ifcausal, main = &quot;SUSIE.weighted-w-null PIP&quot;)</code></pre>
-<p><img src="figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali%201-t-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali%201-t0.9-1.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="causal-regions-simulation-3-x" class="section level2">
 <h2>Causal regions, simulation 3-x</h2>
 <p>We run susie for regions with causal signals. run susie with L=1.</p>
-<div id="truth-1" class="section level3">
+<div id="truth-2" class="section level3">
 <h3>Truth</h3>
 <ul>
 <li>The true parameters we used to simulate data:</li>
@@ -883,7 +965,7 @@ t(par[,2, drop = F])</code></pre>
 <pre><code>       gene.pi1    gene.pve     snp.pi1    snp.pve
 truth 0.0199637 0.007322058 0.002498094 0.05257447</code></pre>
 </div>
-<div id="use-truth-as-prior-1" class="section level3">
+<div id="use-truth-as-prior-2" class="section level3">
 <h3>Use truth as prior</h3>
 <ul>
 <li>The prior used is:</li>
@@ -926,6 +1008,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-t3-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/e9d56aac1f47ac6918305f5af0b8829d63c6d701/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-t3-1.png" target="_blank">e9d56aa</a>
 </td>
 <td>
@@ -939,6 +1032,41 @@ simingz
 </table>
 </div>
 </div>
+</div>
+</div>
+<div id="all-regions-simulation-3-x" class="section level2">
+<h2>All regions, simulation 3-x</h2>
+<p>We run susie for all regions. Run susie with L=1.</p>
+<div id="truth-3" class="section level3">
+<h3>Truth</h3>
+<ul>
+<li>The true parameters we used to simulate data:</li>
+</ul>
+<pre class="r"><code>susiedir &lt;- &quot;/project2/mstephens/causalTWAS/simulations/simulation_susietest_20200721/20200721-3-fixprior_allregions/&quot;
+par &lt;- read.table(paste0(susiedir, &quot;20200721-3-fixedprior_2.txt&quot;), header = T)
+t(par[,2, drop = F])</code></pre>
+<pre><code>       gene.pi1    gene.pve     snp.pi1    snp.pve
+truth 0.0199637 0.007322058 0.002498094 0.05257447</code></pre>
+</div>
+<div id="use-truth-as-prior-3" class="section level3">
+<h3>Use truth as prior</h3>
+<ul>
+<li>The prior used is:</li>
+</ul>
+<pre class="r"><code>par &lt;- read.table(paste0(susiedir, &quot;20200721-3-fixedprior_2.txt&quot;), header = T)
+t(par[c(1,3),1, drop = F])</code></pre>
+<pre><code>          gene.pi1   snp.pi1
+estimated     0.02 0.0030996</code></pre>
+<ul>
+<li>susie results:</li>
+</ul>
+<pre class="r"><code>pipfs &lt;- Sys.glob(paste0(susiedir,&quot;20200721-3-*.fixedprior2.L1.susieres.expr.txt&quot;))
+res &lt;- do.call(rbind, lapply(pipfs, read.table, header = T))
+par(mfrow=c(1,3)); 
+cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;)
+cp_plot(res$pip, res$ifcausal, main = &quot;SUSIE.weighted PIP&quot;)
+cp_plot(res$pip.w0, res$ifcausal, main = &quot;SUSIE.weighted-w-null PIP&quot;)</code></pre>
+<p><img src="figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali%201-a3-1.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -974,6 +1102,43 @@ cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;)
 cp_plot(res$pip, res$ifcausal, main = &quot;SUSIE.weighted PIP&quot;)
 cp_plot(res$pip.w0, res$ifcausal, main = &quot;SUSIE.weighted-w-null PIP&quot;)</code></pre>
 <p><img src="figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali%201-t3-over-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-cali-1-t3-over-1">
+Past versions of “cali 1-t3-over-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-cali-1-t3-over-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-t3-over-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="use-underrestimated-gene-pi1" class="section level3">
 <h3>Use underrestimated gene pi1</h3>
@@ -994,7 +1159,47 @@ cp_plot(res$pip.null, res$ifcausal, main = &quot;SUSIE.uniform PIP&quot;)
 cp_plot(res$pip, res$ifcausal, main = &quot;SUSIE.weighted PIP&quot;)
 cp_plot(res$pip.w0, res$ifcausal, main = &quot;SUSIE.weighted-w-null PIP&quot;)</code></pre>
 <p><img src="figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali%201-t3-under-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-cali-1-t3-under-1">
+Past versions of “cali 1-t3-under-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-cali-1-t3-under-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-t3-under-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+</div>
+</div>
+<div id="test-susiei-results" class="section level2">
+<h2>Test susieI results</h2>
 </div>
 </div>
 <div id="simulation-1-x-setting-1" class="section level1">
@@ -1003,7 +1208,7 @@ cp_plot(res$pip.w0, res$ifcausal, main = &quot;SUSIE.weighted-w-null PIP&quot;)<
 outputdir &lt;- &quot;~/causalTWAS/simulations/simulation_ashtest_20200721/&quot;
 susiedir &lt;- &quot;~/causalTWAS/simulations/simulation_susietest_20200721/20200721-1-fixprior_rpip0.3_causal/&quot;</code></pre>
 <p>We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in <a href="https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_causal">here</a>. Regions are rpip from mr.ash2 &gt; 0.3 and causal. We take simulation setting 1-x.</p>
-<div id="truth-2" class="section level2">
+<div id="truth-4" class="section level2">
 <h2>Truth</h2>
 <ul>
 <li>The true parameters we used to simulate data:</li>
@@ -1054,6 +1259,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-1.png" target="_blank">4d39fd6</a>
@@ -1143,6 +1359,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 2-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 2-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1195,7 +1422,7 @@ simingz
 <h1>simulation 1-x, setting 2</h1>
 <pre class="r"><code>susiedir &lt;- &quot;~/causalTWAS/simulations/simulation_susietest_20200721/20200721-1-fixprior_rpip0.3/&quot;</code></pre>
 <p>We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in <a href="https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_mrash_gene+snp_(1)">here</a>. Regions are rpip from mr.ash2 &gt; 0.3. We take simulation setting 1-x.</p>
-<div id="truth-3" class="section level2">
+<div id="truth-5" class="section level2">
 <h2>Truth</h2>
 <ul>
 <li>The true parameters we used to simulate data:</li>
@@ -1246,6 +1473,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1 a-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1 a-1.png" target="_blank">4d39fd6</a>
@@ -1313,6 +1551,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 2 a-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 2 a-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1343,7 +1592,7 @@ simingz
 <h1>Simulation 3-x, setting 1</h1>
 <pre class="r"><code>susiedir &lt;- &quot;~/causalTWAS/simulations/simulation_susietest_20200721/20200721-3-fixprior_rpip0.3_causal/&quot;</code></pre>
 <p>We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in <a href="https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_causal">here</a>. Regions are rpip from mr.ash2 &gt; 0.3 and causal. We take simulation setting 3-x.</p>
-<div id="truth-4" class="section level2">
+<div id="truth-6" class="section level2">
 <h2>Truth</h2>
 <ul>
 <li>The true parameters we used to simulate data:</li>
@@ -1394,6 +1643,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-2-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 1-2-1.png" target="_blank">4d39fd6</a>
@@ -1464,6 +1724,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 2-2-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 2-2-1.png" target="_blank">4d39fd6</a>
 </td>
 <td>
@@ -1494,7 +1765,7 @@ simingz
 <h1>Simulation 3-x, setting 2</h1>
 <pre class="r"><code>susiedir &lt;- &quot;~/causalTWAS/simulations/simulation_susietest_20200721/20200721-3-fixprior_rpip0.3/&quot;</code></pre>
 <p>We run 100 simulations and run susie using priors obtained from susieI. Two examples are shown. The setting is the same as in <a href="https://stephenslab.github.io/causal-TWAS/simulation-susieI-ukbchr17to22-gtex.adipose.html#regions:_mrash_gene+snp_(1)">here</a>. Regions are rpip from mr.ash2 &gt; 0.3. We take simulation setting 1-x.</p>
-<div id="truth-5" class="section level2">
+<div id="truth-7" class="section level2">
 <h2>Truth</h2>
 <ul>
 <li>The true parameters we used to simulate data:</li>
@@ -1545,6 +1816,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 3.2.1-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 3.2.1-1.png" target="_blank">4d39fd6</a>
@@ -1602,6 +1884,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/f55918ceeadb6984237ae5d6340d7747ee6d8aca/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 3.2.2-1.png" target="_blank">f55918c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-09-22
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/4d39fd6f40c31582e182b7a4d5808bd2f9ea5015/docs/figure/simulation-multi-ukbchr17to22-gtex.adipose_susieprior.Rmd/cali 3.2.2-1.png" target="_blank">4d39fd6</a>

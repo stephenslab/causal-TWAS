@@ -18,6 +18,7 @@ if (length(args) < 5) {
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
+source(paste0(codedir,"susie_filter.R"))
 
 addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
 loginfo('script started ... ')
@@ -35,10 +36,9 @@ prankfilter.gene <- 1 # for pgene or p2, lowest rank of gene/SNP pvalues > prank
 prankfilter.snp <- 1 # for pgene or p2, lowest rank of gene/SNP pvalues > prankfilter that will be filtered.
 rBFfilter <- 1 # for rBF, regional BF of genes & SNPs < rBFfilter will be filtered
 
-ifshuffle <- F # if shuffle genes to different regions to break LD
 ifgene <- F # if limiting to regions with at least one gene.
 ifca <- T # if limiting to regions with at least one causal signal
-regionsfile <- "/home/simingz/causalTWAS/simulations/shared_files/chr17-22-500kb_bins.txt"
+regionsfile <- "/home/simingz/causalTWAS/simulations/shared_files/chr17-22-500kb_B_bins.txt"
 
 Niter <- 30
 ifnullweight <- F # if include/update null weight in iterations.
@@ -55,206 +55,91 @@ if (length(args) == 6){
 loginfo("regional PIP cut: %s ", PIPfilter)
 loginfo("region size: %s", chunksize)
 
-# load genotype data
+
 pfile <- args[1]
 if (file_ext(pfile) == "txt"){
   pfiles <- read.table(pfile, header =F, stringsAsFactors = F)[,1]
+  efiles <- read.table(args[2], header =F, stringsAsFactors = F)[,1]
+  phenofiles <- read.table(args[3], header =F, stringsAsFactors = F)[,1]
 } else {
   pfiles <- pfile
+  efiles <- args[2]
+  phenofiles <- args[3]
 }
 pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
+efileRds <- paste0(drop_ext(efiles), ".FBM.scaled.rds")
 
-# load expression Rd file, variable: exprres
-efile <- args[2]
-if (file_ext(efile) == "txt"){
-  efiles <- read.table(efile, header =F, stringsAsFactors = F)[,1]
-} else {
-  pfiles <- pfile
-}
-pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
-load(args[2])
-dat$expr <-  scaleRcpp(exprres$expr)
+m <- as_FBM(scaleRcpp(exprres$expr), backingfile = , is_read_only = T)$save()
 
-# load phenotype Rd file, variable: phenores
-load(args[3])
-phenores$Y <-  phenores$Y - mean(phenores$Y)
 
-cau <- c(dat$snp[phenores$param$idx.cSNP,], colnames(exprres$expr)[phenores$param$idx.cgene])
-
-# prep/filter regions
+# read regions files
 reg <- read.table(regionsfile, header = T)
 loginfo("No. intervals: %s", nrow(reg))
-
-anno <- rbind(cbind(dat$chr, dat$pos, dat$snp, "SNP"),
-              cbind(exprres$chrom, exprres$p0, colnames(exprres), "gene"))
-colnames(anno) <- c("chrom", "p0", "name", "type")
-
-if (filtertype == 'nofilter'){
-  regions <- NULL
-  chroms <- unique(reg$chrom)
-  for (chrom in chroms){
-    itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
-    nCausal <- apply(itv, 1, function(x) {gnames <- anno[x[1] < anno$p0 & anno$p0 < x[2], "name"]; sum(ifelse(gnames %in% cau, 1, 0))})
-    itv <- cbind(chrom, itv, rPIP, nCausal)
-    regions <- rbind(regions, itv)
-  }
-  colnames(regions) <- c("chrom", "p0", "p1", "nCausal")
-  write.table(regions , file = paste0(args[4], ".", filtertype, "r.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
-} else if (filtertype %in% c("mrash2s", "mrash")){
-  gres <- paste0(args[4], ".expr.txt")
-  pipres <- read.table(gres, header =T)
-  if (filtertype == "mrash2s"){
-    sres <- paste0(args[4], ".snp.txt")
-    pipres <- rbind(read.table(gres, header =T), read.table(sres, header =T))
-  }
-  chroms <- unique(reg$chrom)
-  regions <- NULL
-  for (chrom in chroms){
-    pipres.chr <- pipres[pipres$chr == chrom, ]
-    itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
-    rPIP <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "PIP"]))
-    nCausal <- apply(itv, 1, function(x) {gnames <- pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "name"]; sum(ifelse(gnames %in% cau, 1, 0))})
-    itv <- cbind(chrom, itv, rPIP, nCausal)
-    regions <- rbind(regions, itv)
-  }
-  colnames(regions) <- c("chrom", "p0", "p1", "rPIP", "nCausal")
-  write.table(regions , file = paste0(args[4], ".", filtertype, "rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
-  regions <- regions[regions[, "rPIP"] > PIPfilter,  ]
-
-} else if (filtertype %in% c("pgene", "p2")){
-  gres <- paste0(args[4],".exprgwas.txt.gz")
-  gres <- read.table(gres, header = T, comment.char = "")
-  gres[, "prank"] <- rank(gres$PVALUE)/nrow(gres)
-  pres <- gres
-  if (filtertype =="p2"){
-    sres <- paste0(args[4],".snpgwas.txt.gz")
-    sres <- read.table(sres, header =T, comment.char = "")
-    sres[, "prank"] <- apply(cbind(rank(sres$PVALUE)/nrow(sres) * prankfilter.gene/prankfilter.snp, 1), 1, min)
-    pres <- rbind(gres, sres)
-  }
-  regions <- NULL
-  chroms <- unique(reg$chrom)
-  for (chrom in chroms){
-    pres.chr <- pres[pres$X.CHROM == chrom, ]
-    itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
-    rprank <- apply(itv, 1, function(x) min(c(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "prank"],1)))
-    nCausal <- apply(itv, 1, function(x) {gnames <- pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "MARKER_ID"]; sum(ifelse(gnames %in% cau, 1, 0))})
-    rpmin <- apply(itv, 1, function(x) min(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "PVALUE"]))
-    itv <- cbind(chrom, itv, rpmin, rprank, nCausal)
-    regions <- rbind(regions, itv)
-  }
-  colnames(regions) <- c("chrom", "p0", "p1", "rpmin", "rprank", "nCausal")
-  write.table(regions, file = paste0(args[4], ".", filtertype, "rprank.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
-  regions <- regions[regions[, "rprank"] <= prankfilter.gene,  ]
-} else if (filtertype == "rBF") {
-  gres <- paste0(args[4],".exprgwas.txt.gz")
-  gres <- read.table(gres, header = T, comment.char = "")
-  gres[, "BF"] <- apply(gres[, c("Estimate", "Std.Error")], 1, function(x) gwasbf(x[1], x[2], w = 0.02**2*0.1))
-  sres <- paste0(args[4],".snpgwas.txt.gz")
-  sres <- read.table(sres, header =T, comment.char = "")
-  sres[, "BF"] <- apply(sres[, c("Estimate", "Std.Error")], 1, function(x) gwasbf(x[1], x[2], w = 0.02**2*0.1))
-  pres <- rbind(gres, sres)
-  regions <- NULL
-  chroms <- unique(reg$chrom)
-  for (chrom in chroms){
-    pres.chr <- pres[pres$X.CHROM == chrom, ]
-    itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
-    rBF <- apply(itv, 1, function(x) mean(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "BF"]))
-    nCausal <- apply(itv, 1, function(x) {gnames <- pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "MARKER_ID"]; sum(ifelse(gnames %in% cau, 1, 0))})
-    itv <- cbind(chrom, itv, rBF, nCausal)
-    regions <- rbind(regions, itv)
-  }
-  colnames(regions) <- c("chrom", "p0", "p1", "rBF", "nCausal")
-  write.table(regions, file = paste0(args[4], ".", filtertype, ".txt")  , row.names=F, col.names=T, sep="\t", quote = F)
-  regions <- regions[regions[, "rBF"] > rBFfilter,  ]
-  regions <- regions[complete.cases(regions),]
-} else {
-  stop("unknown filter type")
-}
-
-outname <- args[5]
-write.table(regions, file = paste0(outname, ".", filtertype, ".txt")  , row.names=F, col.names=T, sep="\t", quote = F)
-# filter regions based on ifca
-if (isTRUE(ifca)){
-  loginfo("keep only causal regions")
-  regions <- regions[regions[, "nCausal"] > 0,  ] # select regions
-}
-
-loginfo("No. intervals after filtering %s: %s", filtertype, nrow(regions))
-
-
-#TODO: join regions based on LD genes, add a column indicating which region should be linked
-regions <- as.data.frame(regions)
-regions$rname <- as.character(1:nrow(regions))
-
-# prep geno for each region
-loginfo("prepare geno for each region ...")
 regionlist <- list()
-for (rn in unique(regions[, "rname"])){
-  regions.n <- regions[regions[, "rname"] == rn, ,drop = F]
-  regionlist[[rn]] <- list(X = NULL, anno = NULL)
-  for (i in 1:nrow(regions.n)){
-    chr <- regions.n[i, "chrom"]
-    p0 <- regions.n[i, "p0"]
-    p1 <- regions.n[i, "p1"]
 
-    name <- paste(chr, p0, p1, sep = "-")
-    idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p0 < p1
-    idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
-    X.gene <- exprres$expr[ , idx.gene, drop = F]
-    X.SNP <-  dat$G[ ,idx.SNP, drop = F]
+for (b in 1:length(pfiles)){
+  # load genotype data
+  load(pfileRds[b])
 
-    X <- cbind(X.gene, X.SNP)
-
-    anno.gene <- cbind(colnames(X.gene), exprres$chrom[idx.gene],  exprres$p0[idx.gene],
-                       rep("gene", length(idx.gene[idx.gene])))
-    anno.SNP <- cbind(dat$snp[idx.SNP,], dat$chr[idx.SNP,], dat$pos[idx.SNP,], "SNP")
-
-    anno <- rbind(anno.gene, anno.SNP)
-    colnames(anno) <-  c("name", "chr", "pos", "type")
-    anno <- as.data.frame(anno)
-    anno$ifcausal <- ifelse(anno$name %in% cau, 1, 0)
-
-    regionlist[[rn]][["X"]] <- cbind(regionlist[[rn]][["X"]], X)
-    regionlist[[rn]][["anno"]] <- rbind(regionlist[[rn]][["anno"]], anno)
-    print(gc())
+  # load expression Rd file, variable: exprres
+  if (!file.exists(efileRds[b])) {
+    load(efiles[b])
+    expr <- scaleRcpp(exprres$expr)
+    as_FBM(expr, backingfile = paste0(drop_ext(efiles[b]), ".FBM.scaled"), is_read_only = T)$save()
   }
-}
+  dat$expr <- readRDS(efilesRds[b])
 
-rm(dat); gc()
+  # load phenotype Rd file, variable: phenores
+  load(phenofiles[b])
+  phenores$Y <-  phenores$Y - mean(phenores$Y)
 
-if (isTRUE(ifgene)){
-  loginfo("limiting to regions with at least one gene: %s", length(regionlist))
+  outname <- args[5]
 
-  for (rn in names(regionlist)){
-    anno <- regionlist[[rn]][["anno"]]
-    if (nrow(anno[anno$type == "gene",]) == 0) {
-      regionlist[[rn]] <- NULL
+  # filter regions based on filtertype
+  regions <- filter_region(reg = reg, filtertype = filtertype, filterfile = args[4])
+
+  # filter regions based on ifca
+  if (isTRUE(ifca)){
+    loginfo("keep only causal regions")
+    regions <- regions[regions[, "nCausal"] > 0,  ] # select regions
+  }
+
+  loginfo("No. intervals after filtering %s for batch %s: %s", filtertype, b, nrow(regions))
+
+  #TODO: join regions based on LD genes, add a column indicating which region should be linked
+  regions <- as.data.frame(regions)
+  regions$rname <- as.character(1:nrow(regions))
+
+  # prep geno for each region
+  loginfo("prepare geno for each region ...")
+  for (rn in unique(regions[, "rname"])){
+    regions.n <- regions[regions[, "rname"] == rn, ,drop = F]
+    for (i in 1:nrow(regions.n)){
+      chr <- regions.n[i, "chrom"]
+      p0 <- regions.n[i, "p0"]
+      p1 <- regions.n[i, "p1"]
+
+      idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p0 < p1
+      idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
+
+      regionlist[[b]][[rn]][["gidx"]] <- idx.gene
+      regionlist[[b]][[rn]][["sidx"]] <- idx.SNP
+    }
+  }
+
+  rm(dat); gc()
+
+  if (isTRUE(ifgene)){
+    loginfo("limiting to regions with at least one gene for batch %s", b)
+
+    for (rn in names(regionlist[[b]])){
+      idx.gene <- regionlist[[b]][[rn]][["gidx"]]
+      if (length(idx.gene[idx.gene]) == 0) {
+        regionlist[[b]][[rn]] <- NULL
+      }
     }
   }
 }
-
-if (isTRUE(ifshuffle)){
-  loginfo("shuffling genes to different regions")
-
-  regionlist.sh <- list()
-  rn.sh <- sample(names(regionlist))
-
-  for (i in 1:length(regionlist)){
-    rn.snp <- names(regionlist)[i]
-    rn.gene <- rn.sh[i]
-    anno.snp <- regionlist[[rn.snp]][["anno"]]
-    anno.gene <- regionlist[[rn.gene]][["anno"]]
-    rn <- rn.snp
-    regionlist.sh[[rn]][['X']] <- cbind(regionlist[[rn.gene]][['X']][, anno.gene$type == "gene"],
-                                        regionlist[[rn.snp]][['X']][, anno.snp$type == "SNP"])
-
-    regionlist.sh[[rn]][['anno']] <- rbind(anno.gene[anno.gene$type == "gene", ],
-                                           anno.snp[anno.snp$type == "SNP", ])
-  }
-  regionlist <- regionlist.sh
-}
-
 
 # start susieI
 outname <- args[5]
@@ -270,55 +155,60 @@ for (iter in 1:Niter){
   gene.rpiplist <- list()
 
   outdf <- NULL
-  for (rn in names(regionlist)){
-    p <- ncol(regionlist[[rn]][["X"]])
-    prior <- rep(0, p)
+  for (b in 1:length(regionlist)){
 
-    if (is.null(prior.gene_init) | is.null(prior.SNP_init)){
-      prior.gene_init <- 1/p
-      prior.SNP_init <- 1/p
-    }
+    for (rn in names(regionlist[[b]])){
 
-    if (iter == 1) {
-      prior[regionlist[[rn]][["anno"]][, "type"] == "SNP"] <- prior.SNP_init
-      prior[regionlist[[rn]][["anno"]][, "type"] == "gene"] <- prior.gene_init
-      nw <- nullweight_init
-    } else {
-      prior[regionlist[[rn]][["anno"]][, "type"] == "SNP"] <- prior.SNP
-      prior[regionlist[[rn]][["anno"]][, "type"] == "gene"] <- prior.gene
-      nw <- max(0, 1 - sum(prior))
-    }
+      p <- ncol(regionlist[[b]][[rn]][["X"]])
+      prior <- rep(0, p)
 
-    if (isTRUE(ifnullweight)){
-      susieres[[rn]] <- susie(regionlist[[rn]][["X"]], phenores$Y, L = L, prior_weights = prior, null_weight = nw)
-      if (susieres[[rn]]$null_index !=0 ){
-        susieres[[rn]]$alpha <- susieres[[rn]]$alpha[, - susieres[[rn]]$null_index, drop = F]
+      if (is.null(prior.gene_init) | is.null(prior.SNP_init)){
+        prior.gene_init <- 1/p
+        prior.SNP_init <- 1/p
       }
-    } else {
-      susieres[[rn]] <- susie(regionlist[[rn]][["X"]], phenores$Y, L = L, prior_weights = prior)
+
+      if (iter == 1) {
+        prior[regionlist[[b]][[rn]][["anno"]][, "type"] == "SNP"] <- prior.SNP_init
+        prior[regionlist[[b]][[rn]][["anno"]][, "type"] == "gene"] <- prior.gene_init
+        nw <- nullweight_init
+      } else {
+        prior[regionlist[[rn]][["anno"]][, "type"] == "SNP"] <- prior.SNP
+        prior[regionlist[[rn]][["anno"]][, "type"] == "gene"] <- prior.gene
+        nw <- max(0, 1 - sum(prior))
+      }
+
+      if (isTRUE(ifnullweight)){
+        susieres[[rn]] <- susie(regionlist[[rn]][["X"]], phenores$Y, L = L, prior_weights = prior, null_weight = nw)
+        if (susieres[[rn]]$null_index !=0 ){
+          susieres[[rn]]$alpha <- susieres[[rn]]$alpha[, - susieres[[rn]]$null_index, drop = F]
+        }
+      } else {
+        susieres[[rn]] <- susie(regionlist[[rn]][["X"]], phenores$Y, L = L, prior_weights = prior)
+      }
+
+      snp.rpiplist[[rn]] <- susieres[[rn]]$pip[regionlist[[rn]][["anno"]][,"type"] == "SNP"]
+      gene.rpiplist[[rn]] <- susieres[[rn]]$pip[regionlist[[rn]][["anno"]][,"type"] == "gene"]
+
+      outdf.rn <- cbind(regionlist[[rn]]$anno, t(susieres[[rn]]$alpha), susieres[[rn]]$pip)
+      colnames(outdf.rn)[6:ncol(outdf.rn)] <- c(paste0("susie_alpha", 1:nrow(susieres[[rn]]$alpha)), "susie_pip")
+
+      outdf <- dplyr::bind_rows(outdf, outdf.rn)
     }
 
-    snp.rpiplist[[rn]] <- susieres[[rn]]$pip[regionlist[[rn]][["anno"]][,"type"] == "SNP"]
-    gene.rpiplist[[rn]] <- susieres[[rn]]$pip[regionlist[[rn]][["anno"]][,"type"] == "gene"]
+    prior.SNP <- mean(unlist(snp.rpiplist))
+    prior.gene <- mean(unlist(gene.rpiplist))
+    print(c(prior.SNP, prior.gene))
 
-    outdf.rn <- cbind(regionlist[[rn]]$anno, t(susieres[[rn]]$alpha), susieres[[rn]]$pip)
-    colnames(outdf.rn)[6:ncol(outdf.rn)] <- c(paste0("susie_alpha", 1:nrow(susieres[[rn]]$alpha)), "susie_pip")
-
-    outdf <- dplyr::bind_rows(outdf, outdf.rn)
+    prior.SNP_rec[iter] <- prior.SNP
+    prior.gene_rec[iter] <- prior.gene
+    elbo_rec[[iter]] <- lapply(susieres, '[[', "elbo")
+    save(prior.gene_rec, prior.SNP_rec, elbo_rec, file = paste(outname, "susieIres.Rd", sep = "."))
+    gc()
   }
-
-  prior.SNP <- mean(unlist(snp.rpiplist))
-  prior.gene <- mean(unlist(gene.rpiplist))
-  print(c(prior.SNP, prior.gene))
-
-  prior.SNP_rec[iter] <- prior.SNP
-  prior.gene_rec[iter] <- prior.gene
-  elbo_rec[[iter]] <- lapply(susieres, '[[', "elbo")
-  save(prior.gene_rec, prior.SNP_rec, elbo_rec, file = paste(outname, "susieIres.Rd", sep = "."))
-  gc()
 }
 
 loginfo("susie done for %s", outname)
 
 write.table(outdf, file= paste0(outname, ".susieI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
+
 

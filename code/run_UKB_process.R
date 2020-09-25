@@ -80,6 +80,7 @@ for (i in 1:6) {
   save(dat, file = paste0("ukb_chr17to22_s20000", tag, ".FBM.Rd"))
 }
 
+# weight files
 setwd("/home/simingz/causalTWAS/fusion_weights")
 posf0 <- "Adipose_Subcutaneous.pos"
 posf = "Adipose_Subcutaneous_B.pos"
@@ -114,4 +115,16 @@ for (i in 1:6) {
 
 write.table(outdfall , file= posf, row.names=F, col.names=T, sep="\t", quote = F)
 
-
+# region files
+setwd("/home/simingz/causalTWAS/simulations/shared_files")
+regfile0 <- "chr17-22-500kb_bins.txt"
+regfile <- "chr17-22-500kb_B_bins.txt"
+reglist <- list()
+for (i in 1:6) {
+  tag <- paste0("-B", i)
+  reg <- read.table(regfile0, header =T)
+  reg[,1] <- paste0(reg[,1], tag)
+  reglist[[i]] <- reg
+}
+regout <- do.call(rbind, reglist)
+write.table(regout , file= regfile , row.names=F, col.names=T, sep="\t", quote = F)

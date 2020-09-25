@@ -53,6 +53,8 @@ for ( b in 1:length(pfileRds)){
   weight <- args[2]
   exprres <- cis_expr(dat, weight, method = "lasso", checksnps = F)
   save(exprres, file = paste0(outname, "-cis-expr.Rd"))
+  expr <- scaleRcpp(exprres$expr)
+  as_FBM(expr, backingfile = paste0(outname, "-cis-expr.FBM.scaled"), is_read_only = T)$save()
   nlist[[b]] <- c(ncol(dat$G), ncol(exprres$expr), sum(apply(exprres$expr, 2, var))) # genotype is scaled
 }
 rm(dat);gc()
