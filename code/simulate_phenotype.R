@@ -21,8 +21,8 @@ cis_expr <- function(dat, weight, method = "bslmm", checksnps = F){
 
   wgtpos <- transform(wgtpos,
             "ID" = ifelse(duplicated(ID) | duplicated(ID, fromLast=TRUE),
-                                 paste(ID, ave(ID, ID, FUN=seq_along), sep='_ID'),
-                                 ID))
+                          paste(ID, ave(ID, ID, FUN=seq_along), sep='_ID'),
+                          ID))
 
   write.table(wgtpos, file= paste0(wgtposfile, ".IDfixed") , row.names=F, col.names=T, sep="\t", quote = F)
 
@@ -132,8 +132,6 @@ simulate_phenotype<- function(dat,
 
   J.c <- round(J * pi_beta)
   M.c <- round(M * pi_theta)
-
-  set.seed(SED)
 
   if (mode == "snp-only"){
     expr.meanvar <- NULL

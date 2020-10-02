@@ -25,11 +25,16 @@ source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"simulate_phenotype.R"))
 
+
+outname <- args[4]
+exprtxt <- file(paste0(outname, "-cis-expr.txt"), 'w')
+phenotxt <- file(paste0(outname, "-pheno.txt"), 'w')
+
 # load genotype data
 pfile <- args[1]
-outname <- args[4]
+
 if (file_ext(pfile) == "txt"){
-  pfiles <- read.table(pfile, header =F, stringsAsFactors = F)[,1]
+  pfiles <- read.table(pfile, header = F, stringsAsFactors = F)[,1]
   outnames <- paste0(outname, "-B", 1:length(pfiles))
 } else {
   outnames <- outname
@@ -53,14 +58,16 @@ for ( b in 1:length(pfileRds)){
   weight <- args[2]
   exprres <- cis_expr(dat, weight, method = "lasso", checksnps = F)
   save(exprres, file = paste0(outname, "-cis-expr.Rd"))
+  write(file_path_as_absolute(paste0(outname, "-cis-expr.Rd")), file = exprtxt, append = T)
   expr <- scaleRcpp(exprres$expr)
   as_FBM(expr, backingfile = paste0(outname, "-cis-expr.FBM.scaled"), is_read_only = T)$save()
   nlist[[b]] <- c(ncol(dat$G), ncol(exprres$expr), sum(apply(exprres$expr, 2, var))) # genotype is scaled
-}
+ }
 rm(dat);gc()
 
 # set sigma based on pve
 source(args[3])
+set.seed(SED)
 
 ndf <- do.call(rbind, nlist)
 M <- sum(ndf[,1])
@@ -99,14 +106,18 @@ for ( b in 1:length(pfileRds)){
 Y <- matrix(rowSums(do.call(cbind, lapply(phenoreslist, '[[', "Y.g"))) + rnorm(N), ncol = 1)
 var.y <- var(Y)
 
-for ( b in 1:length(outnames)){
+for (b in 1:length(outnames)){
   outname <- outnames[b]
   phenores <- phenoreslist[[b]]
   phenores$Y <- Y
   phenores$param$pve.snp.truth <-  phenores$param$var.snp/var.y
   phenores$param$pve.gene.truth <- phenores$param$var.gene/var.y
   save(phenores, file = paste0(outname, "-pheno.Rd"))
+  write(file_path_as_absolute(paste0(outname, "-pheno.Rd")), file = phenotxt, append = T)
 }
+
+close(exprtxt)
+close(phenotxt)
 
 logwarn(str(summary(warnings())))
 loginfo("simulation done.")

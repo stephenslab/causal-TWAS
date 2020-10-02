@@ -3,15 +3,15 @@
 #' and cutoff for different filter types.
 #' @param reg a matrix/data.frame, with columns chr, p0, p1
 #' @param filtertype "nofilter", "mr.ash", "mr.ash2s", "p2", "pgene", "rBF"
-#' @param filterfile, for "nofilter", filterfile is just used as output name
-filter_region <- function(reg, filtertype, filterfile){
+#' @param filterfile, for "nofilter", filterfile is not used
+filter_region <- function(reg, filtertype, filterfile, outname){
   
-  cau <- c(dat$snp[phenores$param$idx.cSNP,], colnames(exprres$expr)[phenores$param$idx.cgene])
+  cau <- c(dat$snp[phenores$param$idx.cSNP,], exprres$gnames[phenores$param$idx.cgene])
   
   # prep/filter regions
   anno <- rbind(cbind(dat$chr, dat$pos, dat$snp, "SNP"),
-                cbind(exprres$chrom, exprres$p0, colnames(exprres), "gene"))
-  colnames(anno) <- c("chrom", "p0", "name", "type")
+                cbind(exprres$chrom, exprres$p0, exprres$gnames, "gene"))
+  colnames(anno) <- c("chrom", "p0", "name", "type")    
   
   regions <- NULL
   chroms <- unique(reg$chrom)
@@ -19,12 +19,12 @@ filter_region <- function(reg, filtertype, filterfile){
   if (filtertype == 'nofilter'){
     for (chrom in chroms){
       itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
-      nCausal <- apply(itv, 1, function(x) {gnames <- anno[x[1] < anno$p0 & anno$p0 < x[2], "name"]; sum(ifelse(gnames %in% cau, 1, 0))})
-      itv <- cbind(chrom, itv, nCausal)
+      nCausal <- apply(itv, 1, function(x) {gnames <- anno[x[1] < anno[, "p0"] & anno[, "p0"] < x[2], "name"]; sum(ifelse(gnames %in% cau, 1, 0))})
+      itv <- data.frame(chrom, itv, nCausal, stringsAsFactors = F)
       regions <- rbind(regions, itv)
     }
     colnames(regions) <- c("chrom", "p0", "p1", "nCausal")
-    write.table(regions, file = paste0(filterfile, ".", filtertype, "r.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+    write.table(regions, file = paste0(outname, ".r.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
     
   } else if (filtertype %in% c("mrash2s", "mrash")){
     
@@ -39,11 +39,11 @@ filter_region <- function(reg, filtertype, filterfile){
       itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
       rPIP <- apply(itv, 1, function(x) sum(pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "PIP"]))
       nCausal <- apply(itv, 1, function(x) {gnames <- pipres.chr[x[1] < pipres.chr$p0 & pipres.chr$p0 < x[2], "name"]; sum(ifelse(gnames %in% cau, 1, 0))})
-      itv <- cbind(chrom, itv, rPIP, nCausal)
+      itv <- data.frame(chrom, itv, rPIP, nCausal, stringsAsFactors = F)
       regions <- rbind(regions, itv)
     }
     colnames(regions) <- c("chrom", "p0", "p1", "rPIP", "nCausal")
-    write.table(regions , file = paste0(filterfile, ".", filtertype, "rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+    write.table(regions , file = paste0(outname, ".rPIP.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
     regions <- regions[regions[, "rPIP"] > PIPfilter,  ]
     
   } else if (filtertype %in% c("pgene", "p2")){
@@ -64,11 +64,11 @@ filter_region <- function(reg, filtertype, filterfile){
       rprank <- apply(itv, 1, function(x) min(c(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "prank"],1)))
       nCausal <- apply(itv, 1, function(x) {gnames <- pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "MARKER_ID"]; sum(ifelse(gnames %in% cau, 1, 0))})
       rpmin <- apply(itv, 1, function(x) min(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "PVALUE"]))
-      itv <- cbind(chrom, itv, rpmin, rprank, nCausal)
+      itv <- data.frame(chrom, itv, rpmin, rprank, nCausal, stringsAsFactors = F)
       regions <- rbind(regions, itv)
     }
     colnames(regions) <- c("chrom", "p0", "p1", "rpmin", "rprank", "nCausal")
-    write.table(regions, file = paste0(filterfile, ".", filtertype, "rprank.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+    write.table(regions, file = paste0(outname, ".rprank.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
     regions <- regions[regions[, "rprank"] <= prankfilter.gene,  ]
     
   } else if (filtertype == "rBF") {
@@ -85,13 +85,34 @@ filter_region <- function(reg, filtertype, filterfile){
       itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
       rBF <- apply(itv, 1, function(x) mean(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "BF"]))
       nCausal <- apply(itv, 1, function(x) {gnames <- pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "MARKER_ID"]; sum(ifelse(gnames %in% cau, 1, 0))})
-      itv <- cbind(chrom, itv, rBF, nCausal)
+      itv <- data.frame(chrom, itv, rBF, nCausal, stringsAsFactors = F)
       regions <- rbind(regions, itv)
     }
     colnames(regions) <- c("chrom", "p0", "p1", "rBF", "nCausal")
-    write.table(regions, file = paste0(filterfile, ".", filtertype, ".txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+    write.table(regions, file = paste0(outname, ".rBF.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
     regions <- regions[regions[, "rBF"] > rBFfilter,  ]
     regions <- regions[complete.cases(regions),]
+    
+  } else if (filtertype == "rfdr") {
+  
+    gres <- paste0(filterfile,".exprgwas.txt.gz")
+    gres <- read.table(gres, header = T, comment.char = "")
+    sres <- paste0(filterfile,".snpgwas.txt.gz")
+    sres <- read.table(sres, header =T, comment.char = "")
+    pres <- rbind(gres, sres)
+    pres[, "fdr"] <- p.adjust(pres$PVALUE, "BH")
+    
+    for (chrom in chroms){
+      pres.chr <- pres[pres$X.CHROM == chrom, ]
+      itv <- cbind(reg[reg$chrom == chrom, ]$p0, reg[reg$chrom == chrom, ]$p1)
+      rfdr <- apply(itv, 1, function(x) min(c(pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "fdr"],1)))
+      nCausal <- apply(itv, 1, function(x) {gnames <- pres.chr[x[1] < pres.chr$BEGIN & pres.chr$BEGIN < x[2], "MARKER_ID"]; sum(ifelse(gnames %in% cau, 1, 0))})
+      itv <- data.frame(chrom, itv, rfdr, nCausal, stringsAsFactors = F)
+      regions <- rbind(regions, itv)
+    }
+    colnames(regions) <- c("chrom", "p0",  "p1",  "rfdr", "nCausal")
+    write.table(regions, file = paste0(outname, ".rfdr.txt")  , row.names=F, col.names=T, sep="\t", quote = F)
+    regions <- regions[regions[, "rfdr"] <= rfdrfilter,  ]
     
   } else {
     

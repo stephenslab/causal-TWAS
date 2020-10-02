@@ -75,8 +75,8 @@ setwd("/home/simingz/causalTWAS/ukbiobank")
 for (i in 1:6) {
   load("/home/simingz/causalTWAS/ukbiobank/ukb_chr17to22_s20000.FBM.Rd")
   tag <- paste0("-B", i)
-  dat$chr <- paste0(dat$chr, tag)
-  dat$snp <- paste0(dat$snp, tag)
+  dat$chr <- as.matrix(paste0(dat$chr, tag), ncol = 1)
+  dat$snp <- as.matrix(paste0(dat$snp, tag), ncol = 1)
   save(dat, file = paste0("ukb_chr17to22_s20000", tag, ".FBM.Rd"))
 }
 
@@ -118,13 +118,12 @@ write.table(outdfall , file= posf, row.names=F, col.names=T, sep="\t", quote = F
 # region files
 setwd("/home/simingz/causalTWAS/simulations/shared_files")
 regfile0 <- "chr17-22-500kb_bins.txt"
-regfile <- "chr17-22-500kb_B_bins.txt"
-reglist <- list()
 for (i in 1:6) {
+  regfile <- paste0("chr17-22-500kb_B", i, "_bins.txt")
   tag <- paste0("-B", i)
   reg <- read.table(regfile0, header =T)
   reg[,1] <- paste0(reg[,1], tag)
-  reglist[[i]] <- reg
+  write.table(reg, file= regfile , row.names=F, col.names=T, sep="\t", quote = F)
 }
-regout <- do.call(rbind, reglist)
-write.table(regout , file= regfile , row.names=F, col.names=T, sep="\t", quote = F)
+
+

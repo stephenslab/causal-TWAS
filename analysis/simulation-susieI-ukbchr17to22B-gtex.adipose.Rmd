@@ -1,0 +1,156 @@
+---
+title: "Test susieI using chr17 to 22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,  message= F, warning = F)
+```
+```{r libs}
+library(mr.ash.alpha)
+library(data.table)
+suppressMessages({library(plotly)})
+library(tidyr)
+library(plyr)
+library(stringr)
+library(kableExtra)
+source("analysis/summarize_twas_plots.R")
+```
+
+```{r des, child = here::here("analysis/description.Rmd")}
+```
+
+
+```{r dirs}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20200915/"
+outputdir <- "~/causalTWAS/simulations/simulation_susieI_20200915/"
+susiedir <- "~/causalTWAS/simulations/simulation_susieI_20200915/"
+tag <- '20200915-1-1'
+Niter <- 30
+```
+
+# Regional minimum p value distribution
+
+* minimum TWAS p value of genes for each region:
+
+```{r rpip twas, fig.height=6, fig.width=6}
+simtag <- "20200915-1-1"
+rpipf <- paste0(outputdir, simtag, ".pgenerprank.txt")
+
+a <- read.table(rpipf, header = T)
+a.c <- a[a$nCausal > 0, ]
+ax <- pretty(0:max(-log10(a$rpmin)), n = 30)
+
+par(mfrow=c(2,1))
+h1 <- hist(-log10(a$rpmin), breaks = 100, xlab = "PIP", main = "min P value distribution-all", col = "grey"); grid()
+h2 <- hist(-log10(a.c$rpmin), breaks = h1$breaks, xlab = "PIP", main = "min p distribution-causal", col = "salmon");grid()
+```
+
+* minimum TWAS p value of genes and SNPs for each region:
+
+```{r rpip twas2, fig.height=6, fig.width=6}
+rpipf <- paste0(outputdir, simtag, ".p2rprank.txt")
+
+a <- read.table(rpipf, header = T)
+a.c <- a[a$nCausal > 0, ]
+ax <- pretty(0:max(-log10(a$rpmin)), n = 30)
+
+par(mfrow=c(2,1))
+h1 <- hist(-log10(a$rpmin), breaks = 100, xlab = "PIP", main = "min P value distribution-all", col = "grey"); grid()
+h2 <- hist(-log10(a.c$rpmin), breaks = h1$breaks, xlab = "PIP", main = "min p distribution-causal", col = "salmon");grid()
+```
+
+# Parameter estimation results
+
+Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). each row has two plots, one for gene pi1 estimation, one for enrichment (gene pi1/snp pi1). Results from each run were represented by one dot, dots with the same color come from the same run. horizontal dash lines: simulation truth, `mr.ash2`, mr.ash for gene and SNPs; `susietruth`, the truth in selected regions that were used to run susie iteractively (susieI).
+
+
+```{r param functions}
+show_param <- function(phenofs, susieIfs, susieIfs2){
+  pars <- do.call(rbind, lapply(phenofs, function(x) {load(read.table(x, header = F, stringsAsFactors = F)[1,1]); 
+    c(phenores$param$pve.gene.truth,
+      phenores$param$pve.snp.truth,
+      length(phenores$param$idx.cgene)/phenores$param$J,
+      length(phenores$param$idx.cSNP)/phenores$param$M)}))
+ 
+  colnames(pars) <- c("PVE.gene_truth", "PVE.SNP_truth", "pi1.gene_truth", "pi1.SNP_truth")
+    
+  param.s <- do.call(rbind, lapply(susieIfs, function(x) {load(x); c(tail(prior.gene_rec[prior.gene_rec!=0], 1), tail(prior.SNP_rec[prior.SNP_rec!=0],1))}))
+  
+  param.s.truth <- do.call(rbind, lapply(susieIfs2, function(x) {
+    a <- read.table(x, header = T);
+    c(nrow(a[a$ifcausal == 1 & a$type == "gene", , drop = F])/ nrow(a[a$type == "gene", , drop = F]),
+      nrow(a[a$ifcausal == 1 & a$type == "SNP", , drop = F])/ nrow(a[a$type == "SNP", , drop = F]))
+    }))
+  
+  pars.s <- cbind(param.s.truth, param.s)[, c(1,3,2,4)]
+  colnames(pars.s) <-  paste(rep(c("pi1.gene_", "pi1.SNP_"), each = 2), c("susietruth", "susieI"), sep = "")
+  
+  df <- cbind(tags, format(pars, digits = 4), format(pars.s, digits =4))
+  rownames(df) <- NULL
+  return(df)
+  
+  # df %>% 
+  # kable("html", escape = F) %>%
+  # kable_styling("striped", full_width = F) %>%
+  #  row_spec(c(1:5, 11:15), background = "#FEF3B9") %>%
+  # scroll_box(width = "100%", height = "600px", fixed_thead = T)
+}
+
+plot_param <- function(df, ...){
+  df <- apply(df[ , 2:ncol(df)], 2, function(x) as.numeric(x))
+  st <-  cbind(df[,"pi1.gene_susietruth"], 1:nrow(df), 2 + 1:nrow(df)/nrow(df)/3)
+  s <- cbind(df[,"pi1.gene_susieI"], 1:nrow(df), 3 + 1:nrow(df)/nrow(df)/3)
+  t <- df[1,"pi1.gene_truth"]
+  dfp <- rbind(st,s)
+  plot(dfp[,3], dfp[,1], col = dfp[,2], pch = 19, ylab = "gene pi1", xaxt = "n", xlab="", xlim = c(0.8, 3.5), frame.plot=FALSE, ylim = c(0, max(dfp[,1],t) *1.05), ...)
+  axis(side=1, at=1:2, labels = FALSE, tick = F)
+  text(x=1:2, 0, labels = c( "susieI_truth", "susieI"), xpd = T, pos =1)
+  abline(h=t, lty = 2, col= "salmon", lwd=1.5)
+  grid()
+  
+  st <-  cbind(df[,"pi1.gene_susietruth"]/df[,"pi1.SNP_susietruth"], 1:nrow(df), 2 + 1:nrow(df)/nrow(df)/3)
+  s <- cbind(df[,"pi1.gene_susieI"]/df[,"pi1.SNP_susieI"], 1:nrow(df), 3 + 1:nrow(df)/nrow(df)/3)
+  t <- df[1,"pi1.gene_truth"]/df[1,"pi1.SNP_truth"]
+  dfp <- rbind(st,s)
+  plot(dfp[,3], dfp[,1], col = dfp[,2], pch = 19, ylab = "Enrichment (gene/snp)", xaxt = "n", xlab="", xlim = c(0.8, 3.5),frame.plot=FALSE, ylim = c(0, min(max(dfp[,1],t) *1.05, 150)))
+  axis(side=1, at=1:2, labels = FALSE, tick = F)
+  text(x=1:2, 0, labels = c("susieI_truth", "susieI"), xpd = T, pos =1)
+  abline(h= t, lty = 2, col= "darkgreen", lwd=1.5)
+  grid()
+}
+
+gpip_dist <- function(susiefs, ...){
+  dflist <- list()
+  for (f in susiefs){
+    dflist[[f]] <- read.table(f, header =T , stringsAsFactors = F)
+  }
+  df <- do.call(rbind, dflist)
+  hist(df[df$type == "gene", "susie_pip"], xlab = "gene susie PIP", 
+       breaks = 50, ylim = c(0,20), xlim=c(0,1), col = "salmon", ...)
+}
+```
+
+## Regions: all 
+
+* Regions: All regions. 
+
+* Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.01, snp.pve ~ 0.05. 
+
+```{r param1, fig.height=6, fig.width=6}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20200915-", tags, "-pheno.txt")
+susieIfs <- paste0(outputdir, "20200915-", tags, ".config1.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20200915-", tags, ".config1.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,2))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+```
+
+```{r pipdist-1,fig.height=3, fig.width=12}
+par(mfrow = c(1,2))
+gpip_dist(susieIfs2[1:5], main = "low power")
+gpip_dist(susieIfs2[6:10], main = "high power")
+```
