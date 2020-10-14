@@ -63,7 +63,7 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
   # compress
   if (isTRUE(compress)){
     system(paste0("bgzip ", outname))
-    system(paste0("tabix -p bed ", outname, ".gz"))
+    # system(paste0("tabix -p bed ", outname, ".gz"))
   }
 
   return(print("Done."))

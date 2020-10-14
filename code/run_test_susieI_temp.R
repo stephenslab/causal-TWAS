@@ -1,5 +1,4 @@
 library(susieR)
-library(dplyr)
 library(logging)
 library(tools)
 library(foreach)
@@ -9,9 +8,9 @@ args = commandArgs(trailingOnly=TRUE)
 if (length(args) < 5) {
   stop("at least 5 arguments must be supplied:
        * genotype file name (or multiple file names in a .txt file)
-       * expr Rd (or multiple file names in a .txt file, matching genotype file)
-       * pheno Rd (or multiple file names in a .txt file, matching genotype file)
-       * filter file (put any string here if no filter)
+       * expr Rd (or multiple file names in a .txt file, matching geno)
+       * pheno Rd
+       * filter file names in txt (put any string here if no filter, or match geno )
        * out file name
        * config file (optional)
        ", call.=FALSE)
@@ -43,11 +42,10 @@ rfdrfilter <- 1 # for rfdr, if region contains genes or snp with fdr < fdrfilter
 
 ifgene <- F # if limiting to regions with at least one gene.
 ifca <- T # if limiting to regions with at least one causal signal
-regionsfile <- "/home/simingz/causalTWAS/simulations/shared_files/chr17-22-500kb_fn.txt" # need to match input
+regionsfile <- "/home/simingz/causalTWAS/simulations/shared_files/chr1to22-500kb_fn.txt" # need to match input
 
 Niter <- 30
 ifnullweight <- F # if include/update null weight in iterations.
-nullweight_init <- NULL # initializing value
 prior.gene_init <- NULL
 prior.SNP_init <- NULL
 L <- 1
@@ -62,20 +60,20 @@ if (length(args) == 6){
 loginfo("filter type: %s", filtertype)
 loginfo("region file: %s", regionsfile)
 
+outname <- args[5]
+
+# prepare input files
 pfile <- args[1]
 if (file_ext(pfile) == "txt"){
   pfiles <- read.table(pfile, header =F, stringsAsFactors = F)[,1]
   efiles <- read.table(args[2], header =F, stringsAsFactors = F)[,1]
-  phenofiles <- read.table(args[3], header =F, stringsAsFactors = F)[,1]
 } else {
   pfiles <- pfile
   efiles <- args[2]
-  phenofiles <- args[3]
 }
-pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
-efileRds <- paste0(drop_ext(efiles), ".FBM.scaled.rds")
 
-outname <- args[5]
+pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
+phenofile <- args[3]
 
 # read regions files
 reg <- read.table(regionsfile, header = F, stringsAsFactors = F)
@@ -86,31 +84,27 @@ for (b in 1: nrow(reg)){
 
 loginfo("No. intervals: %s", sum(unlist(lapply(reglist, nrow))))
 
+# load phenotype Rd file, variable: phenores
+load(phenofile)
+phenores$Y <-  phenores$Y - mean(phenores$Y)
+
 regionlist <- list()
-
-
+regionsall <- NULL
 for (b in 1:length(pfiles)){
   # load genotype data
   load(pfileRds[b])
 
   # load expression Rd file, variable: exprres
   load(efiles[b])
-  if (!file.exists(efileRds[b])) {
-    expr <- scaleRcpp(exprres$expr)
-    as_FBM(expr, backingfile = paste0(drop_ext(efiles[b]), ".FBM.scaled"), is_read_only = T)$save()
-  } else {
-    expr <- readRDS(efileRds[b])
-  }
-  exprres$gnames <- colnames(exprres$expr)
-
-  # load phenotype Rd file, variable: phenores
-  load(phenofiles[b])
-  phenores$Y <-  phenores$Y - mean(phenores$Y) # Y is the same, but param is different for each b.
 
   loginfo("No. intervals before filtering %s for batch %s: %s", filtertype, b, nrow(reglist[[b]]))
 
   # filter regions based on filtertype
-  regions <- filter_region(reg = reglist[[b]], filtertype = filtertype, filterfile = paste0(args[4], "-B", b), outname = paste0(outname, ".B", b))
+  cau <- c(dat$snp[phenores$batch[[b]]$param$idx.cSNP,],
+           exprres$gnames[phenores$batch[[b]]$param$idx.cgene])
+  regout <- filter_region(reg = reglist[[b]], filtertype = filtertype, filterfile = args[4])
+  regions <- regout[["filtered"]]
+  regionsall <- rbind(regionsall, regout[["all"]])
 
   # filter regions based on ifca
   if (isTRUE(ifca)){
@@ -159,8 +153,13 @@ for (b in 1:length(pfiles)){
   }
 }
 
+write.table(regionsall, file= paste0(outname,".", filtertype, ".r.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
+
 # start susieI
 loginfo("susie started for %s", outname)
+
+cl <- makeCluster(Ncore,outfile="")
+registerDoParallel(cl)
 
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
@@ -170,37 +169,26 @@ for (iter in 1:Niter){
 
   snp.rpiplist <- list()
   gene.rpiplist <- list()
-  outdf <- NULL
-  for (b in 1:length(regionlist)){
+  outdf <- foreach (b = 1:22, .combine = "rbind",.packages = c("susieR", "bigstatsr")) %dopar% {
 
     # load genotype data
     load(pfileRds[b])
 
     # load expression Rd file, variable: exprres
     load(efiles[b])
-    exprres$gnames <- colnames(exprres$expr)
-    exprres$expr <- NULL; gc()
-    exprres$exprlist <- NULL
-    exprres$qclist <- NULL
-    expr <- readRDS(efileRds[b])
 
-    # load phenotype Rd file, variable: phenores
-    load(phenofiles[b])
-    phenores$Y <-  phenores$Y - mean(phenores$Y)
+    cau <- c(dat$snp[phenores$batch[[b]]$param$idx.cSNP,],
+             exprres$gnames[phenores$batch[[b]]$param$idx.cgene])
 
-    cau <- c(dat$snp[phenores$param$idx.cSNP,], exprres$gnames[phenores$param$idx.cgene])
+    regionlist.b <-regionlist[[b]]
+    rm(regionlist); gc()
 
-    snp.rpiplist[[b]] <- list()
-    gene.rpiplist[[b]] <- list()
-
-    # run susie for each region (in parallel)
-    cl <- makeCluster(Ncore)
-    registerDoParallel(cl)
-
-    outdf.b <- foreach(rn = names(regionlist[[b]]), .combine = "rbind") %dopar% {
+    # run susie for each region (in parallel by batch)
+    outdf.b.list <- list()
+    for (rn in names(regionlist.b)) {
       print(c(b, rn))
-      gidx <- regionlist[[b]][[rn]][["gidx"]]
-      sidx <- regionlist[[b]][[rn]][["sidx"]]
+      gidx <- regionlist.b[[rn]][["gidx"]]
+      sidx <- regionlist.b[[rn]][["sidx"]]
       p <- length(gidx[gidx]) + length(sidx[sidx])
       prior <- rep(0, p)
 
@@ -212,24 +200,20 @@ for (iter in 1:Niter){
       if (iter == 1) {
         prior[1: length(gidx[gidx])] <- prior.gene_init
         prior[(length(gidx[gidx])+ 1): p ] <- prior.SNP_init
-        nw <- nullweight_init
       } else {
         prior[1: length(gidx[gidx])] <- prior.gene
         prior[ (length(gidx[gidx])+ 1): p] <- prior.SNP
-        nw <- max(0, 1 - sum(prior))
       }
 
-      X <- cbind(expr[, gidx], dat$G[, sidx])
+      nw <- max(0, 1 - sum(prior))
+
+      X <- cbind(exprres$expr[, gidx], dat$G[, sidx])
 
       if (isTRUE(ifnullweight)){
         susieres <- susie( X , phenores$Y, L = L, prior_weights = prior, null_weight = nw)
       } else {
         susieres <- susie(X, phenores$Y, L = L, prior_weights = prior)
       }
-
-      gene.rpiplist[[b]][[rn]] <- susieres$pip[1: length(gidx[gidx])]
-      snp.rpiplist[[b]][[rn]] <- susieres$pip[(length(gidx[gidx])+ 1): p]
-
 
       anno.gene <- cbind(exprres$gnames[gidx], exprres$chrom[gidx],  exprres$p0[gidx],
                          rep("gene", length(gidx[gidx])))
@@ -243,14 +227,15 @@ for (iter in 1:Niter){
       outdf.rn <- cbind(anno, susieres$pip)
       colnames(outdf.rn)[6] <- "susie_pip"
 
-      outdf.rn
+      outdf.b.list[[rn]] <- outdf.rn
     }
 
-    outdf <- rbind(outdf, outdf.b)
+    outdf.b <- do.call(rbind, outdf.b.list)
+    outdf.b
   }
 
-  prior.SNP <- mean(unlist(snp.rpiplist))
-  prior.gene <- mean(unlist(gene.rpiplist))
+  prior.SNP <- mean(outdf[outdf[ , "type"] == "SNP", "susie_pip"])
+  prior.gene <- mean(outdf[outdf[ , "type"] == "gene", "susie_pip"])
   print(c(prior.SNP, prior.gene))
 
   prior.SNP_rec[iter] <- prior.SNP
@@ -260,7 +245,10 @@ for (iter in 1:Niter){
   write.table(outdf, file= paste0(outname, ".susieI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
 }
 
+stopCluster(cl)
+
 loginfo("susie done for %s", outname)
+
 
 
 

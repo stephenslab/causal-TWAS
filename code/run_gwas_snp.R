@@ -17,37 +17,37 @@ source(paste0(codedir,"input_reformat.R"))
 pfile <- args[1]
 if (file_ext(pfile) == "txt"){
   pfiles <- read.table(pfile, header = F, stringsAsFactors = F)[,1]
-  phenofiles <- read.table(args[2], header = F, stringsAsFactors = F)[,1]
   outnames <- paste0(args[3], "-B", 1:length(pfiles), ".snpgwas.txt")
   combine <- T
 } else {
   pfiles <- pfile
-  phenofiles <- args[2]
   outnames <- paste0(args[3], ".snpgwas.txt")
   combine <- F
 }
 pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
 
+phenofile <- args[2]
+load(phenofile)
+pheno <- phenores$Y
 
 for (b in 1:length(pfiles)){
-  load(phenofiles[b])
-  pheno <- phenores$Y
 
   outname <- outnames[b]
 
   # load genotype data
   load(pfileRds[b])
-  dat$G <- dat$G[]
 
   snpname = dat$snp[,1]
   anno <- cbind(dat$chr, dat$pos, dat$pos) # EPACT format
 
   if (length(args) == 3){
 
+    if (!file.exists(paste0(outname, ".gz"))){
+
     geno <- dat$G
 
     GWAA(geno, pheno, snpname = snpname, anno = anno, outname, family = gaussian, ncore = 3, nSplits = 100, compress = T)
-
+    }
   } else {
     regions <- read.table(args[4], stringsAsFactors = F)
 
@@ -74,8 +74,6 @@ if (isTRUE(combine)) {
   write.table(outdf, file = outname , row.names=F, col.names=T, sep="\t", quote = F)
 
   system(paste0("bgzip ", outname))
-  system(paste0("tabix -p bed ", outname, ".gz"))
-
 }
 
 

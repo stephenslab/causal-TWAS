@@ -17,19 +17,19 @@ source(paste0(codedir,"input_reformat.R"))
 pfile <- args[1]
 if (file_ext(pfile) == "txt"){
   pfiles <- read.table(pfile, header =F, stringsAsFactors = F)[,1]
-  phenofiles <- read.table(args[2], header =F, stringsAsFactors = F)[,1]
   outnames <- paste0(args[3], "-B", 1:length(pfiles), ".exprgwas.txt")
   combine <- T
 } else {
   pfiles <- pfile
-  phenofiles <- args[2]
   outnames <- paste0(args[3], ".exprgwas.txt")
   combine <- F
 }
 
+phenofile <- args[2]
+load(phenofile)
+pheno <- phenores$Y
+
 for (b in 1:length(pfiles)){
-  load(phenofiles[b])
-  pheno <- phenores$Y
 
   load(pfiles[b]) # exprres
 
@@ -38,13 +38,13 @@ for (b in 1:length(pfiles)){
   anno <- cbind(exprres$chrom, exprres$p0, exprres$p1)
   colnames(anno) <- c("chr", "p0", "p1")
   exprres$expr <- exprres$expr[, order(anno[,"p0"], anno[, "chr"])]
-  anno <- anno[order(anno[,"p0"], anno[, "chr"]),]
+  anno <- anno[order(anno[,"p0"], anno[, "chr"]), ]
 
   if (length(args) == 3){
 
     geno <- exprres$expr
 
-    GWAA(geno, pheno, snpname = colnames(geno), anno = anno, outname, family = gaussian, ncore = 1, nSplits = 1, compress = T)
+    GWAA(geno, pheno, snpname = exprres$gnames, anno = anno, outname, family = gaussian, ncore = 1, nSplits = 1, compress = T)
 
   } else {
     regions <- read.table(args[4], stringsAsFactors = F)
@@ -71,8 +71,6 @@ if (isTRUE(combine)) {
   outname <-  paste0(args[3], ".exprgwas.txt")
   write.table(outdf, file = outname , row.names=F, col.names=T, sep="\t", quote = F)
   system(paste0("bgzip ", outname))
-  system(paste0("tabix -p bed ", outname, ".gz"))
-
 }
 
 

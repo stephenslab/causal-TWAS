@@ -1,5 +1,5 @@
 ---
-title: "Test susieI using chr17 to 22"
+title: "Test susieI using chr17 to 22, multiple batch"
 output: html_document
 ---
 
@@ -28,37 +28,9 @@ susiedir <- "~/causalTWAS/simulations/simulation_susieI_20200915/"
 tag <- '20200915-1-1'
 Niter <- 30
 ```
+# Summary
 
-# Regional minimum p value distribution
-
-* minimum TWAS p value of genes for each region:
-
-```{r rpip twas, fig.height=6, fig.width=6}
-simtag <- "20200915-1-1"
-rpipf <- paste0(outputdir, simtag, ".pgenerprank.txt")
-
-a <- read.table(rpipf, header = T)
-a.c <- a[a$nCausal > 0, ]
-ax <- pretty(0:max(-log10(a$rpmin)), n = 30)
-
-par(mfrow=c(2,1))
-h1 <- hist(-log10(a$rpmin), breaks = 100, xlab = "PIP", main = "min P value distribution-all", col = "grey"); grid()
-h2 <- hist(-log10(a.c$rpmin), breaks = h1$breaks, xlab = "PIP", main = "min p distribution-causal", col = "salmon");grid()
-```
-
-* minimum TWAS p value of genes and SNPs for each region:
-
-```{r rpip twas2, fig.height=6, fig.width=6}
-rpipf <- paste0(outputdir, simtag, ".p2rprank.txt")
-
-a <- read.table(rpipf, header = T)
-a.c <- a[a$nCausal > 0, ]
-ax <- pretty(0:max(-log10(a$rpmin)), n = 30)
-
-par(mfrow=c(2,1))
-h1 <- hist(-log10(a$rpmin), breaks = 100, xlab = "PIP", main = "min P value distribution-all", col = "grey"); grid()
-h2 <- hist(-log10(a.c$rpmin), breaks = h1$breaks, xlab = "PIP", main = "min p distribution-causal", col = "salmon");grid()
-```
+This result is problematic. The artificial perfectly correlated LD leads to overestimated pi1.
 
 # Parameter estimation results
 
