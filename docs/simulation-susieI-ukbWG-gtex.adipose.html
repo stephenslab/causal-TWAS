@@ -358,10 +358,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-10-14
+<strong>Last updated:</strong> 2020-10-20
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
 </p>
 <p>
 <strong>Knit directory:</strong> <code>causal-TWAS/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -382,7 +382,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -437,28 +437,60 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
 </p>
 </div>
-<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/code/gwas.R
+</td>
+<td style="text-align:left;">
+code/gwas.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/code/ld.R
+</td>
+<td style="text-align:left;">
+code/ld.R
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6be6e720eb21208a194a634050a28de3255fd4fftargetblank6be6e72a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/6be6e720eb21208a194a634050a28de3255fd4ff" target="_blank">6be6e72</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreec2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2targetblankc2dee2ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2" target="_blank">c2dee2c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6be6e720eb21208a194a634050a28de3255fd4fftargetblank6be6e72a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreec2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2targetblankc2dee2ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/6be6e720eb21208a194a634050a28de3255fd4ff" target="_blank">6be6e72</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2" target="_blank">c2dee2c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -471,40 +503,17 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-susieI-ukbWG-gtex.adipose.Rmd
-    Untracked:  code/cis_expr.R
-    Untracked:  code/run_impute_expr.R
-    Untracked:  code/run_simulate_pheno.R
-    Untracked:  code/susieI_parallel_test.R
-    Untracked:  code/workflow/submit_parallel_master_run2.sh.sh
-    Untracked:  code/workflow/submit_parallel_{masterfile}.sh
+    Untracked:  analysis/figure/
+    Untracked:  analysis/simulation-susieI-ukbWG-gtex.adipose_visual.Rmd
 
 Unstaged changes:
     Modified:   analysis/description.Rmd
     Modified:   analysis/index.Rmd
-    Modified:   analysis/simulation-susieI-ukbchr17to22B-gtex.adipose.Rmd
-    Modified:   code/gwas.R
+    Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose.Rmd
+    Modified:   code/ld.R
     Modified:   code/run_UKB_process.R
-    Modified:   code/run_gwas_expr.R
-    Modified:   code/run_gwas_snp.R
-    Deleted:    code/run_simulate_phenotype.R
+    Modified:   code/run_ld.R
     Modified:   code/run_test_susieI.R
-    Modified:   code/run_test_susieI_temp.R
-    Modified:   code/simulate_phenotype.R
-    Modified:   code/susie_filter.R
-    Deleted:    code/workflow/master_run.sh
-    Deleted:    code/workflow/param-20200915-1-1.R
-    Deleted:    code/workflow/submit_parallel_master_run.sh.sh
-    Deleted:    code/workflow/submit_parallel_master_run1-x.sh.sh
-    Modified:   code/workflow/workflow-ashtest-20200915.ipynb
-    Modified:   code/workflow/workflow-ashtest-20201001.ipynb
-    Modified:   code/workflow/workflow-data.ipynb
-    Modified:   code/workflow/workflow-susieI-20200915.ipynb
-    Modified:   code/workflow/workflow-susieI-20201001.ipynb
-
-Staged changes:
-    Renamed1:   code/run_simulate_data.R
-    Renamed2:   code/run_simulate_phenotype.R
 
 </code></pre>
 <p>
@@ -517,9 +526,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/simulation-susieI-ukbWG-gtex.adipose.Rmd</code>) and HTML (<code>docs/simulation-susieI-ukbWG-gtex.adipose.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/analysis/simulation-susieI-ukbWG-gtex.adipose.Rmd" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+<td>
+wg susieI
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/docs/simulation-susieI-ukbWG-gtex.adipose.html" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+<td>
+wg susieI
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -546,7 +615,7 @@ J &lt;- 8021 # number of genes</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Impute expression.</li>
 </ol>
-<p>We impute gene expression for our genotype data using expression models obtained from step 1. There are 8021 genes with expression model from chr17 to chr22. We imputed expression from genotypes using the expression predictors.</p>
+<p>We impute gene expression for our genotype data using expression models obtained from step 1. There are 8021 genes with expression model. We imputed expression from genotypes using the expression predictors.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>Define and select regions</li>
 </ol>
@@ -558,16 +627,10 @@ J &lt;- 8021 # number of genes</code></pre>
 <pre class="r"><code>simdatadir &lt;- &quot;~/causalTWAS/simulations/simulation_ashtest_20201001/&quot;
 outputdir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20201001/&quot;
 susiedir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20201001/&quot;
-tag &lt;- &#39;20201001-1-1&#39;
-Niter &lt;- 20</code></pre>
-</div>
-<div id="p-value-distribution" class="section level1">
-<h1>p value distribution</h1>
-<ul>
-<li>TWAS p value of genes:</li>
-</ul>
-<pre class="r"><code>simtag &lt;- &quot;20201001-1-1&quot;
-exprgwasf &lt;- paste0(simdatadir, simtag, &quot;.exprgwas.txt.gz&quot;)
+simtag &lt;- &#39;20201001-1-3&#39;
+source(&#39;~/causalTWAS/causal-TWAS/code/gwas.R&#39;)
+source(&#39;~/causalTWAS/causal-TWAS/code/ld.R&#39;)</code></pre>
+<pre class="r"><code>exprgwasf &lt;- paste0(simdatadir, simtag, &quot;.exprgwas.txt.gz&quot;)
 load(paste0(simdatadir, &quot;simu_&quot;, simtag, &quot;-pheno.Rd&quot;))
 caulist &lt;- list()
 for (chrom in 1:22) {
@@ -575,8 +638,14 @@ for (chrom in 1:22) {
   load(paste0(simdatadir, &quot;simu_s40000_GTEXadipose-B&quot;, chrom, &quot;-cis-expr.Rd&quot;))
   caulist[[chrom]]&lt;- c(exprres$gnames[phenores$batch[[chrom]]$param$idx.cgene], dat$snp[phenores$batch[[chrom]]$param$idx.cSNP,])
 }
-cau &lt;- unlist(caulist)
-
+cau &lt;- unlist(caulist)</code></pre>
+</div>
+<div id="p-value-distribution" class="section level1">
+<h1>p value distribution</h1>
+<ul>
+<li>TWAS p value of genes:</li>
+</ul>
+<pre class="r"><code>chrom &lt;- 22
 a &lt;- read.table(exprgwasf, header = T)
 a$ifcausal &lt;- ifelse(a$MARKER_ID %in% cau, 1, 0)
 ax &lt;- pretty(0:max(-log10(a$PVALUE)), n = 30)
@@ -585,27 +654,53 @@ par(mfrow=c(3,1))
 h1 &lt;- hist(-log10(a$PVALUE), breaks = 100, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-all&quot;, col = &quot;grey&quot;); grid()
 h2 &lt;- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-causal&quot;, col = &quot;salmon&quot;);grid()
 
-plot(a[a$X.CHROM ==22, ]$BEGIN, -log10(a[a$X.CHROM ==22, ]$PVALUE), col = a[a$X.CHROM ==22, ]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
-points(a[a$X.CHROM ==22 &amp; a$ifcausal ==1, ]$BEGIN, -log10(a[a$X.CHROM ==22 &amp; a$ifcausal ==1, ]$PVALUE), col = &quot;red&quot;, pch =19)</code></pre>
+plot(a[a$X.CHROM ==chrom, ]$BEGIN, -log10(a[a$X.CHROM ==chrom, ]$PVALUE), col = a[a$X.CHROM ==chrom, ]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
+points(a[a$X.CHROM ==chrom &amp; a$ifcausal ==1, ]$BEGIN, -log10(a[a$X.CHROM ==chrom &amp; a$ifcausal ==1, ]$PVALUE), col = &quot;red&quot;, pch =19)
+grid()</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/gene%20twas-1.png" width="768" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>r &lt;- do.call(cbind, lapply(1:22, function(x) phenores$batch[[x]]$Y.g))
-GWAA(exprres$expr, matrix(rowSums(r[, c(1:12,14:21)]) + rnorm(N), ncol=1), snpname = exprres$gnames, anno = anno, &quot;temp&quot;, family = gaussian, ncore = 1, nSplits = 1, compress = F)
-m &lt;- read.table(&quot;temp&quot;, header =T, comment.char = &quot;&quot;)
-m$ifcausal &lt;- ifelse(m$MARKER_ID %in% cau, 1, 0)
-plot(m[m$X.CHROM ==22, ]$BEGIN, -log10(m[m$X.CHROM ==22, ]$PVALUE), col = m$ifcausal + 1)
-
-
-snpname = dat$snp[,1]
-anno &lt;- cbind(dat$chr, dat$pos, dat$pos) # EPACT format
-  
-GWAA(dat$G, r[,13, drop=F], snpname = snpname, anno = anno, &quot;tempsnp&quot;, family = gaussian, ncore = 5, nSplits = 100, compress = F)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-gene-twas-1">
+Past versions of “gene twas-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-gene-twas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/docs/figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/gene twas-1.png" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ul>
 <li>TWAS p value of SNPs:</li>
 </ul>
-<pre class="r"><code>simtag &lt;- &quot;20201001-1-1&quot;
-snpgwasf &lt;- paste0(simdatadir, simtag, &quot;.snpgwas.txt.gz&quot;)
+<pre class="r"><code>snpgwasf &lt;- paste0(simdatadir, simtag, &quot;.snpgwas.txt.gz&quot;)
 
-b &lt;- read.table(snpgwasf, header = T)
+b &lt;- fread(snpgwasf, header = T)
 b$ifcausal &lt;- ifelse(b$MARKER_ID %in% cau, 1, 0)
 ax &lt;- pretty(0:max(-log10(b$PVALUE)), n = 30)
 
@@ -613,9 +708,138 @@ par(mfrow=c(3,1))
 h1 &lt;- hist(-log10(b$PVALUE), breaks = 100, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-all&quot;, col = &quot;grey&quot;); grid()
 h2 &lt;- hist(-log10(b[b$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-causal&quot;, col = &quot;salmon&quot;);grid()
 
-plot(b[b$X.CHROM ==22, ]$BEGIN, -log10(b[b$X.CHROM ==22, ]$PVALUE), col = b$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
-points(b[b$X.CHROM ==22 &amp; b$ifcausal ==1, ]$BEGIN, -log10(b[b$X.CHROM ==22 &amp; b$ifcausal ==1, ]$PVALUE), col = &quot;red&quot;, pch =19)</code></pre>
+plot(b[b$X.CHROM ==chrom, ]$BEGIN, -log10(b[b$X.CHROM ==chrom, ]$PVALUE), col = b[b$X.CHROM ==chrom,]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
+points(b[b$X.CHROM ==chrom &amp; b$ifcausal ==1, ]$BEGIN, -log10(b[b$X.CHROM ==chrom &amp; b$ifcausal ==1, ]$PVALUE), col = &quot;red&quot;, pch =19)
+grid()</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/snp%20twas-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-snp-twas-1">
+Past versions of “snp twas-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-snp-twas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/docs/figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/snp twas-1.png" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="exploration-of-unusual-small-p-values" class="section level1">
+<h1>Exploration of unusual small p values</h1>
+<p>Take chromosom 22 geno type and perform linear regression for against geno type for causal SNPs on other chromosomes. We see some very significant p values. Take chromosome 2 causal SNPs as an example.</p>
+<div id="normal-distribution-as-phenotype" class="section level2">
+<h2>normal distribution as phenotype</h2>
+<pre class="r"><code>chrom &lt;- 22
+load(paste0(&quot;~/causalTWAS/ukbiobank/ukb_chr&quot;, chrom ,&quot;_s40000.FBM.Rd&quot;))
+load(paste0(simdatadir, &quot;simu_s40000_GTEXadipose-B&quot;, chrom, &quot;-cis-expr.Rd&quot;))
+load(paste0(simdatadir, &quot;simu_&quot;, simtag, &quot;-pheno.Rd&quot;))
+
+N&lt;- nrow(phenores$Y)
+cat(&quot;variance of the phenotype: &quot;, var(phenores$Y), &quot;\n&quot;)</code></pre>
+<pre><code>variance of the phenotype:  2.552768 </code></pre>
+<pre class="r"><code>snpname = dat$snp[,1]
+anno &lt;- cbind(dat$chr, dat$pos, dat$pos)
+
+outname &lt;- &quot;/home/simingz/causalTWAS/simulations/simulation_susieI_20201001/chr22_plots/chr22snpRandom&quot;
+# GWAA(dat$G, matrix(rnorm(N, sd = sqrt(var(phenores$Y))), ncol =1), snpname = snpname, anno = anno, outname , family = gaussian, ncore = 5, nSplits = 30, compress = F)
+n &lt;- read.table(outname, header =T, comment.char = &quot;&quot;)
+plot(n$BEGIN, -log10(n$PVALUE), main = &quot;Random&quot;, xlab = &quot;position&quot;, ylab = &quot;-log10(p)&quot;)
+grid()</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/random-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="genetic-component-of-chromosome-2-as-phenotype" class="section level2">
+<h2>genetic component of chromosome 2 as phenotype</h2>
+<p>Not all chromosome give small p values. chr2 is the one with the smallest p values.</p>
+<pre class="r"><code>chrom.p &lt;- 2
+r &lt;- do.call(cbind, lapply(1:22, function(x) phenores$batch[[x]]$Y.g))
+cat(&quot;variance of the genetic component: &quot;, var(r[,chrom.p]))</code></pre>
+<pre><code>variance of the genetic component:  0.120038</code></pre>
+<pre class="r"><code>outname &lt;- &quot;/home/simingz/causalTWAS/simulations/simulation_susieI_20201001/chr22_plots/chr22snpVschr2fixed&quot;
+# GWAA(dat$G, matrix(r[,chrom.p], ncol =1), snpname = snpname, anno = anno, outname, family = gaussian, ncore = 5, nSplits = 30, compress = F)
+n &lt;- read.table(outname, header =T, comment.char = &quot;&quot;, stringsAsFactors = F)
+plot(n$BEGIN, -log10(n$PVALUE), main = &quot;chr2 genetic&quot;, xlab = &quot;position&quot;, ylab = &quot;-log10(p)&quot;)
+grid()</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/chrfixed-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="genotype-of-causal-snps-on-chromosome-2-as-phenotype" class="section level2">
+<h2>genotype of causal snps on chromosome 2 as phenotype</h2>
+<p>genotype of causal snps on chromosome 2 as phenotype. There are 136 causal SNPs. Not all of them significantly associated with SNP genotype on chr22, but quite a few. below are examples (only a subset of SNPs on chr22 are selected to run regression analysis with chr2 causal SNP genotypes.)</p>
+<pre class="r"><code>chrom &lt;- 22
+load(paste0(&quot;~/causalTWAS/ukbiobank/ukb_chr&quot;, chrom ,&quot;_s40000.FBM.Rd&quot;))
+geno &lt;- dat$G[, match(n[n$PVALUE &lt; 1e-40, &quot;MARKER_ID&quot;], dat$snp[,1])]
+load(paste0(&quot;~/causalTWAS/ukbiobank/ukb_chr&quot;, chrom ,&quot;_s40000.unscaled.FBM.Rd&quot;))
+geno.unscaled &lt;-  dat$G[, match(n[n$PVALUE &lt; 1e-40, &quot;MARKER_ID&quot;], dat$snp[,1])]
+
+snpname = dat$snp[match(n[n$PVALUE &lt; 1e-40, &quot;MARKER_ID&quot;], dat$snp[,1]),1]
+anno &lt;- cbind(dat$chr, dat$pos, dat$pos)[match(n[n$PVALUE &lt; 1e-40, &quot;MARKER_ID&quot;], dat$snp[,1]), ]
+
+load(paste0(&quot;~/causalTWAS/ukbiobank/ukb_chr&quot;, chrom.p ,&quot;_s40000.FBM.Rd&quot;))
+geno.c &lt;- dat$G[, phenores$batch[[chrom.p]]$param$idx.cSNP]
+geno.c.names &lt;- dat$snp[phenores$batch[[chrom.p]]$param$idx.cSNP,]
+load(paste0(&quot;~/causalTWAS/ukbiobank/ukb_chr&quot;, chrom.p ,&quot;_s40000.unscaled.FBM.Rd&quot;))
+geno.c.unscaled &lt;- dat$G[, phenores$batch[[chrom.p]]$param$idx.cSNP]
+
+
+ac &lt;- ac &lt;- apply(round(geno.unscaled), 2, table)
+maf &lt;- apply(cbind( (ac[1,] * 2  + ac[2,]) / N/2, 1- (ac[1,] * 2  + ac[2,]) /N/2), 1, min)
+  
+geno.c.select &lt;- c(1, 23, 45, 65)
+
+for (i in geno.c.select){
+  outname &lt;- paste0(&quot;/home/simingz/causalTWAS/simulations/simulation_susieI_20201001/chr22_plots/chr22snpVschr2causal&quot;, i)
+  #GWAA(geno, matrix(geno.c[,i], ncol =1), snpname = snpname, anno = anno, outname, family = gaussian, ncore = 5, nSplits = 10, compress = F)
+  rsq_max &lt;- ld_max(geno.c.unscaled[,i, drop =F], geno.unscaled, stats = &quot;R.squared&quot;)
+
+  cat(&quot;max LD: &quot;, rsq_max)
+  m &lt;- read.table(outname, header =T, comment.char = &quot;&quot;)
+  rbPal &lt;- colorRampPalette(c(&#39;red&#39;,&#39;blue&#39;))
+  plot(anno[,2], -log10(m[m$X.CHROM ==22, ]$PVALUE),  main = paste0(&quot;chr&quot;, chrom.p, &quot;:&quot;, geno.c.names[i]), xlab = &quot;position&quot;, ylab = &quot;-log10(p)&quot;, col =rbPal(11)[as.numeric(cut(maf,breaks = seq(0,0.5, 0.05)))], pch =20)
+  legend(&quot;topleft&quot;,title=&quot;MAF&quot;,legend=seq(0,0.5, 0.05),col =rbPal(11),pch=20, cex = 0.5)
+  grid()
+}</code></pre>
+<pre><code>object has no names - using numeric order for row/column names
+object has no names - using numeric order for row/column names
+max LD:  0.002504657</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/geno-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>object has no names - using numeric order for row/column names
+object has no names - using numeric order for row/column names
+max LD:  0.01158271</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/geno-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>object has no names - using numeric order for row/column names
+object has no names - using numeric order for row/column names
+max LD:  0.006790833</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/geno-3.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>object has no names - using numeric order for row/column names
+object has no names - using numeric order for row/column names
+max LD:  0.002956953</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/geno-4.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="parameter-estimation-results" class="section level1">
 <h1>Parameter estimation results</h1>
@@ -698,6 +922,43 @@ par(mfrow = c(2,2))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/param1-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param1-1">
+Past versions of param1-1.png
+</button>
+</p>
+<div id="fig-param1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/docs/figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/param1-1.png" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="regions-causal" class="section level2">
 <h2>Regions: causal</h2>
@@ -714,6 +975,43 @@ par(mfrow = c(2,2))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/param5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param5-1">
+Past versions of param5-1.png
+</button>
+</p>
+<div id="fig-param5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/docs/figure/simulation-susieI-ukbWG-gtex.adipose.Rmd/param5-1.png" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -738,35 +1036,38 @@ locale:
 [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] parallel  stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
-[1] kableExtra_1.2.1    stringr_1.4.0       plyr_1.8.6         
-[4] tidyr_0.8.3         plotly_4.9.2.9000   ggplot2_3.3.1      
-[7] data.table_1.12.7   mr.ash.alpha_0.1-34
+ [1] snpStats_1.32.0     Matrix_1.2-15       survival_2.43-1    
+ [4] doParallel_1.0.15   iterators_1.0.10    foreach_1.4.4      
+ [7] kableExtra_1.2.1    stringr_1.4.0       plyr_1.8.6         
+[10] tidyr_0.8.3         plotly_4.9.2.9000   ggplot2_3.3.1      
+[13] data.table_1.12.7   mr.ash.alpha_0.1-34
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.1.0   purrr_0.3.4        lattice_0.20-38   
- [4] bigassertr_0.1.3   colorspace_1.3-2   vctrs_0.3.1       
- [7] generics_0.0.2     htmltools_0.3.6    viridisLite_0.3.0 
-[10] yaml_2.2.0         rlang_0.4.6        later_0.7.5       
-[13] pillar_1.4.4       glue_1.4.1         withr_2.1.2       
-[16] foreach_1.4.4      lifecycle_0.2.0    munsell_0.5.0     
-[19] gtable_0.2.0       workflowr_1.6.2    rvest_0.3.2       
-[22] htmlwidgets_1.3    codetools_0.2-15   evaluate_0.12     
-[25] knitr_1.20         doParallel_1.0.15  httpuv_1.4.5      
-[28] parallel_3.5.1     Rcpp_1.0.4.6       promises_1.0.1    
-[31] scales_1.0.0       backports_1.1.2    webshot_0.5.1     
-[34] jsonlite_1.6.1     fs_1.3.1           digest_0.6.25     
-[37] bigparallelr_0.2.3 stringi_1.3.1      dplyr_1.0.0       
-[40] cowplot_0.9.4      grid_3.5.1         rprojroot_1.3-2   
-[43] here_0.1           tools_3.5.1        magrittr_1.5      
-[46] lazyeval_0.2.1     tibble_3.0.1       crayon_1.3.4      
-[49] pkgconfig_2.0.2    ellipsis_0.3.1     Matrix_1.2-15     
-[52] xml2_1.2.0         bigstatsr_1.2.3    iterators_1.0.10  
-[55] rmarkdown_1.10     httr_1.4.1         rstudioapi_0.11   
-[58] R6_2.3.0           flock_0.7          git2r_0.26.1      
-[61] compiler_3.5.1    </code></pre>
+ [1] Rcpp_1.0.4.6        lattice_0.20-38     rprojroot_1.3-2    
+ [4] digest_0.6.25       R6_2.3.0            backports_1.1.2    
+ [7] evaluate_0.12       httr_1.4.1          highr_0.7          
+[10] pillar_1.4.4        flock_0.7           zlibbioc_1.28.0    
+[13] rlang_0.4.6         lazyeval_0.2.1      rstudioapi_0.11    
+[16] whisker_0.3-2       R.oo_1.22.0         R.utils_2.7.0      
+[19] rmarkdown_1.10      splines_3.5.1       webshot_0.5.1      
+[22] bigparallelr_0.2.3  htmlwidgets_1.3     munsell_0.5.0      
+[25] compiler_3.5.1      httpuv_1.4.5        pkgconfig_2.0.2    
+[28] BiocGenerics_0.28.0 htmltools_0.3.6     tidyselect_1.1.0   
+[31] tibble_3.0.1        bigstatsr_1.2.3     workflowr_1.6.2    
+[34] codetools_0.2-15    viridisLite_0.3.0   crayon_1.3.4       
+[37] dplyr_1.0.0         withr_2.1.2         later_0.7.5        
+[40] R.methodsS3_1.7.1   grid_3.5.1          jsonlite_1.6.1     
+[43] gtable_0.2.0        lifecycle_0.2.0     git2r_0.26.1       
+[46] magrittr_1.5        scales_1.0.0        stringi_1.3.1      
+[49] fs_1.3.1            promises_1.0.1      xml2_1.2.0         
+[52] ellipsis_0.3.1      generics_0.0.2      vctrs_0.3.1        
+[55] cowplot_0.9.4       tools_3.5.1         glue_1.4.1         
+[58] purrr_0.3.4         yaml_2.2.0          colorspace_1.3-2   
+[61] bigassertr_0.1.3    rvest_0.3.2         knitr_1.20         </code></pre>
 </div>
 </div>
 </div>

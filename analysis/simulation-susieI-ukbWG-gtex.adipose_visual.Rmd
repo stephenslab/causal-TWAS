@@ -1,0 +1,36 @@
+---
+title: "Test mr.ash2s on ukbiobank data, chr1-22, 40k"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
+```
+Provide visualization for analysis [here]
+
+```{r output dir}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20201001/"
+outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20201001/"
+susiedir <- "~/causalTWAS/simulations/simulation_susietest_20201001/"
+```
+
+```{r source file}
+source("analysis/visual_twas_plots.R")
+```
+
+## Simulation- high power
+
+```{r sim 1-4, out.width = "98%", out.height="95%"}
+tag <- "20201001-1-4"
+f <- get_files(tag= tag, tag2 = tag2)
+param <- read.table(f$par, header = T, row.names = 1)
+print(param)
+```
+```{r 1-4-17, out.width = "98%", out.height="95%"}
+chrom <- "17"
+cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
+plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
+```
+
+

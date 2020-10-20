@@ -78,6 +78,7 @@ We compare cTWAS results with other methods, summarizing results over multiple s
   *  [Using UKbiobank data (chr17:22), fusion weights Adipose, test prior's effect for susie](simulation-multi-ukbchr17to22-gtex.adipose_susieprior.html)
   
 * [Using UKbiobank data (whole genome), fusion weights Adipose](simulation-susieI-ukbWG-gtex.adipose.html) 
+  * [Visualization](https://users.rcc.uchicago.edu/~simingz/simulation-susieI-ukbWG-gtex.adipose_visual.html)
 
 # Related software
   * VEB-boost

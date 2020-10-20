@@ -158,14 +158,21 @@ write.table(regionsall, file= paste0(outname,".", filtertype, ".r.txt" ) , row.n
 # start susieI
 loginfo("susie started for %s", outname)
 
+
 cl <- makeCluster(Ncore,outfile="")
 registerDoParallel(cl)
 
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
+####***
+load("20201001-1-1.config2.susieIres.Rd")
 
-for (iter in 1:Niter){
-  loginfo("run iteration ", iter)
+for (iter in 4:Niter){
+  ####***
+   prior.SNP <- prior.SNP_rec[3]
+   prior.gene <-  prior.gene_rec[3]
+
+  loginfo("run iteration %s", iter)
 
   snp.rpiplist <- list()
   gene.rpiplist <- list()
@@ -184,6 +191,7 @@ for (iter in 1:Niter){
     outdf.b.list <- list()
     for (rn in names(regionlist[[b]])) {
       print(c(iter, b, rn))
+
       gidx <- regionlist[[b]][[rn]][["gidx"]]
       sidx <- regionlist[[b]][[rn]][["sidx"]]
       p <- length(gidx[gidx]) + length(sidx[sidx])
@@ -201,6 +209,7 @@ for (iter in 1:Niter){
       }
 
       nw <- max(0, 1 - sum(prior))
+
       X <- cbind(exprres$expr[, gidx], dat$G[, sidx])
 
 

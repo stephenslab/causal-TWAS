@@ -2,12 +2,12 @@
 # Analysis description
 
 ```{r parameters}
-n <- 40000 # number of samples
-p <- 656321 # number of SNPs
-J <- 8021 # number of genes
+n <- 20000 # number of samples
+p <- 86000 # number of SNPs
+J <- 1653 # number of genes
 ```
 
-The genotype data we used is from UKB biobank, randomly selecting n = `r as.character(n)` samples. We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = `p as.charater(p)` SNPs.
+The genotype data we used is from UKB biobank, randomly selecting n = `r as.character(n)` samples. We use SNP genotype data from chr 17 to chr 22 combined. These genomic regions represents 12.5% of the genome. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = `p as.charater(p)` SNPs.
 
 Our analysis consists of the following steps: 
 

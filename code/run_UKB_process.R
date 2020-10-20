@@ -88,12 +88,14 @@ pgen2dat <- function(eqtl, prune, pfiles, outf){
     select <- (1:nrow(var))["|"(eqtl, prunetag)]
     varall <- rbind(varall, var[select,])
     mtx <- pgen2mtx(pfile, nb_parts = 50, select=select, progress = T)
-    # mtxall.unscaled <- cbind(mtxall.unscaled, mtx)
-    mtx.scaled <- scaleRcpp(mtx)
-    mtxall <- cbind(mtxall, mtx.scaled)
+    mtxall.unscaled <- cbind(mtxall.unscaled, mtx)
+    #mtx.scaled <- scaleRcpp(mtx)
+    #mtxall <- cbind(mtxall, mtx.scaled)
   }
 
-  dat <- list("G"       = mtxall,
+  dat <- list(
+              #"G"       = mtxall,
+              "G" = mtxall.unscaled,
               "chr"     = as.matrix(varall[,1]),
               "pos"     = as.matrix(varall[,2]),
               "snp"     = as.matrix(varall[,3]),
@@ -101,7 +103,7 @@ pgen2dat <- function(eqtl, prune, pfiles, outf){
               "alt"     = as.matrix(varall[,5]))
 
 
-  m <- as_FBM(mtxall, backingfile = outf, is_read_only = T)$save()
+  m <- as_FBM(mtxall.unscaled, backingfile = outf, is_read_only = T)$save()
   dat$G <- m
   save(dat, file = paste0(outf, ".FBM.Rd"))
 }
@@ -113,6 +115,12 @@ prune <- c(T, rep(F,9)) # T will be kept
 for (chrom in 1:22){
   pfiles <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40000.pgen")
   outf <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40000")
+  pgen2dat(eqtl, prune, pfiles, outf)
+}
+
+for (chrom in 1:22){
+  pfiles <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40000.pgen")
+  outf <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40000.unscaled")
   pgen2dat(eqtl, prune, pfiles, outf)
 }
 

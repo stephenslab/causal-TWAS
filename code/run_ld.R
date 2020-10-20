@@ -21,27 +21,52 @@ loginfo("input arg 4 (outname): %s ", args[4])
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir,"ld.R"))
 
-# load genotype data
 pfile <- args[1]
-pfileRd <- paste0(pfile, ".unscaled.FBM.Rd")
-if (file.exists(pfileRd)){
-  load(pfileRd)
+if (file_ext(pfile) == "txt"){
+  pfiles <- read.table(pfile, header =F, stringsAsFactors = F)[,1]
+  efiles <- read.table(args[2], header =F, stringsAsFactors = F)[,1]
 } else {
-  load(paste0(pfile, ".Rd"))
+  pfiles <- pfile
+  efiles <- args[2]
 }
+pfileRds <- paste0(drop_ext(pfiles), ".unscaled.FBM.Rd")
 
-
-# load expression Rd file, variable: exprres
-load(args[2])
-gc()
 
 # load pheno Rd file, variable: pheno
 load(args[3])
 
 outname <- args[4]
 
-# get ld information before genotype scaling
-get_ld(outname)
+load(pfileRds[22])
+load(efiles[22])
+
+geno.t <- list()
+
+#geno.t[[1]] <- .eqtl_geno("TRIOBP")
+
+for (name in  df$MARKER_ID) {
+  temp <- dat$G[, dat$snp == name, drop = F]
+  colnames(temp) <- name
+  geno.t[[name]] <- temp
+}
+
+rsqlist <- list()
+
+for (b in 1:length(pfiles)){
+  # load genotype data
+  load(pfileRds[b])
+
+  # load expression Rd file, variable: exprres
+  load(efiles[b])
+
+  causalg.eqtl <-lapply(exprres$gnames[phenores$batch[[b]]$param$idx.cgene], .eqtl_geno)
+  cg <- do.call(cbind, causalg.eqtl)
+
+  csnp <- dat$G[ ,phenores$batch[[b]]$param$idx.cSNP]
+  colnames(csnp) <- dat$snp[phenores$batch[[b]]$param$idx.cSNP, 1]
+
+  rsqlist[[b]] <- lapply(geno.t, ld_max, y = cbind(cg,csnp), stats = "R.squared")
+}
 
 loginfo("ld for genes and causal genes/SNPs done.")
 

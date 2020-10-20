@@ -17,13 +17,13 @@ ld_max <- function(x,  y, stats = "R.squared"){
 }
 
 .eqtl_geno <- function(gname){
-  x <- exprres$exprlist[[gname]]
-  if (is.null(dim(x$wgt))){
-    dim(x$wgt) <- c(1,2)
-    colnames(x$wgt) <- c("idx", "wgt")
+  x <- exprres$wgtlist[[gname]]
+  if (is.null(dim(x))){
+    dim(x) <- c(1,2)
+    colnames(x) <- c("idx", "wgt")
   }
-  eqtlgeno <- dat$G[ , x$wgt[abs(x$wgt[, "wgt"]) > 0, "idx"], drop = F]
-  colnames(eqtlgeno) <- paste(gname, dat$snp[x$wgt[abs(x$wgt[, "wgt"]) > 0, "idx"], 1], sep = ".")
+  eqtlgeno <- dat$G[ , x[abs(x[, "wgt"]) > 0, "idx"], drop = F]
+  colnames(eqtlgeno) <- paste(gname, dat$snp[x[abs(x[, "wgt"]) > 0, "idx"], 1], sep = ".")
   return(eqtlgeno)
 }
 
