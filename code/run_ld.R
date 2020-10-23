@@ -29,7 +29,7 @@ if (file_ext(pfile) == "txt"){
   pfiles <- pfile
   efiles <- args[2]
 }
-pfileRds <- paste0(drop_ext(pfiles), ".unscaled.FBM.Rd")
+pfileRds <- paste0(pfiles, ".unscaled.FBM.Rd")
 
 
 # load pheno Rd file, variable: pheno

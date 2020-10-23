@@ -141,6 +141,21 @@ for (chrom in 1:22){
 write.table(regions, file= "/home/simingz/causalTWAS/simulations/shared_files/chr1-22-500kb_bins.txt",
             row.names=F, col.names=T, sep="\t", quote = F)
 
+#-------------------------filter s40000 samples---------------------------------------
+s.s <- read.table("/home/simingz/causalTWAS/ukbiobank/ukbiobank_samples_s40.22.txt", header =F, stringsAsFactors = F)
+s.ori <- read.table("/home/simingz/causalTWAS/ukbiobank/ukbiobank_samples40000.txt", header =F, stringsAsFactors = F)
+
+s.s.idx <- match(s.s[,1], s.ori[,1])
+for (chrom in 1:22){
+  outf <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40000.FBM.Rd")
+  load(outf)
+  G.new <- dat$G[]
+  G.new <- G.new[s.s.idx, ]
+  m <- as_FBM(G.new, backingfile = paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40.22"), is_read_only = T)$save()
+  dat$G <- m
+  save(dat, file = paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40.22.FBM.Rd"))
+}
+
 #---------chr17-22 multiple copies with different names---
 setwd("/home/simingz/causalTWAS/ukbiobank")
 for (i in 1:6) {

@@ -37,7 +37,7 @@ if (file_ext(pfile) == "txt"){
   outnames <- outname
   pfiles <- pfile
 }
-pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
+pfileRds <- paste0(pfiles, ".FBM.Rd")
 
 loginfo("start to impute expression ...")
 for ( b in 1:length(pfileRds)){

@@ -358,7 +358,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-10-14
+<strong>Last updated:</strong> 2020-10-23
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -389,16 +389,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6be6e720eb21208a194a634050a28de3255fd4fftargetblank6be6e72a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/6be6e720eb21208a194a634050a28de3255fd4ff" target="_blank">6be6e72</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreefc1e98d9203037cf32c5370f24f878141676bdf7targetblankfc1e98da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/fc1e98d9203037cf32c5370f24f878141676bdf7" target="_blank">fc1e98d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6be6e720eb21208a194a634050a28de3255fd4fftargetblank6be6e72a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreefc1e98d9203037cf32c5370f24f878141676bdf7targetblankfc1e98da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/6be6e720eb21208a194a634050a28de3255fd4ff" target="_blank">6be6e72</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/fc1e98d9203037cf32c5370f24f878141676bdf7" target="_blank">fc1e98d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -411,40 +411,70 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-susieI-ukbWG-gtex.adipose.Rmd
-    Untracked:  code/cis_expr.R
-    Untracked:  code/run_impute_expr.R
-    Untracked:  code/run_simulate_pheno.R
-    Untracked:  code/susieI_parallel_test.R
-    Untracked:  code/workflow/submit_parallel_master_run2.sh.sh
-    Untracked:  code/workflow/submit_parallel_{masterfile}.sh
+    Untracked:  analysis/figure/
+    Untracked:  analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd
+    Untracked:  code/run_UKB_phenotype.R
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr10_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr11_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr12_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr13_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr14_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr15_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr16_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr17_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr18_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr19_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr1_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr20_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr21_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr22_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr2_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr3_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr4_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr5_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr6_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr7_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr8_genotype.sh
+    Untracked:  code/workflow/prep_ukbiobank_n40000_chr9_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr10_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr11_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr12_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr13_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr14_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr15_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr16_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr17_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr18_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr19_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr1_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr20_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr21_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr22_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr2_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr3_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr4_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr5_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr6_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr7_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr8_genotype.sh
+    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr9_genotype.sh
+    Untracked:  code/workflow/s40000-chr1to22.sh
 
 Unstaged changes:
-    Modified:   analysis/description.Rmd
     Modified:   analysis/index.Rmd
-    Modified:   analysis/simulation-susieI-ukbchr17to22B-gtex.adipose.Rmd
+    Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose.Rmd
     Modified:   code/gwas.R
     Modified:   code/run_UKB_process.R
-    Modified:   code/run_gwas_expr.R
     Modified:   code/run_gwas_snp.R
-    Deleted:    code/run_simulate_phenotype.R
+    Modified:   code/run_impute_expr.R
+    Modified:   code/run_ld.R
+    Modified:   code/run_simulate_pheno.R
     Modified:   code/run_test_susieI.R
-    Modified:   code/run_test_susieI_temp.R
-    Modified:   code/simulate_phenotype.R
-    Modified:   code/susie_filter.R
-    Deleted:    code/workflow/master_run.sh
-    Deleted:    code/workflow/param-20200915-1-1.R
-    Deleted:    code/workflow/submit_parallel_master_run.sh.sh
-    Deleted:    code/workflow/submit_parallel_master_run1-x.sh.sh
-    Modified:   code/workflow/workflow-ashtest-20200915.ipynb
+    Deleted:    code/workflow/submit_parallel_master_run2.sh.sh
+    Deleted:    code/workflow/submit_parallel_{masterfile}.sh
     Modified:   code/workflow/workflow-ashtest-20201001.ipynb
     Modified:   code/workflow/workflow-data.ipynb
-    Modified:   code/workflow/workflow-susieI-20200915.ipynb
     Modified:   code/workflow/workflow-susieI-20201001.ipynb
-
-Staged changes:
-    Renamed1:   code/run_simulate_data.R
-    Renamed2:   code/run_simulate_phenotype.R
 
 </code></pre>
 <p>
@@ -483,6 +513,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/fc1e98d9203037cf32c5370f24f878141676bdf7/analysis/index.Rmd" target="_blank">fc1e98d</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-20
+</td>
+<td>
+small pvalues
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/analysis/index.Rmd" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+<td>
+wg susieI
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/c2dee2c189fe3dbc0f99cd0376fc0ac4113b38d2/docs/index.html" target="_blank">c2dee2c</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-14
+</td>
+<td>
+wg susieI
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1645,7 +1726,8 @@ model and Xin’s simulation
 <ul>
 <li><a href="simulation-susieI-ukbchr17to22-gtex.adipose.html">Using UKbiobank data (chr17:22), fusion weights Adipose</a></li>
 <li><p><a href="simulation-multi-ukbchr17to22-gtex.adipose_susieprior.html">Using UKbiobank data (chr17:22), fusion weights Adipose, test prior’s effect for susie</a></p></li>
-<li><p><a href="simulation-susieI-ukbWG-gtex.adipose.html">Using UKbiobank data (whole genome), fusion weights Adipose</a></p></li>
+<li><a href="simulation-susieI-ukbWG-gtex.adipose_s40.22.html">Using UKbiobank data (whole genome), fusion weights Adipose</a></li>
+<li><p><a href="https://users.rcc.uchicago.edu/~simingz/simulation-susieI-ukbWG-gtex.adipose_visual.html">Visualization</a></p></li>
 </ul>
 </div>
 </div>

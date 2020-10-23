@@ -72,7 +72,7 @@ if (file_ext(pfile) == "txt"){
   efiles <- args[2]
 }
 
-pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
+pfileRds <- paste0(pfiles, ".FBM.Rd")
 phenofile <- args[3]
 
 # read regions files
@@ -164,13 +164,12 @@ registerDoParallel(cl)
 
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
-####***
-load("20201001-1-1.config2.susieIres.Rd")
 
-for (iter in 4:Niter){
-  ####***
-   prior.SNP <- prior.SNP_rec[3]
-   prior.gene <-  prior.gene_rec[3]
+if (isTRUE(restart)){
+
+}
+
+for (iter in 1:Niter){
 
   loginfo("run iteration %s", iter)
 

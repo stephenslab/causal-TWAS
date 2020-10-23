@@ -10,7 +10,7 @@ library(doParallel)
 #' @param anno a data frame/matrix, anno column with N rows.
 #' @param compress T/F, if T will be compressed and indexed by tabix. (TODO)
 #'
-GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gaussian, ncore = 1, nSplits = 10, compress = F){
+GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gaussian, ncore = 1, nSplits = 10, compress = F, s.idx = NULL){
 
   cl <- makeCluster(ncore)
   show(cl)
@@ -31,9 +31,19 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
   columns<-c("#CHROM",	"BEGIN",	"END", "MARKER_ID", "Estimate", "Std.Error", "t-value", "PVALUE") # header for LOCUSZOOM.
   write.table(t(columns), outname, row.names=FALSE, col.names=FALSE, quote=FALSE, sep = "\t")
 
+
+  if (!is.null(s.idx)){
+    pheno <- pheno[s.idx, ,drop=F]
+  }
+
   for (part in 1:nSplits) {
 
     geno.i <- geno[ ,snp.start[part]:snp.stop[part]]
+
+    if (!is.null(s.idx)){
+      geno.i <- geno.i[s.idx, ]
+    }
+
     snpname.i <- snpname[snp.start[part]:snp.stop[part]]
     if (!is.null(anno)) {
       anno.i <- anno[snp.start[part]:snp.stop[part], ]

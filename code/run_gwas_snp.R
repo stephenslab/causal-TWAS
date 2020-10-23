@@ -24,7 +24,7 @@ if (file_ext(pfile) == "txt"){
   outnames <- paste0(args[3], ".snpgwas.txt")
   combine <- F
 }
-pfileRds <- paste0(drop_ext(pfiles), ".FBM.Rd")
+pfileRds <- paste0(pfiles, ".FBM.Rd")
 
 phenofile <- args[2]
 load(phenofile)
