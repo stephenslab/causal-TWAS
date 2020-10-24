@@ -489,16 +489,16 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6526634c650d8b90e83eeee06dad378dc2352440targetblank6526634a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/6526634c650d8b90e83eeee06dad378dc2352440" target="_blank">6526634</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebf57f32413df29e806bf671e3f735fc4d5d5c27ftargetblankbf57f32a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/bf57f32413df29e806bf671e3f735fc4d5d5c27f" target="_blank">bf57f32</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6526634c650d8b90e83eeee06dad378dc2352440targetblank6526634a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebf57f32413df29e806bf671e3f735fc4d5d5c27ftargetblankbf57f32a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/6526634c650d8b90e83eeee06dad378dc2352440" target="_blank">6526634</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/bf57f32413df29e806bf671e3f735fc4d5d5c27f" target="_blank">bf57f32</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -510,16 +510,8 @@ Ignored files:
     Ignored:    code/workflow/.ipynb_checkpoints/
     Ignored:    data/
 
-Untracked files:
-    Untracked:  analysis/figure/
-    Untracked:  code/qqplot.R
-
 Unstaged changes:
     Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd
-    Modified:   code/run_UKB_phenotype.R
-    Modified:   code/run_gwas_expr.R
-    Modified:   code/run_test_susieI.R
-    Modified:   code/workflow/workflow-ashtest-20201001.ipynb
 
 </code></pre>
 <p>
@@ -558,6 +550,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/bf57f32413df29e806bf671e3f735fc4d5d5c27f/analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">bf57f32</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+<td>
+qqplot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/bf57f32413df29e806bf671e3f735fc4d5d5c27f/docs/simulation-susieI-ukbWG-gtex.adipose_s40.22.html" target="_blank">bf57f32</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+<td>
+qqplot
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -613,7 +639,7 @@ source(&quot;analysis/summarize_twas_plots.R&quot;)</code></pre>
 n &lt;-  22542
 p &lt;- 656321 # number of SNPs
 J &lt;- 8021 # number of genes</code></pre>
-<p>The genotype data we used is from UKB biobank, randomly selecting 40000 samples. We then filtered samples based on relatedness, that ended up with n = 22542 samples. We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = <code>p as.charater(p)</code> SNPs.</p>
+<p>The genotype data we used is from UKB biobank, randomly selecting 40000 samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with n = 22542 samples. We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = <code>p as.charater(p)</code> SNPs.</p>
 <p>Our analysis consists of the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>Build expression predictors using another expression-genotype dataset.</li>
@@ -726,6 +752,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/bf57f32413df29e806bf671e3f735fc4d5d5c27f/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/gene twas-1.png" target="_blank">bf57f32</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/gene twas-1.png" target="_blank">6526634</a>
 </td>
 <td>
@@ -750,6 +787,43 @@ simingz
     # panel.grid = element_line(size = 0.5, color = &quot;grey80&quot;)
   )</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/qqgene-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-qqgene-1">
+Past versions of qqgene-1.png
+</button>
+</p>
+<div id="fig-qqgene-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/bf57f32413df29e806bf671e3f735fc4d5d5c27f/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/qqgene-1.png" target="_blank">bf57f32</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ul>
 <li>p value of SNPs (GWAS):</li>
 </ul>
@@ -793,6 +867,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/bf57f32413df29e806bf671e3f735fc4d5d5c27f/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/snp twas-1.png" target="_blank">bf57f32</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/snp twas-1.png" target="_blank">6526634</a>
 </td>
 <td>
@@ -817,6 +902,43 @@ simingz
     # panel.grid = element_line(size = 0.5, color = &quot;grey80&quot;)
   )</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/qqsnp-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-qqsnp-1">
+Past versions of qqsnp-1.png
+</button>
+</p>
+<div id="fig-qqsnp-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/bf57f32413df29e806bf671e3f735fc4d5d5c27f/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/qqsnp-1.png" target="_blank">bf57f32</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="parameter-estimation-results" class="section level1">
 <h1>Parameter estimation results</h1>
@@ -887,7 +1009,7 @@ gpip_dist &lt;- function(susiefs, ...){
 <div id="regions-all-1" class="section level2">
 <h2>Regions: all (1)</h2>
 <ul>
-<li>Susie run parameters: <code>L=2</code>. initialize with <code>null_weight = 0</code> and update <code>null_weight</code> based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.</li>
+<li>Susie run parameters: <code>L=2</code>. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes).</li>
 </ul>
 <pre class="r"><code>outputdir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20201001/L=2/&quot;
 tags &lt;- paste(rep(1:2, each = 5), 1:5, sep = &quot;-&quot;)
@@ -941,7 +1063,7 @@ simingz
 <div id="regions-all-2" class="section level2">
 <h2>Regions: all (2)</h2>
 <ul>
-<li>Susie run parameters: <code>L=2</code>. initialize with <code>null_weight = 0</code> and update <code>null_weight</code> based on last iteration results. We initialize prior for genes and SNPs using true values. gene.pve ~ 0.1, snp.pve ~ 0.5.</li>
+<li>Susie run parameters: <code>L=2</code>. We initialize with prior for genes and SNPs using their true values. gene.pve ~ 0.1, snp.pve ~ 0.5. Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes).</li>
 </ul>
 <pre class="r"><code>tags &lt;- paste(rep(1:2, each = 5), 1:5, sep = &quot;-&quot;)
 phenofs &lt;- paste0(simdatadir, &quot;simu_20201001-&quot;, tags, &quot;-pheno.Rd&quot;)

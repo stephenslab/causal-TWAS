@@ -107,6 +107,7 @@ For genes, under high power setting, $\pi_1 = 0.02$, variance for effect size ~ 
 ```{r gene2}
 p3 <- pow(total, n, 0.045, 1e-5)
 print(p3)
+# save(p1,p2,p3, file = "data/power_s40.22.Rd")
 ```
 
 # p value distribution
@@ -246,7 +247,7 @@ gpip_dist <- function(susiefs, ...){
 
 ## Regions: all (1)
 
-* Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
+* Susie run parameters: `L=2`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
 
 ```{r param1, fig.height=6, fig.width=6}
 outputdir <- "~/causalTWAS/simulations/simulation_susieI_20201001/L=2/"
@@ -263,7 +264,7 @@ plot_param(df[6:10,], main = "high power")
 
 ## Regions: all (2)
 
-* Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize prior for genes and SNPs using true values. gene.pve ~ 0.1, snp.pve ~ 0.5. 
+* Susie run parameters: `L=2`. We initialize with prior for genes and SNPs using their true values. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
 
 ```{r param2, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
