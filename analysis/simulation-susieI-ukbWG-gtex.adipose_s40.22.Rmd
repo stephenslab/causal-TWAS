@@ -125,6 +125,7 @@ h1 <- hist(-log10(a$PVALUE), breaks = 100, xlab = "-log10(p)", main = "P value d
 h2 <- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = "-log10(p)", main = "P value distribution-causal", col = "salmon", xlim= c(3,20), ylim =c(0,50));grid()
 
 cat("number of genes p < 1e-5:", nrow(a[a$PVALUE < 1e-5,]))
+cat("number of causal genes p < 1e-5:", nrow(a[a$PVALUE < 1e-5 & a$ifcausal ==1 ,]))
 
 plot(a[a$X.CHROM ==chrom, ]$BEGIN, -log10(a[a$X.CHROM ==chrom, ]$PVALUE), col = a[a$X.CHROM ==chrom, ]$ifcausal + 1, xlab = paste0("chr", chrom), ylab = "-log10(pvalue)")
 points(a[a$X.CHROM ==chrom & a$ifcausal ==1, ]$BEGIN, -log10(a[a$X.CHROM ==chrom & a$ifcausal ==1, ]$PVALUE), col = "red", pch =19)

@@ -489,16 +489,16 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebf57f32413df29e806bf671e3f735fc4d5d5c27ftargetblankbf57f32a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/bf57f32413df29e806bf671e3f735fc4d5d5c27f" target="_blank">bf57f32</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeba58a994c9bbda1ad44f896d577f9adab73b223btargetblankba58a99a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/ba58a994c9bbda1ad44f896d577f9adab73b223b" target="_blank">ba58a99</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreebf57f32413df29e806bf671e3f735fc4d5d5c27ftargetblankbf57f32a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeba58a994c9bbda1ad44f896d577f9adab73b223btargetblankba58a99a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/bf57f32413df29e806bf671e3f735fc4d5d5c27f" target="_blank">bf57f32</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/ba58a994c9bbda1ad44f896d577f9adab73b223b" target="_blank">ba58a99</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -550,6 +550,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ba58a994c9bbda1ad44f896d577f9adab73b223b/analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">ba58a99</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+<td>
+qqplot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/ba58a994c9bbda1ad44f896d577f9adab73b223b/docs/simulation-susieI-ukbWG-gtex.adipose_s40.22.html" target="_blank">ba58a99</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-24
+</td>
+<td>
+qqplot
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -724,6 +758,8 @@ h2 &lt;- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = &q
 
 cat(&quot;number of genes p &lt; 1e-5:&quot;, nrow(a[a$PVALUE &lt; 1e-5,]))</code></pre>
 <pre><code>number of genes p &lt; 1e-5: 67</code></pre>
+<pre class="r"><code>cat(&quot;number of causal genes p &lt; 1e-5:&quot;, nrow(a[a$PVALUE &lt; 1e-5 &amp; a$ifcausal ==1 ,]))</code></pre>
+<pre><code>number of causal genes p &lt; 1e-5: 33</code></pre>
 <pre class="r"><code>plot(a[a$X.CHROM ==chrom, ]$BEGIN, -log10(a[a$X.CHROM ==chrom, ]$PVALUE), col = a[a$X.CHROM ==chrom, ]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
 points(a[a$X.CHROM ==chrom &amp; a$ifcausal ==1, ]$BEGIN, -log10(a[a$X.CHROM ==chrom &amp; a$ifcausal ==1, ]$PVALUE), col = &quot;red&quot;, pch =19)
 grid()</code></pre>
