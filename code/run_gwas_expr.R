@@ -37,8 +37,6 @@ for (b in 1:length(pfiles)){
 
   anno <- cbind(exprres$chrom, exprres$p0, exprres$p1)
   colnames(anno) <- c("chr", "p0", "p1")
-  exprres$expr <- exprres$expr[, order(anno[,"p0"], anno[, "chr"])]
-  anno <- anno[order(anno[,"p0"], anno[, "chr"]), ]
 
   if (length(args) == 3){
 

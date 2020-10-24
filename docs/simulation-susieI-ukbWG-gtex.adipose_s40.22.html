@@ -358,7 +358,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-10-23
+<strong>Last updated:</strong> 2020-10-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -382,7 +382,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -473,6 +473,14 @@ code/gwas.R
 code/ld.R
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/code/qqplot.R
+</td>
+<td style="text-align:left;">
+code/qqplot.R
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -481,16 +489,16 @@ code/ld.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreefc1e98d9203037cf32c5370f24f878141676bdf7targetblankfc1e98da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/fc1e98d9203037cf32c5370f24f878141676bdf7" target="_blank">fc1e98d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6526634c650d8b90e83eeee06dad378dc2352440targetblank6526634a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/6526634c650d8b90e83eeee06dad378dc2352440" target="_blank">6526634</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreefc1e98d9203037cf32c5370f24f878141676bdf7targetblankfc1e98da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6526634c650d8b90e83eeee06dad378dc2352440targetblank6526634a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/fc1e98d9203037cf32c5370f24f878141676bdf7" target="_blank">fc1e98d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/6526634c650d8b90e83eeee06dad378dc2352440" target="_blank">6526634</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -503,68 +511,15 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd
-    Untracked:  code/run_UKB_phenotype.R
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr10_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr11_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr12_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr13_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr14_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr15_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr16_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr17_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr18_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr19_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr1_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr20_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr21_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr22_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr2_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr3_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr4_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr5_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr6_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr7_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr8_genotype.sh
-    Untracked:  code/workflow/prep_ukbiobank_n40000_chr9_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr10_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr11_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr12_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr13_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr14_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr15_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr16_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr17_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr18_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr19_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr1_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr20_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr21_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr22_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr2_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr3_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr4_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr5_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr6_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr7_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr8_genotype.sh
-    Untracked:  code/workflow/qsub_prep_ukbiobank_n40000_chr9_genotype.sh
-    Untracked:  code/workflow/s40000-chr1to22.sh
+    Untracked:  analysis/figure/
+    Untracked:  code/qqplot.R
 
 Unstaged changes:
-    Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose.Rmd
-    Modified:   code/gwas.R
-    Modified:   code/run_UKB_process.R
-    Modified:   code/run_gwas_snp.R
-    Modified:   code/run_impute_expr.R
-    Modified:   code/run_ld.R
-    Modified:   code/run_simulate_pheno.R
+    Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd
+    Modified:   code/run_UKB_phenotype.R
+    Modified:   code/run_gwas_expr.R
     Modified:   code/run_test_susieI.R
-    Deleted:    code/workflow/submit_parallel_master_run2.sh.sh
-    Deleted:    code/workflow/submit_parallel_{masterfile}.sh
     Modified:   code/workflow/workflow-ashtest-20201001.ipynb
-    Modified:   code/workflow/workflow-data.ipynb
-    Modified:   code/workflow/workflow-susieI-20201001.ipynb
 
 </code></pre>
 <p>
@@ -577,9 +532,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd</code>) and HTML (<code>docs/simulation-susieI-ukbWG-gtex.adipose_s40.22.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+<td>
+filtered samples s40.22
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/6526634c650d8b90e83eeee06dad378dc2352440/docs/simulation-susieI-ukbWG-gtex.adipose_s40.22.html" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+<td>
+filtered samples s40.22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -621,35 +636,120 @@ outputdir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20201001/&quot;
 susiedir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20201001/&quot;
 simtag &lt;- &#39;20201001-1-3&#39;
 source(&#39;~/causalTWAS/causal-TWAS/code/gwas.R&#39;)
-source(&#39;~/causalTWAS/causal-TWAS/code/ld.R&#39;)</code></pre>
+source(&#39;~/causalTWAS/causal-TWAS/code/ld.R&#39;)
+source(&#39;~/causalTWAS/causal-TWAS/code/qqplot.R&#39;)</code></pre>
 <pre class="r"><code>exprgwasf &lt;- paste0(simdatadir, simtag, &quot;.exprgwas.txt.gz&quot;)
 load(paste0(simdatadir, &quot;simu_&quot;, simtag, &quot;-pheno.Rd&quot;))
 caulist &lt;- list()
 for (chrom in 1:22) {
-  load(paste0(&quot;~/causalTWAS/ukbiobank/ukb_chr&quot;, chrom ,&quot;_s40000.FBM.Rd&quot;))
+  load(paste0(&quot;~/causalTWAS/ukbiobank/ukb_chr&quot;, chrom ,&quot;_s40.22.FBM.Rd&quot;))
   load(paste0(simdatadir, &quot;simu_s40000_GTEXadipose-B&quot;, chrom, &quot;-cis-expr.Rd&quot;))
   caulist[[chrom]]&lt;- c(exprres$gnames[phenores$batch[[chrom]]$param$idx.cgene], dat$snp[phenores$batch[[chrom]]$param$idx.cSNP,])
 }
 cau &lt;- unlist(caulist)</code></pre>
+</div>
+<div id="power-estimation" class="section level1">
+<h1>Power estimation</h1>
+<p>We use gene.pve ~ 0.1, snp.pve ~ 0.5.</p>
+<ul>
+<li>For SNPs, we use <span class="math inline">\(\pi_1 = 2.5e-3\)</span>, variance for effect size ~ <span class="math inline">\(0.03^2\)</span>, power at 5e-8 p value cutoff:</li>
+</ul>
+<pre class="r"><code>pow &lt;- function(total, n, beta, cutp){
+  rec &lt;- rep(0, total)
+  for (i in 1:total){
+    x &lt;- rnorm(n)
+    y &lt;- x * rnorm(1, sd = beta) + rnorm(n, sd = sqrt(2.5))
+    lm.s &lt;- lm(y~x)
+    pv &lt;- summary(lm.s)$coefficients[2,4]
+    rec[i] &lt;- pv
+  }
+  length(rec[rec &lt; cutp])/length(rec)
+}</code></pre>
+<pre class="r"><code>total &lt;- 1e3
+n &lt;- 22542
+p1 &lt;- pow(total, n, 0.0276, 5e-8)
+print(p1)</code></pre>
+<pre><code>[1] 0.057</code></pre>
+<ul>
+<li>For genes, under low power setting, <span class="math inline">\(\pi_1 = 0.05\)</span>, variance for effect size ~ <span class="math inline">\(0.025^2\)</span>, power at 1e-5 cutoff:</li>
+</ul>
+<pre class="r"><code>p2 &lt;- pow(total, n, 0.025, 1e-5)
+print(p2)</code></pre>
+<pre><code>[1] 0.079</code></pre>
+<p>For genes, under high power setting, <span class="math inline">\(\pi_1 = 0.02\)</span>, variance for effect size ~ <span class="math inline">\(0.045^2\)</span>, power at 1e-5 cutoff:</p>
+<pre class="r"><code>p3 &lt;- pow(total, n, 0.045, 1e-5)
+print(p3)</code></pre>
+<pre><code>[1] 0.317</code></pre>
+<pre class="r"><code># save(p1,p2,p3, file = &quot;data/power_s40.22.Rd&quot;)</code></pre>
 </div>
 <div id="p-value-distribution" class="section level1">
 <h1>p value distribution</h1>
 <ul>
 <li>TWAS p value of genes:</li>
 </ul>
-<pre class="r"><code>chrom &lt;- 22
+<pre class="r"><code>chrom &lt;- 1
 a &lt;- read.table(exprgwasf, header = T)
 a$ifcausal &lt;- ifelse(a$MARKER_ID %in% cau, 1, 0)
 ax &lt;- pretty(0:max(-log10(a$PVALUE)), n = 30)
 
 par(mfrow=c(3,1))
-h1 &lt;- hist(-log10(a$PVALUE), breaks = 100, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-all&quot;, col = &quot;grey&quot;); grid()
-h2 &lt;- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-causal&quot;, col = &quot;salmon&quot;);grid()
+h1 &lt;- hist(-log10(a$PVALUE), breaks = 100, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-all&quot;, col = &quot;grey&quot;, xlim= c(3,20), ylim =c(0,50)); grid()
+h2 &lt;- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-causal&quot;, col = &quot;salmon&quot;, xlim= c(3,20), ylim =c(0,50));grid()
 
-plot(a[a$X.CHROM ==chrom, ]$BEGIN, -log10(a[a$X.CHROM ==chrom, ]$PVALUE), col = a[a$X.CHROM ==chrom, ]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
+cat(&quot;number of genes p &lt; 1e-5:&quot;, nrow(a[a$PVALUE &lt; 1e-5,]))</code></pre>
+<pre><code>number of genes p &lt; 1e-5: 67</code></pre>
+<pre class="r"><code>plot(a[a$X.CHROM ==chrom, ]$BEGIN, -log10(a[a$X.CHROM ==chrom, ]$PVALUE), col = a[a$X.CHROM ==chrom, ]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
 points(a[a$X.CHROM ==chrom &amp; a$ifcausal ==1, ]$BEGIN, -log10(a[a$X.CHROM ==chrom &amp; a$ifcausal ==1, ]$PVALUE), col = &quot;red&quot;, pch =19)
 grid()</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/gene%20twas-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-gene-twas-1">
+Past versions of “gene twas-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-gene-twas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/gene twas-1.png" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li>qq plot for genes</li>
+</ul>
+<pre class="r"><code>gg_qqplot(a$PVALUE) +
+  theme_bw(base_size = 24) +
+  theme(
+    axis.ticks = element_line(size = 0.5),
+    panel.grid = element_blank()
+    # panel.grid = element_line(size = 0.5, color = &quot;grey80&quot;)
+  )</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/qqgene-1.png" width="480" style="display: block; margin: auto;" /></p>
 <ul>
 <li>p value of SNPs (GWAS):</li>
 </ul>
@@ -660,13 +760,63 @@ b$ifcausal &lt;- ifelse(b$MARKER_ID %in% cau, 1, 0)
 ax &lt;- pretty(0:max(-log10(b$PVALUE)), n = 30)
 
 par(mfrow=c(3,1))
-h1 &lt;- hist(-log10(b$PVALUE), breaks = 100, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-all&quot;, col = &quot;grey&quot;); grid()
-h2 &lt;- hist(-log10(b[b$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-causal&quot;, col = &quot;salmon&quot;);grid()
+h1 &lt;- hist(-log10(b$PVALUE), breaks = 100, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-all&quot;, col = &quot;grey&quot;, xlim= c(3,20), ylim =c(0,100)); grid()
+h2 &lt;- hist(-log10(b[b$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = &quot;-log10(p)&quot;, main = &quot;P value distribution-causal&quot;, col = &quot;salmon&quot;, xlim= c(3,20), ylim =c(0,100));grid()
 
-plot(b[b$X.CHROM ==chrom, ]$BEGIN, -log10(b[b$X.CHROM ==chrom, ]$PVALUE), col = b[b$X.CHROM ==chrom,]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
+cat(&quot;number of SNPs &lt; 5e-8: &quot;, nrow(b[b$PVALUE &lt; 5e-8,]))</code></pre>
+<pre><code>number of SNPs &lt; 5e-8:  876</code></pre>
+<pre class="r"><code>plot(b[b$X.CHROM ==chrom, ]$BEGIN, -log10(b[b$X.CHROM ==chrom, ]$PVALUE), col = b[b$X.CHROM ==chrom,]$ifcausal + 1, xlab = paste0(&quot;chr&quot;, chrom), ylab = &quot;-log10(pvalue)&quot;)
 points(b[b$X.CHROM ==chrom &amp; b$ifcausal ==1, ]$BEGIN, -log10(b[b$X.CHROM ==chrom &amp; b$ifcausal ==1, ]$PVALUE), col = &quot;red&quot;, pch =19)
 grid()</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/snp%20twas-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-snp-twas-1">
+Past versions of “snp twas-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-snp-twas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/snp twas-1.png" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li>qq plot for SNPs</li>
+</ul>
+<pre class="r"><code>gg_qqplot(b$PVALUE) +
+  theme_bw(base_size = 24) +
+  theme(
+    axis.ticks = element_line(size = 0.5),
+    panel.grid = element_blank()
+    # panel.grid = element_line(size = 0.5, color = &quot;grey80&quot;)
+  )</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/qqsnp-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="parameter-estimation-results" class="section level1">
 <h1>Parameter estimation results</h1>
@@ -739,7 +889,8 @@ gpip_dist &lt;- function(susiefs, ...){
 <ul>
 <li>Susie run parameters: <code>L=2</code>. initialize with <code>null_weight = 0</code> and update <code>null_weight</code> based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.</li>
 </ul>
-<pre class="r"><code>tags &lt;- paste(rep(1:2, each = 5), 1:5, sep = &quot;-&quot;)
+<pre class="r"><code>outputdir &lt;- &quot;~/causalTWAS/simulations/simulation_susieI_20201001/L=2/&quot;
+tags &lt;- paste(rep(1:2, each = 5), 1:5, sep = &quot;-&quot;)
 phenofs &lt;- paste0(simdatadir, &quot;simu_20201001-&quot;, tags, &quot;-pheno.Rd&quot;)
 susieIfs &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config1.susieIres.Rd&quot;)
 susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config1.susieI.txt&quot;)
@@ -749,6 +900,43 @@ par(mfrow = c(2,2))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param1-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param1-1">
+Past versions of param1-1.png
+</button>
+</p>
+<div id="fig-param1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param1-1.png" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="regions-all-2" class="section level2">
 <h2>Regions: all (2)</h2>
@@ -765,6 +953,43 @@ par(mfrow = c(2,2))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param2-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-1">
+Past versions of param2-1.png
+</button>
+</p>
+<div id="fig-param2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param2-1.png" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="regions-causal" class="section level2">
 <h2>Regions: causal</h2>
@@ -781,6 +1006,43 @@ par(mfrow = c(2,2))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param5-1">
+Past versions of param5-1.png
+</button>
+</p>
+<div id="fig-param5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param5-1.png" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="regions-filtered-1" class="section level2">
 <h2>Regions: filtered (1)</h2>
@@ -798,6 +1060,43 @@ par(mfrow = c(2,2))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param3-1">
+Past versions of param3-1.png
+</button>
+</p>
+<div id="fig-param3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param3-1.png" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="regions-filtered-2" class="section level2">
 <h2>Regions: filtered (2)</h2>
@@ -815,6 +1114,43 @@ par(mfrow = c(2,2))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param4-1">
+Past versions of param4-1.png
+</button>
+</p>
+<div id="fig-param4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/6526634c650d8b90e83eeee06dad378dc2352440/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param4-1.png" target="_blank">6526634</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -855,22 +1191,23 @@ loaded via a namespace (and not attached):
  [7] evaluate_0.12       httr_1.4.1          highr_0.7          
 [10] pillar_1.4.4        flock_0.7           zlibbioc_1.28.0    
 [13] rlang_0.4.6         lazyeval_0.2.1      rstudioapi_0.11    
-[16] R.oo_1.22.0         R.utils_2.7.0       rmarkdown_1.10     
-[19] splines_3.5.1       webshot_0.5.1       bigparallelr_0.2.3 
-[22] htmlwidgets_1.3     munsell_0.5.0       compiler_3.5.1     
-[25] httpuv_1.4.5        pkgconfig_2.0.2     BiocGenerics_0.28.0
-[28] htmltools_0.3.6     tidyselect_1.1.0    tibble_3.0.1       
-[31] bigstatsr_1.2.3     workflowr_1.6.2     codetools_0.2-15   
-[34] viridisLite_0.3.0   crayon_1.3.4        dplyr_1.0.0        
-[37] withr_2.1.2         later_0.7.5         R.methodsS3_1.7.1  
-[40] grid_3.5.1          jsonlite_1.6.1      gtable_0.2.0       
-[43] lifecycle_0.2.0     git2r_0.26.1        magrittr_1.5       
-[46] scales_1.0.0        stringi_1.3.1       fs_1.3.1           
-[49] promises_1.0.1      xml2_1.2.0          ellipsis_0.3.1     
-[52] generics_0.0.2      vctrs_0.3.1         cowplot_0.9.4      
-[55] tools_3.5.1         glue_1.4.1          purrr_0.3.4        
-[58] yaml_2.2.0          colorspace_1.3-2    bigassertr_0.1.3   
-[61] rvest_0.3.2         knitr_1.20         </code></pre>
+[16] whisker_0.3-2       R.oo_1.22.0         R.utils_2.7.0      
+[19] rmarkdown_1.10      labeling_0.3        splines_3.5.1      
+[22] webshot_0.5.1       bigparallelr_0.2.3  htmlwidgets_1.3    
+[25] munsell_0.5.0       compiler_3.5.1      httpuv_1.4.5       
+[28] pkgconfig_2.0.2     BiocGenerics_0.28.0 htmltools_0.3.6    
+[31] tidyselect_1.1.0    tibble_3.0.1        bigstatsr_1.2.3    
+[34] workflowr_1.6.2     codetools_0.2-15    viridisLite_0.3.0  
+[37] crayon_1.3.4        dplyr_1.0.0         withr_2.1.2        
+[40] later_0.7.5         R.methodsS3_1.7.1   grid_3.5.1         
+[43] jsonlite_1.6.1      gtable_0.2.0        lifecycle_0.2.0    
+[46] git2r_0.26.1        magrittr_1.5        scales_1.0.0       
+[49] stringi_1.3.1       fs_1.3.1            promises_1.0.1     
+[52] xml2_1.2.0          ellipsis_0.3.1      generics_0.0.2     
+[55] vctrs_0.3.1         cowplot_0.9.4       tools_3.5.1        
+[58] glue_1.4.1          purrr_0.3.4         yaml_2.2.0         
+[61] colorspace_1.3-2    bigassertr_0.1.3    rvest_0.3.2        
+[64] knitr_1.20         </code></pre>
 </div>
 </div>
 </div>

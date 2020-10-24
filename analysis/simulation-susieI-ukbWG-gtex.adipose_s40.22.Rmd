@@ -26,7 +26,7 @@ p <- 656321 # number of SNPs
 J <- 8021 # number of genes
 ```
 
-The genotype data we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples based on relatedness, that ended up with n = `r as.character(n)` samples.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = `p as.charater(p)` SNPs.
+The genotype data we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with n = `r as.character(n)` samples.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = `p as.charater(p)` SNPs.
 
 Our analysis consists of the following steps: 
 
@@ -55,6 +55,7 @@ susiedir <- "~/causalTWAS/simulations/simulation_susieI_20201001/"
 simtag <- '20201001-1-3'
 source('~/causalTWAS/causal-TWAS/code/gwas.R')
 source('~/causalTWAS/causal-TWAS/code/ld.R')
+source('~/causalTWAS/causal-TWAS/code/qqplot.R')
 ```
 
 ```{r causal}
@@ -62,11 +63,50 @@ exprgwasf <- paste0(simdatadir, simtag, ".exprgwas.txt.gz")
 load(paste0(simdatadir, "simu_", simtag, "-pheno.Rd"))
 caulist <- list()
 for (chrom in 1:22) {
-  load(paste0("~/causalTWAS/ukbiobank/ukb_chr", chrom ,"_s40000.FBM.Rd"))
+  load(paste0("~/causalTWAS/ukbiobank/ukb_chr", chrom ,"_s40.22.FBM.Rd"))
   load(paste0(simdatadir, "simu_s40000_GTEXadipose-B", chrom, "-cis-expr.Rd"))
   caulist[[chrom]]<- c(exprres$gnames[phenores$batch[[chrom]]$param$idx.cgene], dat$snp[phenores$batch[[chrom]]$param$idx.cSNP,])
 }
 cau <- unlist(caulist)
+```
+# Power estimation
+
+We use gene.pve ~ 0.1, snp.pve ~ 0.5. 
+
+* For SNPs, we use $\pi_1 = 2.5e-3$, variance for effect size ~ $0.03^2$, power at 5e-8 p value cutoff:
+```{r pow func} 
+pow <- function(total, n, beta, cutp){
+  rec <- rep(0, total)
+  for (i in 1:total){
+    x <- rnorm(n)
+    y <- x * rnorm(1, sd = beta) + rnorm(n, sd = sqrt(2.5))
+    lm.s <- lm(y~x)
+    pv <- summary(lm.s)$coefficients[2,4]
+    rec[i] <- pv
+  }
+  length(rec[rec < cutp])/length(rec)
+}
+```
+
+```{r snp}
+total <- 1e3
+n <- 22542
+p1 <- pow(total, n, 0.0276, 5e-8)
+print(p1)
+```
+
+* For genes, under low power setting, $\pi_1 = 0.05$, variance for effect size ~ $0.025^2$, power at 1e-5 cutoff:
+
+```{r gene1}
+p2 <- pow(total, n, 0.025, 1e-5)
+print(p2)
+```
+
+For genes, under high power setting, $\pi_1 = 0.02$, variance for effect size ~ $0.045^2$, power at 1e-5 cutoff: 
+
+```{r gene2}
+p3 <- pow(total, n, 0.045, 1e-5)
+print(p3)
 ```
 
 # p value distribution
@@ -74,18 +114,31 @@ cau <- unlist(caulist)
 * TWAS p value of genes:
 
 ```{r gene twas, fig.height=8, fig.width=8}
-chrom <- 22
+chrom <- 1
 a <- read.table(exprgwasf, header = T)
 a$ifcausal <- ifelse(a$MARKER_ID %in% cau, 1, 0)
 ax <- pretty(0:max(-log10(a$PVALUE)), n = 30)
 
 par(mfrow=c(3,1))
-h1 <- hist(-log10(a$PVALUE), breaks = 100, xlab = "-log10(p)", main = "P value distribution-all", col = "grey"); grid()
-h2 <- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = "-log10(p)", main = "P value distribution-causal", col = "salmon");grid()
+h1 <- hist(-log10(a$PVALUE), breaks = 100, xlab = "-log10(p)", main = "P value distribution-all", col = "grey", xlim= c(3,20), ylim =c(0,50)); grid()
+h2 <- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = "-log10(p)", main = "P value distribution-causal", col = "salmon", xlim= c(3,20), ylim =c(0,50));grid()
+
+cat("number of genes p < 1e-5:", nrow(a[a$PVALUE < 1e-5,]))
 
 plot(a[a$X.CHROM ==chrom, ]$BEGIN, -log10(a[a$X.CHROM ==chrom, ]$PVALUE), col = a[a$X.CHROM ==chrom, ]$ifcausal + 1, xlab = paste0("chr", chrom), ylab = "-log10(pvalue)")
 points(a[a$X.CHROM ==chrom & a$ifcausal ==1, ]$BEGIN, -log10(a[a$X.CHROM ==chrom & a$ifcausal ==1, ]$PVALUE), col = "red", pch =19)
 grid()
+```
+
+* qq plot for genes
+```{r qqgene, fig.height= 5, fig.width=5}
+gg_qqplot(a$PVALUE) +
+  theme_bw(base_size = 24) +
+  theme(
+    axis.ticks = element_line(size = 0.5),
+    panel.grid = element_blank()
+    # panel.grid = element_line(size = 0.5, color = "grey80")
+  )
 ```
 
 *  p value of SNPs (GWAS):
@@ -98,12 +151,25 @@ b$ifcausal <- ifelse(b$MARKER_ID %in% cau, 1, 0)
 ax <- pretty(0:max(-log10(b$PVALUE)), n = 30)
 
 par(mfrow=c(3,1))
-h1 <- hist(-log10(b$PVALUE), breaks = 100, xlab = "-log10(p)", main = "P value distribution-all", col = "grey"); grid()
-h2 <- hist(-log10(b[b$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = "-log10(p)", main = "P value distribution-causal", col = "salmon");grid()
+h1 <- hist(-log10(b$PVALUE), breaks = 100, xlab = "-log10(p)", main = "P value distribution-all", col = "grey", xlim= c(3,20), ylim =c(0,100)); grid()
+h2 <- hist(-log10(b[b$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = "-log10(p)", main = "P value distribution-causal", col = "salmon", xlim= c(3,20), ylim =c(0,100));grid()
+
+cat("number of SNPs < 5e-8: ", nrow(b[b$PVALUE < 5e-8,]))
 
 plot(b[b$X.CHROM ==chrom, ]$BEGIN, -log10(b[b$X.CHROM ==chrom, ]$PVALUE), col = b[b$X.CHROM ==chrom,]$ifcausal + 1, xlab = paste0("chr", chrom), ylab = "-log10(pvalue)")
 points(b[b$X.CHROM ==chrom & b$ifcausal ==1, ]$BEGIN, -log10(b[b$X.CHROM ==chrom & b$ifcausal ==1, ]$PVALUE), col = "red", pch =19)
 grid()
+```
+
+* qq plot for SNPs
+```{r qqsnp, fig.height= 5, fig.width=5}
+gg_qqplot(b$PVALUE) +
+  theme_bw(base_size = 24) +
+  theme(
+    axis.ticks = element_line(size = 0.5),
+    panel.grid = element_blank()
+    # panel.grid = element_line(size = 0.5, color = "grey80")
+  )
 ```
 
 # Parameter estimation results
@@ -178,12 +244,12 @@ gpip_dist <- function(susiefs, ...){
 ```
 
 
-
 ## Regions: all (1)
 
 * Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
 
 ```{r param1, fig.height=6, fig.width=6}
+outputdir <- "~/causalTWAS/simulations/simulation_susieI_20201001/L=2/"
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
 susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.susieIres.Rd")

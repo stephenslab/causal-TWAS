@@ -94,8 +94,9 @@ for (i in 2:n) {
 # When the "genetic ethnic grouping" column is included, this removes
 # any samples that are not marked as being "White British". The
 # "outliers" have value 1 when it is an outlier, NA otherwise.
+# including the genetic ethnic column, filtered ~ 5000 sampels
 cols <- !(names(dat) == "outliers" | grepl("relatedness_genetic",names(dat)))
-rows <- which(rowSums(is.na(dat[,..cols])) == 0)
+rows <- which(rowSums(is.na(dat[, cols])) == 0)
 dat  <- dat[rows,]
 cat(sprintf("After removing rows with NAs, %d rows remain.\n",nrow(dat)))
 

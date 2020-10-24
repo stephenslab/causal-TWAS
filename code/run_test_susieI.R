@@ -165,10 +165,6 @@ registerDoParallel(cl)
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
 
-if (isTRUE(restart)){
-
-}
-
 for (iter in 1:Niter){
 
   loginfo("run iteration %s", iter)
