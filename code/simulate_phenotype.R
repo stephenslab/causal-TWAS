@@ -31,9 +31,6 @@ simulate_phenotype<- function(dat,
   M <- dim(dat$G)[2]
   J <- dim(dat$expr)[2]
 
-  J.c <- round(J * pi_beta)
-  M.c <- round(M * pi_theta)
-
   if (mode == "snp-only"){
     expr.meanvar <- NULL
     idx.cgene <- NULL
@@ -52,8 +49,12 @@ simulate_phenotype<- function(dat,
     var.snp <- var(dat$G[ , idx.cSNP, drop = F] %*% s.theta)
   }
   if (mode == "snp-expr"){
-    idx.cgene <- sample(1:J, J.c)
-    idx.cSNP <- sample(1:M, M.c)
+
+    idx.cgene <- rbinom(J, 1, pi_beta)
+    idx.cSNP <- rbinom(M, 1, pi_theta)
+
+    J.c <- length(idx.cgene)
+    M.c <- length(idx.cSNP)
 
     if (is.null(sigma_beta)){
       expr.meanvar <- mean(apply(dat$expr, 2, var))

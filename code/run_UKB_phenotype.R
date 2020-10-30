@@ -50,30 +50,30 @@ suppressMessages(library(dplyr))
 # merged by the "eid" column. The second table has slightly fewer rows
 # than the first table, and the sample ids in the second table are a
 # subset of the ids in the first table.
-cat("Reading data from the CSV files.\n")
-out <- system.time({
-  dat1 <- fread(input.file1,sep = ",",header = TRUE,verbose = FALSE,
-                showProgress = T,colClasses = "character");
-  dat2 <- fread(input.file2,sep = ",",header = TRUE,verbose = FALSE,
-                showProgress = T,colClasses = "character")
-})
-class(dat1) <- "data.frame"
-class(dat2) <- "data.frame"
-cat(sprintf("Data loading step took %d seconds.\n",round(out["elapsed"])))
-dat <- inner_join(dat1,dat2,by = "eid")
-rm(dat1,dat2)
-cat(sprintf("Merged table contains %d rows.\n",nrow(dat)))
+# cat("Reading data from the CSV files.\n")
+# out <- system.time({
+#   dat1 <- fread(input.file1,sep = ",",header = TRUE,verbose = FALSE,
+#                 showProgress = T,colClasses = "character");
+#   dat2 <- fread(input.file2,sep = ",",header = TRUE,verbose = FALSE,
+#                 showProgress = T,colClasses = "character")
+# })
+# class(dat1) <- "data.frame"
+# class(dat2) <- "data.frame"
+# cat(sprintf("Data loading step took %d seconds.\n",round(out["elapsed"])))
+# dat <- inner_join(dat1,dat2,by = "eid")
+# rm(dat1,dat2)
+# cat(sprintf("Merged table contains %d rows.\n",nrow(dat)))
+#
+# # Select the requested columns.
+# cat("Preparing data.\n")
+# dat        <- dat[,..cols]
+# names(dat) <- col_names
+# save(dat, file = "/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141.Rd")
 
-# Select the requested columns.
-cat("Preparing data.\n")
-dat        <- dat[,..cols]
-names(dat) <- col_names
-save(dat, file = "/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141.Rd")
 
-
-# load("population_ukb26140_ukb32141.Rd")
-sa <- fread("/home/szhao1/causal-TWAS/genotype_data/ukbiobank_samples40000.txt", header = F,colClasses = "character")[,1]
-output.file <- file.path( "/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141_s40000.csv")
+load("/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141.Rd")
+sa <- fread("/home/szhao1/causal-TWAS/genotype_data/ukbiobank_samples70000.txt", header = F,colClasses = "character")[,1]
+output.file <- file.path( "/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141_s70000.csv")
 
 # SELECT samples
 colnames(sa) <- "id"

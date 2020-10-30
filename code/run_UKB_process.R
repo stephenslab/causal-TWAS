@@ -147,13 +147,13 @@ s.ori <- read.table("/home/simingz/causalTWAS/ukbiobank/ukbiobank_samples40000.t
 
 s.s.idx <- match(s.s[,1], s.ori[,1])
 for (chrom in 1:22){
-  outf <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40000.FBM.Rd")
+  outf <- paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40000.unscaled.FBM.Rd")
   load(outf)
   G.new <- dat$G[]
   G.new <- G.new[s.s.idx, ]
-  m <- as_FBM(G.new, backingfile = paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40.22"), is_read_only = T)$save()
+  m <- as_FBM(G.new, backingfile = paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40.22.unscaled"), is_read_only = T)$save()
   dat$G <- m
-  save(dat, file = paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40.22.FBM.Rd"))
+  save(dat, file = paste0("/home/simingz/causalTWAS/ukbiobank/ukb_chr", chrom, "_s40.22.unscaled.FBM.Rd"))
 }
 
 #---------chr17-22 multiple copies with different names---

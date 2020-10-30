@@ -155,6 +155,7 @@ for (b in 1:length(pfiles)){
 
 write.table(regionsall, file= paste0(outname,".", filtertype, ".r.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
 
+save.image("tempsusie.Rd")
 # start susieI
 loginfo("susie started for %s", outname)
 
@@ -209,7 +210,7 @@ for (iter in 1:Niter){
 
 
       if (isTRUE(ifnullweight)){
-        susieres <- susie( X , phenores$Y, L = L, prior_weights = prior, null_weight = nw)
+        susieres <- susie(X , phenores$Y, L = L, prior_weights = prior/(1-nw), null_weight = nw)
       } else {
         susieres <- susie(X, phenores$Y, L = L, prior_weights = prior)
       }

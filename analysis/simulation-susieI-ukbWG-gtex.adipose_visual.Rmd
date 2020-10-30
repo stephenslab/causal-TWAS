@@ -1,5 +1,5 @@
 ---
-title: "Test mr.ash2s on ukbiobank data, chr1-22, 40k"
+title: "Visualize ukb whole genome, s40.22"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -11,26 +11,64 @@ Provide visualization for analysis [here]
 
 ```{r output dir}
 simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20201001/"
-outputdir <- "~/causalTWAS/simulations/simulation_ashtest_20201001/"
-susiedir <- "~/causalTWAS/simulations/simulation_susietest_20201001/"
+outputdir <- "~/causalTWAS/simulations/simulation_susieI_20201001/"
+
+source("analysis/visual_twas_plots.R")
 ```
 
-```{r source file}
-source("analysis/visual_twas_plots.R")
+```{r functions file}
+
+plot_all <- function(SERf, phenof, chrom, ldres = NULL){
+  a <- fread(SERf , header =T)
+  load(phenof)
+
+  a <- a[a$chr == chrom,]
+  
+  if (!is.null(ldres)){
+    ld <- read.table(ldres, header =T)
+    a <- merge(a, ld, by = "name", all.x = T)}
+  
+  a <- a[, ifcausal:=as.character(ifcausal)]
+  a[a$ifcausal == "1", "ifcausal"] = "Causal"
+  a[a$ifcausal == "0", "ifcausal"] = "Non causal"
+  
+  colnames(a)[colnames(a) == "SERpip"] <-  "susiePIP"
+  colnames(a)[colnames(a) == "pos"] <-  "p0"
+  
+  a[, "PVALUE"] <- -log10(a[, "pvalue"])
+  
+  dt.gene <- a[a$type == "gene", ]
+  dt.snp <- a[a$type == "SNP", ]
+  
+  fig1 <- plot_susie_pip(dt.gene) 
+  #fig2 <- plot_beta(dt.gene)
+  fig3 <- plot_p(dt.gene) 
+
+  fig4 <- plot_susie_pip(dt.snp)
+  #fig5 <- plot_beta(dt.snp) 
+  fig6 <- plot_p(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
+  
+  # fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, nrows=6, shareX = T, titleY = T)
+  
+  fig <- subplot(fig1, fig3, fig4, fig6, nrows=4, shareX = T, titleY = T)
+  
+  fig <- fig %>% layout(autosize = F, width = 600, height = 600, margin = 0.02,
+                        xaxis = list(title = "Genomic position"))
+  
+  fig <- fig %>% toWebGL()
+  fig
+}
 ```
 
 ## Simulation- high power
 
-```{r sim 1-4, out.width = "98%", out.height="95%"}
-tag <- "20201001-1-4"
-f <- get_files(tag= tag, tag2 = tag2)
-param <- read.table(f$par, header = T, row.names = 1)
-print(param)
-```
-```{r 1-4-17, out.width = "98%", out.height="95%"}
-chrom <- "17"
-cat("simulation run: ", tag, "-", tag2, "; chr: ", chrom)
-plot_all(f$gmrash, f$ggwas, f$smrash, f$sgwas, f$gsusie, f$ssusie, f$rsq, chrom = chrom)
-```
+first two rows are for genes, last two rows are for SNPs.
 
+```{r sim 2-1-1, out.width = "98%", out.height="95%"}
+chrom <- 1
+tag <- "20201001-2-1"
+pipfile <-  paste0(outputdir, tag, ".config2.1.SERI.txt")
+phenof <- paste0(simdatadir, "simu_", tag, "-pheno.Rd")
+plot_all(pipfile, phenof, chrom)
+```
 

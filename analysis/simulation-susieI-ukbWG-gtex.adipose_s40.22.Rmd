@@ -13,7 +13,6 @@ suppressMessages({library(plotly)})
 library(tidyr)
 library(plyr)
 library(stringr)
-library(kableExtra)
 source("analysis/summarize_twas_plots.R")
 ```
 
@@ -248,14 +247,13 @@ gpip_dist <- function(susiefs, ...){
 
 ## Regions: all (1)
 
-* Susie run parameters: `L=2`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
+* Susie run parameters: `L=1`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
 
 ```{r param1, fig.height=6, fig.width=6}
-outputdir <- "~/causalTWAS/simulations/simulation_susieI_20201001/L=2/"
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
-susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.susieI.txt")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.SERIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.SERI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
 par(mfrow = c(2,2))
@@ -265,7 +263,7 @@ plot_param(df[6:10,], main = "high power")
 
 ## Regions: all (2)
 
-* Susie run parameters: `L=2`. We initialize with prior for genes and SNPs using their true values. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
+* Susie run parameters: `L=1`. We initialize with prior for genes and SNPs using their true values. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
 
 ```{r param2, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
@@ -281,7 +279,7 @@ plot_param(df[6:10,], main = "high power")
 
 ## Regions: causal
 
-* Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
+* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
 
 ```{r param5, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
@@ -298,7 +296,7 @@ plot_param(df[6:10,], main = "high power")
 
 ## Regions: filtered (1)
 * We filterd regions with regional minimum FDR of both genes and SNPs < 0.05, round 700 regions left.
-* Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
+* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
 
 ```{r param3, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
@@ -314,7 +312,7 @@ plot_param(df[6:10,], main = "high power")
 
 ## Regions: filtered (2)
 * We filterd regions with regional minimum FDR of both genes and SNPs < 0.01, round 400 regions left.
-* Susie run parameters: `L=2`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
+* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
 
 ```{r param4, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
@@ -326,4 +324,21 @@ df <- show_param(phenofs, susieIfs, susieIfs2)
 par(mfrow = c(2,2))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
+```
+
+
+# Plot PIP
+
+Red is causal.
+
+```{r gene twas, fig.height=4, fig.width=10}
+chrom <- 1
+tag <- "20201001-2-1"
+pipfile <-  paste0(outputdir, tag, ".config2.1.SERI.txt")
+a <- fread(pipfile, header = T)
+
+plot(a[a$chr ==chrom, ]$pos, a[a$chr ==chrom, ]$SERpip, col = a[a$chr ==chrom, ]$ifcausal + 1, xlab = paste0("chr", chrom), ylab = "pip", pch = c(1,2)[as.factor(a[a$chr ==chrom, ]$type)])
+points(a[a$chr ==chrom & a$ifcausal ==1, ]$pos, a[a$chr ==chrom & a$ifcausal ==1, ]$SERpip , col = "red", pch = c(19, 17)[as.factor(a[a$chr ==chrom & a$ifcausal ==1 , ]$type)])
+legend("topright",c("gene","SNP"),cex=.8,pch=c(1,2))
+grid()
 ```
