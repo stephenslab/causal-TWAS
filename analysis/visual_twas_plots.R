@@ -17,20 +17,20 @@ get_files <- function(tag, tag2){
 }
 
 plot_pip <- function(dt){
-  
+
   pal <- c("salmon", "darkgreen")
   pal <- setNames(pal, c("Causal", "Non causal"))
-  
+
   if ( "max_r2" %in% colnames(dt)) {
-    fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', 
+    fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter',
                    mode = 'markers', color = ~ ifcausal, colors = pal,
-                   text = ~ paste("Name: ", name, 
+                   text = ~ paste("Name: ", name,
                                   "\nmax R^2: ", round(max_r2, digits = 2)))
     #,"\nMax pair: ", max_pair))
   } else {
     fig <- plot_ly(dt, x = ~p0, y = ~ PIP, type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
   }
-  
+
   fig <- fig %>% layout(yaxis = list(title = "PIP"))
   return(fig)
 }
@@ -38,17 +38,28 @@ plot_pip <- function(dt){
 plot_beta <- function(dt){
   fig <- plot_ly(dt, x = ~p0, y = ~ TrueBeta, type = 'scatter', mode = 'markers', name ="Truth", text = ~paste("Name: ", name))
   fig <- fig %>% add_trace(y = ~ EstBeta, name = 'Estimated',mode = 'markers')
-  
+
   fig <- fig %>% layout(yaxis = list(title = "beta"))
   return(fig)
 }
 
+plot_lbf <- function(dt){
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+
+  fig <- plot_ly(dt, x = ~p0, y = ~ lbf , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "log10(BF)"))
+  return(fig)
+}
+
+
 plot_p <- function(dt){
   pal <- c("salmon", "darkgreen")
   pal <- setNames(pal, c("Causal", "Non causal"))
-  
+
   fig <- plot_ly(dt, x = ~p0, y = ~ PVALUE , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
-  
+
   fig <- fig %>% layout(yaxis = list(title = "p value"))
   return(fig)
 }
@@ -56,9 +67,9 @@ plot_p <- function(dt){
 plot_susie_pip <- function(dt) {
   pal <- c("salmon", "darkgreen")
   pal <- setNames(pal, c("Causal", "Non causal"))
-  
+
   fig <- plot_ly(dt, x = ~ p0, y = ~ susiePIP , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
-  
+
   fig <- fig %>% layout(yaxis = list(title = "SUSIE PIP"))
 }
 
@@ -66,54 +77,54 @@ plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp, sus
   a <- read.table(mrashres.gene , header =T)
   a[a$ifcausal == 1, "ifcausal"] = "Causal"
   a[a$ifcausal == 0, "ifcausal"] = "Non causal"
-  
+
   if (!is.null(ldres)){
     ld <- read.table(ldres, header =T)
     a <- merge(a, ld, by = "name", all.x = T)}
-  
-  
+
+
   su <- read.table(susieres.gene, header =T)
   colnames(su)[colnames(su) == "pip"] <-  "susiePIP"
   a <- merge(a, su, by = "name", all.x = T)
-  
+
   p <- fread(gwasres.gene, header =T)
   p[,"PVALUE"] <- -log10(p[,"PVALUE"])
   colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
   dt.gene <- merge(a, p, by = "name", all.x = T)
-  
+
   a <- read.table(mrashres.snp , header =T)
   a[a$ifcausal == 1, "ifcausal"] = "Causal"
   a[a$ifcausal == 0, "ifcausal"] = "Non causal"
-  
+
   su <- read.table(susieres.snp, header =T)
   colnames(su)[colnames(su) == "pip"] <-  "susiePIP"
   a <- merge(a, su, by = "name", all.x = T)
-  
+
   p <- fread(gwasres.snp, header =T)
   p[,"PVALUE"] <- -log10(p[,"PVALUE"])
   colnames(p)[colnames(p) == "MARKER_ID"] <-  "name"
   dt.snp <- merge(a, p, by = "name", all.x = T)
-  
+
   if (!is.null(chrom)){
     dt.gene <- dt.gene[dt.gene$chr.x == chrom,]
     dt.snp <- dt.snp[dt.snp$chr.x == chrom,]
   }
-  
-  
-  fig1 <- plot_pip(dt.gene)  
-  fig2 <- plot_beta(dt.gene) 
-  fig3 <- plot_p(dt.gene) 
-  fig4 <- plot_susie_pip(dt.gene) 
-  fig5 <- plot_pip(dt.snp) 
-  fig6 <- plot_beta(dt.snp) 
+
+
+  fig1 <- plot_pip(dt.gene)
+  fig2 <- plot_beta(dt.gene)
+  fig3 <- plot_p(dt.gene)
+  fig4 <- plot_susie_pip(dt.gene)
+  fig5 <- plot_pip(dt.snp)
+  fig6 <- plot_beta(dt.snp)
   fig7 <- plot_p(dt.snp)
   fig8 <- plot_susie_pip(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
-  
+
   fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, fig7, fig8, nrows=8, shareX = T, titleY = T)
-  
+
   fig <- fig %>% layout(autosize = F, width = 600, height = 1100, margin = 0.02,
                         xaxis = list(title = "Genomic position"))
-  
+
   fig <- fig %>% toWebGL()
   fig
 }

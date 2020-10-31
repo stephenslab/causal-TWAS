@@ -36,23 +36,22 @@ plot_all <- function(SERf, phenof, chrom, ldres = NULL){
   colnames(a)[colnames(a) == "pos"] <-  "p0"
   
   a[, "PVALUE"] <- -log10(a[, "pvalue"])
+  a[, "lbf"] <- log10(exp(a[, "lbf"]))
   
   dt.gene <- a[a$type == "gene", ]
   dt.snp <- a[a$type == "SNP", ]
   
   fig1 <- plot_susie_pip(dt.gene) 
-  #fig2 <- plot_beta(dt.gene)
+  fig2 <- plot_lbf(dt.gene)
   fig3 <- plot_p(dt.gene) 
 
   fig4 <- plot_susie_pip(dt.snp)
-  #fig5 <- plot_beta(dt.snp) 
+  fig5 <- plot_lbf(dt.snp) 
   fig6 <- plot_p(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
   
-  # fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, nrows=6, shareX = T, titleY = T)
+  fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, nrows=6, shareX = T, titleY = T)
   
-  fig <- subplot(fig1, fig3, fig4, fig6, nrows=4, shareX = T, titleY = T)
-  
-  fig <- fig %>% layout(autosize = F, width = 600, height = 600, margin = 0.02,
+  fig <- fig %>% layout(autosize = F, width = 600, height = 800, margin = 0.02,
                         xaxis = list(title = "Genomic position"))
   
   fig <- fig %>% toWebGL()
@@ -62,7 +61,7 @@ plot_all <- function(SERf, phenof, chrom, ldres = NULL){
 
 ## Simulation- high power
 
-first two rows are for genes, last two rows are for SNPs.
+First three rows are for genes, last three rows are for SNPs.
 
 ```{r sim 2-1-1, out.width = "98%", out.height="95%"}
 chrom <- 1

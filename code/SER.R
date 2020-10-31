@@ -67,7 +67,10 @@ get_lbf =
 #'
 SER =
   function (lbf, prior_weights = NULL, null_weight = NULL) {
-    if (is.null(prior_weights))
+    if (is.null(prior_weights) & is.null(null_weight))
+      prior_weights = c(rep(1/length(lbf), length(lbf)))
+
+    if (is.null(prior_weights) & !is.null(null_weight))
       prior_weights = c(rep(1/length(lbf)*(1-null_weight), length(lbf)))
 
     if (is.numeric(null_weight) && null_weight == 0) null_weight = NULL

@@ -1,4 +1,5 @@
 library(logging)
+library(tools)
 
 args = commandArgs(trailingOnly=TRUE)
 if (length(args) != 4) {
@@ -42,13 +43,12 @@ load(efiles[1])
 
 geno.t <- list()
 
-#geno.t[[1]] <- .eqtl_geno("MRPS21")
+geno.t[[1]] <- .eqtl_geno("MRPS21")
 
-for (name in df$MARKER_ID) {
-  temp <- dat$G[, dat$snp == name, drop = F]
-  colnames(temp) <- name
-  geno.t[[name]] <- temp
-}
+name <- "rs4839015"
+temp <- dat$G[, dat$snp == name, drop = F]
+colnames(temp) <- name
+geno.t[[name]] <- temp
 
 rsqlist <- list()
 
@@ -65,7 +65,7 @@ for (b in 1:length(pfiles)){
   csnp <- dat$G[ ,phenores$batch[[b]]$param$idx.cSNP]
   colnames(csnp) <- dat$snp[phenores$batch[[b]]$param$idx.cSNP, 1]
 
-  rsqlist[[b]] <- lapply(geno.t, ld_max, y = cbind(cg,csnp), stats = "R.squared")
+  rsqlist[[b]] <- lapply(geno.t, ld_max, y = cbind(cg, csnp), stats = "R.squared")
 }
 
 loginfo("ld for genes and causal genes/SNPs done.")
