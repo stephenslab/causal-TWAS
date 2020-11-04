@@ -222,6 +222,16 @@ plot_param <- function(df, ...){
   abline(h=t, lty = 2, col= "salmon", lwd=1.5)
   grid()
   
+  st <-  cbind(df[,"pi1.SNP_susietruth"], 1:nrow(df), 2 + 1:nrow(df)/nrow(df)/3)
+  s <- cbind(df[,"pi1.SNP_susieI"], 1:nrow(df), 3 + 1:nrow(df)/nrow(df)/3)
+  t <- df[1,"pi1.SNP_truth"]
+  dfp <- rbind(st,s)
+  plot(dfp[,3], dfp[,1], col = dfp[,2], pch = 19, ylab = "SNP pi1", xaxt = "n", xlab="", xlim = c(0.8, 3.5), frame.plot=FALSE, ylim = c(0, max(dfp[,1],t) *1.05), ...)
+  axis(side=1, at=1:2, labels = FALSE, tick = F)
+  text(x=2:3, 0, labels = c( "susieI_truth", "susieI"), xpd = T, pos =1)
+  abline(h=t, lty = 2, col= "salmon", lwd=1.5)
+  grid()
+  
   st <-  cbind(df[,"pi1.gene_susietruth"]/df[,"pi1.SNP_susietruth"], 1:nrow(df), 2 + 1:nrow(df)/nrow(df)/3)
   s <- cbind(df[,"pi1.gene_susieI"]/df[,"pi1.SNP_susieI"], 1:nrow(df), 3 + 1:nrow(df)/nrow(df)/3)
   t <- df[1,"pi1.gene_truth"]/df[1,"pi1.SNP_truth"]
@@ -248,14 +258,14 @@ gpip_dist <- function(susiefs, ...){
 * Regions: all regions, 500kb uniform regions.
 * Susie run parameters: `L=1`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). Prior variance and residual variance were calculated by SUSIE for each region.
 
-```{r param1susie, fig.height=6, fig.width=6}
+```{r param1susie, fig.height=6, fig.width=8}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
 susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.susieI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
-par(mfrow = c(2,2))
+par(mfrow = c(2,3))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
@@ -264,14 +274,14 @@ plot_param(df[6:10,], main = "high power")
 * Regions: all regions, 500kb uniform regions.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
 
-```{r param1, fig.height=6, fig.width=6}
+```{r param1, fig.height=6, fig.width=8}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
 susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.SERIres.Rd")
 susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.SERI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
-par(mfrow = c(2,2))
+par(mfrow = c(2,3))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
@@ -280,14 +290,14 @@ plot_param(df[6:10,], main = "high power")
 * Regions: all regions, defined based on LDetect.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
 
-```{r param6, fig.height=6, fig.width=6}
+```{r param6, fig.height=6, fig.width=8}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
 susieIfs <- paste0(outputdir, "20201001-", tags, ".config6.SERIres.Rd")
 susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config6.SERI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
-par(mfrow = c(2,2))
+par(mfrow = c(2,3))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
@@ -296,14 +306,14 @@ plot_param(df[6:10,], main = "high power")
 * Regions: regions with at most 1 causal signal, regions are defined based on LDetect.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
 
-```{r param7, fig.height=6, fig.width=6}
+```{r param7, fig.height=6, fig.width=8}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
 susieIfs <- paste0(outputdir, "20201001-", tags, ".config7.SERIres.Rd")
 susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config7.SERI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
-par(mfrow = c(2,2))
+par(mfrow = c(2,3))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
