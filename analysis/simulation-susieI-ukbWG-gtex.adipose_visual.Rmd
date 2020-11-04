@@ -66,7 +66,7 @@ First three rows are for genes, last three rows are for SNPs.
 ```{r sim 2-1-1, out.width = "98%", out.height="95%"}
 chrom <- 1
 tag <- "20201001-2-1"
-pipfile <-  paste0(outputdir, tag, ".config2.1.SERI.txt")
+pipfile <-  paste0(outputdir, tag, ".config.1.SERI.txt")
 phenof <- paste0(simdatadir, "simu_", tag, "-pheno.Rd")
 plot_all(pipfile, phenof, chrom)
 ```

@@ -43,6 +43,7 @@ rfdrfilter <- 1 # for rfdr, if region contains genes or snp with fdr < fdrfilter
 
 ifgene <- F # if limiting to regions with at least one gene.
 ifca <- T # if limiting to regions with at least one causal signal
+ifsingleca <- F # if limiting to regions with at most 1 causal signal
 regionsfile <- "/home/simingz/causalTWAS/simulations/shared_files/chr1to22-500kb_fn.txt" # need to match input
 
 Niter <- 30
@@ -113,6 +114,11 @@ for (b in 1:length(pfiles)){
     regions <- regions[regions[, "nCausal"] > 0,  ] # select regions
   }
 
+  if (isTRUE(ifsingleca)){
+    loginfo("keep only causal regions")
+    regions <- regions[regions[, "nCausal"] <=1,  ] # select regions
+  }
+
   loginfo("No. intervals after filtering %s for batch %s: %s", filtertype, b, nrow(regions))
 
   #TODO: join regions based on LD genes, add a column indicating which region should be linked
@@ -162,6 +168,8 @@ loginfo("get log BF for %s", outname)
 cl <- makeCluster(Ncore,outfile="")
 registerDoParallel(cl)
 
+V.g <- phenores$batch[[1]]$param$sigma_beta ** 2
+V.s <- phenores$batch[[1]]$param$sigma_theta ** 2
 
 lbfdf <- foreach (b = 1:22, .combine = "rbind",.packages = c("susieR", "bigstatsr")) %dopar% {
 
@@ -181,9 +189,14 @@ lbfdf <- foreach (b = 1:22, .combine = "rbind",.packages = c("susieR", "bigstats
       gidx <- regionlist[[b]][[rn]][["gidx"]]
       sidx <- regionlist[[b]][[rn]][["sidx"]]
 
-      X <- cbind(exprres$expr[, gidx], dat$G[, sidx])
+      X.g <- exprres$expr[, gidx, drop =F]
+      X.s <- dat$G[, sidx, drop=F]
 
-      lbfout <- get_lbf(Y =  phenores$Y, X = X, V = phenores$batch[[1]]$param$sigma_theta **2, residual_variance = var(phenores$Y)[1])
+      X <- cbind(X.g, X.s)
+
+      V <- c(rep(V.g, dim(X.g)[2]), rep(V.s, dim(X.s)[2]))
+
+      lbfout <- get_lbf(Y =  phenores$Y, X = X, V = V, residual_variance = var(phenores$Y)[1])
 
       anno.gene <- cbind(exprres$gnames[gidx], exprres$chrom[gidx],  exprres$p0[gidx],
                          rep("gene", length(gidx[gidx])))
@@ -276,7 +289,7 @@ for (iter in 1:Niter){
   loglik_rec[iter] <- loglikall
   save(prior.gene_rec, prior.SNP_rec, loglik_rec, file = paste(outname, "SERIres.Rd", sep = "."))
   gc()
-  write.table(outdf, file= paste0(outname, ".", iter, ".SERI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
+  write.table(outdf, file= paste0(outname, ".SERI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
 }
 
 stopCluster(cl)

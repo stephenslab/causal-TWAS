@@ -39,7 +39,7 @@ We impute gene expression for our genotype data using expression models obtained
 
 3. Define and select regions
 
-Next, the analysis is done at the “region” level, which is 500kb bins along the genome. Each bin would contain all the SNPs, as well as all the genes in that bin. We are exploring several ways to select regions that contain true signals, e.g. based on regional sum of mr.ash PIP for genes/SNPs, region smallest TWAS p value for gene/SNPs, or regional bayes factors, etc.
+Next, the analysis is done at the “region” level, which is 500kb bins along the genome. We also used LDetect to define regions. We are exploring several ways to select regions that contain true signals, e.g. based on regional sum of mr.ash PIP for genes/SNPs, region smallest TWAS p value for gene/SNPs, or regional bayes factors, etc.
 
 4. Run susie iteratively
 We then run susie for each of these regions. So the features of SuSiE are: SNPs and "genes" (not cis-eQTLs of that gene). We use the same prior for all SNPs and another prior for all "genes" when running SUSIE. In some settings, we also run SUSIE with null weight, which is calculated as `1- prior.SNP * n.SNP - prior.gene * n.gene`. We obtain the PIP for SNPs and gene in the region. After we run susie for all regions (one iteration), we take the average of all SNP PIPs as the prior of SNPs for the next iteration and similarly for the prior for genes. 
@@ -244,10 +244,25 @@ gpip_dist <- function(susiefs, ...){
 }
 ```
 
+## susieI
+* Regions: all regions, 500kb uniform regions.
+* Susie run parameters: `L=1`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). Prior variance and residual variance were calculated by SUSIE for each region.
 
-## Regions: all (1)
+```{r param1susie, fig.height=6, fig.width=6}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.susieI.txt")
 
-* Susie run parameters: `L=1`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,2))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+```
+
+##  Single effect model/EM (1)
+* Regions: all regions, 500kb uniform regions.
+* Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
 
 ```{r param1, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
@@ -261,15 +276,15 @@ plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
 
-## Regions: all (2)
+##  Single effect model/EM (2)
+* Regions: all regions, defined based on LDetect.
+* Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
 
-* Susie run parameters: `L=1`. We initialize with prior for genes and SNPs using their true values. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
-
-```{r param2, fig.height=6, fig.width=6}
+```{r param6, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
-susieIfs <- paste0(outputdir, "20201001-", tags, ".config2.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config2.susieI.txt")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config6.SERIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config6.SERI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
 par(mfrow = c(2,2))
@@ -277,68 +292,18 @@ plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
 
-## Regions: causal
+##  Single effect model/EM (3)
+* Regions: regions with at most 1 causal signal, regions are defined based on LDetect.
+* Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
 
-* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
-
-```{r param5, fig.height=6, fig.width=6}
+```{r param7, fig.height=6, fig.width=6}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
-susieIfs <- paste0(outputdir, "20201001-", tags, ".config5.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config5.susieI.txt")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config7.SERIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config7.SERI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
 par(mfrow = c(2,2))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
-```
-
-
-## Regions: filtered (1)
-* We filterd regions with regional minimum FDR of both genes and SNPs < 0.05, round 700 regions left.
-* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
-
-```{r param3, fig.height=6, fig.width=6}
-tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
-phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
-susieIfs <- paste0(outputdir, "20201001-", tags, ".config3.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config3.susieI.txt")
-
-df <- show_param(phenofs, susieIfs, susieIfs2)
-par(mfrow = c(2,2))
-plot_param(df[1:5,], main = "low power")
-plot_param(df[6:10,], main = "high power")
-```
-
-## Regions: filtered (2)
-* We filterd regions with regional minimum FDR of both genes and SNPs < 0.01, round 400 regions left.
-* Susie run parameters: `L=1`. initialize with `null_weight = 0` and update `null_weight` based on last iteration results. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. 
-
-```{r param4, fig.height=6, fig.width=6}
-tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
-phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
-susieIfs <- paste0(outputdir, "20201001-", tags, ".config4.susieIres.Rd")
-susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config4.susieI.txt")
-
-df <- show_param(phenofs, susieIfs, susieIfs2)
-par(mfrow = c(2,2))
-plot_param(df[1:5,], main = "low power")
-plot_param(df[6:10,], main = "high power")
-```
-
-
-# Plot PIP
-
-Red is causal.
-
-```{r gene twas, fig.height=4, fig.width=10}
-chrom <- 1
-tag <- "20201001-2-1"
-pipfile <-  paste0(outputdir, tag, ".config2.1.SERI.txt")
-a <- fread(pipfile, header = T)
-
-plot(a[a$chr ==chrom, ]$pos, a[a$chr ==chrom, ]$SERpip, col = a[a$chr ==chrom, ]$ifcausal + 1, xlab = paste0("chr", chrom), ylab = "pip", pch = c(1,2)[as.factor(a[a$chr ==chrom, ]$type)])
-points(a[a$chr ==chrom & a$ifcausal ==1, ]$pos, a[a$chr ==chrom & a$ifcausal ==1, ]$SERpip , col = "red", pch = c(19, 17)[as.factor(a[a$chr ==chrom & a$ifcausal ==1 , ]$type)])
-legend("topright",c("gene","SNP"),cex=.8,pch=c(1,2))
-grid()
 ```

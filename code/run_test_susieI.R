@@ -210,7 +210,8 @@ for (iter in 1:Niter){
 
 
       if (isTRUE(ifnullweight)){
-        susieres <- susie(X , phenores$Y, L = L, prior_weights = prior/(1-nw), null_weight = nw)
+        susieres <- susie(X , phenores$Y, L = L, prior_weights = prior/(1-nw),
+                          null_weight = nw)
       } else {
         susieres <- susie(X, phenores$Y, L = L, prior_weights = prior)
       }
