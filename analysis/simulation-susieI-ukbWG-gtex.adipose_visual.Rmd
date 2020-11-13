@@ -19,7 +19,7 @@ source("analysis/visual_twas_plots.R")
 ```{r functions file}
 
 plot_all <- function(SERf, phenof, chrom, ldres = NULL){
-  a <- fread(SERf , header =T)
+  a <- fread(SERf, header =T)
   load(phenof)
 
   a <- a[a$chr == chrom,]

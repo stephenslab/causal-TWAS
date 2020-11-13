@@ -88,25 +88,26 @@ pow <- function(total, n, beta, cutp){
 ```
 
 ```{r snp}
+load("data/power_s40.22.Rd")
 total <- 1e3
 n <- 22542
-p1 <- pow(total, n, 0.0276, 5e-8)
+#p1 <- pow(total, n, 0.0276, 5e-8)
 print(p1)
 ```
 
 * For genes, under low power setting, $\pi_1 = 0.05$, variance for effect size ~ $0.025^2$, power at 1e-5 cutoff:
 
 ```{r gene1}
-p2 <- pow(total, n, 0.025, 1e-5)
+#p2 <- pow(total, n, 0.025, 1e-5)
 print(p2)
 ```
 
 For genes, under high power setting, $\pi_1 = 0.02$, variance for effect size ~ $0.045^2$, power at 1e-5 cutoff: 
 
 ```{r gene2}
-p3 <- pow(total, n, 0.045, 1e-5)
+#p3 <- pow(total, n, 0.045, 1e-5)
 print(p3)
-# save(p1,p2,p3, file = "data/power_s40.22.Rd")
+#save(p1,p2,p3, file = "data/power_s40.22.Rd")
 ```
 
 # p value distribution
@@ -123,8 +124,8 @@ par(mfrow=c(3,1))
 h1 <- hist(-log10(a$PVALUE), breaks = 100, xlab = "-log10(p)", main = "P value distribution-all", col = "grey", xlim= c(3,20), ylim =c(0,50)); grid()
 h2 <- hist(-log10(a[a$ifcausal == 1, ]$PVALUE), breaks = h1$breaks, xlab = "-log10(p)", main = "P value distribution-causal", col = "salmon", xlim= c(3,20), ylim =c(0,50));grid()
 
-cat("number of genes p < 1e-5:", nrow(a[a$PVALUE < 1e-5,]))
-cat("number of causal genes p < 1e-5:", nrow(a[a$PVALUE < 1e-5 & a$ifcausal ==1 ,]))
+cat("number of genes p < 1e-5:", nrow(a[a$PVALUE < 1e-5, ]))
+cat("number of causal genes p < 1e-5:", nrow(a[a$PVALUE < 1e-5 & a$ifcausal ==1, ]))
 
 plot(a[a$X.CHROM ==chrom, ]$BEGIN, -log10(a[a$X.CHROM ==chrom, ]$PVALUE), col = a[a$X.CHROM ==chrom, ]$ifcausal + 1, xlab = paste0("chr", chrom), ylab = "-log10(pvalue)")
 points(a[a$X.CHROM ==chrom & a$ifcausal ==1, ]$BEGIN, -log10(a[a$X.CHROM ==chrom & a$ifcausal ==1, ]$PVALUE), col = "red", pch =19)
@@ -171,6 +172,152 @@ gg_qqplot(b$PVALUE) +
     panel.grid = element_blank()
     # panel.grid = element_line(size = 0.5, color = "grey80")
   )
+```
+
+# TWAS FDP
+
+```{r PIPplot functions}
+
+library(ggplot2)
+library(cowplot)
+library(plotrix)
+
+.exob <- function(pips, ifcausal, mode = c("PIP", "FDR")){
+  a_bin <- cut(pips, breaks= seq(0, 1, by=0.1))
+  if (mode == "PIP") {
+    ex = c(by(pips, a_bin, FUN = mean))
+    ob = c(by(ifcausal, a_bin, FUN = mean))
+  } else if (mode == "FDR"){
+    ex = c(by(pips, a_bin, FUN = mean))
+    ob = 1 - c(by(ifcausal, a_bin, FUN = mean))
+  }
+  return(list("expected" = ex, "observed" = ob))
+}  
+
+dot_plot = function(df, main) {
+        ggplot(df, aes(x=mean_pip, y=observed_freq)) + 
+          geom_errorbar(aes(ymin=observed_freq-se, ymax=observed_freq+se), colour="black", size = 0.5, width=.01) +
+          geom_point(size=1.5, shape=21, fill="#002b36") + # 21 is filled circle
+          xlab("Expected") +
+          ylab("Observed") +
+          coord_cartesian(ylim=c(0,1), xlim=c(0,1)) +
+          geom_abline(slope=1,intercept=0,colour='red', size=0.2) +
+          ggtitle(main) +
+          expand_limits(y=0) +                        # Expand y range
+          theme_cowplot()}
+
+cp_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main = mode[1], ...){
+    
+  # ifcausal:0,1, runtag: for adding std.
+  if (is.null(runtag)){
+     se = 0 
+  } else{
+    dflist <- list()
+    for (rt in unique(runtag)){
+      pips.rt <- pips[runtag == rt]
+      ifcausal.rt <- ifcausal[runtag == rt]
+      dflist[[rt]] <- .exob(pips.rt, ifcausal.rt, mode = mode)
+    }
+    mean_pip <- colMeans(do.call(rbind, lapply(dflist, '[[', "expected")))
+    observed_freq <- colMeans(do.call(rbind, lapply(dflist, '[[', "observed")))
+    se <- apply(do.call(rbind, lapply(dflist, '[[', "observed")), 2, plotrix::std.error)
+  }
+  
+  df <- data.frame("mean_pip" = mean_pip, "observed_freq"= observed_freq, "se" = se)
+  dot_plot(df, main = main)
+
+  #plot(Expected, Observed, xlim= c(0,1), ylim=c(0,1), pch =19, main = main, ...)
+  #lines(x = c(0,1), y = c(0,1), col ="grey", lty = 2)
+}
+
+caliPIP_plot <- function(pipfs, format = "susie", main = "PIP"){
+  df <- NULL
+  for (i in 1:length(pipfs)) {
+    res <- fread(pipfs[i], header = T)
+    res <- data.frame(res[res$type  =="gene", ])
+    res$runtag <- i
+    if (format == "susie"){
+       res <- rename(res, c("susie_pip" = "pip"))
+    } else if (format == "SER"){
+       res <- rename(res, c("SERpip" = "pip"))
+    }
+    res <- res[complete.cases(res),]
+    df <- rbind(df, res)
+  }
+
+  fig <- cp_plot(df$pip, df$ifcausal, df$runtag, mode ="PIP", main = main)
+  return(fig)
+}
+
+# pipfs is just for ifcausal info
+caliFDP_plot <- function(gwasfs, pipfs,  format= "susie",  main = "FDP"){
+  df <- NULL
+  for (i in 1:length(pipfs)) {
+    pipres <- fread(pipfs[i], header = T)
+    pipres <- data.frame(pipres[pipres$type  =="gene", ])
+    pipres$runtag <- i
+    if (format == "susie"){
+       pipres <- rename(pipres, c("susie_pip" = "pip"))
+    } else if (format == "SER"){
+       pipres <- rename(pipres, c("SERpip" = "pip"))
+    }
+    gwasres <- read.table(gwasfs[i], header = T)
+    gwasres <- rename(gwasres, c("MARKER_ID" = "name"))
+    gwasres$FDR <- p.adjust(gwasres$PVALUE, method = "fdr")
+    res <- merge(gwasres, pipres, by = "name", all = T)
+    res <- res[complete.cases(res),]
+    df <- rbind(df, res)
+  }
+  fig <- cp_plot(df$FDR, df$ifcausal, df$runtag, mode ="FDR", main = main)
+  cat("FDP at bonferroni corrected p = 0.05: ", 1 - mean(df[df$PVALUE < 0.05 /dim(df)[1], "ifcausal"]))
+  return(fig)
+}
+
+
+scatter_plot_PIP_p <- function(pipfs, gwasfs, pipformat = "susie", main ="PIP-p"){
+  df <- NULL
+  for (i in 1:length(pipfs)) {
+    pipres <- fread(pipfs[i], header = T)
+    pipres <- data.frame(pipres[pipres$type  =="gene", ])
+    pipres$runtag <- i
+    if (pipformat == "susie"){
+       pipres <- rename(pipres, c("susie_pip" = "pip"))
+    } else if (pipformat == "SER"){
+       pipres <- rename(pipres, c("SERpip" = "pip"))
+    }
+    gwasres <- read.table(gwasfs[i], header = T)
+    gwasres <- rename(gwasres, c("MARKER_ID" = "name"))
+    res <- merge(gwasres, pipres, by = "name", all = T)
+    res <- res[complete.cases(res),]
+    df <- rbind(df, res)
+  }
+  
+  df <- rename(df, c( "PVALUE" = "TWAS.p"))
+  df[,"TWAS.p"] <- -log10(df[, "TWAS.p"])
+  
+  # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
+                            
+  
+  df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
+                             
+  plot(df$TWAS.p, df$pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
+  # fig <- plot_ly(data = df, x = ~ TWAS.p, y = ~ pip, color = ~ ifcausal,
+  #                colors = c( "salmon", "darkgreen"), type ="scatter", text = ~ paste("Name: ", paste0(runtag,":",name),
+  #                                                                  "\nChr: ", chr,  "\nPos:", pos))
+                                                                    
+}
+
+```
+
+```{r TWAS FDP, fig.height=4, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+gwasfs <-  paste0(simdatadir, "20201001-", tags, ".exprgwas.txt.gz")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.susieI.txt")
+
+f1 <- caliFDP_plot(gwasfs[1:5], susieIfs2[1:5], format= "susie", main = "TWAS FDP (low power)")
+f2 <- caliFDP_plot(gwasfs[6:10], susieIfs2[6:10], format= "susie", main ="TWAS FDP (high power)")
+
+gridExtra::grid.arrange(f1, f2, ncol =2)
 ```
 
 # Parameter estimation results
@@ -254,15 +401,61 @@ gpip_dist <- function(susiefs, ...){
 }
 ```
 
-## susieI
+
+## susieI (1)
 * Regions: all regions, 500kb uniform regions.
 * Susie run parameters: `L=1`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). Prior variance and residual variance were calculated by SUSIE for each region.
 
 ```{r param1susie, fig.height=6, fig.width=8}
 tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
 phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+gwasfs <-  paste0(simdatadir, "20201001-", tags, ".exprgwas.txt.gz")
 susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.susieIres.Rd")
 susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+```
+
+```{r pip1susie, fig.height=4, fig.width=8}
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="susie", main = "PIP (low power)" )
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)" )
+gridExtra::grid.arrange(f1, f2, ncol =2)
+```
+
+```{r scatter1susie, fig.height=4, fig.width=8}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
+```
+
+## susieI (2)
+* Regions: all regions, LD-defined regions.
+* Susie run parameters: `L=1`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). Prior variance and residual variance were calculated by SUSIE for each region.
+
+```{r param6susie, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config6.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config6.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+```
+
+## susieI (3)
+* Regions: all regions, LD-defined regions.
+* Susie run parameters: `L=10`.  We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). Prior variance and residual variance were calculated by SUSIE for each region.
+
+```{r param8susie, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config8.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config8.susieI.txt")
 
 df <- show_param(phenofs, susieIfs, susieIfs2)
 par(mfrow = c(2,3))
@@ -286,6 +479,18 @@ plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
 
+```{r pip1ser, fig.height=4, fig.width=8}
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="SER", main = "PIP (low power)" )
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="SER", main = "PIP(high power)" )
+gridExtra::grid.arrange(f1, f2, ncol =2)
+```
+
+```{r scatter1ser, fig.height=4, fig.width=10}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "SER", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "SER", main = "high power")
+```
+
 ##  Single effect model/EM (2)
 * Regions: all regions, defined based on LDetect.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
@@ -302,6 +507,18 @@ plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
 
+```{r pip6ser, fig.height=4, fig.width=8}
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="SER", main = "PIP (low power)" )
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="SER", main = "PIP(high power)" )
+gridExtra::grid.arrange(f1, f2, ncol =2)
+```
+
+```{r scatter6ser, fig.height=4, fig.width=10}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "SER", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "SER", main = "high power")
+```
+
 ##  Single effect model/EM (3)
 * Regions: regions with at most 1 causal signal, regions are defined based on LDetect.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
@@ -316,4 +533,16 @@ df <- show_param(phenofs, susieIfs, susieIfs2)
 par(mfrow = c(2,3))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
+```
+
+```{r pip7ser, fig.height=4, fig.width=8}
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="SER", main = "PIP (low power)" )
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="SER", main = "PIP(high power)" )
+gridExtra::grid.arrange(f1, f2, ncol =2)
+```
+
+```{r scatter7ser, fig.height=4, fig.width=10}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "SER", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "SER", main = "high power")
 ```
