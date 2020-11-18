@@ -46,7 +46,6 @@ get_lbf =
   }
 
 
-
 #' @title Bayesian single-effect linear regression of y on X,
 #' adapted from susieR (single_effect_regression.R)
 #'
@@ -99,3 +98,6 @@ SER =
     return(list(alpha = alpha,
                 lbf_model = lbf_model,loglik = loglik))
   }
+
+
+assignInNamespace("susie_SER", , "susieR")

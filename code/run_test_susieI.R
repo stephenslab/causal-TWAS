@@ -18,6 +18,7 @@ if (length(args) < 5) {
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
+source(paste0(codedir, "susie_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"susie_filter.R"))
 
@@ -38,8 +39,6 @@ prankfilter.gene <- 1 # for pgene or p2, lowest rank of gene/SNP pvalues > prank
 prankfilter.snp <- 1 # for pgene or p2, lowest rank of gene/SNP pvalues > prankfilter that will be filtered.
 rBFfilter <- 1 # for rBF, regional BF of genes & SNPs < rBFfilter will be filtered
 rfdrfilter <- 1 # for rfdr, if region contains genes or snp with fdr < fdrfilter, it will be kept.
-
-
 ifgene <- F # if limiting to regions with at least one gene.
 ifca <- T # if limiting to regions with at least one causal signal
 regionsfile <- "/home/simingz/causalTWAS/simulations/shared_files/chr1to22-500kb_fn.txt" # need to match input
@@ -49,6 +48,9 @@ ifnullweight <- F # if include/update null weight in iterations.
 prior.gene_init <- NULL
 prior.SNP_init <- NULL
 L <- 1
+plugin_prior_variance <- F
+V.g <- phenores$batch[[1]]$param$sigma_beta ** 2 # prior variance for gene
+V.s <- phenores$batch[[1]]$param$sigma_theta ** 2 # prior variance for SNP
 
 Ncore <- 1
 
@@ -163,6 +165,8 @@ loginfo("susie started for %s", outname)
 cl <- makeCluster(Ncore,outfile="")
 registerDoParallel(cl)
 
+
+varY <- var(phenores$Y)
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
 
@@ -204,17 +208,25 @@ for (iter in 1:Niter){
         prior <- c(rep(prior.gene, length(gidx[gidx])), rep(prior.SNP, length(sidx[sidx])))
       }
 
-      nw <- max(0, 1 - sum(prior))
+      if (isTRUE(plugin_prior_variance)){
+        V.scaled <- c(rep(V.g/varY, length(gidx[gidx])), rep(V.s/varY, length(sidx[sidx])))
+        V.scaled <- matrix(rep(V.scaled, each = L), nrow=L)
+      } else{
+        V.scaled <- 0.2 # following the default in susieR
+      }
+
+      if (isTRUE(ifnullweight)){
+        nw <- max(0, 1 - sum(prior))
+        prior <- prior/(1-nw)
+      } else {
+        nw <- NULL
+      }
 
       X <- cbind(exprres$expr[, gidx], dat$G[, sidx])
 
-
-      if (isTRUE(ifnullweight)){
-        susieres <- susie(X , phenores$Y, L = L, prior_weights = prior/(1-nw),
-                          null_weight = nw)
-      } else {
-        susieres <- susie(X, phenores$Y, L = L, prior_weights = prior)
-      }
+      susieres <- susie(X, phenores$Y, L = L, prior_weights = prior,
+                        null_weight = nw, scaled_prior_variance = V.scaled,
+                        estimate_prior_variance = !plugin_prior_variance)
 
       anno.gene <- cbind(exprres$gnames[gidx], exprres$chrom[gidx],  exprres$p0[gidx],
                          rep("gene", length(gidx[gidx])))

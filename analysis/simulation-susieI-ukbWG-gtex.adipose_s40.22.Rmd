@@ -208,7 +208,7 @@ nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main
     se <- apply(do.call(rbind, dflist), 2, plotrix::std.error)
   }
   
-  df <- data.frame("ncausal" = nca_mean, "se" = se )
+  df <- data.frame("ncausal" = nca_mean, "se" = se)
   
   fig <- ggplot(df) +
     geom_bar( aes(x=seq(0, 1, by=0.1)[1:10]+0.05, y=ncausal), color ="black", stat="identity", fill="salmon", alpha=0.7, width = 0.1) +
@@ -218,7 +218,6 @@ nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main
     theme_cowplot()
   return(fig)
 }
-
 
 ncausal_plot <- function(pipfs, format = "susie", main = "PIP"){
   df <- NULL
@@ -355,7 +354,6 @@ scatter_plot_PIP_p <- function(pipfs, gwasfs, pipformat = "susie", main ="PIP-p"
   
   # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
                             
-  
   df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
                              
   plot(df$TWAS.p, df$pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
