@@ -459,7 +459,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-14
+<strong>Last updated:</strong> 2020-11-19
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -590,16 +590,16 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree447a4010b1e6a63d6ea78066c14f89be8d2c946atargetblank447a401a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/447a4010b1e6a63d6ea78066c14f89be8d2c946a" target="_blank">447a401</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreefd9b304586db6efb8dc582f38c4212efc8bed06atargetblankfd9b304a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/fd9b304586db6efb8dc582f38c4212efc8bed06a" target="_blank">fd9b304</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree447a4010b1e6a63d6ea78066c14f89be8d2c946atargetblank447a401a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreefd9b304586db6efb8dc582f38c4212efc8bed06atargetblankfd9b304a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/447a4010b1e6a63d6ea78066c14f89be8d2c946a" target="_blank">447a401</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/fd9b304586db6efb8dc582f38c4212efc8bed06a" target="_blank">fd9b304</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -613,6 +613,9 @@ Ignored files:
 
 Unstaged changes:
     Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd
+    Modified:   code/run_test_susieI.R
+    Modified:   code/susie_func.R
+    Modified:   code/workflow/workflow-susieI-20201001.ipynb
 
 </code></pre>
 <p>
@@ -651,6 +654,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/fd9b304586db6efb8dc582f38c4212efc8bed06a/analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">fd9b304</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-18
+</td>
+<td>
+index
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+<td>
+more PIP cali
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/983dea2763dd37889615c6ca5430f80607104340/docs/simulation-susieI-ukbWG-gtex.adipose_s40.22.html" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+<td>
+more PIP cali
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -943,7 +997,7 @@ source(&quot;analysis/summarize_twas_plots.R&quot;)</code></pre>
 n &lt;-  22542
 p &lt;- 656321 # number of SNPs
 J &lt;- 8021 # number of genes</code></pre>
-<p>The genotype data we used is from UKB biobank, randomly selecting 40000 samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with n = 22542 samples. We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = <code>p as.charater(p)</code> SNPs.</p>
+<p>The genotype data we used is from UKB biobank, randomly selecting 40000 samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with n = 22542 samples. We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = 656321 SNPs.</p>
 <p>Our analysis consists of the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>Build expression predictors using another expression-genotype dataset.</li>
@@ -1323,7 +1377,7 @@ nca_plot &lt;- function(pips, ifcausal, runtag = NULL, mode = c(&quot;PIP&quot;,
     se &lt;- apply(do.call(rbind, dflist), 2, plotrix::std.error)
   }
   
-  df &lt;- data.frame(&quot;ncausal&quot; = nca_mean, &quot;se&quot; = se )
+  df &lt;- data.frame(&quot;ncausal&quot; = nca_mean, &quot;se&quot; = se)
   
   fig &lt;- ggplot(df) +
     geom_bar( aes(x=seq(0, 1, by=0.1)[1:10]+0.05, y=ncausal), color =&quot;black&quot;, stat=&quot;identity&quot;, fill=&quot;salmon&quot;, alpha=0.7, width = 0.1) +
@@ -1333,7 +1387,6 @@ nca_plot &lt;- function(pips, ifcausal, runtag = NULL, mode = c(&quot;PIP&quot;,
     theme_cowplot()
   return(fig)
 }
-
 
 ncausal_plot &lt;- function(pipfs, format = &quot;susie&quot;, main = &quot;PIP&quot;){
   df &lt;- NULL
@@ -1470,7 +1523,6 @@ scatter_plot_PIP_p &lt;- function(pipfs, gwasfs, pipformat = &quot;susie&quot;, 
   
   # df$ifcausal &lt;- mapvalues(df$ifcausal, from=c(0,1), to=c(&quot;Non causal&quot;, &quot;Causal&quot;))
                             
-  
   df$ifcausal &lt;- mapvalues(df$ifcausal, from=c(0,1),to=c(&quot;darkgreen&quot;, &quot;salmon&quot;))
                              
   plot(df$TWAS.p, df$pip, col = df$ifcausal, main = main, xlab = &quot;-log10(TWAS p value)&quot;, ylab = &quot;PIP&quot;)
@@ -1698,6 +1750,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip1susie-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/447a4010b1e6a63d6ea78066c14f89be8d2c946a/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip1susie-1.png" target="_blank">447a401</a>
 </td>
 <td>
@@ -1812,10 +1875,84 @@ f3 &lt;- ncausal_plot(susieIfs2[1:5], format = &quot;susie&quot;, main = &quot;N
 f4 &lt;- ncausal_plot(susieIfs2[6:10], format = &quot;susie&quot;, main = &quot;No. Causal Genes (high power)&quot;)
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip6susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pip6susie-1">
+Past versions of pip6susie-1.png
+</button>
+</p>
+<div id="fig-pip6susie-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip6susie-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>par(mfrow=c(1,2))
 f1 &lt;- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = &quot;susie&quot;, main = &quot;low power&quot;)
 f2 &lt;- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = &quot;susie&quot;, main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter6susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-scatter6susie-1">
+Past versions of scatter6susie-1.png
+</button>
+</p>
+<div id="fig-scatter6susie-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter6susie-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="susiei-3" class="section level2">
 <h2>susieI (3)</h2>
@@ -1876,10 +2013,138 @@ f3 &lt;- ncausal_plot(susieIfs2[1:5], format = &quot;susie&quot;, main = &quot;N
 f4 &lt;- ncausal_plot(susieIfs2[6:10], format = &quot;susie&quot;, main = &quot;No. Causal Genes (high power)&quot;)
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip8susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pip8susie-1">
+Past versions of pip8susie-1.png
+</button>
+</p>
+<div id="fig-pip8susie-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip8susie-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>par(mfrow=c(1,2))
 f1 &lt;- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = &quot;susie&quot;, main = &quot;low power&quot;)
 f2 &lt;- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = &quot;susie&quot;, main = &quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter8susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-scatter8susie-1">
+Past versions of scatter8susie-1.png
+</button>
+</p>
+<div id="fig-scatter8susie-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter8susie-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="susiei-4" class="section level2">
+<h2>susieI (4)</h2>
+<ul>
+<li>Regions: all regions, LD-defined regions.</li>
+<li>Susie run parameters: <code>L=1</code>. We use true prior variance and plug into SUSIE, so this should be the same as SER/EM (2). We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes).</li>
+</ul>
+<pre class="r"><code>tags &lt;- paste(rep(1:2, each = 5), 1:5, sep = &quot;-&quot;)
+phenofs &lt;- paste0(simdatadir, &quot;simu_20201001-&quot;, tags, &quot;-pheno.Rd&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config9.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config9.susieI.txt&quot;)
+
+df &lt;- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = &quot;low power&quot;)
+plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param9susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>f1 &lt;- caliPIP_plot(susieIfs2[1:5], format =&quot;susie&quot;, main = &quot;PIP(low power)&quot; )
+f2 &lt;- caliPIP_plot(susieIfs2[6:10], format =&quot;susie&quot;, main = &quot;PIP(high power)&quot; )
+f3 &lt;- ncausal_plot(susieIfs2[1:5], format = &quot;susie&quot;, main = &quot;No. Causal Genes (low power)&quot;)
+f4 &lt;- ncausal_plot(susieIfs2[6:10], format = &quot;susie&quot;, main = &quot;No. Causal Genes (high power)&quot;)
+gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip9susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow=c(1,2))
+f1 &lt;- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = &quot;susie&quot;, main = &quot;low power&quot;)
+f2 &lt;- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = &quot;susie&quot;, main = &quot;high power&quot;)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter9susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="susiei-5" class="section level2">
+<h2>susieI (5)</h2>
+<ul>
+<li>Regions: all regions, LD-defined regions.</li>
+<li>Susie run parameters: <code>L=5</code>. We use true prior variance and plug into SUSIE. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes).</li>
+</ul>
+<pre class="r"><code>tags &lt;- paste(rep(1:2, each = 5), 1:5, sep = &quot;-&quot;)
+phenofs &lt;- paste0(simdatadir, &quot;simu_20201001-&quot;, tags, &quot;-pheno.Rd&quot;)
+susieIfs &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config10.susieIres.Rd&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config10.susieI.txt&quot;)
+
+df &lt;- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = &quot;low power&quot;)
+plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param10susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>f1 &lt;- caliPIP_plot(susieIfs2[1:5], format =&quot;susie&quot;, main = &quot;PIP(low power)&quot; )
+f2 &lt;- caliPIP_plot(susieIfs2[6:10], format =&quot;susie&quot;, main = &quot;PIP(high power)&quot; )
+f3 &lt;- ncausal_plot(susieIfs2[1:5], format = &quot;susie&quot;, main = &quot;No. Causal Genes (low power)&quot;)
+f4 &lt;- ncausal_plot(susieIfs2[6:10], format = &quot;susie&quot;, main = &quot;No. Causal Genes (high poweunr)&quot;)
+gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip10susie-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow=c(1,2))
+f1 &lt;- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = &quot;susie&quot;, main = &quot;low power&quot;)
+f2 &lt;- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = &quot;susie&quot;, main = &quot;high power&quot;)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter10susie-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="single-effect-modelem-1" class="section level2">
 <h2>Single effect model/EM (1)</h2>
@@ -1997,6 +2262,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip1ser-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/447a4010b1e6a63d6ea78066c14f89be8d2c946a/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip1ser-1.png" target="_blank">447a401</a>
 </td>
 <td>
@@ -2038,6 +2314,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter1ser-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/447a4010b1e6a63d6ea78066c14f89be8d2c946a/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter1ser-1.png" target="_blank">447a401</a>
 </td>
 <td>
@@ -2064,8 +2351,8 @@ susieIfs &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config6.SER
 susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config6.SERI.txt&quot;)
 
 df &lt;- show_param(phenofs, susieIfs, susieIfs2)</code></pre>
-<pre><code>Avoidable 2.068 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.
-Avoidable 4.353 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.</code></pre>
+<pre><code>Avoidable 2.641 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.
+Avoidable 4.947 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.</code></pre>
 <pre class="r"><code>par(mfrow = c(2,3))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>
@@ -2148,6 +2435,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip6ser-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/447a4010b1e6a63d6ea78066c14f89be8d2c946a/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip6ser-1.png" target="_blank">447a401</a>
 </td>
 <td>
@@ -2187,6 +2485,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter6ser-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/447a4010b1e6a63d6ea78066c14f89be8d2c946a/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter6ser-1.png" target="_blank">447a401</a>
@@ -2297,6 +2606,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip7ser-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/447a4010b1e6a63d6ea78066c14f89be8d2c946a/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip7ser-1.png" target="_blank">447a401</a>
 </td>
 <td>
@@ -2336,6 +2656,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/983dea2763dd37889615c6ca5430f80607104340/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter7ser-1.png" target="_blank">983dea2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/447a4010b1e6a63d6ea78066c14f89be8d2c946a/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/scatter7ser-1.png" target="_blank">447a401</a>

@@ -18,7 +18,6 @@ if (length(args) < 5) {
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
-source(paste0(codedir, "susie_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"susie_filter.R"))
 
@@ -48,9 +47,7 @@ ifnullweight <- F # if include/update null weight in iterations.
 prior.gene_init <- NULL
 prior.SNP_init <- NULL
 L <- 1
-plugin_prior_variance <- F
-V.g <- phenores$batch[[1]]$param$sigma_beta ** 2 # prior variance for gene
-V.s <- phenores$batch[[1]]$param$sigma_theta ** 2 # prior variance for SNP
+plugin_prior_variance <- F # using truth when T for now
 
 Ncore <- 1
 
@@ -102,8 +99,8 @@ for (b in 1:length(pfiles)){
   loginfo("No. intervals before filtering %s for batch %s: %s", filtertype, b, nrow(reglist[[b]]))
 
   # filter regions based on filtertype
-  cau <- c(dat$snp[phenores$batch[[b]]$param$idx.cSNP,],
-           exprres$gnames[phenores$batch[[b]]$param$idx.cgene])
+  cau <- #c(dat$snp[phenores$batch[[b]]$param$idx.cSNP,],
+           exprres$gnames[phenores$batch[[b]]$param$idx.cgene] #)
   regout <- filter_region(reg = reglist[[b]], filtertype = filtertype, filterfile = args[4])
   regions <- regout[["filtered"]]
   regionsall <- rbind(regionsall, regout[["all"]])
@@ -157,7 +154,8 @@ for (b in 1:length(pfiles)){
 
 write.table(regionsall, file= paste0(outname,".", filtertype, ".r.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
 
-save.image("tempsusie.Rd")
+stop()
+
 # start susieI
 loginfo("susie started for %s", outname)
 
@@ -167,6 +165,9 @@ registerDoParallel(cl)
 
 
 varY <- var(phenores$Y)
+V.g <- phenores$batch[[1]]$param$sigma_beta ** 2 # prior variance for gene
+V.s <- phenores$batch[[1]]$param$sigma_theta ** 2 # prior variance for SNP
+
 prior.SNP_rec <- rep(0, Niter)
 prior.gene_rec <- rep(0, Niter)
 
@@ -177,6 +178,7 @@ for (iter in 1:Niter){
   snp.rpiplist <- list()
   gene.rpiplist <- list()
   outdf <- foreach (b = 1:22, .combine = "rbind",.packages = c("susieR", "bigstatsr")) %dopar% {
+    source(paste0(codedir, "susie_func.R"))
 
     # load genotype data
     load(pfileRds[b])
@@ -212,7 +214,7 @@ for (iter in 1:Niter){
         V.scaled <- c(rep(V.g/varY, length(gidx[gidx])), rep(V.s/varY, length(sidx[sidx])))
         V.scaled <- matrix(rep(V.scaled, each = L), nrow=L)
       } else{
-        V.scaled <- 0.2 # following the default in susieR
+        V.scaled <- matrix(rep(0.2, L * p), nrow = L) # following the default in susieR
       }
 
       if (isTRUE(ifnullweight)){

@@ -25,7 +25,7 @@ p <- 656321 # number of SNPs
 J <- 8021 # number of genes
 ```
 
-The genotype data we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with n = `r as.character(n)` samples.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = `p as.charater(p)` SNPs.
+The genotype data we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with n = `r as.character(n)` samples.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. SNPs are downsampled to 1/10 (randomly), eQTLs (see below for definition of eQTL) were added back. This ends up with p = `r as.character(p)` SNPs.
 
 Our analysis consists of the following steps: 
 
@@ -547,6 +547,68 @@ par(mfrow=c(1,2))
 f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
 f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
 ```
+
+
+## susieI (4)
+* Regions: all regions, LD-defined regions.
+* Susie run parameters: `L=1`. We use true prior variance and plug into SUSIE, so this should be the same as SER/EM (2). We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
+
+```{r param9susie, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config9.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config9.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+```
+
+```{r pip9susie, fig.height=6, fig.width=8}
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="susie", main = "PIP(low power)" )
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)" )
+f3 <- ncausal_plot(susieIfs2[1:5], format = "susie", main = "No. Causal Genes (low power)")
+f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (high power)")
+gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
+```
+
+```{r scatter9susie, fig.height=4, fig.width=8}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
+```
+
+## susieI (5)
+* Regions: all regions, LD-defined regions.
+* Susie run parameters: `L=5`. We use true prior variance and plug into SUSIE. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). 
+
+```{r param10susie, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config10.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config10.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+```
+
+```{r pip10susie, fig.height=6, fig.width=8}
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="susie", main = "PIP(low power)" )
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)" )
+f3 <- ncausal_plot(susieIfs2[1:5], format = "susie", main = "No. Causal Genes (low power)")
+f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (high poweunr)")
+gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
+```
+
+```{r scatter10susie, fig.height=4, fig.width=8}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
+```
+
 
 ##  Single effect model/EM (1)
 * Regions: all regions, 500kb uniform regions.

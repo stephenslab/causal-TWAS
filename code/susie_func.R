@@ -18,12 +18,12 @@ update_each_effect = function (X, Y, s, estimate_prior_variance = FALSE,
     for (l in 1:L) {
 
       # Remove lth effect from fitted values.
-      s$Xr = s$Xr - compute_Xb(X,s$alpha[l,] * s$mu[l,])
+      s$Xr = s$Xr - susieR:::compute_Xb(X,s$alpha[l,] * s$mu[l,])
 
       # Compute residuals.
       R = Y - s$Xr
 
-      res = single_effect_regression(R,X,s$V[l],s$sigma2,s$pi,
+      res = susieR:::single_effect_regression(R,X,s$V[l,],s$sigma2,s$pi,
                                      estimate_prior_method,
                                      check_null_threshold)
 
@@ -33,22 +33,22 @@ update_each_effect = function (X, Y, s, estimate_prior_variance = FALSE,
       s$mu2[l,]   = res$mu2
       s$V[l,]      = res$V  # different from susieR
       s$lbf[l]    = res$lbf_model
-      s$lbf_variable[l,] = res$lbf
       s$KL[l]     = -res$loglik +
-        SER_posterior_e_loglik(X,R,s$sigma2,res$alpha * res$mu,
+        susieR:::SER_posterior_e_loglik(X,R,s$sigma2,res$alpha * res$mu,
                                res$alpha * res$mu2)
 
-      s$Xr = s$Xr + compute_Xb(X,s$alpha[l,] * s$mu[l,])
+      s$Xr = s$Xr + susieR:::compute_Xb(X,s$alpha[l,] * s$mu[l,])
     }
   return(s)
 }
 
-assignInNamespace("update_each_effect", update_each_effect,"susieR")
+assignInNamespace("update_each_effect", update_each_effect, "susieR")
 
 # Update a susie fit object in order to initialize susie model.
 init_finalize = function (s, X = NULL, Xr = NULL) {
-  if(length(s$V) == 1)
-    s$V = rep(s$V,nrow(s$alpha))
+  # different form susieR
+  # if(length(s$V) == 1)
+  #   s$V = rep(s$V, nrow(s$alpha))
 
   # Check sigma2.
   if (!is.numeric(s$sigma2))
@@ -80,7 +80,7 @@ init_finalize = function (s, X = NULL, Xr = NULL) {
   if (!missing(Xr))
     s$Xr = Xr
   if (!missing(X))
-    s$Xr = compute_Xb(X,colSums(s$mu * s$alpha))
+    s$Xr = susieR:::compute_Xb(X,colSums(s$mu * s$alpha))
 
   # Reset KL and lbf.
   s$KL = rep(as.numeric(NA),nrow(s$alpha))
@@ -90,3 +90,92 @@ init_finalize = function (s, X = NULL, Xr = NULL) {
 }
 
 assignInNamespace("init_finalize", init_finalize ,"susieR")
+
+
+susie_get_cs <- function (res, X = NULL, Xcorr = NULL, coverage = 0.95, min_abs_corr = 0.5,
+                          dedup = TRUE, squared = FALSE)
+{
+  if (!is.null(X) && !is.null(Xcorr)) {
+    stop("Only one of X or Xcorr should be specified")
+  }
+  if (!is.null(Xcorr) && !is_symmetric_matrix(Xcorr)) {
+    stop("Xcorr matrix must be symmetric")
+  }
+  if (inherits(res, "susie")) {
+    null_index = res$null_index
+    if (is.numeric(res$V))
+      include_idx = rep(TRUE, nrow(res$alpha)) # different from susieR
+    else include_idx = rep(TRUE, nrow(res$alpha))
+  }
+  else null_index = 0
+  status = susieR:::in_CS(res$alpha, coverage)
+  cs = lapply(1:nrow(status), function(i) which(status[i, ] !=
+                                                  0))
+  include_idx = include_idx * (lapply(cs, length) > 0)
+  if (dedup)
+    include_idx = include_idx * (!duplicated(cs))
+  include_idx = as.logical(include_idx)
+  if (sum(include_idx) == 0)
+    return(list(cs = NULL, coverage = coverage))
+  cs = cs[include_idx]
+  if (is.null(Xcorr) && is.null(X)) {
+    names(cs) = paste0("L", which(include_idx))
+    return(list(cs = cs, coverage = coverage))
+  }
+  else {
+    purity = data.frame(do.call(rbind, lapply(1:length(cs),
+                                              function(i) {
+                                                if (null_index > 0 && null_index %in% cs[[i]])
+                                                  c(-9, -9, -9)
+                                                else susieR:::get_purity(cs[[i]], X, Xcorr, squared)
+                                              })))
+    if (squared)
+      colnames(purity) = c("min.sq.corr", "mean.sq.corr",
+                           "median.sq.corr")
+    else colnames(purity) = c("min.abs.corr", "mean.abs.corr",
+                              "median.abs.corr")
+    threshold = ifelse(squared, min_abs_corr^2, min_abs_corr)
+    is_pure = which(purity[, 1] >= threshold)
+    if (length(is_pure) > 0) {
+      cs = cs[is_pure]
+      purity = purity[is_pure, ]
+      row_names = paste0("L", which(include_idx)[is_pure])
+      names(cs) = row_names
+      rownames(purity) = row_names
+      ordering = order(purity[, 1], decreasing = T)
+      return(list(cs = cs[ordering], purity = purity[ordering,
+                                                     ], cs_index = which(include_idx)[is_pure[ordering]],
+                  coverage = coverage))
+    }
+    else {
+      return(list(cs = NULL, coverage = coverage))
+    }
+  }
+}
+
+assignInNamespace("susie_get_cs", susie_get_cs ,"susieR")
+
+
+
+susie_get_pip <- function (res, prune_by_cs = FALSE, prior_tol = 1e-09)
+{
+  if (inherits(res, "susie")) {
+    if (res$null_index > 0)
+      res$alpha = res$alpha[, -res$null_index, drop = FALSE]
+    if (is.numeric(res$V))
+      include_idx = 1:nrow(res$alpha) # different from susieR
+    else include_idx = 1:nrow(res$alpha)
+    if (!is.null(res$sets$cs_index) && prune_by_cs)
+      include_idx = intersect(include_idx, res$sets$cs_index)
+    if (is.null(res$sets$cs_index) && prune_by_cs)
+      include_idx = numeric(0)
+    if (length(include_idx) > 0) {
+      res = res$alpha[include_idx, , drop = FALSE]
+    }
+    else {
+      res = matrix(0, 1, ncol(res$alpha))
+    }
+  }
+  return(as.vector(1 - apply(1 - res, 2, prod)))
+}
+assignInNamespace("susie_get_pip", susie_get_pip ,"susieR")
