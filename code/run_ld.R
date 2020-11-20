@@ -38,12 +38,12 @@ load(args[3])
 
 outname <- args[4]
 
-load(pfileRds[1])
-load(efiles[1])
+load(pfileRds[3])
+load(efiles[3])
 
 geno.t <- list()
 
-geno.t[[1]] <- .eqtl_geno("MRPS21")
+geno.t[[1]] <- .eqtl_geno("STAG1")
 
 name <- "rs4839015"
 temp <- dat$G[, dat$snp == name, drop = F]

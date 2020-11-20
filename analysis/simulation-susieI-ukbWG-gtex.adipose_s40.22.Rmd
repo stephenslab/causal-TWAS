@@ -173,6 +173,24 @@ gg_qqplot(b$PVALUE) +
     # panel.grid = element_line(size = 0.5, color = "grey80")
   )
 ```
+# Block features
+
+```{r block}
+
+a <- read.table(paste0(outputdir, "20201001-1-1.config9.gene.nofilter.r.txt"), header =T)
+b <-  read.table(paste0(outputdir, "20201001-2-1.config9.gene.nofilter.r.txt"), header =T)
+m1 <- read.table(paste0(outputdir, "20201001-1-1.config9.nofilter.r.txt"), header =T)
+m2 <- read.table(paste0(outputdir, "20201001-2-1.config9.nofilter.r.txt"), header =T)
+  
+hist(a$p1-a$p0, main = NULL, xlab = "Block size(bp)", col = "salmon")
+
+par(mfrow=c(2,2))
+hist(a$nCausal, xlab = "No.causal genes", col = "salmon", breaks=100, xlim=c(0,15), main ="low power")
+hist(b$nCausal, xlab = "No.causal genes", col = "salmon", breaks=100, xlim=c(0,15), main ="high power")
+hist(m1$nCausal, xlab = "No.causal genes + SNPs", col = "salmon", breaks=100, xlim=c(0,15), main ="low power")
+hist(m2$nCausal, xlab = "No.causal genes + SNPs", col = "salmon", breaks=100, xlim=c(0,15), main ="high power")
+```
+
 
 # TWAS FDP
 
@@ -352,14 +370,15 @@ scatter_plot_PIP_p <- function(pipfs, gwasfs, pipformat = "susie", main ="PIP-p"
   df <- rename(df, c( "PVALUE" = "TWAS.p"))
   df[,"TWAS.p"] <- -log10(df[, "TWAS.p"])
   
-  # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
+  
                             
-  df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
-                             
-  plot(df$TWAS.p, df$pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
-  # fig <- plot_ly(data = df, x = ~ TWAS.p, y = ~ pip, color = ~ ifcausal,
-  #                colors = c( "salmon", "darkgreen"), type ="scatter", text = ~ paste("Name: ", paste0(runtag,":",name),
-  #                                                                  "\nChr: ", chr,  "\nPos:", pos))
+  # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
+  # plot(df$TWAS.p, df$pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
+  # 
+  df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
+  fig <- plot_ly(data = df, x = ~ TWAS.p, y = ~ pip, color = ~ ifcausal,
+                 colors = c( "salmon", "darkgreen"), type ="scatter", text = ~ paste("Name: ", paste0(runtag,":",name),
+                                                                   "\nChr: ", chr,  "\nPos:", pos))
                                                                     
 }
 ```
