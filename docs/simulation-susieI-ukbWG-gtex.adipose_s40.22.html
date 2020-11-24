@@ -459,7 +459,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-20
+<strong>Last updated:</strong> 2020-11-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -590,16 +590,16 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6fa5cfa2291d18d99954fc6dbbe086ecf43e8f25targetblank6fa5cfaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/6fa5cfa2291d18d99954fc6dbbe086ecf43e8f25" target="_blank">6fa5cfa</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreee81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4targetblanke81ebe1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4" target="_blank">e81ebe1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6fa5cfa2291d18d99954fc6dbbe086ecf43e8f25targetblank6fa5cfaa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreee81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4targetblanke81ebe1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/6fa5cfa2291d18d99954fc6dbbe086ecf43e8f25" target="_blank">6fa5cfa</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4" target="_blank">e81ebe1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -611,10 +611,13 @@ Ignored files:
     Ignored:    code/workflow/.ipynb_checkpoints/
     Ignored:    data/
 
+Untracked files:
+    Untracked:  analysis/figure/
+
 Unstaged changes:
     Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd
-    Modified:   analysis/simulation-susieI-ukbWG-gtex.adipose_visual.Rmd
-    Modified:   code/run_ld.R
+    Modified:   code/run_test_susieI.R
+    Modified:   code/workflow/workflow-susieI-20201001.ipynb
 
 </code></pre>
 <p>
@@ -653,6 +656,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4/analysis/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">e81ebe1</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-20
+</td>
+<td>
+block feature
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4/docs/simulation-susieI-ukbWG-gtex.adipose_s40.22.html" target="_blank">e81ebe1</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-20
+</td>
+<td>
+block feature
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1387,12 +1424,86 @@ m2 &lt;- read.table(paste0(outputdir, &quot;20201001-2-1.config9.nofilter.r.txt&
   
 hist(a$p1-a$p0, main = NULL, xlab = &quot;Block size(bp)&quot;, col = &quot;salmon&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/block-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-block-1">
+Past versions of block-1.png
+</button>
+</p>
+<div id="fig-block-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/block-1.png" target="_blank">e81ebe1</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>par(mfrow=c(2,2))
 hist(a$nCausal, xlab = &quot;No.causal genes&quot;, col = &quot;salmon&quot;, breaks=100, xlim=c(0,15), main =&quot;low power&quot;)
 hist(b$nCausal, xlab = &quot;No.causal genes&quot;, col = &quot;salmon&quot;, breaks=100, xlim=c(0,15), main =&quot;high power&quot;)
 hist(m1$nCausal, xlab = &quot;No.causal genes + SNPs&quot;, col = &quot;salmon&quot;, breaks=100, xlim=c(0,15), main =&quot;low power&quot;)
 hist(m2$nCausal, xlab = &quot;No.causal genes + SNPs&quot;, col = &quot;salmon&quot;, breaks=100, xlim=c(0,15), main =&quot;high power&quot;)</code></pre>
 <p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/block-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-block-2">
+Past versions of block-2.png
+</button>
+</p>
+<div id="fig-block-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/block-2.png" target="_blank">e81ebe1</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="twas-fdp" class="section level1">
 <h1>TWAS FDP</h1>
@@ -1627,6 +1738,68 @@ simingz
 </tbody>
 </table>
 </div>
+</div>
+</div>
+<div id="ls-effect-on-susie" class="section level1">
+<h1>L’s effect on SuSiE</h1>
+<p>We run SuSiE on each block with true priors and true prior variances. We tested the difference between using <code>L=1</code> and <code>L=5</code>. We only did this for the low power setting.</p>
+<pre class="r"><code>ncs_ncausal &lt;- function(susief, main = &quot;nCSvs.nCausal&quot;) {
+  dt &lt;- fread(susief, header = T)
+  ncausal &lt;- dt[, sum(ifcausal), by=list(b,rn)]
+  nCS &lt;- dt[, max(cs_index), by=list(b,rn)]
+  plot(jitter(ncausal$V1), jitter(nCS$V1), xlab= &quot;No.causal/block&quot;, ylab = &quot;No. credible set/block&quot;, main= main)
+  return(dt)
+}
+
+sumPIP_ncausal &lt;- function(susief, main = &quot;sumPIPvs.nCausal&quot;){
+  dt &lt;- fread(susief, header = T)
+  ncausal &lt;- dt[, sum(ifcausal), by=list(b,rn)]
+  sumpip &lt;- dt[, sum(susie_pip), by=list(b,rn)]
+  plot(jitter(ncausal$V1), sumpip$V1, xlab= &quot;No.causal/block&quot;, ylab = &quot;Regional sum PIP&quot;, main = main)
+  return(dt)
+}</code></pre>
+<div id="l1" class="section level2">
+<h2>L=1</h2>
+<p>Note: the data has been added some noise (both X and Y axes for credible set vs. no.causal, X axis for sum of PIP vs. no.causal) for visualization purposes.</p>
+<pre class="r"><code>tags &lt;- paste(rep(1, each = 5), 1:5, sep = &quot;-&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config11.susieI.txt&quot;)
+f1 &lt;- caliPIP_plot(susieIfs2, main = &quot;L=1&quot;)
+f2 &lt;- ncausal_plot(susieIfs2, format = &quot;susie&quot;, main = &quot;No. Causal Genes&quot;)
+gridExtra::grid.arrange(f1, f2, ncol =2)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/unnamed-chunk-1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow=c(1,2))
+dt &lt;- sumPIP_ncausal(susieIfs2[2], main = &quot;L=1&quot;)
+dt &lt;-ncs_ncausal(susieIfs2[2], main = &quot;L=1&quot;)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/unnamed-chunk-1-2.png" width="768" style="display: block; margin: auto;" /></p>
+<ul>
+<li>True parameters: gene <span class="math inline">\(\pi_1\)</span>, 0.0498753, SNP <span class="math inline">\(\pi_1\)</span>, 0.0025019. [enrichment = 19.9347551].</li>
+<li>Average PIP: gene 0.0319922, SNP 0.0019147 . [enrichment = 16.7090917].</li>
+<li>Proportion in credible set: gene 0.007606, SNP 0.0015938. [enrichment = 4.7722393].</li>
+</ul>
+</div>
+<div id="l5" class="section level2">
+<h2>L=5</h2>
+<p>Note: the data has been added some noise (both X and Y axes for credible set vs. no.causal, X axis for sum of PIP vs. no.causal) for visualization purposes.</p>
+<pre class="r"><code>tags &lt;- paste(rep(1, each = 5), 1:5, sep = &quot;-&quot;)
+susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config12.susieI.txt&quot;)
+
+f1 &lt;- caliPIP_plot(susieIfs2, main = &quot;L=5&quot;)
+f2 &lt;- ncausal_plot(susieIfs2, format = &quot;susie&quot;, main = &quot;No. Causal Genes&quot;)
+gridExtra::grid.arrange(f1, f2, ncol =2)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow=c(1,3))
+dt &lt;- sumPIP_ncausal(susieIfs2[2], main = &quot;L=5&quot;)
+dt &lt;- ncs_ncausal(susieIfs2[2], main = &quot;L=5, CS=0.95&quot;)
+
+susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config13.susieI.txt&quot;)
+dt2 &lt;- ncs_ncausal(susieIfs2[2], main = &quot;L=5, CS=0.8&quot;)</code></pre>
+<p><img src="figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/unnamed-chunk-2-2.png" width="768" style="display: block; margin: auto;" /></p>
+<ul>
+<li>True parameters: gene <span class="math inline">\(\pi_1\)</span>, 0.0498753, SNP <span class="math inline">\(\pi_1\)</span>, 0.0025019. [enrichment = 19.9347551].</li>
+<li>Average PIP: gene 0.1409154, SNP 0.0091872 . [enrichment = 15.3381785].</li>
+<li>Proportion in credible set (0.95): gene 0.0081047, SNP 0.0021012. [enrichment = 3.8572089].</li>
+<li>Proportion in credible set (0.8): gene 0.0134663, SNP 0.0022246. [enrichment = 6.0533386].</li>
+</ul>
 </div>
 </div>
 <div id="parameter-estimation-results" class="section level1">
@@ -2190,6 +2363,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param10susie-1.png" target="_blank">e81ebe1</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/6fa5cfa2291d18d99954fc6dbbe086ecf43e8f25/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/param10susie-1.png" target="_blank">6fa5cfa</a>
 </td>
 <td>
@@ -2231,6 +2415,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/e81ebe13c3d3e10f1708ad6f8aa6e5d1da4bb1b4/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip10susie-1.png" target="_blank">e81ebe1</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2020-11-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/6fa5cfa2291d18d99954fc6dbbe086ecf43e8f25/docs/figure/simulation-susieI-ukbWG-gtex.adipose_s40.22.Rmd/pip10susie-1.png" target="_blank">6fa5cfa</a>
@@ -2406,8 +2601,8 @@ susieIfs &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config6.SER
 susieIfs2 &lt;- paste0(outputdir, &quot;20201001-&quot;, tags, &quot;.config6.SERI.txt&quot;)
 
 df &lt;- show_param(phenofs, susieIfs, susieIfs2)</code></pre>
-<pre><code>Avoidable 0.581 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.
-Avoidable 4.334 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.</code></pre>
+<pre><code>Avoidable 0.637 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.
+Avoidable 0.943 seconds. This file is very unusual: it ends abruptly without a final newline, and also its size is a multiple of 4096 bytes. Please properly end the last row with a newline using for example &#39;echo &gt;&gt; file&#39; to avoid this  time to copy.</code></pre>
 <pre class="r"><code>par(mfrow = c(2,3))
 plot_param(df[1:5,], main = &quot;low power&quot;)
 plot_param(df[6:10,], main = &quot;high power&quot;)</code></pre>

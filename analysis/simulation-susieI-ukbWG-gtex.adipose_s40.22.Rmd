@@ -394,6 +394,73 @@ f2 <- caliFDP_plot(gwasfs[6:10], susieIfs2[6:10], format= "susie", main ="TWAS F
 gridExtra::grid.arrange(f1, f2, ncol =2)
 ```
 
+# L's effect on SuSiE
+
+We run SuSiE on each block with true priors and true prior variances. We tested the difference between using `L=1` and `L=5`. We only did this for the low power setting.
+
+```{r reg functions}
+ncs_ncausal <- function(susief, main = "nCSvs.nCausal") {
+  dt <- fread(susief, header = T)
+  ncausal <- dt[, sum(ifcausal), by=list(b,rn)]
+  nCS <- dt[, max(cs_index), by=list(b,rn)]
+  plot(jitter(ncausal$V1), jitter(nCS$V1), xlab= "No.causal/block", ylab = "No. credible set/block", main= main)
+  return(dt)
+}
+
+sumPIP_ncausal <- function(susief, main = "sumPIPvs.nCausal"){
+  dt <- fread(susief, header = T)
+  ncausal <- dt[, sum(ifcausal), by=list(b,rn)]
+  sumpip <- dt[, sum(susie_pip), by=list(b,rn)]
+  plot(jitter(ncausal$V1), sumpip$V1, xlab= "No.causal/block", ylab = "Regional sum PIP", main = main)
+  return(dt)
+}
+```
+## L=1
+
+Note: the data has been added some noise (both X and Y axes for credible set vs. no.causal, X axis for sum of PIP vs. no.causal) for visualization purposes. 
+```{r L=1, fig.width=8, fig.height=4}
+tags <- paste(rep(1, each = 5), 1:5, sep = "-")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config11.susieI.txt")
+f1 <- caliPIP_plot(susieIfs2, main = "L=1")
+f2 <- ncausal_plot(susieIfs2, format = "susie", main = "No. Causal Genes")
+gridExtra::grid.arrange(f1, f2, ncol =2)
+
+par(mfrow=c(1,2))
+dt <- sumPIP_ncausal(susieIfs2[2], main = "L=1")
+dt <-ncs_ncausal(susieIfs2[2], main = "L=1, CS=0.95")
+```
+
+* True parameters: gene $\pi_1$, `r g <- nrow(dt[type =="gene" & ifcausal !=0])/ nrow(dt[type =="gene"]);g`, SNP $\pi_1$, `r s <-nrow(dt[type =="SNP" & ifcausal !=0])/ nrow(dt[type =="SNP"]);s`. [enrichment = `r g/s`].
+* Average PIP: gene `r g <- mean(dt[type =="gene", susie_pip]);g`, SNP `r s <-mean(dt[type =="SNP", susie_pip]);s` . [enrichment = `r g/s`].
+* Proportion in credible set (0.95): gene `r g <-nrow(dt[type =="gene" & cs_index !=0])/ nrow(dt[type =="gene"]);g `, SNP `r s <-nrow(dt[type =="SNP" & cs_index !=0])/ nrow(dt[type =="SNP"]);s`. [enrichment = `r g/s`].
+
+
+## L=5
+
+Note: the data has been added some noise (both X and Y axes for credible set vs. no.causal, X axis for sum of PIP vs. no.causal) for visualization purposes. 
+
+```{r L=5, fig.width=8, fig.height=4}
+tags <- paste(rep(1, each = 5), 1:5, sep = "-")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config12.susieI.txt")
+
+f1 <- caliPIP_plot(susieIfs2, main = "L=5")
+f2 <- ncausal_plot(susieIfs2, format = "susie", main = "No. Causal Genes")
+gridExtra::grid.arrange(f1, f2, ncol =2)
+
+par(mfrow=c(1,3))
+dt <- sumPIP_ncausal(susieIfs2[2], main = "L=5")
+dt <- ncs_ncausal(susieIfs2[2], main = "L=5, CS=0.95")
+
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config13.susieI.txt")
+dt2 <- ncs_ncausal(susieIfs2[2], main = "L=5, CS=0.8")
+```
+
+
+* True parameters: gene $\pi_1$, `r g <- nrow(dt[type =="gene" & ifcausal !=0])/ nrow(dt[type =="gene"]);g`, SNP $\pi_1$, `r s<-nrow(dt[type =="SNP" & ifcausal !=0])/ nrow(dt[type =="SNP"]);s`. [enrichment = `r g/s`].
+* Average PIP: gene `r g <- mean(dt[type =="gene", susie_pip]);g`, SNP `r s <-mean(dt[type =="SNP", susie_pip]);s` . [enrichment = `r g/s`].
+* Proportion in credible set (0.95): gene `r g <-nrow(dt[type =="gene" & cs_index !=0])/ nrow(dt[type =="gene"]);g `, SNP `r s <-nrow(dt[type =="SNP" & cs_index !=0])/ nrow(dt[type =="SNP"]);s`. [enrichment = `r g/s`].
+* Proportion in credible set (0.8): gene `r g <-nrow(dt2[type =="gene" & cs_index !=0])/ nrow(dt2[type =="gene"]);g `, SNP `r s <-nrow(dt2[type =="SNP" & cs_index !=0])/ nrow(dt2[type =="SNP"]);s`. [enrichment = `r g/s`].
+
 # Parameter estimation results
 
 Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). each row has two plots, one for gene pi1 estimation, one for enrichment (gene pi1/snp pi1). Results from each run were represented by one dot, dots with the same color come from the same run. horizontal dash lines: simulation truth,  `susietruth`, the truth in selected regions that were used to run susie iteractively (susieI).
