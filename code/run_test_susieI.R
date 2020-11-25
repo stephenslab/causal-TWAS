@@ -53,7 +53,7 @@ coverage <- 0.95 # credible set coverage
 
 Niter2 <- 20
 filterandrerun <- F
-P2cut <- 0.5
+P2cut <- 0.2
 
 Ncore <- 1
 
@@ -170,7 +170,7 @@ pars <- susieI(prior.gene_init = prior.gene_init,
                    prior.SNP_init = prior.SNP_init,
                    regionlist = regionlist,
                    outname = outname,
-                   iter = Niter,
+                   niter = Niter,
                    Ncore = Ncore)
 
 
@@ -181,25 +181,19 @@ if (isTRUE(filterandrerun)){
   prior.SNP_init2 <- pars[["prior.SNP"]]
 
   regionlist2 <- regionlist
-  P2list <- list()
 
   for (b in 1:length(pfiles)){
-    P2list[[b]] <- list()
+
     for (rn in names(regionlist[[b]])) {
 
       gidx <- regionlist[[b]][[rn]][["gidx"]]
       sidx <- regionlist[[b]][[rn]][["sidx"]]
       p.g <- length(gidx[gidx])
       p.s <- length(sidx[sidx])
-      P2 <- 1 - (1- prior.gene_init2)**p.g * (1- prior.SNP_init2)**p.s
-        - p.g * prior.gene_init2 * (1 - prior.gene_init2) ** (p.g - 1) * (1- prior.SNP_init2) ** p.s
-        - p.s * (1 - prior.gene_init2) ** p.g * prior.SNP_init2 * (1- prior.SNP_init2) ** (p.s - 1)
+      P2 <- 1 - (1- prior.gene_init2)**p.g * (1- prior.SNP_init2)**p.s -
+         p.g * prior.gene_init2 * (1 - prior.gene_init2) ** (p.g - 1) * (1- prior.SNP_init2) ** p.s -
+         p.s * (1 - prior.gene_init2) ** p.g * prior.SNP_init2 * (1- prior.SNP_init2) ** (p.s - 1)
 
-      P2 <- p.g * prior.gene_init2 * (1 - prior.gene_init2) ** (p.g - 1) * (1- prior.SNP_init2) ** p.s
-      + p.s * (1 - prior.gene_init2) ** p.g * prior.SNP_init2 * (1- prior.SNP_init2) ** (p.s - 1)
-
-
-      P2list[[b]][[rn]] <- P2
       if (P2 >= P2cut){
         regionlist2[[b]][[rn]] <- NULL
       }
@@ -207,15 +201,36 @@ if (isTRUE(filterandrerun)){
     }
   }
 
+  pars2 <- susieI(prior.gene_init = prior.gene_init2,
+                 prior.SNP_init = prior.SNP_init2,
+                 regionlist = regionlist2,
+                 outname = paste0(outname, ".fl"),
+                 niter = Niter2,
+                 Ncore = Ncore)
 
+
+  susieI(prior.gene_init = pars2[["prior.gene"]],
+         prior.SNP_init = pars2[["prior.SNP"]],
+         regionlist = regionlist,
+         outname = paste0(outname, ".flrerun"),
+         niter = 1,
+         Ncore = Ncore)
 }
-
-
 
 
 loginfo("susie done for %s", outname)
 
-
-
-
+# temp <- lapply(regionlist2, names)
+# alist <- list()
+# for (i in 1:22){
+#   dt.b <- dt[b == i,]
+#   alist[[i]] <- dt.b[rn %in% as.numeric(temp[[i]]),]
+# }
+# a <- do.call(rbind, alist)
+# nrow(a[type == "SNP" & ifcausal ==1])/nrow(a[type == "SNP"])
+# nrow(a[type == "gene" & ifcausal ==1])/nrow(a[type == "gene"])
+# a2 <- a[ ,sum(ifcausal), by = list(b, rn)]
+# dim(a2)
+# a0 <- dt[,sum(ifcausal), by = list(b, rn)]
+# nrow(a2[a2$V1<=1,])/nrow(a2)
 

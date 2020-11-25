@@ -1,5 +1,4 @@
-#' require `pfileRds`,`efiles`, `phenores`
-
+#' require `pfileRds`,`efiles`, `phenores`, `codedir`
 #' `plugin_prior_variance`, `V.g`, `V.s`
 #' `L`
 #' `ifnullweight`
@@ -9,7 +8,7 @@ susieI <- function(prior.gene_init =NULL,
                    prior.SNP_init =NULL,
                    regionlist = NULL,
                    outname = "susieI",
-                   iter = 1,
+                   niter = 1,
                    Ncore = 15) {
 
   varY <- var(phenores$Y)
@@ -20,13 +19,13 @@ susieI <- function(prior.gene_init =NULL,
   prior.SNP_rec <- rep(0, Niter)
   prior.gene_rec <- rep(0, Niter)
 
-  for (iter in 1:Niter){
+  for (iter in 1:niter){
 
     loginfo("run iteration %s", iter)
 
     snp.rpiplist <- list()
     gene.rpiplist <- list()
-    outdf <- foreach (b = 1:22, .combine = "rbind",.packages = c("susieR", "bigstatsr")) %dopar% {
+    outdf <- foreach (b = 1:22, .combine = "rbind",.packages = c("susieR", "bigstatsr"),.export = ls(globalenv())) %dopar% {
       source(paste0(codedir, "susie_func.R"))
 
       # load genotype data

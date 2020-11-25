@@ -100,4 +100,4 @@ SER =
   }
 
 
-assignInNamespace("susie_SER", , "susieR")
+

@@ -20,7 +20,7 @@ codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"susie_filter.R"))
-source(paste0(codedir,"SER.R"))
+source(paste0(codedir,"SERI_func.R"))
 
 addHandler(writeToFile, file="run_test_SER.R.log", level='DEBUG')
 loginfo('script started ... ')
