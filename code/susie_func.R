@@ -31,7 +31,7 @@ update_each_effect = function (X, Y, s, estimate_prior_variance = FALSE,
       s$mu[l,]    = res$mu
       s$alpha[l,] = res$alpha
       s$mu2[l,]   = res$mu2
-      s$V[l,]      = res$V  # different from susieR
+      s$V[l,]      = res$V  #different from susieR
       s$lbf[l]    = res$lbf_model
       s$KL[l]     = -res$loglik +
         susieR:::SER_posterior_e_loglik(X,R,s$sigma2,res$alpha * res$mu,
@@ -104,7 +104,7 @@ susie_get_cs <- function (res, X = NULL, Xcorr = NULL, coverage = 0.95, min_abs_
   if (inherits(res, "susie")) {
     null_index = res$null_index
     if (is.numeric(res$V))
-      include_idx = rep(TRUE, nrow(res$alpha)) # different from susieR
+      include_idx = rep(TRUE, nrow(res$alpha)) #different from susieR
     else include_idx = rep(TRUE, nrow(res$alpha))
   }
   else null_index = 0
@@ -163,7 +163,7 @@ susie_get_pip <- function (res, prune_by_cs = FALSE, prior_tol = 1e-09)
     if (res$null_index > 0)
       res$alpha = res$alpha[, -res$null_index, drop = FALSE]
     if (is.numeric(res$V))
-      include_idx = 1:nrow(res$alpha) # different from susieR
+      include_idx = 1:nrow(res$alpha) #different from susieR
     else include_idx = 1:nrow(res$alpha)
     if (!is.null(res$sets$cs_index) && prune_by_cs)
       include_idx = intersect(include_idx, res$sets$cs_index)

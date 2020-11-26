@@ -696,6 +696,50 @@ f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", mai
 ```
 
 
+## Select block + susieI (1)
+* Regions: all regions 10 iterations. Then filter out regions with probability of having two or more effects > 0.2 to estimate paramters 20 iterations. then all regions to get all PIP. LD-defined regions.
+* Susie run parameters: `L=1`. We use true prior variance and plug into SUSIE. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. We use null weight when run susie. We run 10 iterations. Then filter out regions with probability of having two or more effects. Then rerun on selected regions to estimate parameters. Lastly, run on all regions with `L=1` to get PIP.
+
+```{r param1susiefl, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config14.fl.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config14.fl.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+
+a <- fread(susieIfs2[1], header =T)
+cat("No.blocks selected for parameter estimation (low power):", nrow(unique(a[, c("b", "rn")])), "\n")
+a <- fread(susieIfs2[6], header =T)
+cat("No.blocks selected for parameter estimation (high power):", nrow(unique(a[, c("b", "rn")])), "\n")
+```
+
+## Select block + susieI (2)
+* Regions: all regions 10 iterations. Then filter out regions with probability of having two or more effects > 0.1 to estimate paramters 20 iterations. then all regions to get all PIP. LD-defined regions.
+* Susie run parameters: `L=1`. We use true prior variance and plug into SUSIE. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. We use null weight when run susie. We run 10 iterations. Then filter out regions with probability of having two or more effects. Then rerun on selected regions to estimate parameters. Lastly, run on all regions with `L=1` to get PIP.
+
+```{r param2susiefl, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config15.fl.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config15.fl.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+
+a <- fread(susieIfs2[1], header =T)
+cat("No.blocks selected for parameter estimation (low power):", nrow(unique(a[, c("b", "rn")])), "\n")
+a <- fread(susieIfs2[6], header =T)
+cat("No.blocks selected for parameter estimation (high power):", nrow(unique(a[, c("b", "rn")])), "\n")
+```
+
+
+
 ##  Single effect model/EM (1)
 * Regions: all regions, 500kb uniform regions.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
@@ -786,3 +830,4 @@ par(mfrow=c(1,2))
 f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "SER", main = "low power")
 f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "SER", main = "high power")
 ```
+

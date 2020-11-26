@@ -197,9 +197,10 @@ if (isTRUE(filterandrerun)){
       if (P2 >= P2cut){
         regionlist2[[b]][[rn]] <- NULL
       }
-
     }
   }
+
+  loginfo("Blocks are filtered for parameter estimation: %s blocks left",  sum(unlist(lapply(lapply(regionlist2, names), length))))
 
   pars2 <- susieI(prior.gene_init = prior.gene_init2,
                  prior.SNP_init = prior.SNP_init2,
@@ -208,6 +209,7 @@ if (isTRUE(filterandrerun)){
                  niter = Niter2,
                  Ncore = Ncore)
 
+  loginfo("Parameter estimation done for %s", outname)
 
   susieI(prior.gene_init = pars2[["prior.gene"]],
          prior.SNP_init = pars2[["prior.SNP"]],
