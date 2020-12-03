@@ -738,7 +738,65 @@ a <- fread(susieIfs2[6], header =T)
 cat("No.blocks selected for parameter estimation (high power):", nrow(unique(a[, c("b", "rn")])), "\n")
 ```
 
+## Select block + susieI (3)
+* Regions: all regions 5 iterations. Then filter out regions with probability of having two or more effects > 0.2 to estimate paramters 20 iterations. then all regions to get all PIP. LD-defined regions.
+* Susie run parameters: `L=1`. We estimate prior variance based on EM and plug into SUSIE. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. We use null weight when run susie. We run 5 iterations. Then filter out regions with probability of having two or more effects. Then rerun on selected regions to estimate parameters (20 iterations). Lastly, run on all regions with `L=5` to get PIP.
 
+```{r param3susiefl, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config16.fl.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config16.fl.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+
+a <- fread(susieIfs2[1], header =T)
+cat("No.blocks selected for parameter estimation (low power):", nrow(unique(a[, c("b", "rn")])), "\n")
+a <- fread(susieIfs2[6], header =T)
+cat("No.blocks selected for parameter estimation (high power):", nrow(unique(a[, c("b", "rn")])), "\n")
+```
+
+```{r pip3susiefl, fig.height=6, fig.width=8}
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config16.flrerun.susieI.txt")
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="susie", main = "PIP(low power)")
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)")
+f3 <- ncausal_plot(susieIfs2[1:5], format = "susie", main = "No. Causal Genes (low power)")
+f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (high power)")
+gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
+```
+
+## Select block + susieI (4)
+* Regions: all regions 5 iterations. Then filter out regions with probability of having two or more effects > 0.1 to estimate paramters 20 iterations. then all regions to get all PIP. LD-defined regions.
+* Susie run parameters: `L=1`. We estimate prior variance based on EM and plug into SUSIE. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. We use null weight when run susie. We run 5 iterations. Then filter out regions with probability of having two or more effects. Then rerun on selected regions to estimate parameters (20 iterations). Lastly, run on all regions with `L=5` to get PIP.
+
+```{r param4susiefl, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config17.fl.susieIres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config17.fl.susieI.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+
+a <- fread(susieIfs2[1], header =T)
+cat("No.blocks selected for parameter estimation (low power):", nrow(unique(a[, c("b", "rn")])), "\n")
+a <- fread(susieIfs2[6], header =T)
+cat("No.blocks selected for parameter estimation (high power):", nrow(unique(a[, c("b", "rn")])), "\n")
+```
+
+```{r pip4susiefl, fig.height=6, fig.width=8}
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config17.flrerun.susieI.txt")
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="susie", main = "PIP(low power)")
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)")
+f3 <- ncausal_plot(susieIfs2[1:5], format = "susie", main = "No. Causal Genes (low power)")
+f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (high power)")
+gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
+```
 
 ##  Single effect model/EM (1)
 * Regions: all regions, 500kb uniform regions.

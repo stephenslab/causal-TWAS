@@ -1,5 +1,5 @@
 #' require `pfileRds`,`efiles`, `phenores`, `codedir`
-#' `plugin_prior_variance`, `V.g`, `V.s`
+#' `plugin_prior_variance`, `V.gene`, `V.SNP`, `est_prior_variance`
 #' `L`
 #' `ifnullweight`
 #' `coverage`
@@ -18,6 +18,8 @@ susieI <- function(prior.gene_init =NULL,
 
   prior.SNP_rec <- rep(0, Niter)
   prior.gene_rec <- rep(0, Niter)
+  V.gene_rec <- rep(0, Niter)
+  V.SNP_rec <- rep(0, Niter)
 
   for (iter in 1:niter){
 
@@ -59,7 +61,7 @@ susieI <- function(prior.gene_init =NULL,
         }
 
         if (isTRUE(plugin_prior_variance)){
-          V.scaled <- c(rep(V.g/varY, length(gidx[gidx])), rep(V.s/varY, length(sidx[sidx])))
+          V.scaled <- c(rep(V.gene/varY, length(gidx[gidx])), rep(V.SNP/varY, length(sidx[sidx])))
           V.scaled <- matrix(rep(V.scaled, each = L), nrow=L)
         } else{
           V.scaled <- matrix(rep(0.2, L * p), nrow = L) # following the default in susieR
@@ -99,7 +101,7 @@ susieI <- function(prior.gene_init =NULL,
 
         outdf.rn <- cbind(anno, susieres$pip)
         colnames(outdf.rn)[9] <- "susie_pip"
-
+        outdf.rn$mu2 <- colSums(susieres$mu2[,  1:ncol(X)[1:ncol(X)!= susieres$null_index], drop = F]) #WARN: not sure for L>1
         outdf.b.list[[rn]] <- outdf.rn
       }
 
@@ -111,9 +113,19 @@ susieI <- function(prior.gene_init =NULL,
     prior.gene <- mean(outdf[outdf[ , "type"] == "gene", "susie_pip"])
     print(c(prior.SNP, prior.gene))
 
+    if (isTRUE(est_prior_variance)){
+      outdf.g <- outdf[outdf[ , "type"] == "gene", ]
+      outdf.s <- outdf[outdf[ , "type"] == "SNP", ]
+
+      V.gene <- sum(outdf.g$susie_pip * outdf.g$mu2)/sum(outdf.g$susie_pip)
+      V.SNP <- sum(outdf.s$susie_pip * outdf.s$mu2)/sum(outdf.s$susie_pip)
+    }
+
     prior.SNP_rec[iter] <- prior.SNP
     prior.gene_rec[iter] <- prior.gene
-    save(prior.gene_rec, prior.SNP_rec, file = paste(outname, "susieIres.Rd", sep = "."))
+    V.gene_rec[iter] <- V.gene
+    V.SNP_rec[iter] <- V.SNP
+    save(prior.gene_rec, prior.SNP_rec, V.gene_rec, V.SNP_rec, file = paste(outname, "susieIres.Rd", sep = "."))
     gc()
     write.table(outdf, file= paste0(outname, ".susieI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
   }
@@ -121,7 +133,9 @@ susieI <- function(prior.gene_init =NULL,
   stopCluster(cl)
 
   return(list("prior.gene"= prior.gene,
-              "prior.SNP" = prior.SNP))
+              "prior.SNP" = prior.SNP,
+              "V.gene" = V.gene,
+              "V.SNP" = V.SNP))
 
 }
 

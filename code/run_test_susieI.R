@@ -47,23 +47,21 @@ Niter <- 30
 ifnullweight <- F # if include/update null weight in iterations.
 prior.gene_init <- NULL
 prior.SNP_init <- NULL
+V.gene <- NULL
+V.SNP <- NULL
+
 L <- 1
-plugin_prior_variance <- F # using truth when T for now
+plugin_prior_variance <- F # if T will will use given V.g and V.s.
 coverage <- 0.95 # credible set coverage
+est_prior_variance <- F # if T will use EM to estimate.
 
 Niter2 <- 20
 filterandrerun <- F
 P2cut <- 0.2
+L2 <- L
+L3 <- L
 
 Ncore <- 1
-
-# user provided parameters
-if (length(args) == 6){
-  source(args[6])
-}
-
-loginfo("filter type: %s", filtertype)
-loginfo("region file: %s", regionsfile)
 
 outname <- args[5]
 
@@ -80,6 +78,20 @@ if (file_ext(pfile) == "txt"){
 pfileRds <- paste0(pfiles, ".FBM.Rd")
 phenofile <- args[3]
 
+
+# load phenotype Rd file, variable: phenores
+load(phenofile)
+phenores$Y <-  phenores$Y - mean(phenores$Y)
+
+
+# user provided parameters
+if (length(args) == 6){
+  source(args[6])
+}
+
+loginfo("filter type: %s", filtertype)
+loginfo("region file: %s", regionsfile)
+
 # read regions files
 reg <- read.table(regionsfile, header = F, stringsAsFactors = F)
 reglist <- list()
@@ -88,10 +100,6 @@ for (b in 1: nrow(reg)){
 }
 
 loginfo("No. intervals: %s", sum(unlist(lapply(reglist, nrow))))
-
-# load phenotype Rd file, variable: phenores
-load(phenofile)
-phenores$Y <-  phenores$Y - mean(phenores$Y)
 
 regionlist <- list()
 regionsall <- NULL
@@ -163,22 +171,24 @@ write.table(regionsall, file= paste0(outname,".", filtertype, ".r.txt" ) , row.n
 # start susieI
 loginfo("susie started for %s", outname)
 
-V.g <- phenores$batch[[1]]$param$sigma_beta ** 2 # prior variance for gene
-V.s <- phenores$batch[[1]]$param$sigma_theta ** 2 # prior variance for SNP
+if (isTRUE(est_prior_variance)){
+    plugin_prior_variance <- F
+    filterandrerun <- T
+}
 
 pars <- susieI(prior.gene_init = prior.gene_init,
-                   prior.SNP_init = prior.SNP_init,
-                   regionlist = regionlist,
-                   outname = outname,
-                   niter = Niter,
-                   Ncore = Ncore)
-
-
+                  prior.SNP_init = prior.SNP_init,
+                  regionlist = regionlist,
+                  outname = outname,
+                  niter = Niter,
+                  Ncore = Ncore)
 
 if (isTRUE(filterandrerun)){
 
   prior.gene_init2 <- pars[["prior.gene"]]
   prior.SNP_init2 <- pars[["prior.SNP"]]
+  V.gene <- pars[["V.gene"]]
+  V.SNP <- pars[["V.SNP"]]
 
   regionlist2 <- regionlist
 
@@ -202,6 +212,12 @@ if (isTRUE(filterandrerun)){
 
   loginfo("Blocks are filtered for parameter estimation: %s blocks left",  sum(unlist(lapply(lapply(regionlist2, names), length))))
 
+
+  if (isTRUE(est_prior_variance)){
+    plugin_prior_variance <- T
+  }
+
+  L <- L2
   pars2 <- susieI(prior.gene_init = prior.gene_init2,
                  prior.SNP_init = prior.SNP_init2,
                  regionlist = regionlist2,
@@ -211,6 +227,8 @@ if (isTRUE(filterandrerun)){
 
   loginfo("Parameter estimation done for %s", outname)
 
+
+  L <- L3
   susieI(prior.gene_init = pars2[["prior.gene"]],
          prior.SNP_init = pars2[["prior.SNP"]],
          regionlist = regionlist,
@@ -221,18 +239,4 @@ if (isTRUE(filterandrerun)){
 
 
 loginfo("susie done for %s", outname)
-
-# temp <- lapply(regionlist2, names)
-# alist <- list()
-# for (i in 1:22){
-#   dt.b <- dt[b == i,]
-#   alist[[i]] <- dt.b[rn %in% as.numeric(temp[[i]]),]
-# }
-# a <- do.call(rbind, alist)
-# nrow(a[type == "SNP" & ifcausal ==1])/nrow(a[type == "SNP"])
-# nrow(a[type == "gene" & ifcausal ==1])/nrow(a[type == "gene"])
-# a2 <- a[ ,sum(ifcausal), by = list(b, rn)]
-# dim(a2)
-# a0 <- dt[,sum(ifcausal), by = list(b, rn)]
-# nrow(a2[a2$V1<=1,])/nrow(a2)
 

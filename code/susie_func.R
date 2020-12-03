@@ -91,7 +91,6 @@ init_finalize = function (s, X = NULL, Xr = NULL) {
 
 assignInNamespace("init_finalize", init_finalize ,"susieR")
 
-
 susie_get_cs <- function (res, X = NULL, Xcorr = NULL, coverage = 0.95, min_abs_corr = 0.5,
                           dedup = TRUE, squared = FALSE)
 {
