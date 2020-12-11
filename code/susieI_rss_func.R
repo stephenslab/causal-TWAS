@@ -1,17 +1,15 @@
-#' require `pfileRds`,`efiles`, `phenores`, `codedir`
+#' require `pfileRds`, `pfileRds2`, `efiles`, `phenores`, `codedir`, `zdf`
 #' `plugin_prior_variance`, `V.gene`, `V.SNP`, `est_prior_variance`
-#' `L`
+#' `L`,  `z_ld_weight`
 #' `ifnullweight`
 #' `coverage`
 
-susieI <- function(prior.gene_init =NULL,
+susieI_rss <- function(prior.gene_init =NULL,
                    prior.SNP_init =NULL,
                    regionlist = NULL,
                    outname = "susieI",
                    niter = 1,
                    Ncore = 15) {
-
-  varY <- var(phenores$Y)
 
   cl <- makeCluster(Ncore,outfile="")
   registerDoParallel(cl)
@@ -30,14 +28,17 @@ susieI <- function(prior.gene_init =NULL,
     outdf <- foreach (b = 1:22, .combine = "rbind",.packages = c("susieR", "bigstatsr"),.export = ls(globalenv())) %dopar% {
       source(paste0(codedir, "susie_func.R"))
 
-      # load genotype data
-      load(pfileRds[b])
+      # load GWAS genotype data (only used for getting true parameter)
+      load(pfileRds2[b])
 
       # load expression Rd file, variable: exprres
       load(efiles[b])
 
       cau <- c(dat$snp[phenores$batch[[b]]$param$idx.cSNP,],
                exprres$gnames[phenores$batch[[b]]$param$idx.cgene])
+
+      # load LD genotype data
+      load(pfileRds[b])
 
       # run susie for each region (in parallel by batch)
       outdf.b.list <- list()
@@ -46,7 +47,8 @@ susieI <- function(prior.gene_init =NULL,
 
         gidx <- regionlist[[b]][[rn]][["gidx"]]
         sidx <- regionlist[[b]][[rn]][["sidx"]]
-        p <- length(gidx[gidx]) + length(sidx[sidx])
+        ldsidx <- regionlist[[b]][[rn]][["ldsidx"]]
+        p <- length(gidx) + length(sidx)
         prior <- rep(0, p)
 
         if (is.null(prior.gene_init) | is.null(prior.SNP_init)){
@@ -55,16 +57,16 @@ susieI <- function(prior.gene_init =NULL,
         }
 
         if (iter == 1) {
-          prior <- c(rep(prior.gene_init, length(gidx[gidx])), rep(prior.SNP_init, length(sidx[sidx])))
+          prior <- c(rep(prior.gene_init, length(gidx)), rep(prior.SNP_init, length(sidx)))
         } else {
-          prior <- c(rep(prior.gene, length(gidx[gidx])), rep(prior.SNP, length(sidx[sidx])))
+          prior <- c(rep(prior.gene, length(gidx)), rep(prior.SNP, length(sidx)))
         }
 
         if (isTRUE(plugin_prior_variance)){
-          V.scaled <- c(rep(V.gene/varY, length(gidx[gidx])), rep(V.SNP/varY, length(sidx[sidx])))
-          V.scaled <- matrix(rep(V.scaled, each = L), nrow=L)
+          V <- c(rep(V.gene, length(gidx)), rep(V.SNP, length(sidx)))
+          V <- matrix(rep(V, each = L), nrow=L)
         } else{
-          V.scaled <- matrix(rep(0.2, L * p), nrow = L) # following the default in susieR
+          V <- matrix(rep(50, L * p), nrow = L) # following the default in susieR
         }
 
         if (isTRUE(ifnullweight)){
@@ -74,16 +76,23 @@ susieI <- function(prior.gene_init =NULL,
           nw <- NULL
         }
 
-        X <- cbind(exprres$expr[, gidx], dat$G[, sidx])
+        z <- c(exprres$z.g[gidx], zdf[sidx, "z"])
+        X <- cbind(exprres$expr[, gidx], dat$G[, ldsidx])
+        R <- cor(X)
+        susieres <- susie_rss(z, R,
+                              z_ld_weight = z_ld_weight,
+                              L = L, prior_weights = prior,
+                              null_weight = nw,
+                              prior_variance = V,
+                              estimate_prior_variance = !plugin_prior_variance,
+                              coverage = coverage)
 
-        susieres <- susie(X, phenores$Y, L = L, prior_weights = prior,
-                          null_weight = nw, scaled_prior_variance = V.scaled,
-                          estimate_prior_variance = !plugin_prior_variance, coverage = coverage)
+        # note: susie_rss use prior variance instead of scaled prior variance
 
         anno.gene <- cbind(exprres$gnames[gidx], exprres$chrom[gidx],  exprres$p0[gidx],
-                           rep("gene", length(gidx[gidx])))
-        anno.SNP <- cbind(dat$snp[sidx,], dat$chr[sidx,], dat$pos[sidx,],
-                          rep("SNP", length(sidx[sidx])))
+                           rep("gene", length(gidx)))
+        anno.SNP <- cbind(dat$snp[ldsidx,], dat$chr[ldsidx,], dat$pos[ldsidx,],
+                          rep("SNP", length(sidx)))
 
         anno <- rbind(anno.gene, anno.SNP)
         colnames(anno) <-  c("name", "chr", "pos", "type")
@@ -95,13 +104,14 @@ susieI <- function(prior.gene_init =NULL,
         if (!is.null(susieres$sets$cs)){
           for (cs_i in susieres$sets$cs_index){
             X.idx <- susieres$sets$cs[[paste0("L", cs_i)]]
+            X.idx <- X.idx[X.idx != susieres$null_index] # susie_rss' bug
             anno$cs_index[X.idx] <- cs_i #TODO: note this ignore the fact that some variant can belong to multiple CS
           }
         }
 
         outdf.rn <- cbind(anno, susieres$pip)
         colnames(outdf.rn)[9] <- "susie_pip"
-        outdf.rn$mu2 <- colSums(susieres$mu2[,  seq(1, ncol(X))[1:ncol(X)!= susieres$null_index], drop = F]) #WARN: not sure for L>1
+        outdf.rn$mu2 <- colSums(susieres$mu2[,  1:ncol(X), drop = F]) #WARN: not sure for L>1, mu2 has an extra column (last) given null_weight.
         outdf.b.list[[rn]] <- outdf.rn
       }
 
@@ -125,9 +135,9 @@ susieI <- function(prior.gene_init =NULL,
     prior.gene_rec[iter] <- prior.gene
     V.gene_rec[iter] <- V.gene
     V.SNP_rec[iter] <- V.SNP
-    save(prior.gene_rec, prior.SNP_rec, V.gene_rec, V.SNP_rec, file = paste(outname, "susieIres.Rd", sep = "."))
+    save(prior.gene_rec, prior.SNP_rec, V.gene_rec, V.SNP_rec, file = paste(outname, "susieIrssres.Rd", sep = "."))
     gc()
-    write.table(outdf, file= paste0(outname, ".susieI.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
+    write.table(outdf, file= paste0(outname, ".susieIrss.txt" ) , row.names=F, col.names=T, sep="\t", quote = F)
   }
 
   stopCluster(cl)

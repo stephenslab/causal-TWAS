@@ -3,13 +3,16 @@ library(logging)
 library(tools)
 library(foreach)
 library(doParallel)
+library(data.table)
 
 args = commandArgs(trailingOnly=TRUE)
-if (length(args) < 5) {
-  stop("at least 5 arguments must be supplied:
-       * genotype file name (or multiple file names in a .txt file)
+if (length(args) < 7) {
+  stop("at least 7 arguments must be supplied:
+       * genotype file name (or multiple file names in a .txt file), used as LD reference
        * expr Rd (or multiple file names in a .txt file, matching geno)
-       * pheno Rd
+       * sumstats (txt file)
+       * pheno Rd (only used to get true parameters)
+       * genotype file name (or multiple file names in a .txt file) (only used to get true parameters)
        * filter file names in txt (put any string here if no filter, or match geno )
        * out file name
        * config file (optional)
@@ -20,19 +23,13 @@ codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "stats_func.R"))
 source(paste0(codedir,"input_reformat.R"))
 source(paste0(codedir,"susie_filter.R"))
-source(paste0(codedir,"susieI_func.R"))
+source(paste0(codedir,"susieI_rss_func.R"))
 
-addHandler(writeToFile, file="run_test_susie.R.log", level='DEBUG')
+addHandler(writeToFile, file="run_test_susie_rss.R.log", level='DEBUG')
 loginfo('script started ... ')
 
 # default parameters
-filtertype <- "mrash2s" # "nofilter": keep all regions
-                        # or mrash: mr.ash for genes only
-                        # or pgene: twas for genes only
-                        # or p2: twas for genes and snps
-                        # mrash2s: mr.ash2s for genes and snps
-                        # rBF: regional BF for genes and snps
-                        # rfdr: regional min fdr for genes and snps
+filtertype <- "nofilter"
 
 PIPfilter <- 0.3 # for "mrash2s" or "mrash", regions with sum of PIP < PIPfilter will be filtered
 prankfilter.gene <- 1 # for pgene or p2, lowest rank of gene/SNP pvalues > prankfilter that will be filtered.
@@ -54,6 +51,7 @@ L <- 1
 plugin_prior_variance <- F # if T will will use given V.g and V.s.
 coverage <- 0.95 # credible set coverage
 est_prior_variance <- F # if T will use EM to estimate.
+z_ld_weight = 0 # modification if using a reference panel
 
 Niter2 <- 20
 filterandrerun <- F
@@ -62,8 +60,6 @@ L2 <- L
 L3 <- L
 
 Ncore <- 1
-
-outname <- args[5]
 
 # prepare input files
 pfile <- args[1]
@@ -76,16 +72,36 @@ if (file_ext(pfile) == "txt"){
 }
 
 pfileRds <- paste0(pfiles, ".FBM.Rd")
-phenofile <- args[3]
+
+ssfile <- args[3]
+zdf <- fread(ssfile, header =T)
+setnames(zdf, old = c('X.CHROM', "BEGIN", 't.value', 'MARKER_ID'),
+         new = c("chr", "pos", 'z', 'snp'))
+zdf <- data.frame(zdf)
+
+
+phenofile <- args[4]
+load(phenofile)
+
+pfile2 <- args[5]
+if (file_ext(pfile2) == "txt"){
+  pfiles2 <- read.table(pfile2, header =F, stringsAsFactors = F)[,1]
+} else {
+  pfiles2 <- pfile2
+}
+pfileRds2 <- paste0(pfiles2, ".FBM.Rd")
+
+filterfile <- args[6]
+
+outname <- args[7]
 
 # user provided parameters
-if (length(args) == 6){
-  source(args[6])
+if (length(args) == 8){
+  source(args[8])
 }
 
 loginfo("filter type: %s", filtertype)
 loginfo("region file: %s", regionsfile)
-
 
 # read regions files
 reg <- read.table(regionsfile, header = F, stringsAsFactors = F)
@@ -96,12 +112,11 @@ for (b in 1: nrow(reg)){
 
 loginfo("No. intervals: %s", sum(unlist(lapply(reglist, nrow))))
 
-
 regionlist <- list()
 regionsall <- NULL
 for (b in 1:length(pfiles)){
-  # load genotype data
-  load(pfileRds[b])
+  # load genotype data (for GWAS, just to get true parameters)
+  load(pfileRds2[b])
 
   # load expression Rd file, variable: exprres
   load(efiles[b])
@@ -111,7 +126,7 @@ for (b in 1:length(pfiles)){
   # filter regions based on filtertype
   cau <- c(dat$snp[phenores$batch[[b]]$param$idx.cSNP,],
            exprres$gnames[phenores$batch[[b]]$param$idx.cgene])
-  regout <- filter_region(reg = reglist[[b]], filtertype = filtertype, filterfile = args[4])
+  regout <- filter_region(reg = reglist[[b]], filtertype = "nofilter", filterfile = filterfile)
   regions <- regout[["filtered"]]
   regionsall <- rbind(regionsall, regout[["all"]])
 
@@ -126,8 +141,14 @@ for (b in 1:length(pfiles)){
   #TODO: join regions based on LD genes, add a column indicating which region should be linked
   regions$rname <- as.character(1:nrow(regions))
 
+  # prep z score and LD geno for each region
+
+  # load SNP LD geno
+  load(pfileRds[b])
+
+  snpnames <- intersect(dat$snp, zdf$snp)
+
   regionlist[[b]] <- list()
-  # prep geno for each region
   loginfo("prepare geno for each region ...")
   for (rn in unique(regions[, "rname"])){
     regions.n <- regions[regions[, "rname"] == rn, ,drop = F]
@@ -137,12 +158,18 @@ for (b in 1:length(pfiles)){
       p1 <- regions.n[i, "p1"]
 
       idx.gene <- exprres$chrom == chr & exprres$p0 > p0 & exprres$p0 < p1
-      idx.SNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1
+      idx.LDSNP <- dat$chr == chr & dat$pos > p0 & dat$pos < p1 & dat$snp %in% snpnames
+      idx.SNP <- zdf$chr == chr & zdf$pos > p0 & zdf$pos < p1 & zdf$snp %in% snpnames
+
+      if (length(idx.LDSNP[idx.LDSNP]) != length(idx.SNP[idx.SNP])) {
+        stop("LD and summary stats SNPs not matching")
+      }
 
       if (length(idx.SNP[idx.SNP]) == 0 & length(idx.gene[idx.gene]) == 0) {next}
 
-      regionlist[[b]][[rn]][["gidx"]] <- idx.gene
-      regionlist[[b]][[rn]][["sidx"]] <- idx.SNP
+      regionlist[[b]][[rn]] <- list("gidx"= seq(1,length(idx.gene))[idx.gene],
+                                "ldsidx"= seq(1,length(idx.LDSNP))[idx.LDSNP],
+                                "sidx" = seq(1,length(idx.SNP))[idx.SNP])
 
     }
   }
@@ -155,7 +182,7 @@ for (b in 1:length(pfiles)){
 
     for (rn in names(regionlist[[b]])){
       idx.gene <- regionlist[[b]][[rn]][["gidx"]]
-      if (length(idx.gene[idx.gene]) == 0) {
+      if (length(idx.gene) == 0) {
         regionlist[[b]][[rn]] <- NULL
       }
     }
@@ -172,7 +199,7 @@ if (isTRUE(est_prior_variance)){
     filterandrerun <- T
 }
 
-pars <- susieI(prior.gene_init = prior.gene_init,
+pars <- susieI_rss(prior.gene_init = prior.gene_init,
                   prior.SNP_init = prior.SNP_init,
                   regionlist = regionlist,
                   outname = outname,
@@ -194,8 +221,10 @@ if (isTRUE(filterandrerun)){
 
       gidx <- regionlist[[b]][[rn]][["gidx"]]
       sidx <- regionlist[[b]][[rn]][["sidx"]]
-      p.g <- length(gidx[gidx])
-      p.s <- length(sidx[sidx])
+      ldsidx <-  regionlist[[b]][[rn]][["ldsidx"]]
+      p.g <- length(gidx)
+      p.s <- length(sidx)
+
       P2 <- 1 - (1- prior.gene_init2)**p.g * (1- prior.SNP_init2)**p.s -
          p.g * prior.gene_init2 * (1 - prior.gene_init2) ** (p.g - 1) * (1- prior.SNP_init2) ** p.s -
          p.s * (1 - prior.gene_init2) ** p.g * prior.SNP_init2 * (1- prior.SNP_init2) ** (p.s - 1)
@@ -214,7 +243,7 @@ if (isTRUE(filterandrerun)){
   }
 
   L <- L2
-  pars2 <- susieI(prior.gene_init = prior.gene_init2,
+  pars2 <- susieI_rss(prior.gene_init = prior.gene_init2,
                  prior.SNP_init = prior.SNP_init2,
                  regionlist = regionlist2,
                  outname = paste0(outname, ".fl"),
@@ -225,7 +254,7 @@ if (isTRUE(filterandrerun)){
 
 
   L <- L3
-  susieI(prior.gene_init = pars2[["prior.gene"]],
+  susieI_rss(prior.gene_init = pars2[["prior.gene"]],
          prior.SNP_init = pars2[["prior.SNP"]],
          regionlist = regionlist,
          outname = paste0(outname, ".flrerun"),

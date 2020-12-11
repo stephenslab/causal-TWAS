@@ -889,3 +889,36 @@ f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "SER", main = 
 f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "SER", main = "high power")
 ```
 
+##  Summary stats version
+* The run setting is the same as  in "Select block + susieI (3)" except that we used summary statistics and in-sample LD as input. 
+
+```{r dirsSS}
+simdatadir <- "~/causalTWAS/simulations/simulation_ashtest_20201001/"
+outputdir <- "~/causalTWAS/simulations/simulation_susieI_rss_20201001/"
+susiedir <- "~/causalTWAS/simulations/simulation_susieI_rss_20201001/"
+```
+```{r param1susieflSS, fig.height=6, fig.width=8}
+tags <- paste(rep(1:2, each = 5), 1:5, sep = "-")
+phenofs <- paste0(simdatadir, "simu_20201001-", tags, "-pheno.Rd")
+susieIfs <- paste0(outputdir, "20201001-", tags, ".config1.fl.susieIrssres.Rd")
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.fl.susieIrss.txt")
+
+df <- show_param(phenofs, susieIfs, susieIfs2)
+par(mfrow = c(2,3))
+plot_param(df[1:5,], main = "low power")
+plot_param(df[6:10,], main = "high power")
+
+a <- fread(susieIfs2[1], header =T)
+cat("No.blocks selected for parameter estimation (low power):", nrow(unique(a[, c("b", "rn")])), "\n")
+a <- fread(susieIfs2[6], header =T)
+cat("No.blocks selected for parameter estimation (high power):", nrow(unique(a[, c("b", "rn")])), "\n")
+```
+
+```{r pip1susieflSS, fig.height=6, fig.width=8}
+susieIfs2 <- paste0(outputdir, "20201001-", tags, ".config1.flrerun.susieIrss.txt")
+f1 <- caliPIP_plot(susieIfs2[1:5], format ="susie", main = "PIP(low power)")
+f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)")
+f3 <- ncausal_plot(susieIfs2[1:5], format = "susie", main = "No. Causal Genes (low power)")
+f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (high power)")
+gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
+```
