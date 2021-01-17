@@ -1,0 +1,17 @@
+{
+    "__default__" :
+    {
+        "time" : "24:00:00", 
+        "n" : 28,
+        "mem": "56G",
+        "name": "{rule}.{wildcards}",
+        "out": "{rule}.{wildcards}.cluster%j.out",
+        "err": "{rule}.{wildcards}.cluster%j.err",
+        "partition": "broadwl"
+    },
+        "simu_prep_param" :
+    {
+        "n": 1,
+        "mem": "2G"
+    }
+}

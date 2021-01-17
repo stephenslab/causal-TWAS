@@ -1,75 +1,76 @@
-# will generate locuszoom type of view for the region.
+
 library(tools)
+library(ctwas)
+library(data.table)
 
 args = commandArgs(trailingOnly=TRUE)
-if (length(args) < 3 ) {
-  stop(" at least 3 arguments must be supplied:
-       * expr file (Rd file or txt file)
-       * phenotype file (Rd file or txt file)
+if (length(args) < 4 ) {
+  stop(" 6 arguments (last two optional):
+       * expr file (txt file)
+       * phenotype file (Rd file)
        * out file name
-       * region file (optional, chrnumber<tab>start<tab>end)", call.= FALSE)
+       * outputdir
+       * ncore
+       * nsplits", call.= FALSE)
 }
 
 codedir <- "/project2/mstephens/causalTWAS/causal-TWAS/code/"
 source(paste0(codedir, "gwas.R"))
-source(paste0(codedir,"input_reformat.R"))
 
-pfile <- args[1]
-if (file_ext(pfile) == "txt"){
-  pfiles <- read.table(pfile, header =F, stringsAsFactors = F)[,1]
-  outnames <- paste0(args[3], "-B", 1:length(pfiles), ".exprgwas.txt")
-  combine <- T
-} else {
-  pfiles <- pfile
-  outnames <- paste0(args[3], ".exprgwas.txt")
-  combine <- F
-}
+exprfs <- read.table(args[1], header = F, stringsAsFactors = F)[,1]
+exprvarfs <- sapply(exprfs, prep_exprvar)
 
 phenofile <- args[2]
 load(phenofile)
 pheno <- phenores$Y
 
-for (b in 1:length(pfiles)){
+outputdir <- args[4]
+outnames <- paste0(outputdir, "/", args[3], "-B", 1:length(exprfs), ".exprgwas.txt")
 
-  load(pfiles[b]) # exprres
+ncore <- as.numeric(args[5])
+if (is.na(args[5])) ncore <- 1
+
+nsplits <- as.numeric(args[6])
+if (is.na(args[6])) nsplits <- 10
+
+for (b in 1:length(exprfs)){
 
   outname <- outnames[b]
 
-  anno <- cbind(exprres$chrom, exprres$p0, exprres$p1)
-  colnames(anno) <- c("chr", "p0", "p1")
+  # load expr data
+  expr <- try(read_expr(exprf = exprfs[b]))
+  if (inherits(expr, "try-error")){
+    expr <- data.table()
+    anno <- setNames(data.table(matrix(nrow = 0, ncol = 3)), c("chrom", "p0", "p1"))
 
-  if (length(args) == 3){
-
-    geno <- exprres$expr
-
-    GWAA(geno, pheno, snpname = exprres$gnames, anno = anno, outname, family = gaussian, ncore = 1, nSplits = 1, compress = T)
-
-  } else {
-    regions <- read.table(args[4], stringsAsFactors = F)
-
-    for (i in 1:nrow(regions)){
-      chr <- regions[i, 1]
-      p0 <- regions[i, 2]
-      p1 <- regions[i, 3]
-      geno <- exprres$expr[ , (exprres$chrom == chr & (exprres$p0 > p0 | exprres$p1 < p1))]
-
-      GWAA(geno, pheno, snpname = colnames(geno), anno = anno, outname, family = gaussian, ncore = 1, nSplits = 1, outname = outname, compress = T)
-    }
+  } else{
+    geneinfo <- read_exprvar(exprvarfs[b])
+    anno <- geneinfo[, - "id"] # chrom p0 p1
   }
+
+  GWAA(expr, pheno, snpname = geneinfo$id, anno = anno, outname, family = gaussian,
+         ncore = ncore, nSplits = nsplits, compress = T)
+
 }
 
-# combine all results into 1 file for batch input
+# combine all results
 outdflist <- list()
-if (isTRUE(combine)) {
-  for (b in 1:length(pfiles)){
-      outdflist[[b]] <- read.table(paste0(outnames[b], ".gz"), header = T, stringsAsFactors = F, comment.char = "")
-  }
-  outdf <- do.call(rbind, outdflist)
 
-  outname <-  paste0(args[3], ".exprgwas.txt")
-  write.table(outdf, file = outname , row.names=F, col.names=T, sep="\t", quote = F)
-  system(paste0("bgzip ", outname))
+for (b in 1:length(exprfs)){
+  outdflist[[b]] <- read.table(paste0(outnames[b], ".gz"),
+                               header = T, stringsAsFactors = F, comment.char = "")
 }
+outdf <- do.call(rbind, outdflist)
+
+outname <-  paste0(outputdir, "/", args[3], ".exprgwas.txt")
+write.table(outdf, file = outname , row.names=F, col.names=T, sep="\t", quote = F)
+system(paste0("bgzip ", outname))
+
+# clean
+for (b in 1:length(exprfs)){
+  system(paste0("rm ", outnames[b], ".gz"))
+}
+
 
 
 

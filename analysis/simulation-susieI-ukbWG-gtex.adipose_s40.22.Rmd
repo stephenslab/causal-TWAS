@@ -244,9 +244,9 @@ ncausal_plot <- function(pipfs, format = "susie", main = "PIP"){
     res <- data.frame(res[res$type  =="gene", ])
     res$runtag <- i
     if (format == "susie"){
-       res <- rename(res, c("susie_pip" = "pip"))
+       res <- rename(res, c("susie_pip" = "pip") )
     } else if (format == "SER"){
-       res <- rename(res, c("SERpip" = "pip"))
+       res <- rename(res, c("SERpip" = "pip"), )
     }
     res <- res[complete.cases(res),]
     df <- rbind(df, res)
@@ -372,13 +372,13 @@ scatter_plot_PIP_p <- function(pipfs, gwasfs, pipformat = "susie", main ="PIP-p"
   
   
                             
-  # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
-  # plot(df$TWAS.p, df$pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
-  # 
-  df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
-  fig <- plot_ly(data = df, x = ~ TWAS.p, y = ~ pip, color = ~ ifcausal,
-                 colors = c( "salmon", "darkgreen"), type ="scatter", text = ~ paste("Name: ", paste0(runtag,":",name),
-                                                                   "\nChr: ", chr,  "\nPos:", pos))
+  df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
+  plot(df$TWAS.p, df$pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
+
+  # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
+  # fig <- plot_ly(data = df, x = ~ TWAS.p, y = ~ pip, color = ~ ifcausal,
+  #                colors = c( "salmon", "darkgreen"), type ="scatter", text = ~ paste("Name: ", paste0(runtag,":",name),
+  #                                                                  "\nChr: ", chr,  "\nPos:", pos))
                                                                     
 }
 ```
@@ -568,11 +568,6 @@ f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
 ```
 
-```{r scatter1susie, fig.height=4, fig.width=8}
-par(mfrow=c(1,2))
-f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
-f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
-```
 
 ## susieI (2)
 * Regions: all regions, LD-defined regions.
@@ -598,11 +593,6 @@ f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
 ```
 
-```{r scatter6susie, fig.height=4, fig.width=8}
-par(mfrow=c(1,2))
-f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
-f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
-```
 
 ## susieI (3)
 * Regions: all regions, LD-defined regions.
@@ -626,12 +616,6 @@ f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)" )
 f3 <- ncausal_plot(susieIfs2[1:5], format = "susie", main = "No. Causal Genes (low power)")
 f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (high power)")
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
-```
-
-```{r scatter8susie, fig.height=4, fig.width=8}
-par(mfrow=c(1,2))
-f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
-f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
 ```
 
 
@@ -659,11 +643,6 @@ f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
 ```
 
-```{r scatter9susie, fig.height=4, fig.width=8}
-par(mfrow=c(1,2))
-f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
-f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
-```
 
 ## susieI (5)
 * Regions: all regions, LD-defined regions.
@@ -687,12 +666,6 @@ f2 <- caliPIP_plot(susieIfs2[6:10], format ="susie", main = "PIP(high power)" )
 f3 <- ncausal_plot(susieIfs2[1:5], format = "susie", main = "No. Causal Genes (low power)")
 f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (high poweunr)")
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
-```
-
-```{r scatter10susie, fig.height=4, fig.width=8}
-par(mfrow=c(1,2))
-f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
-f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
 ```
 
 
@@ -768,6 +741,12 @@ f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
 ```
 
+```{r scatter3susiefl, fig.height=4, fig.width=8}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
+```
+
 ## Select block + susieI (4)
 * Regions: all regions 5 iterations. Then filter out regions with probability of having two or more effects > 0.1 to estimate paramters 20 iterations. then all regions to get all PIP. LD-defined regions.
 * Susie run parameters: `L=1`. We estimate prior variance based on EM and plug into SUSIE. We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5. We use null weight when run susie. We run 5 iterations. Then filter out regions with probability of having two or more effects. Then rerun on selected regions to estimate parameters (20 iterations). Lastly, run on all regions with `L=5` to get PIP.
@@ -798,6 +777,12 @@ f4 <- ncausal_plot(susieIfs2[6:10], format = "susie", main = "No. Causal Genes (
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
 ```
 
+```{r scatter4susiefl, fig.height=4, fig.width=8}
+par(mfrow=c(1,2))
+f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "susie", main = "low power")
+f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "susie", main = "high power")
+```
+
 ##  Single effect model/EM (1)
 * Regions: all regions, 500kb uniform regions.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
@@ -822,12 +807,6 @@ f4 <- ncausal_plot(susieIfs2[6:10], format = "SER", main = "No. Causal Genes (hi
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
 ```
 
-```{r scatter1ser, fig.height=4, fig.width=8}
-par(mfrow=c(1,2))
-f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "SER", main = "low power")
-f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "SER", main = "high power")
-```
-
 ##  Single effect model/EM (2)
 * Regions: all regions, defined based on LDetect.
 * Run parameters: We initialize with prior for genes and SNPs as uniform. gene.pve ~ 0.1, snp.pve ~ 0.5.  Null weight is calculated based on prior of genes and SNPs ( 1 - sum of priors for snps and genes). We use the true prior variance for genes and SNPs.
@@ -843,7 +822,6 @@ par(mfrow = c(2,3))
 plot_param(df[1:5,], main = "low power")
 plot_param(df[6:10,], main = "high power")
 ```
-
 
 ```{r pip6ser, fig.height=6, fig.width=8}
 f1 <- caliPIP_plot(susieIfs2[1:5], format ="SER", main = "PIP(low power)")
@@ -881,12 +859,6 @@ f2 <- caliPIP_plot(susieIfs2[6:10], format ="SER", main = "PIP(high power)")
 f3 <- ncausal_plot(susieIfs2[1:5], format = "SER", main = "No. Causal Genes (low power)")
 f4 <- ncausal_plot(susieIfs2[6:10], format = "SER", main = "No. Causal Genes (high power)")
 gridExtra::grid.arrange(f1, f2, f3, f4, ncol =2)
-```
-
-```{r scatter7ser, fig.height=4, fig.width=8}
-par(mfrow=c(1,2))
-f1 <- scatter_plot_PIP_p(susieIfs2[1:5], gwasfs[1:5], pipformat = "SER", main = "low power")
-f2 <- scatter_plot_PIP_p(susieIfs2[6:10], gwasfs[6:10], pipformat = "SER", main = "high power")
 ```
 
 ##  Summary stats version

@@ -72,12 +72,12 @@ suppressMessages(library(dplyr))
 
 
 load("/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141.Rd")
-sa <- fread("/home/szhao1/causal-TWAS/genotype_data/ukbiobank_samples70000.txt", header = F,colClasses = "character")[,1]
-output.file <- file.path( "/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141_s70000.csv")
+sa <- data.table::fread("/home/szhao1/causal-TWAS/genotype_data/ukbiobank_samples200k.txt", header = F,colClasses = "character")[,1]
+output.file <- file.path( "/home/szhao1/causal-TWAS/phenotype_data/population_ukb26140_ukb32141_s200k.csv")
 
 # SELECT samples
 colnames(sa) <- "id"
-dat <- inner_join(dat, sa) # N=39993
+dat <- inner_join(dat, sa) # N=39993, 79982, 199968
 
 # Convert all columns except the first one (the first column contains
 # the sample ids) to numeric values, and set all empty strings to NA.
@@ -94,33 +94,34 @@ for (i in 2:n) {
 # When the "genetic ethnic grouping" column is included, this removes
 # any samples that are not marked as being "White British". The
 # "outliers" have value 1 when it is an outlier, NA otherwise.
-# including the genetic ethnic column, filtered ~ 5000 sampels
+# including the genetic ethnic column, filtered ~ 5000, 13000, 33456 samples
 cols <- !(names(dat) == "outliers" | grepl("relatedness_genetic",names(dat)))
 rows <- which(rowSums(is.na(dat[, cols])) == 0)
 dat  <- dat[rows,]
 cat(sprintf("After removing rows with NAs, %d rows remain.\n",nrow(dat)))
 
 # Remove rows with mismatches between self-reported and genetic sex
-# This step should filter out 2 rows.
+# This step should filter out 2,2,11 rows.
 dat <- dat %>% filter(sex == sex_genetic)
 cat(sprintf("After removing sex mismatches, %d rows remain.\n",nrow(dat)))
 
 # Remove "missingness" and "heterozygosity" outliers as defined by UK
-# Biobank. This step should filter out 0 rows. Note that this step
+# Biobank. This step should filter out 0,0,0 rows. Note that this step
 # will remove any samples in which the "missingness" column is greater
 # than 5%.
 dat <- dat %>% filter(is.na(outliers))
 cat(sprintf("After removing outliers, %d rows remain.\n",nrow(dat)))
 
 # Remove any individuals have at leat one relative based on the
-# kinship calculations. This step should filter out ~11,000 rows.
+# kinship calculations. This step should filter out ~11,000, 21,000,
+# 53677 rows.
 dat <- dat %>% filter(kinship_genetic == 0)
 cat(sprintf(paste("After removing relatedness individuals based on kinship,",
                   "%d rows remain.\n"),nrow(dat)))
 
 # Remove any individuals that have close relatives identified from the
 # "relatendess" calculations that weren't already identified using the
-# kinship calculations. This step should filter out 3 rows.
+# kinship calculations. This step should filter out 3,222,0 rows.
 dat <- dat %>% filter(is.na(relatedness_genetic0))
 cat(sprintf("After removing relatedness individuals, %d rows remain.\n",
             nrow(dat)))

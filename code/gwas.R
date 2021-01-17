@@ -22,57 +22,61 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
     snpname <- 1: ncol(geno)
   }
 
-  nSNPs <- ncol(geno)
-  genosplit <- ceiling(nSNPs/nSplits) # number of SNPs in each subset
-
-  snp.start <- seq(1, nSNPs, genosplit) # index of first SNP in group
-  snp.stop <- pmin(snp.start+genosplit-1, nSNPs) # index of last SNP in group
-
-  columns<-c("#CHROM",	"BEGIN",	"END", "MARKER_ID", "Estimate", "Std.Error", "t-value", "PVALUE") # header for LOCUSZOOM.
+  columns<- c(colnames(anno), "id", c("Estimate", "Std.Error", "t-value", "PVALUE"))
   write.table(t(columns), outname, row.names=FALSE, col.names=FALSE, quote=FALSE, sep = "\t")
 
+  nSNPs <- ncol(geno)
+  if (nSNPs > 0){
 
-  if (!is.null(s.idx)){
-    pheno <- pheno[s.idx, ,drop=F]
-  }
+    genosplit <- ceiling(nSNPs/nSplits) # number of SNPs in each subset
 
-  for (part in 1:nSplits) {
-
-    geno.i <- geno[ ,snp.start[part]:snp.stop[part]]
+    snp.start <- seq(1, nSNPs, genosplit) # index of first SNP in group
+    snp.stop <- pmin(snp.start+genosplit-1, nSNPs) # index of last SNP in group
 
     if (!is.null(s.idx)){
-      geno.i <- geno.i[s.idx, ]
+      pheno <- pheno[s.idx, ,drop=F]
     }
 
-    snpname.i <- snpname[snp.start[part]:snp.stop[part]]
-    if (!is.null(anno)) {
-      anno.i <- anno[snp.start[part]:snp.stop[part], ]
-    } else {
-      anno.i <- NULL
+    for (part in 1:length(snp.start)) {
+
+      geno.i <- geno[ , snp.start[part]:snp.stop[part], drop = F]
+
+      if (!is.null(s.idx)){
+        geno.i <- geno.i[s.idx, ]
+      }
+
+      snpname.i <- snpname[snp.start[part]:snp.stop[part]]
+      if (!is.null(anno)) {
+        anno.i <- anno[snp.start[part]:snp.stop[part], ]
+      } else {
+        anno.i <- NULL
+      }
+
+      res <- foreach(snp.idx=1: length(snpname.i), .combine='rbind') %dopar% {
+        snp <- geno.i[, snp.idx, drop = F]
+        a <- summary(glm(pheno ~ snp,
+                         family=family,
+                         data=data.frame("pheno" = pheno, "snp" = snp)))
+        matrix(a$coefficients['snp',], nrow = 1)
+      }
+
+      colnames(res) <- c("Estimate", "Std.Error", "t-value", "PVALUE")
+
+      # write results so far to a file
+      write.table(cbind(anno.i, snpname.i, res), outname, append=TRUE,
+                  quote=FALSE, col.names=FALSE, row.names=FALSE,
+                  sep = "\t")
+
+      cat(sprintf("GWAS %s%% finished\n", 100 * part/length(snp.start)))
+      rm(geno.i, anno.i, snpname.i);gc()
     }
-
-    res <- foreach(snp.idx=1: length(snpname.i), .combine='rbind') %dopar% {
-      snp <- geno.i[, snp.idx, drop = F]
-      a <- summary(glm(pheno ~ snp,
-                    family=family,
-                    data=data.frame("pheno" = pheno, "snp" = snp)))
-      a$coefficients['snp',]
-    }
-
-    # write results so far to a file
-    write.table(cbind(anno.i, snpname.i, res), outname, append=TRUE,
-                quote=FALSE, col.names=FALSE, row.names=FALSE,
-                sep = "\t")
-
-    cat(sprintf("GWAS SNPs %s%% finished\n", 100 * part/nSplits))
-    rm(geno.i, anno.i, snpname.i);gc()
   }
 
   stopCluster(cl)
 
   # compress
   if (isTRUE(compress)){
-    system(paste0("bgzip ", outname))
+    system(paste0("gzip -f ", outname))
     # system(paste0("tabix -p bed ", outname, ".gz"))
   }
 

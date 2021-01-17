@@ -18,11 +18,20 @@ source("analysis/visual_twas_plots.R")
 
 ```{r functions file}
 
-plot_all <- function(SERf, phenof, chrom, ldres = NULL){
-  a <- fread(SERf, header =T)
+plot_all <- function(susief, pf, phenof, chrom, ldres = NULL){
+  a <- fread(susief, header =T)
+  b1 <- fread(paste0(pf, ".snpgwas.txt.gz"), header =T)
+  b2 <- fread(paste0(pf, ".exprgwas.txt.gz"), header =T)
+  b <- rbind(b1, b2)
+  setnames(b, old = c('X.CHROM', 'PVALUE', 'MARKER_ID'),
+         new = c("chr", 'pvalue', 'name'))
+  
   load(phenof)
 
   a <- a[a$chr == chrom,]
+  b <- b[b$chr == chrom,]
+  
+  a <- merge(a, b, by = "name", all.x =T)
   
   if (!is.null(ldres)){
     ld <- read.table(ldres, header =T)
@@ -32,26 +41,25 @@ plot_all <- function(SERf, phenof, chrom, ldres = NULL){
   a[a$ifcausal == "1", "ifcausal"] = "Causal"
   a[a$ifcausal == "0", "ifcausal"] = "Non causal"
   
-  colnames(a)[colnames(a) == "SERpip"] <-  "susiePIP"
+  colnames(a)[colnames(a) == "susie_pip"] <-  "susiePIP"
   colnames(a)[colnames(a) == "pos"] <-  "p0"
   
   a[, "PVALUE"] <- -log10(a[, "pvalue"])
-  a[, "lbf"] <- log10(exp(a[, "lbf"]))
   
   dt.gene <- a[a$type == "gene", ]
   dt.snp <- a[a$type == "SNP", ]
   
-  fig1 <- plot_susie_pip(dt.gene) 
-  fig2 <- plot_lbf(dt.gene)
+  fig1 <- plot_susie_pip(dt.gene)  # %>%  add_trace(p, x = list(1), y = list(1), name = " ", showlegend = F)
+  # fig2 <- plot_lbf(dt.gene)
   fig3 <- plot_p(dt.gene) 
 
   fig4 <- plot_susie_pip(dt.snp)
-  fig5 <- plot_lbf(dt.snp) 
+  # fig5 <- plot_lbf(dt.snp) 
   fig6 <- plot_p(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
   
-  fig <- subplot(fig1, fig2, fig3, fig4, fig5, fig6, nrows=6, shareX = T, titleY = T)
+  fig <- subplot(fig1, fig3, fig4, fig6, nrows=4, shareX = T, titleY = T)
   
-  fig <- fig %>% layout(autosize = F, width = 600, height = 800, margin = 0.02,
+  fig <- fig %>% layout(autosize = F, width = 600, height = 500, margin = 0.02,
                         xaxis = list(title = "Genomic position"))
   
   fig <- fig %>% toWebGL()
@@ -64,10 +72,11 @@ plot_all <- function(SERf, phenof, chrom, ldres = NULL){
 First three rows are for genes, last three rows are for SNPs.
 
 ```{r sim 1-3-17, out.width = "98%", out.height="95%"}
-chrom <- 13
-tag <- "20201001-1-2"
-pipfile <-  paste0(outputdir, tag, ".config6.SERI.txt")
+chrom <- 2
+tag <- "20201001-2-5"
+susief <-  paste0(outputdir, tag, ".config16.flrerun.susieI.txt")
+pf <- paste0(simdatadir, tag)
 phenof <- paste0(simdatadir, "simu_", tag, "-pheno.Rd")
-plot_all(pipfile, phenof, chrom)
+plot_all(susief, pf, phenof, chrom)
 ```
 
