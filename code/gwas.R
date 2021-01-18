@@ -1,6 +1,20 @@
 library(foreach)
 library(doParallel)
 
+get_geno <- function(genof, mode = mode,
+                   variantidx = NULL, outputdir = NULL){
+  if (mode == "expr"){
+    geno <- read_expr(genof, variantidx = variantidx)
+  } else if (mode == "snp"){
+    pvarf <- prep_pvar(genof, outputdir = outputdir)
+    pgen <- prep_pgen(genof, pvarf)
+    geno <- read_pgen(pgen, variantidx = variantidx)
+  } else {
+    stop("undefined mode")
+  }
+  geno
+}
+
 
 #' @description this is a function to run GWAS analysis for small genotype matrix (using glm),for faster results use plink (start from plink files). Credit to http://www.stat-gen.org/tut/tut_analysis.html, requires tabix and bgzip if compress is true.
 #'
@@ -10,7 +24,7 @@ library(doParallel)
 #' @param anno a data frame/matrix, anno column with N rows.
 #' @param compress T/F, if T will be compressed and indexed by tabix. (TODO)
 #'
-GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gaussian, ncore = 1, nSplits = 10, compress = F, s.idx = NULL){
+GWAA <- function(genof, mode = c("snp", "expr"), pheno, snpname, anno = NULL, outname, outputdir = getwd(), family = gaussian, ncore = 1, nSplits = 10, compress = F){
 
   cl <- makeCluster(ncore)
   show(cl)
@@ -18,14 +32,12 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
 
   colnames(pheno) <- "pheno"
 
-  if (is.null(snpname)){
-    snpname <- 1: ncol(geno)
-  }
+  mode <- match.arg(mode)
 
   columns<- c(colnames(anno), "id", c("Estimate", "Std.Error", "t-value", "PVALUE"))
   write.table(t(columns), outname, row.names=FALSE, col.names=FALSE, quote=FALSE, sep = "\t")
 
-  nSNPs <- ncol(geno)
+  nSNPs <- length(snpname)
   if (nSNPs > 0){
 
     genosplit <- ceiling(nSNPs/nSplits) # number of SNPs in each subset
@@ -33,17 +45,11 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
     snp.start <- seq(1, nSNPs, genosplit) # index of first SNP in group
     snp.stop <- pmin(snp.start+genosplit-1, nSNPs) # index of last SNP in group
 
-    if (!is.null(s.idx)){
-      pheno <- pheno[s.idx, ,drop=F]
-    }
-
     for (part in 1:length(snp.start)) {
 
-      geno.i <- geno[ , snp.start[part]:snp.stop[part], drop = F]
-
-      if (!is.null(s.idx)){
-        geno.i <- geno.i[s.idx, ]
-      }
+      geno.i <- get_geno(genof, mode = mode,
+                         variantidx = snp.start[part]:snp.stop[part],
+                         outputdir = outputdir)
 
       snpname.i <- snpname[snp.start[part]:snp.stop[part]]
       if (!is.null(anno)) {
@@ -63,7 +69,8 @@ GWAA <- function(geno, pheno, snpname = NULL, anno = NULL, outname, family = gau
       colnames(res) <- c("Estimate", "Std.Error", "t-value", "PVALUE")
 
       # write results so far to a file
-      write.table(cbind(anno.i, snpname.i, res), outname, append=TRUE,
+      write.table(cbind(anno.i, snpname.i, res), paste0(outputdir, "/",outname),
+                  append=TRUE,
                   quote=FALSE, col.names=FALSE, row.names=FALSE,
                   sep = "\t")
 

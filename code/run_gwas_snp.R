@@ -25,7 +25,7 @@ phenofile <- args[2]
 load(phenofile)
 pheno <- phenores$Y
 
-outnames <- paste0(outputdir, "/", args[3], "-B", 1:length(pgenfs), ".snpgwas.txt")
+outnames <- paste0(args[3], "-B", 1:length(pgenfs), ".snpgwas.txt")
 
 ncore <- as.numeric(args[5])
 if (is.na(args[5])) ncore <- 3
@@ -38,15 +38,13 @@ for (b in 1:length(pgenfs)){
   outname <- outnames[b]
 
   # load genotype data
-  pgen <- prep_pgen(pgenf = pgenfs[b], pvarfs[b])
-  geno <- read_pgen(pgen)
 
   snpinfo <- read_pvar(pvarfs[b])
   anno <- snpinfo[, - "id"] # chrom pos alt ref
 
-  GWAA(geno, pheno, snpname = snpinfo$id, anno = anno, outname, family = gaussian,
-         ncore = ncore, nSplits = nsplits, compress = T)
-
+  GWAA(pgenfs[b], mode = "snp", pheno, snpname = snpinfo$id, anno = anno,
+       outname, outputdir, family = gaussian,
+       ncore = ncore, nSplits = nsplits, compress = T)
 }
 
 # combine all results
@@ -54,7 +52,8 @@ outdflist <- list()
 
 for (b in 1:length(pgenfs)){
   outdflist[[b]] <- read.table(paste0(outnames[b], ".gz"),
-                               header = T, stringsAsFactors = F, comment.char = "")
+                               header = T, stringsAsFactors = F,
+                               comment.char = "")
 }
 outdf <- do.call(rbind, outdflist)
 

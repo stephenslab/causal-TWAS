@@ -25,7 +25,7 @@ load(phenofile)
 pheno <- phenores$Y
 
 outputdir <- args[4]
-outnames <- paste0(outputdir, "/", args[3], "-B", 1:length(exprfs), ".exprgwas.txt")
+outnames <- paste0( args[3], "-B", 1:length(exprfs), ".exprgwas.txt")
 
 ncore <- as.numeric(args[5])
 if (is.na(args[5])) ncore <- 1
@@ -42,14 +42,13 @@ for (b in 1:length(exprfs)){
   if (inherits(expr, "try-error")){
     expr <- data.table()
     anno <- setNames(data.table(matrix(nrow = 0, ncol = 3)), c("chrom", "p0", "p1"))
-
+    geneinfo <- data.table()
   } else{
     geneinfo <- read_exprvar(exprvarfs[b])
     anno <- geneinfo[, - "id"] # chrom p0 p1
   }
 
-  GWAA(expr, pheno, snpname = geneinfo$id, anno = anno, outname, family = gaussian,
-         ncore = ncore, nSplits = nsplits, compress = T)
+  GWAA(exprfs[b], mode = "expr", pheno, snpname = geneinfo$id, anno = anno, outname, outputdir, family = gaussian, ncore = ncore, nSplits = nsplits, compress = T)
 
 }
 

@@ -11,6 +11,7 @@
     },
         "simu_prep_param" :
     {
+        "time" : "00:05:00",
         "n": 1,
         "mem": "2G"
     }
