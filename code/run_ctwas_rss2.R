@@ -28,18 +28,9 @@ prob_single <- 0.8
 source(args[4]) # config
 
 # get gene z score
-ld_exprfs <- vector()
-zdf.gene <- NULL
-for (i in 1:22){
-  ld_pgenf <- ld_pgenfs[i]
-  res <- impute_expr_z(zdf.SNP, ld_pgenf = ld_pgenf, weight = weight,
-                       method = "lasso", outputdir = outputdir,
-                       outname = outname)
-  ld_exprfs[i] <- res$ld_exprf
-  zdf.gene <- rbind(zdf.gene, res$zdf)
-}
+ld_exprfs <- paste0(outputdir, "/", outname, "_chr", 1:22, ".expr.gz")
+load(file = paste0(outputdir, "/", outname, "_zdf.Rd"))
 zdf <- rbind(zdf.SNP, zdf.gene)
-save(zdf.gene, file = paste0(outputdir, "/", outname, "_zdf.Rd"))
 rm(zdf.SNP, zdf.gene); gc()
 
 # run ctwas_rss

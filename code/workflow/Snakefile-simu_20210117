@@ -84,7 +84,7 @@ rule gwas_snp:
     params:
         outname = runtag + '_simu{simutag}',
         outputdir = outputdir,
-        ncore = 20,
+        ncore = 27,
         nsplits = 1000
     shell:
         'Rscript ' + codedir + 'run_gwas_snp.R {input.pgenfs} {input.phenof} {params.outname} {params.outputdir} \

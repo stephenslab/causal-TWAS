@@ -1,5 +1,5 @@
 ---
-title: "Test susieI using whole genome, s40.22 samples"
+title: "Test susieI using whole genome, s80.45 samples"
 output: html_document
 ---
 
