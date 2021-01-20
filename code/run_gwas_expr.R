@@ -38,15 +38,9 @@ for (b in 1:length(exprfs)){
   outname <- outnames[b]
 
   # load expr data
-  expr <- try(read_expr(exprf = exprfs[b]))
-  if (inherits(expr, "try-error")){
-    expr <- data.table()
-    anno <- setNames(data.table(matrix(nrow = 0, ncol = 3)), c("chrom", "p0", "p1"))
-    geneinfo <- data.table()
-  } else{
-    geneinfo <- read_exprvar(exprvarfs[b])
-    anno <- geneinfo[, - "id"] # chrom p0 p1
-  }
+
+  geneinfo <- read_exprvar(exprvarfs[b])
+  anno <- geneinfo[, - "id"] # chrom p0 p1
 
   GWAA(exprfs[b], mode = "expr", pheno, snpname = geneinfo$id, anno = anno, outname, outputdir, family = gaussian, ncore = ncore, nSplits = nsplits, compress = T)
 
