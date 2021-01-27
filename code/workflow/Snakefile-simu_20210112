@@ -13,6 +13,7 @@ simutags = [ str(i) + "-" + str(j) for i in range(1,3) for j in range(1,6)]
 rule all:
     input: 
         [outputdir + runtag +'_simu'+ simutag + '_config' + configtag + ".susieIrss.txt" for simutag in simutags for configtag in configtags] + [outputdir + runtag + '_simu'+ simutag +'.exprgwas.txt.gz' for simutag in simutags]
+        # [outputdir + runtag + '_simu{simutag}-pheno.Rd'.format(simutag = i) for i in simutags]
         
 rule simu_prep_param:
     params:
@@ -99,8 +100,9 @@ rule ctwas_rss:
     output:
         outputdir + runtag + '_simu{simutag}_config{configtag}.susieIrss.txt'
     params:
+        outname_expr = runtag + '_simu{simutag}',
         outname = runtag + '_simu{simutag}_config{configtag}',
         outputdir = outputdir
     shell:
-        'Rscript ' + codedir + 'run_ctwas_rss2.R {input.snpz} {input.ld_pgenfs} {input.weight} {input.configfile} \{params.outname} {params.outputdir}'
+        'Rscript ' + codedir + 'run_ctwas_rss.R {input.snpz} {input.ld_pgenfs} {input.weight} {input.configfile} \{params.outname_expr} {params.outname} {params.outputdir}'
         

@@ -1,11 +1,11 @@
 
 codedir = "~/causalTWAS/causal-TWAS/code/" # add / at end
-pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt"
-ld_pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
+pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22_pgenfs.txt"
+ld_pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22.2_pgenfs.txt"
 weight = "/home/simingz/causalTWAS/fusion_weights/Adipose_Subcutaneous"
 
-outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210117/" # add / at end
-runtag = "ukb-s80.45-adi"
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210113/" # add / at end
+runtag = "ukb-s40.22-adi"
 configtags = [str(i) for i in range(1,2)]
 simutags = [ str(i) + "-" + str(j) for i in range(1,9) for j in range(1,6)]
 
@@ -31,7 +31,7 @@ rule simu_prep_param:
                         'pi_beta <- ' + str(params.pi1_gene[int(t1)-1]),
                         'pve.snp <- ' + str(params.pve_snp[int(t1)-1]),
                         'pi_theta <- ' + str(params.pi1_snp[int(t1)-1]),
-                        'SED <- ' + str(900 + int(t2))]
+                        'SED <- ' + str(950 + int(t2))]
                 outf.writelines(s + '\n' for s in lines)
                 
 
@@ -69,8 +69,8 @@ rule gwas_expr:
     params:
         outname = runtag + '_simu{simutag}',
         outputdir = outputdir,
-        ncore = 2,
-        nsplits = 10
+        ncore = 1,
+        nsplits = 2
     shell:
         'Rscript ' + codedir + 'run_gwas_expr.R {input.exprfs} {input.phenof} {params.outname} {params.outputdir}\
          {params.ncore} {params.nsplits}'

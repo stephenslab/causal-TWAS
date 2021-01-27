@@ -68,11 +68,16 @@ simulate_phenotype<- function(pgenfs,
     var.gene <- var(X.g %*% e.beta)
     var.snp <- var(X.s %*% s.theta)
 
+    id.cgene <- read_exprvar(exprvarfs[b])[idx.cgene,][["id"]]
+
+    id.cSNP <-  read_pvar(pvarfs[b])[idx.cSNP, ][["id"]]
+
     phenores[["batch"]][[b]] <- tibble::lst(Y.g, s.theta, e.beta,
                                              sigma_theta, sigma_beta,
                                              idx.cSNP, idx.cgene,
                                              J = J.b[b], M = M.b[b],
-                                             N, var.gene, var.snp)
+                                             N, var.gene, var.snp,
+                                             id.cSNP, id.cgene)
   }
 
   Y <- matrix(rowSums(do.call(cbind, lapply(phenores[["batch"]], '[[', "Y.g"))) + rnorm(N), ncol = 1)

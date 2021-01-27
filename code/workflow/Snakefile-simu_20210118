@@ -13,13 +13,14 @@ simutags = [ str(i) + "-" + str(j) for i in range(1,3) for j in range(1,6)]
 rule all:
     input: 
         [outputdir + runtag +'_simu'+ simutag + '_config' + configtag + ".susieIrss.txt" for simutag in simutags for configtag in configtags] + [outputdir + runtag + '_simu'+ simutag +'.exprgwas.txt.gz' for simutag in simutags]
+        # [outputdir + runtag + '_simu'+ simutag +'.exprgwas.txt.gz' for simutag in simutags]
         
 rule simu_prep_param:
     params:
-        pve_gene = [0.1,   0.1],
-        pi1_gene = [0.05,  0.015],
-        pve_snp  = [0.5,   0.5],
-        pi1_snp  = [2.5e-4,2.5e-4]
+        pve_gene = [0.1,   0.1,   0.05,  0.05,  0.2,   0.2,   0.1,  0.1],
+        pi1_gene = [0.05,  0.015, 0.05,  0.015, 0.05,  0.015, 0.05, 0.015],
+        pve_snp  = [0.5,   0.5,   0.5,   0.5,   0.5,   0.5,   0.3,  0.3],
+        pi1_snp  = [2.5e-4,2.5e-4,2.5e-4,2.5e-4,2.5e-4,2.5e-4,1e-4, 1e-4]
     output:
         [outputdir +'simu' + simutag + '_param.R' for simutag in simutags]
     run:
@@ -99,7 +100,9 @@ rule ctwas_rss:
     output:
         outputdir + runtag + '_simu{simutag}_config{configtag}.susieIrss.txt'
     params:
+        outname_expr = runtag + '_simu{simutag}',
         outname = runtag + '_simu{simutag}_config{configtag}',
         outputdir = outputdir
     shell:
-        'Rscript ' + codedir + 'run_ctwas_rss.R {input.snpz} {input.ld_pgenfs} {input.weight} {input.configfile} \{params.outname} {params.outputdir}'
+        'Rscript ' + codedir + 'run_ctwas_rss.R {input.snpz} {input.ld_pgenfs} {input.weight} {input.configfile} \{params.outname_expr} {params.outname} {params.outputdir}'
+

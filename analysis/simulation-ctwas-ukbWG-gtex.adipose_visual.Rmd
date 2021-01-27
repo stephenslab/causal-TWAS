@@ -1,0 +1,86 @@
+---
+title: "Visualize ukb whole genome, using ctwas results"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
+```
+Provide visualization for analysis [here]
+
+```{r output dir}
+outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210112/"
+
+source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
+source("~/causalTWAS/causal-TWAS/analysis/visual_twas_plots.R")
+```
+
+```{r functions file}
+
+plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
+  a <- fread(susief, header =T)
+  setnames(a, old = "id", new = "name")
+  b1 <- fread(paste0(pf, ".snpgwas.txt.gz"), header =T)
+  b2 <- fread(paste0(pf, ".exprgwas.txt.gz"), header =T)
+  setnames(b1, old = "pos", new = "p0")
+  b <- rbind(b1, b2, fill = T)
+  setnames(b, old = c('PVALUE', 'id'),
+         new = c('pvalue', 'name'))
+  
+  load(phenof)
+  cau <- get_causal_id(phenores)
+
+  a <- a[a$chrom == chr,]
+  b <- b[b$chrom == chr,]
+  
+  a <- merge(a, b, by = "name")
+  a$ifcausal <- ifelse(a$name %in% cau, "Causal", "Non causal" )
+  
+  if (!is.null(ldres)){
+    ld <- read.table(ldres, header =T)
+    a <- merge(a, ld, by = "name", all.x = T)}
+  
+  colnames(a)[colnames(a) == "susie_pip"] <-  "susiePIP"
+  colnames(a)[colnames(a) == "pos"] <-  "p0"
+  
+  a[, "PVALUE"] <- -log10(a[, "pvalue"])
+  
+  dt.gene <- a[a$type == "gene", ]
+  dt.snp <- a[a$type == "SNP", ]
+  
+  fig1 <- plot_susie_pip(dt.gene)  # %>%  add_trace(p, x = list(1), y = list(1), name = " ", showlegend = F)
+  # fig2 <- plot_lbf(dt.gene)
+  fig3 <- plot_p(dt.gene) 
+
+  fig4 <- plot_susie_pip(dt.snp)
+  # fig5 <- plot_lbf(dt.snp) 
+  fig6 <- plot_p(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
+  
+  fig <- subplot(fig1, fig3, fig4, fig6, nrows=4, shareX = T, titleY = T)
+  
+  fig <- fig %>% layout(autosize = F, width = 600, height = 500, margin = 0.02,
+                        xaxis = list(title = "Genomic position"))
+  
+  fig <- fig %>% toWebGL()
+  fig
+}
+```
+
+## Simulation- high power
+
+First three rows are for genes, last three rows are for SNPs.
+
+```{r sim 1-3-17, out.width = "98%", out.height="95%"}
+# TODO, thin option
+chrom <- 1
+runtag <- "ukb-s40.22-adi"
+simutag <- "1-1"
+configtag <- 1
+
+susief <- paste0(outputdir, runtag, "_simu", simutag, "_config", configtag, ".s2.susieIrss.txt")
+pf <- paste0(outputdir, runtag, "_simu",simutag)
+phenof <- paste0(outputdir, runtag, "_simu", simutag, "-pheno.Rd")
+plot_all(susief, pf, phenof, chrom)
+```
+

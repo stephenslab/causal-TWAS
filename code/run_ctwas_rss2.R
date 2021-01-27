@@ -32,7 +32,6 @@ ld_exprfs <- paste0(outputdir, "/", outname, "_chr", 1:22, ".expr.gz")
 load(file = paste0(outputdir, "/", outname, "_zdf.Rd"))
 zdf <- rbind(zdf.SNP, zdf.gene)
 rm(zdf.SNP, zdf.gene); gc()
-save.image("temp.Rd")
-print("done")
+
 # run ctwas_rss
 ctwas_rss(zdf, ld_pgenfs, ld_exprfs, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, outputdir = outputdir, outname = outname, ncore = ncore, prob_single = prob_single)

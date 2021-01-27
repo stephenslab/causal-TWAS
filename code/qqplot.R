@@ -18,7 +18,8 @@ library(ggplot2)
 #' gg_qqplot(runif(1e2)) + theme_grey(base_size = 24)
 #'
 #'
-gg_qqplot <- function(ps, ci = 0.95) {
+gg_qqplot <- function(ps, ci = 0.95, thin = 1) {
+  ps <- ps[sample(length(ps), length(ps) * thin)]
   n  <- length(ps)
   df <- data.frame(
     observed = -log10(sort(ps)),
@@ -38,5 +39,11 @@ gg_qqplot <- function(ps, ci = 0.95) {
     # geom_line(aes(expected, cupper), linetype = 2, size = 0.5) +
     # geom_line(aes(expected, clower), linetype = 2, size = 0.5) +
     xlab(log10Pe) +
-    ylab(log10Po)
+    ylab(log10Po) +
+    theme_bw(base_size = 24) +
+    theme(
+      axis.ticks = element_line(size = 0.5),
+      panel.grid = element_blank()
+      # panel.grid = element_line(size = 0.5, color = "grey80")
+    )
 }
