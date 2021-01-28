@@ -104,5 +104,5 @@ rule ctwas_rss:
         outname = runtag + '_simu{simutag}_config{configtag}',
         outputdir = outputdir
     shell:
-        'Rscript ' + codedir + 'run_ctwas_rss.R {input.snpz} {input.ld_pgenfs} {input.weight} {input.configfile} \{params.outname_expr} {params.outname} {params.outputdir}'
+        'Rscript ' + codedir + 'run_ctwas_rss2.R {input.snpz} {input.ld_pgenfs} {input.weight} {input.configfile} {params.outname_expr} {params.outname} {params.outputdir}'
         

@@ -41,7 +41,8 @@ susieI_rss <- function(zdf,
   V.gene <- group_prior_var[1]
   V.SNP <- group_prior_var[2]
 
-  for (iter in 1:niter){
+  #for (iter in 1:niter){
+  for (iter in 1){
     cl <- parallel::makeCluster(ncore, outfile = "")
     doParallel::registerDoParallel(cl)
 
@@ -49,11 +50,11 @@ susieI_rss <- function(zdf,
 
     snp.rpiplist <- list()
     gene.rpiplist <- list()
-    save(list = ls(all.names = TRUE), file = paste0("temp-iter", iter, ".Rd"), envir = 
+    save(list = ls(all.names = TRUE), file = paste0("temp-iter", iter, ".Rd"), envir =
   environment())
-    outdf <- foreach (b = 1:length(regionlist), .combine = "rbind",
-                      .packages = "ctwas") %dopar% {
-                        # for (b in 1:2) {
+    # outdf <- foreach (b = 1:length(regionlist), .combine = "rbind",
+    #                   .packages = "ctwas") %dopar% {
+                        for (b in 11) {
 
                         print(c(iter, b))
                         # prepare LD genotype data
@@ -61,7 +62,8 @@ susieI_rss <- function(zdf,
 
                         # run susie for each region
                         outdf.b.list <- list()
-                        for (rn in names(regionlist[[b]])) {
+                        # for (rn in names(regionlist[[b]])) {
+                        for (rn in "32"){
                           print(c(iter, b, rn))
                           gidx <- regionlist[[b]][[rn]][["gidx"]]
                           sidx <- regionlist[[b]][[rn]][["sidx"]]
@@ -105,18 +107,21 @@ susieI_rss <- function(zdf,
                           X.g <- read_expr(ld_exprfs[b], variantidx = gidx)
                           X.s <- read_pgen(ld_pgen, variantidx = sidx)
                           X <- cbind(X.g, X.s)
-                          R <- cor(X)
+                          print("getting R")
+                          a <- system.time(R <- Rfast::cova(X))
+                          print(a)
                           print(c(iter, b, rn, "susie_start"))
                           # in susie, prior_variance is under standardized scale (if performed)
-                          susieres <- susie_rss(z, R,
+                          a <- system.time(susieres <- susie_rss(z, R,
                                                 z_ld_weight = z_ld_weight,
                                                 L = L, prior_weights = prior,
                                                 null_weight = nw,
                                                 prior_variance = V,
                                                 estimate_prior_variance = F,
                                                 coverage = coverage,
-                                                check_z = F)
+                                                check_z = F))
                           print(c(iter, b, rn, "susie_end"))
+                          print(a)
                           outdf.rn <- ctwas:::anno_susie(susieres,
                                                  ld_exprvarfs[b],
                                                  ld_pvarfs[b],
@@ -163,7 +168,7 @@ susieI_rss <- function(zdf,
          file = paste0(outname, ".susieIrssres.Rd"))
     data.table::fwrite(outdf, file= paste0(outname, ".susieIrss.txt"),
                        sep="\t", quote = F)
-    
+
     parallel::stopCluster(cl)
   }
 

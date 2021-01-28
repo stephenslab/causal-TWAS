@@ -1,5 +1,5 @@
 library(ctwas)
-# source('~/causalTWAS/causal-TWAS/code/debug_ctwas_susieI_rss2.R')
+ source('~/causalTWAS/causal-TWAS/code/debug_ctwas_susieI_rss2.R')
 
 args = commandArgs(trailingOnly=TRUE)
 if (length(args) <5) {
