@@ -94,7 +94,7 @@ print(p1)
 ```{r gene}
 # p2 <- pow(niter, n, phenores[["batch"]][[1]][["sigma_beta"]], gene.p)
 print(p2)
-# save(p1,p2, file = "data/power_s80.45.Rd")
+# save(p1,p2, file = "data/power_s40.22.Rd")
 ```
 
 # GWAS/TWAS p value distribution
@@ -146,7 +146,7 @@ gg_qqplot(snpgwas$PVALUE, thin = 0.1)
 Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input).
 
 ```{r func}
-plot_par <- function(configtag, tags){
+plot_par <- function(configtag, runtag, simutags){
   source(paste0(outputdir, "config", configtag, ".R"))
   phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
   susieIfs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".s2.susieIrssres.Rd")
@@ -154,13 +154,13 @@ plot_par <- function(configtag, tags){
 
   mtx <- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
   par(mfrow=c(1,3))
-  cat("simulations ", paste(tags, sep=",") , ": ")
+  cat("simulations ", paste(simutags, sep=",") , ": ")
   cat("mean gene PVE:", mean(mtx[, "PVE.gene_truth"]), ",", "mean SNP PVE:", mean(mtx[, "PVE.SNP_truth"]), "\n")
   plot_param(mtx)
 }
 
-plot_PIP <- function(configtag, tags){
-   phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+plot_PIP <- function(configtag, runtag,  simutags){
+   phenofs <- paste0(outputdir, "ukb-s40.22-adi", "_simu", simutags, "-pheno.Rd")
    susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
 
    f1 <- caliPIP_plot(phenofs, susieIfs)
@@ -169,36 +169,83 @@ plot_PIP <- function(configtag, tags){
 }
 ```
 
-## ctwas_rss parameter estimation
+## Results-last step impact
 
-```{r param1susie, fig.height=3, fig.width=8, message=F}
+After we have the estimated parameters, we obtain PIP for genes in one the following ways:
+(1) run susie for each region using all SNPs
+```{r param1-1, fig.height=3, fig.width=8, message=F, cache=T}
 configtag <- 1
+runtag2 = "config1_ctwas_rss_s3_full/ukb-s40.22-adi"
 
-simutags <- paste(1, 1:5, sep = "-")
-plot_par(configtag, simutags)
-# plot_PIP(configtag, simutags)
+simutags <- paste(1, c(2,4,5), sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag2, simutags)
 
-simutags <- paste(2, 1:5, sep = "-")
-plot_par(configtag, simutags)
-# plot_PIP(configtag, simutags)
+simutags <- paste(2, c(2,4), sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag2, simutags)
+```
+(2) run susie for each region thinned SNPs 
+```{r param1-2, fig.height=3, fig.width=8, message=F}
+configtag <- 1
+runtag2 = "config1_ctwas_rss_s3_thin/ukb-s40.22-adi"
 
-simutags <- paste(3, 1:5, sep = "-")
-plot_par(configtag, simutags)
+simutags <- paste(1, c(2,4,5), sep = "-")
+plot_PIP(configtag, runtag2, simutags)
 
-simutags <- paste(4, 1:5, sep = "-")
-plot_par(configtag, simutags)
-
-simutags <- paste(5, 1:5, sep = "-")
-plot_par(configtag, simutags)
-
-simutags <- paste(6, 1:5, sep = "-")
-plot_par(configtag, simutags)
-
-simutags <- paste(7, 1:5, sep = "-")
-plot_par(configtag, simutags)
-
-simutags <- paste(8, 1:5, sep = "-")
-plot_par(configtag, simutags)
+simutags <- paste(2, c(2,4), sep = "-")
+plot_PIP(configtag, runtag2, simutags)
 ```
 
+(3) run susie for each regions with thinned SNPs, then select regions with strong gene PIP (max PIP > 0.8) and rerun susie with full SNPs.
+```{r param1-3, fig.height=3, fig.width=8, message=F}
+configtag <- 1
+runtag2 = "ukb-s40.22-adi"
 
+simutags <- paste(1, c(2,4,5), sep = "-")
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(2, c(2,4), sep = "-")
+plot_PIP(configtag, runtag2, simutags)
+```
+
+## Results-more simulation settings
+We run the last step of `ctwas_rss` using way (3) as described above.
+
+```{r param2, fig.height=3, fig.width=8, message=F}
+
+configtag <- 1
+runtag = "ukb-s40.22-adi"
+
+simutags <- paste(3, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(4, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(5, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(6, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(7, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(8, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(9, 1:4, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+
+simutags <- paste(10, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+```

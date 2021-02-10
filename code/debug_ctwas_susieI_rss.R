@@ -25,6 +25,8 @@ susieI_rss <- function(zdf,
                        outname = NULL
 ) {
 
+  L<- 5
+
   outname <- file.path(outputdir, outname)
 
   ld_pvarfs <- sapply(ld_pgenfs, prep_pvar, outputdir = outputdir)
@@ -50,11 +52,11 @@ susieI_rss <- function(zdf,
 
     snp.rpiplist <- list()
     gene.rpiplist <- list()
-    save(list = ls(all.names = TRUE), file = paste0("temp-iter", iter, ".Rd"), envir =
-  environment())
+  #   save(list = ls(all.names = TRUE), file = paste0("temp-iter", iter, ".Rd"), envir =
+  # environment())
     # outdf <- foreach (b = 1:length(regionlist), .combine = "rbind",
     #                   .packages = "ctwas") %dopar% {
-                        for (b in 11) {
+                        for (b in 2) {
 
                         print(c(iter, b))
                         # prepare LD genotype data
@@ -63,7 +65,7 @@ susieI_rss <- function(zdf,
                         # run susie for each region
                         outdf.b.list <- list()
                         # for (rn in names(regionlist[[b]])) {
-                        for (rn in "32"){
+                        for (rn in names(regionlist[[b]])[1:10]){
                           print(c(iter, b, rn))
                           gidx <- regionlist[[b]][[rn]][["gidx"]]
                           sidx <- regionlist[[b]][[rn]][["sidx"]]
@@ -112,6 +114,7 @@ susieI_rss <- function(zdf,
                           print(a)
                           print(c(iter, b, rn, "susie_start"))
                           # in susie, prior_variance is under standardized scale (if performed)
+
                           a <- system.time(susieres <- susie_rss(z, R,
                                                 z_ld_weight = z_ld_weight,
                                                 L = L, prior_weights = prior,

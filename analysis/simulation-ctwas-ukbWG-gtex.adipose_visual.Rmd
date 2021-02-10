@@ -7,10 +7,10 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
 ```
-Provide visualization for analysis [here]
+
 
 ```{r output dir}
-outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210112/"
+outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210117/"
 
 source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
 source("~/causalTWAS/causal-TWAS/analysis/visual_twas_plots.R")
@@ -36,6 +36,11 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
   
   a <- merge(a, b, by = "name")
   a$ifcausal <- ifelse(a$name %in% cau, "Causal", "Non causal" )
+  
+  if (thin !=1){
+    b <- a[a$type == "gene" | (a$type == "SNP" & a$ifcausal == "Causal") | 
+             (a$type == "SNP" & a$ifcausal == "Non causal" & rbinom(nrow(a), 1, thin) ==1)]
+  }
   
   if (!is.null(ldres)){
     ld <- read.table(ldres, header =T)
@@ -67,20 +72,19 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
 }
 ```
 
-## Simulation- high power
+## Simulation
 
 First three rows are for genes, last three rows are for SNPs.
 
-```{r sim 1-3-17, out.width = "98%", out.height="95%"}
-# TODO, thin option
-chrom <- 1
-runtag <- "ukb-s40.22-adi"
-simutag <- "1-1"
+```{r sim 2, out.width = "98%", out.height="95%"}
+chrom <- 7
+runtag <- "ukb-s80.45-adi"
+simutag <- "2-1"
 configtag <- 1
 
-susief <- paste0(outputdir, runtag, "_simu", simutag, "_config", configtag, ".s2.susieIrss.txt")
+susief <- paste0(outputdir, runtag, "_simu", simutag, "_config", configtag, ".susieIrss.txt")
 pf <- paste0(outputdir, runtag, "_simu",simutag)
 phenof <- paste0(outputdir, runtag, "_simu", simutag, "-pheno.Rd")
-plot_all(susief, pf, phenof, chrom)
+plot_all(susief, pf, phenof, chrom, thin = 0.01)
 ```
 

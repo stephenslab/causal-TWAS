@@ -459,7 +459,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-26
+<strong>Last updated:</strong> 2021-02-10
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -483,7 +483,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -582,16 +582,16 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree717669c2936b3677c73a7addd14e79dd58ed4709targetblank717669ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/717669c2936b3677c73a7addd14e79dd58ed4709" target="_blank">717669c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree3c2dc8ae7bd25669a6ac6bb167a5c4376cc6745ftargetblank3c2dc8aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/3c2dc8ae7bd25669a6ac6bb167a5c4376cc6745f" target="_blank">3c2dc8a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree717669c2936b3677c73a7addd14e79dd58ed4709targetblank717669ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree3c2dc8ae7bd25669a6ac6bb167a5c4376cc6745ftargetblank3c2dc8aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/717669c2936b3677c73a7addd14e79dd58ed4709" target="_blank">717669c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/3c2dc8ae7bd25669a6ac6bb167a5c4376cc6745f" target="_blank">3c2dc8a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -602,30 +602,26 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    .ipynb_checkpoints/
     Ignored:    analysis/.ipynb_checkpoints/
+    Ignored:    analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_cache/
     Ignored:    code/.ipynb_checkpoints/
     Ignored:    code/before_package/.ipynb_checkpoints/
     Ignored:    code/workflow/.ipynb_checkpoints/
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-ctwas-ukbWG-gtex.adipose_s200.113.Rmd
-    Untracked:  analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd
-    Untracked:  analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45.Rmd
-    Untracked:  analysis/simulation-ctwas-ukbWG-gtex.adipose_visual.Rmd
-    Untracked:  analysis/summarize_ctwas_plots.R
-    Untracked:  code/workflow/Snakefile-simu_20210113
+    Untracked:  analysis/figure/
+    Untracked:  temp-iter1.Rd
 
 Unstaged changes:
-    Deleted:    analysis/simulation-susieI-ukbWG-gtex.adipose_s80.45.Rmd
-    Modified:   analysis/visual_twas_plots.R
-    Modified:   code/qqplot.R
-    Modified:   code/run_ctwas_rss.R
+    Modified:   README.md
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_visual.Rmd
+    Modified:   code/debug_ctwas_susieI_rss.R
+    Modified:   code/debug_ctwas_susieI_rss2.R
     Modified:   code/run_ctwas_rss2.R
-    Modified:   code/simulate_phenotype.R
-    Modified:   code/workflow/Snakefile-simu_20210112
+    Modified:   code/workflow/Snakefile-simu_20210113
     Modified:   code/workflow/Snakefile-simu_20210117
-    Modified:   code/workflow/Snakefile-simu_20210118
-    Modified:   code/workflow/workflow-data.ipynb
 
 </code></pre>
 <p>
@@ -638,9 +634,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd</code>) and HTML (<code>docs/simulation-ctwas-ukbWG-gtex.adipose_s40.22.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/68d891fcea82d1cb955948c4520b3acaee521415/analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">68d891f</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-01-26
+</td>
+<td>
+ctwas para results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/68d891fcea82d1cb955948c4520b3acaee521415/docs/simulation-ctwas-ukbWG-gtex.adipose_s40.22.html" target="_blank">68d891f</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-01-26
+</td>
+<td>
+ctwas para results
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -717,7 +773,7 @@ print(p1)</code></pre>
 <pre class="r"><code># p2 &lt;- pow(niter, n, phenores[[&quot;batch&quot;]][[1]][[&quot;sigma_beta&quot;]], gene.p)
 print(p2)</code></pre>
 <pre><code>[1] 0.079</code></pre>
-<pre class="r"><code># save(p1,p2, file = &quot;data/power_s80.45.Rd&quot;)</code></pre>
+<pre class="r"><code># save(p1,p2, file = &quot;data/power_s40.22.Rd&quot;)</code></pre>
 </div>
 <div id="gwastwas-p-value-distribution" class="section level1">
 <h1>GWAS/TWAS p value distribution</h1>
@@ -736,9 +792,83 @@ exprid &lt;- read_exprvar(exprvarf)[, &quot;id&quot;]
 cau &lt;- as.matrix(exprid[phenores[[&quot;batch&quot;]][[chrom]][[&quot;idx.cgene&quot;]]])
 pdist_plot(exprgwasf, chrom, cau)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/gene-p-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-p-1">
+Past versions of gene-p-1.png
+</button>
+</p>
+<div id="fig-gene-p-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/68d891fcea82d1cb955948c4520b3acaee521415/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/gene-p-1.png" target="_blank">68d891f</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-01-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>exprgwas &lt;- fread(exprgwasf, header =T)
 gg_qqplot(exprgwas$PVALUE)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/gene-qq-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-qq-1">
+Past versions of gene-qq-1.png
+</button>
+</p>
+<div id="fig-gene-qq-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/68d891fcea82d1cb955948c4520b3acaee521415/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/gene-qq-1.png" target="_blank">68d891f</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-01-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ul>
 <li>For SNPs. <span class="math inline">\(\pi_1 =\)</span> 2.510^{-4} , effect size = 0.0283342, PVE = 0.5066594. GWAS p values and qqplot:</li>
 </ul>
@@ -749,14 +879,88 @@ snpid &lt;- read_pvar(pvarf)[, &quot;id&quot;]
 cau &lt;- as.matrix(snpid[phenores[[&quot;batch&quot;]][[chrom]][[&quot;idx.cSNP&quot;]]])
 pdist_plot(snpgwasf, chrom, cau, thin = 0.1)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/snp-p-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-snp-p-1">
+Past versions of snp-p-1.png
+</button>
+</p>
+<div id="fig-snp-p-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/68d891fcea82d1cb955948c4520b3acaee521415/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/snp-p-1.png" target="_blank">68d891f</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-01-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>snpgwas &lt;- fread(snpgwasf, header =T)
 gg_qqplot(snpgwas$PVALUE, thin = 0.1)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/snp-qq-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-snp-qq-1">
+Past versions of snp-qq-1.png
+</button>
+</p>
+<div id="fig-snp-qq-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/68d891fcea82d1cb955948c4520b3acaee521415/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/snp-qq-1.png" target="_blank">68d891f</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-01-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="ctwas-results" class="section level1">
 <h1><code>ctwas</code> results</h1>
 <p>Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. <code>truth</code>: the true parameters, <code>selected_truth</code>: the truth in selected regions that were used to estimate parameters, <code>ctwas</code>: ctwas estimated parameters (using summary statistics as input).</p>
-<pre class="r"><code>plot_par &lt;- function(configtag, tags){
+<pre class="r"><code>plot_par &lt;- function(configtag, runtag, simutags){
   source(paste0(outputdir, &quot;config&quot;, configtag, &quot;.R&quot;))
   phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
   susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;_config&quot;, configtag, &quot;.s2.susieIrssres.Rd&quot;)
@@ -764,59 +968,122 @@ gg_qqplot(snpgwas$PVALUE, thin = 0.1)</code></pre>
 
   mtx &lt;- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
   par(mfrow=c(1,3))
-  cat(&quot;simulations &quot;, paste(tags, sep=&quot;,&quot;) , &quot;: &quot;)
+  cat(&quot;simulations &quot;, paste(simutags, sep=&quot;,&quot;) , &quot;: &quot;)
   cat(&quot;mean gene PVE:&quot;, mean(mtx[, &quot;PVE.gene_truth&quot;]), &quot;,&quot;, &quot;mean SNP PVE:&quot;, mean(mtx[, &quot;PVE.SNP_truth&quot;]), &quot;\n&quot;)
   plot_param(mtx)
 }
 
-plot_PIP &lt;- function(configtag, tags){
-   phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+plot_PIP &lt;- function(configtag, runtag,  simutags){
+   phenofs &lt;- paste0(outputdir, &quot;ukb-s40.22-adi&quot;, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
    susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.susieIrss.txt&quot;)
 
    f1 &lt;- caliPIP_plot(phenofs, susieIfs)
    f2 &lt;- ncausal_plot(phenofs, susieIfs) 
    gridExtra::grid.arrange(f1, f2, ncol =2)
 }</code></pre>
-<div id="ctwas_rss-parameter-estimation" class="section level2">
-<h2>ctwas_rss parameter estimation</h2>
+<div id="results-last-step-impact" class="section level2">
+<h2>Results-last step impact</h2>
+<p>After we have the estimated parameters, we obtain PIP for genes in one the following ways: (1) run susie for each region using all SNPs</p>
 <pre class="r"><code>configtag &lt;- 1
+runtag2 = &quot;config1_ctwas_rss_s3_full/ukb-s40.22-adi&quot;
+
+simutags &lt;- paste(1, c(2,4,5), sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  1-2 1-4 1-5 : mean gene PVE: 0.09182337 , mean SNP PVE: 0.5044884 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag2, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-1-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(2, c(2,4), sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  2-2 2-4 : mean gene PVE: 0.1154583 , mean SNP PVE: 0.493011 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-1-3.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag2, simutags)</code></pre>
+<img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-1-4.png" width="768" style="display: block; margin: auto;" />
+<div class="alert alert-warning">
+<p>
+<strong>Warning:</strong> The above code chunk cached its results, but it won’t be re-run if previous chunks it depends on are updated. If you need to use caching, it is highly recommended to also set <code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the file (in a chunk that is not cached). Alternatively, you can customize the option <code>dependson</code> for each individual chunk that is cached. Using either <code>autodep</code> or <code>dependson</code> will remove this warning. See the <a href="https://yihui.name/knitr/options/#cache"
+>knitr cache options</a> for more details.
+</p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>run susie for each region thinned SNPs</li>
+</ol>
+<pre class="r"><code>configtag &lt;- 1
+runtag2 = &quot;config1_ctwas_rss_s3_thin/ukb-s40.22-adi&quot;
 
 simutags &lt;- paste(1, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
-<pre><code>simulations  1-1 1-2 1-3 1-4 1-5 : mean gene PVE: 0.09425993 , mean SNP PVE: 0.5068263 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-1.png" width="768" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># plot_PIP(configtag, simutags)
+plot_PIP(configtag, runtag2, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(2, 1:5, sep = &quot;-&quot;)
+plot_PIP(configtag, runtag2, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-2-2.png" width="768" style="display: block; margin: auto;" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>run susie for each regions with thinned SNPs, then select regions with strong gene PIP (max PIP &gt; 0.8) and rerun susie with full SNPs.</li>
+</ol>
+<pre class="r"><code>configtag &lt;- 1
+runtag2 = &quot;ukb-s40.22-adi&quot;
 
-simutags &lt;- paste(2, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
-<pre><code>simulations  2-1 2-2 2-3 2-4 2-5 : mean gene PVE: 0.1114992 , mean SNP PVE: 0.5008008 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-2.png" width="768" style="display: block; margin: auto;" /></p>
-<pre class="r"><code># plot_PIP(configtag, simutags)
+simutags &lt;- paste(1, 1:5, sep = &quot;-&quot;)
+plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(2, 1:5, sep = &quot;-&quot;)
+plot_PIP(configtag, runtag2, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-3-2.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="results-more-simulation-settings" class="section level2">
+<h2>Results-more simulation settings</h2>
+<p>We run the last step of <code>ctwas_rss</code> using way (3) as described above.</p>
+<pre class="r"><code>configtag &lt;- 1
+runtag = &quot;ukb-s40.22-adi&quot;
 
 simutags &lt;- paste(3, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
+plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  3-1 3-2 3-3 3-4 3-5 : mean gene PVE: 0.04705894 , mean SNP PVE: 0.5059788 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-3.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-2.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(4, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
+plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  4-1 4-2 4-3 4-4 4-5 : mean gene PVE: 0.05622724 , mean SNP PVE: 0.5047385 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-4.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-3.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-4.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(5, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
+plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  5-1 5-2 5-3 5-4 5-5 : mean gene PVE: 0.1891869 , mean SNP PVE: 0.5087967 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-5.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-5.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-6.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(6, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
+plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  6-1 6-2 6-3 6-4 6-5 : mean gene PVE: 0.2193429 , mean SNP PVE: 0.493278 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-6.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-7.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-8.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(7, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
+plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  7-1 7-2 7-3 7-4 7-5 : mean gene PVE: 0.1008859 , mean SNP PVE: 0.2914333 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-7.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-9.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-10.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(8, 1:5, sep = &quot;-&quot;)
-plot_par(configtag, simutags)</code></pre>
+plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  8-1 8-2 8-3 8-4 8-5 : mean gene PVE: 0.09876339 , mean SNP PVE: 0.2960388 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1susie-8.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-11.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-12.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(9, 1:4, sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  9-1 9-2 9-3 9-4 : mean gene PVE: 0.01926025 , mean SNP PVE: 0.5057584 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-13.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-14.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(10, 1:5, sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  10-1 10-2 10-3 10-4 10-5 : mean gene PVE: 0.02261049 , mean SNP PVE: 0.5072064 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-15.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-16.png" width="768" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -846,7 +1113,7 @@ attached base packages:
 other attached packages:
 [1] plotrix_3.7-6     cowplot_1.0.0     stringr_1.4.0     plyr_1.8.4       
 [5] tidyr_1.1.0       plotly_4.9.0      ggplot2_3.2.1     data.table_1.13.2
-[9] ctwas_0.1.5      
+[9] ctwas_0.1.10     
 
 loaded via a namespace (and not attached):
  [1] tidyselect_1.1.0  xfun_0.8          purrr_0.3.4      
@@ -861,13 +1128,14 @@ loaded via a namespace (and not attached):
 [28] knitr_1.23        httpuv_1.5.1      highr_0.8        
 [31] logging_0.10-108  Rcpp_1.0.5        promises_1.0.1   
 [34] scales_1.1.0      backports_1.1.4   jsonlite_1.6     
-[37] farver_2.0.1      fs_1.3.1          digest_0.6.20    
-[40] stringi_1.4.3     dplyr_0.8.3       grid_3.6.1       
-[43] rprojroot_1.3-2   tools_3.6.1       magrittr_1.5     
-[46] lazyeval_0.2.2    tibble_2.1.3      crayon_1.3.4     
-[49] pkgconfig_2.0.2   Matrix_1.2-18     assertthat_0.2.1 
-[52] rmarkdown_1.13    httr_1.4.2        iterators_1.0.10 
-[55] R6_2.4.0          git2r_0.26.1      compiler_3.6.1   </code></pre>
+[37] farver_2.0.1      fs_1.3.1          gridExtra_2.3    
+[40] digest_0.6.20     stringi_1.4.3     dplyr_0.8.3      
+[43] grid_3.6.1        rprojroot_1.3-2   tools_3.6.1      
+[46] magrittr_1.5      lazyeval_0.2.2    tibble_2.1.3     
+[49] crayon_1.3.4      whisker_0.3-2     pkgconfig_2.0.2  
+[52] Matrix_1.2-18     assertthat_0.2.1  rmarkdown_1.13   
+[55] httr_1.4.2        iterators_1.0.10  R6_2.4.0         
+[58] git2r_0.26.1      compiler_3.6.1   </code></pre>
 </div>
 </div>
 </div>
