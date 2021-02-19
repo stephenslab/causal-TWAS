@@ -17,6 +17,8 @@ source("~/causalTWAS/causal-TWAS/code/simulate_phenotype.R")
 
 pgenfs <- read.table(args[1], header = F, stringsAsFactors = F)[,1]
 exprfs <- read.table(args[2], header = F, stringsAsFactors = F)[,1]
+
+prior_dist_causal <- "normal"
 source(args[3])
 outname <- args[4]
 outputdir <- args[5]
@@ -27,7 +29,8 @@ phenores <- simulate_phenotype(pgenfs, exprfs,
                                pve.expr = pve.expr,
                                pve.snp = pve.snp,
                                pi_beta =  pi_beta,
-                               pi_theta = pi_theta)
+                               pi_theta = pi_theta,
+                               prior_dist_causal = prior_dist_causal)
 
 save(phenores, file = paste0(outputdir,"/", outname, "-pheno.Rd"))
 

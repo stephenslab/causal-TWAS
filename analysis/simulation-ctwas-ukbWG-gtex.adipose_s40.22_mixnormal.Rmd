@@ -1,5 +1,5 @@
 ---
-title: "Simulations to test ctwas summary stats version, 45k samples"
+title: "Simulations (mix normal prior), ctwas_rss, 22k samples"
 output: html_document
 ---
 
@@ -19,10 +19,10 @@ source('~/causalTWAS/causal-TWAS/code/qqplot.R')
 ```
 
 ```{r files}
-pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt"
-ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
-outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210117/" # /
-runtag = "ukb-s80.45-adi"
+pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22_pgenfs.txt"
+ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22.2_pgenfs.txt"
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210215/" # /
+runtag = "ukb-s40.22-adi"
 configtags = 1
 simutags = paste(rep(1:2, each = length(1:5)), 1:5, sep = "-")
 
@@ -38,7 +38,7 @@ pgens <- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf 
 # Analysis description
 
 ```{r parameters}
-n.ori <- 80000 # number of samples
+n.ori <- 40000 # number of samples
 n <- pgenlibr::GetRawSampleCt(pgens[[1]])
 p <- sum(unlist(lapply(pgens, pgenlibr::GetVariantCt))) # number of SNPs
 J <- 8021 # number of genes
@@ -51,11 +51,29 @@ J <- 8021 # number of genes
       
       * **Expression models** The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples, **`r as.character(J)` genes** with expression model. [FUSION/TWAS](http://gusevlab.org/projects/fusion/) were used to train expression model and we used their lasso results. SNPs included in eQTL anlaysis are restricted to cis-locus 500kb on either side of the gene boundary. eQTLs are defined as SNPs with abs(effectize) > 1e-8 in lasso results. 
       
-      To simulate phenotype data, first we impute gene expression based on expression models, then we set gene/SNP pi1 and PVE, get rough effect size for causal SNPs and genes and simulate phenotype under the sparse model with spike and slab prior.
-      Then we performed GWAS for all SNPs and get z scores for each by univariate linear regression. 
-  
+      To simulate phenotype data, first we impute gene expression based on expression models, then we set gene/SNP pi1 and PVE, get rough effect size for causal SNPs and genes and simulate phenotype under the mixture of normal distributions.
+      
+* The prior distribution for causal effect: 
+```{r }  
+
+nmix <- 4
+pi_k <- rep(1/nmix, nmix)
+
+ra <- 2**(1: length(pi_k))
+sa2_kr <-  ra / (pi_k * sum(ra))
+
+cat("number of mixtures: ", nmix, "\n")
+cat("variance of each component:", sa2_kr, "\n")
+
+hist(mixtools::rnormmix(2000, lambda = pi_k,
+                        mu = rep(0, length(pi_k)),
+                        sigma = sa2_kr), breaks = 100, main = "prior distribution", xlab = "")
+```    
+      
+Then we performed GWAS for all SNPs and get z scores for each by univariate linear regression. 
+      
   * **LD genotype reference**
-  We randomly selected 2000 samples to serve as the LD reference.
+  We used 2k samples from UKbiobank with same ethnicity to serve as the LD reference. 
   
   * **Expression models**  
   We used GTEx Adipose tissue v7 dataset, the same as used for simulating phenotypes.
@@ -66,7 +84,7 @@ J <- 8021 # number of genes
 We used expression models and LD reference to get z scores for gene expression.
 
 2. Run ctwas_rss
-We used LDetect to define regions. `ctwas_rss` algorithm first runs on all regions to get rough estimate for gene and SNP prior. Then run on small regions (having small probablities of having > 1 causal signals based on rough estimates) to get more accurate estimate. To lower computational burden, we downsampled SNPs (0.1), estimate parameters and convert back to orginal scale. Lastly, run susie with given L for all regions and for all genes and SNPs using estimated prior and prior variance.
+We used LDetect to define regions. `ctwas_rss` algorithm first runs on all regions to get rough estimate for gene and SNP prior. Then run on small regions (having small probablities of having > 1 causal signals based on rough estimates) to get more accurate estimate. To lower computational burden, we downsampled SNPs (0.1), estimate parameters. We run susie for all regions using estimated parameters, select regions with strong gene signals (max gene PIP > 0.8) and rerun using full SNPs for these regions.
 
 # Power estimation
 
@@ -84,7 +102,7 @@ We select run `r simutag`  as an example.
 * For SNPs. $\pi_1 =$ `r pi_theta` , effect size = `r phenores[["batch"]][[1]][["sigma_theta"]]`, PVE = `r phenores$param$pve.snp.truth`. Power at `r as.character(snp.p)` p value cutoff:
 
 ```{r snp}
-load("data/power_s80.45.Rd")
+load("data/power_s40.22.Rd")
 # p1 <- pow(niter, n, phenores[["batch"]][[1]][["sigma_theta"]], snp.p)
 print(p1)
 ```
@@ -94,7 +112,7 @@ print(p1)
 ```{r gene}
 # p2 <- pow(niter, n, phenores[["batch"]][[1]][["sigma_beta"]], gene.p)
 print(p2)
-# save(p1,p2, file = "data/power_s80.45.Rd")
+# save(p1,p2, file = "data/power_s40.22.Rd")
 ```
 
 # GWAS/TWAS p value distribution
@@ -140,7 +158,6 @@ snpgwas <- fread(snpgwasf, header =T)
 gg_qqplot(snpgwas$PVALUE, thin = 0.1)
 ```
 
-
 # `ctwas` results
 
 Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input).
@@ -160,7 +177,7 @@ plot_par <- function(configtag, runtag, simutags){
 }
 
 plot_PIP <- function(configtag, runtag,  simutags){
-   phenofs <- paste0(outputdir, "ukb-s80.45-adi", "_simu", simutags, "-pheno.Rd")
+   phenofs <- paste0(outputdir, "ukb-s40.22-adi", "_simu", simutags, "-pheno.Rd")
    susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
 
    f1 <- caliPIP_plot(phenofs, susieIfs)
@@ -169,53 +186,19 @@ plot_PIP <- function(configtag, runtag,  simutags){
 }
 ```
 
-## Results-last step impact
 
-After we have the estimated parameters, we obtain PIP for genes in one the following ways:
-(1) run susie for each region using all SNPs
-```{r param1-1, fig.height=3, fig.width=8, message=F, cache=T}
+```{r param, fig.height=3, fig.width=8, message=F}
+
 configtag <- 1
-runtag2 = "config1_ctwas_rss_s3_full/ukb-s80.45-adi"
+runtag = "ukb-s40.22-adi"
 
 simutags <- paste(1, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
-plot_PIP(configtag, runtag2, simutags)
+plot_PIP(configtag, runtag, simutags)
 
 simutags <- paste(2, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
-```
-(2) run susie for each region thinned SNPs 
-```{r param1-2, fig.height=3, fig.width=8, message=F}
-configtag <- 1
-runtag2 = "config1_ctwas_rss_s3_thin/ukb-s80.45-adi"
-
-simutags <- paste(1, 1:5, sep = "-")
-plot_PIP(configtag, runtag2, simutags)
-
-simutags <- paste(2, 1:5, sep = "-")
-plot_PIP(configtag, runtag2, simutags)
-```
-
-(3) run susie for each regions with thinned SNPs, then select regions with strong gene PIP (max PIP > 0.8) and rerun susie with full SNPs.
-```{r param1-3, fig.height=3, fig.width=8, message=F}
-configtag <- 1
-runtag2 = "ukb-s80.45-adi"
-
-simutags <- paste(1, 1:5, sep = "-")
-plot_PIP(configtag, runtag2, simutags)
-
-simutags <- paste(2, 1:5, sep = "-")
-plot_PIP(configtag, runtag2, simutags)
-```
-
-## Results-more simulation settings
-We run the last step of `ctwas_rss` using way (3) as described above.
-
-```{r param2, fig.height=3, fig.width=8, message=F}
-
-configtag <- 1
-runtag = "ukb-s80.45-adi"
 
 simutags <- paste(3, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
@@ -249,5 +232,3 @@ simutags <- paste(10, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
 ```
-
-

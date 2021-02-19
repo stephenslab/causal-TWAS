@@ -84,6 +84,8 @@ We compare cTWAS results with other methods, summarizing results over multiple s
 ## `ctwas` package
 Test the summary statistics version of the `ctwas` algorithm. Now provided as a R package.
 
+### Using normal distribution as prior distribution for causal effects
+
 * [Using UKbiobank data (22k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s40.22.html) 
   
 * [Using UKbiobank data (22k samples), fusion weights Adipose, in-sample LD](simulation-ctwas-ukbWG-gtex.adipose_s40.22_2.html) 
@@ -93,7 +95,14 @@ Test the summary statistics version of the `ctwas` algorithm. Now provided as a 
 * [Using UKbiobank data (110k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s200.113.html) 
 
   
-  * [Visualization](simulation-ctwas-ukbWG-gtex.adipose_visual.html)
+* [Visualization](simulation-ctwas-ukbWG-gtex.adipose_visual.html)
+
+
+### Using normal mixture distribution as prior distribution for causal effects
+
+* [Using UKbiobank data (22k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.html)
+
+* [Using UKbiobank data (45k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal.html) 
 
 
 # Related software
