@@ -40,5 +40,6 @@ load( paste0(outputdir, "/", outname, ".s2.susieIrssres.Rd"))
 group_prior <- group_prior_rec[, ncol(group_prior_rec)]
 group_prior_var <- group_prior_var_rec[, ncol(group_prior_var_rec)]
 
+
 # run ctwas_rss last step
 ctwas_rss(zdf, ld_pgenfs, ld_exprfs, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, outputdir = outputdir, outname = outname, ncore = ncore, prob_single = prob_single,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)

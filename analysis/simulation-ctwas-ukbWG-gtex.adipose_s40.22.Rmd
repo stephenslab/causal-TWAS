@@ -62,11 +62,18 @@ J <- 8021 # number of genes
 
 ## Analysis
 
+### ctwas
+
 1. Get z scores for gene expression. 
 We used expression models and LD reference to get z scores for gene expression.
 
 2. Run ctwas_rss
 We used LDetect to define regions. `ctwas_rss` algorithm first runs on all regions to get rough estimate for gene and SNP prior. Then run on small regions (having small probablities of having > 1 causal signals based on rough estimates) to get more accurate estimate. To lower computational burden, we downsampled SNPs (0.1), estimate parameters and convert back to orginal scale. Lastly, run susie with given L for all regions and for all genes and SNPs using estimated prior and prior variance.
+
+### FUSION/TWAS
+FUSION TWAS 
+
+
 
 # Power estimation
 

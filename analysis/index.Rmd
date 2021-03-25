@@ -14,9 +14,7 @@ editor_options:
   * [mr.ash model](mrash_model.html)
   
 # Data
-
-## Expression data
-  * [Fusion/TWAS gene expression models](fusion_expr.html)
+  * [SNP data harmonization notes](SNP-harmonization.html)
 
 # Simulations
 
