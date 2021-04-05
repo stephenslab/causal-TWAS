@@ -84,11 +84,11 @@ Test the summary statistics version of the `ctwas` algorithm. Now provided as a 
 
 ### Using normal distribution as prior distribution for causal effects
 
-* [Using UKbiobank data (22k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s40.22.html) 
+* [**Using UKbiobank data (22k samples), fusion weights Adipose**](simulation-ctwas-ukbWG-gtex.adipose_s40.22.html) 
   
 * [Using UKbiobank data (22k samples), fusion weights Adipose, in-sample LD](simulation-ctwas-ukbWG-gtex.adipose_s40.22_2.html) 
 
-* [Using UKbiobank data (45k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s80.45.html) 
+* [**Using UKbiobank data (45k samples), fusion weights Adipose**](simulation-ctwas-ukbWG-gtex.adipose_s80.45.html) 
 
 * [Using UKbiobank data (110k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s200.113.html) 
 
@@ -98,9 +98,9 @@ Test the summary statistics version of the `ctwas` algorithm. Now provided as a 
 
 ### Using normal mixture distribution as prior distribution for causal effects
 
-* [Using UKbiobank data (22k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.html)
+* [**Using UKbiobank data (22k samples), fusion weights Adipose**](simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.html)
 
-* [Using UKbiobank data (45k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal.html) 
+* [**Using UKbiobank data (45k samples), fusion weights Adipose**](simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal.html) 
 
 
 # Related software

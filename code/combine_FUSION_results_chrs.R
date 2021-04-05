@@ -49,15 +49,22 @@ combine_TWAS_coloc_table <- function(trait, weights, outdir){
 
   result_TWAS_noMHC <- data.frame()
   for(CHR in 1:22){
-
-    result_TWAS_chr <- read.table(paste0(outdir, "/", trait, ".", weights, ".", CHR, ".coloc.dat"), header = T, stringsAsFactors = F)
-    result_TWAS_chr <- result_TWAS_chr[, -c(1,2)]
-    result_TWAS_noMHC <- rbind(result_TWAS_noMHC, result_TWAS_chr)
+    fn <- paste0(outdir, "/", trait, ".", weights, ".", CHR, ".coloc.dat")
+    if (file.exists(fn)){
+        result_TWAS_chr <- read.table(fn, header = T, stringsAsFactors = F)
+        result_TWAS_chr <- result_TWAS_chr[, -c(1,2)]
+        result_TWAS_noMHC <- rbind(result_TWAS_noMHC, result_TWAS_chr)
+    }
   }
-
-  result_TWAS_MHC <- read.table(paste0(outdir, "/",trait, ".", weights, ".6.coloc.dat.MHC"), header = T, stringsAsFactors = F)
-  result_TWAS_MHC <- result_TWAS_MHC[, -c(1,2)]
-  result_TWAS <- rbind(result_TWAS_noMHC, result_TWAS_MHC)
+    
+  fn <- paste0(outdir, "/",trait, ".", weights, ".6.coloc.dat.MHC")
+  if (file.exists(fn)){
+      result_TWAS_MHC <- read.table(fn, header = T, stringsAsFactors = F)
+      result_TWAS_MHC <- result_TWAS_MHC[, -c(1,2)]
+      result_TWAS <- rbind(result_TWAS_noMHC, result_TWAS_MHC)
+  } else{
+      result_TWAS <- result_TWAS_noMHC
+  }
 
   result_TWAS_noMHC$TWAS.P.Bonferroni <- p.adjust(result_TWAS_noMHC$TWAS.P, method = "bonferroni")
   result_TWAS$TWAS.P.Bonferroni <- p.adjust(result_TWAS$TWAS.P, method = "bonferroni")

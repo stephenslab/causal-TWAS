@@ -15,6 +15,7 @@ library(tidyr)
 library(plyr)
 library(stringr)
 source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
+source('~/causalTWAS/causal-TWAS/analysis/summarize_twas-coloc_plots.R')
 source('~/causalTWAS/causal-TWAS/code/qqplot.R')
 ```
 
@@ -22,6 +23,7 @@ source('~/causalTWAS/causal-TWAS/code/qqplot.R')
 pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22_pgenfs.txt"
 ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22.2_pgenfs.txt"
 outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210113/" # /
+comparedir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210113_compare/"
 runtag = "ukb-s40.22-adi"
 configtags = 1
 simutags = paste(rep(1:2, each = length(1:5)), 1:5, sep = "-")
@@ -69,10 +71,6 @@ We used expression models and LD reference to get z scores for gene expression.
 
 2. Run ctwas_rss
 We used LDetect to define regions. `ctwas_rss` algorithm first runs on all regions to get rough estimate for gene and SNP prior. Then run on small regions (having small probablities of having > 1 causal signals based on rough estimates) to get more accurate estimate. To lower computational burden, we downsampled SNPs (0.1), estimate parameters and convert back to orginal scale. Lastly, run susie with given L for all regions and for all genes and SNPs using estimated prior and prior variance.
-
-### FUSION/TWAS
-FUSION TWAS 
-
 
 
 # Power estimation
@@ -167,12 +165,24 @@ plot_par <- function(configtag, runtag, simutags){
 }
 
 plot_PIP <- function(configtag, runtag,  simutags){
-   phenofs <- paste0(outputdir, "ukb-s40.22-adi", "_simu", simutags, "-pheno.Rd")
+   phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
    susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
 
    f1 <- caliPIP_plot(phenofs, susieIfs)
    f2 <- ncausal_plot(phenofs, susieIfs) 
    gridExtra::grid.arrange(f1, f2, ncol =2)
+}
+
+plot_fusion_coloc <- function(configtag, runtag,  simutags){
+    phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+    fusioncolocfs <- paste0(comparedir, runtag, "_simu", simutags, ".Adipose_Subcutaneous.coloc.result")
+    
+    f1 <- caliFUSIONp_plot(phenofs, fusioncolocfs)
+    f2 <- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
+    f3 <- caliPP4_plot(phenofs, fusioncolocfs)
+    f4 <- ncausalPP4_plot(phenofs, fusioncolocfs)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+    gridExtra::grid.arrange(f3, f4, ncol=2)
 }
 ```
 
@@ -216,43 +226,63 @@ simutags <- paste(2, c(2,4), sep = "-")
 plot_PIP(configtag, runtag2, simutags)
 ```
 
-## Results-more simulation settings
+## Results- More simutations + other software
 We run the last step of `ctwas_rss` using way (3) as described above.
+We run FUSION following default settings and adjust p values by BH method to get expected FDP.
+we ran coloc for all genes with TWAS p < 1e-4. We use PP4 (SNP associate with both traits).
 
 ```{r param2, fig.height=3, fig.width=8, message=F}
 
 configtag <- 1
 runtag = "ukb-s40.22-adi"
 
+simutags <- paste(1, c(2,4,5), sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(2, c(2,4), sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag2, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
 simutags <- paste(3, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 
 simutags <- paste(4, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 
 simutags <- paste(5, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 
 simutags <- paste(6, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 
 simutags <- paste(7, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 
 simutags <- paste(8, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 
 simutags <- paste(9, 1:4, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 
 simutags <- paste(10, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
 ```

@@ -11,7 +11,7 @@
 
 
 
-<title>Simulations to test ctwas summary stats version, 22k samples</title>
+<title>Simulations (mix normal prior), ctwas_rss, 22k samples</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -434,7 +434,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Simulations to test ctwas summary stats version, 22k samples</h1>
+<h1 class="title toc-ignore">Simulations (mix normal prior), ctwas_rss, 22k samples</h1>
 
 </div>
 
@@ -459,7 +459,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-19
+<strong>Last updated:</strong> 2021-04-04
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -483,7 +483,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -568,6 +568,14 @@ analysis/summarize_ctwas_plots.R
 </tr>
 <tr>
 <td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_twas-coloc_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_twas-coloc_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 ~/causalTWAS/causal-TWAS/code/qqplot.R
 </td>
 <td style="text-align:left;">
@@ -582,16 +590,16 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeb835da3de9a648922b688afd3074e19d47b979batargetblankb835da3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/b835da3de9a648922b688afd3074e19d47b979ba" target="_blank">b835da3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeb835da3de9a648922b688afd3074e19d47b979batargetblankb835da3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/b835da3de9a648922b688afd3074e19d47b979ba" target="_blank">b835da3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -608,16 +616,27 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd
-    Untracked:  analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal.Rmd
-    Untracked:  code/workflow/Snakefile-simu_20210215
-    Untracked:  code/workflow/Snakefile-simu_20210216
+    Untracked:  analysis/summarize_basic_plots.R
+    Untracked:  analysis/summarize_twas-coloc_plots.R
+    Untracked:  code/workflow/Snakefile-compare-simu_20210113
+    Untracked:  code/workflow/Snakefile-compare-simu_20210117
+    Untracked:  code/workflow/Snakefile-compare-simu_20210215
+    Untracked:  code/workflow/Snakefile-compare-simu_20210216
 
 Unstaged changes:
+    Modified:   analysis/SNP-harmonization.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd
     Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45.Rmd
-    Modified:   code/run_simulate_pheno.R
-    Modified:   code/simulate_phenotype.R
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal.Rmd
+    Modified:   analysis/summarize_ctwas_plots.R
+    Modified:   code/combine_FUSION_results_chrs.R
+    Modified:   code/run_UKB_process.R
+    Modified:   code/workflow/Snakefile-compare-test
     Modified:   code/workflow/Snakefile-test
+    Modified:   code/workflow/generate_package_testdata.ipynb
+    Modified:   code/workflow/workflow-data.ipynb
 
 </code></pre>
 <p>
@@ -630,9 +649,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd</code>) and HTML (<code>docs/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+<td>
+mix normal simulate phenotype
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.html" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+<td>
+mix normal simulate phenotype
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -644,10 +723,12 @@ library(tidyr)
 library(plyr)
 library(stringr)
 source(&quot;~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R&quot;)
+source(&#39;~/causalTWAS/causal-TWAS/analysis/summarize_twas-coloc_plots.R&#39;)
 source(&#39;~/causalTWAS/causal-TWAS/code/qqplot.R&#39;)</code></pre>
 <pre class="r"><code>pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22_pgenfs.txt&quot;
 ld_pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22.2_pgenfs.txt&quot;
 outputdir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210215/&quot; # /
+comparedir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210215_compare/&quot;
 runtag = &quot;ukb-s40.22-adi&quot;
 configtags = 1
 simutags = paste(rep(1:2, each = length(1:5)), 1:5, sep = &quot;-&quot;)
@@ -673,8 +754,8 @@ J &lt;- 8021 # number of genes</code></pre>
 <li><p><strong>genotype data</strong> we used is from UKB biobank, randomly selecting 40000 samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with <strong>n = 22542 samples</strong>. We use SNP genotype data from chr 1 to chr 22 combined from UKB. There are <strong>total = 6229504 SNPs</strong>.</p></li>
 <li><p><strong>Expression models</strong> The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples, <strong>8021 genes</strong> with expression model. <a href="http://gusevlab.org/projects/fusion/">FUSION/TWAS</a> were used to train expression model and we used their lasso results. SNPs included in eQTL anlaysis are restricted to cis-locus 500kb on either side of the gene boundary. eQTLs are defined as SNPs with abs(effectize) &gt; 1e-8 in lasso results.</p></li>
 </ul>
-<p>To simulate phenotype data, first we impute gene expression based on expression models, then we set gene/SNP pi1 and PVE, get rough effect size for causal SNPs and genes and simulate phenotype under the mixture of normal distributions.</p>
-<p>The prior distribution for causal effect:</p></li>
+<p>To simulate phenotype data, first we impute gene expression based on expression models, then we set gene/SNP pi1 and PVE, get rough effect size for causal SNPs and genes and simulate phenotype under the mixture of normal distributions.</p></li>
+<li><p>The prior distribution for causal effect:</p></li>
 </ul>
 <pre class="r"><code>nmix &lt;- 4
 pi_k &lt;- rep(1/nmix, nmix)
@@ -688,10 +769,46 @@ cat(&quot;number of mixtures: &quot;, nmix, &quot;\n&quot;)</code></pre>
 <pre><code>variance of each component: 0.2666667 0.5333333 1.066667 2.133333 </code></pre>
 <pre class="r"><code>hist(mixtools::rnormmix(2000, lambda = pi_k,
                         mu = rep(0, length(pi_k)),
-                        sigma = sa2_kr), breaks = 100, main = &quot;prior distribution&quot;)</code></pre>
+                        sigma = sa2_kr), breaks = 100, main = &quot;prior distribution&quot;, xlab = &quot;&quot;)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>  Then we performed GWAS for all SNPs and get z scores for each by univariate linear regression. 
-  </code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/unnamed-chunk-1-1.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Then we performed GWAS for all SNPs and get z scores for each by univariate linear regression.</p>
 <ul>
 <li><p><strong>LD genotype reference</strong> We used 2k samples from UKbiobank with same ethnicity to serve as the LD reference.</p></li>
 <li><p><strong>Expression models</strong><br />
@@ -747,9 +864,83 @@ exprid &lt;- read_exprvar(exprvarf)[, &quot;id&quot;]
 cau &lt;- as.matrix(exprid[phenores[[&quot;batch&quot;]][[chrom]][[&quot;idx.cgene&quot;]]])
 pdist_plot(exprgwasf, chrom, cau)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/gene-p-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-p-1">
+Past versions of gene-p-1.png
+</button>
+</p>
+<div id="fig-gene-p-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/gene-p-1.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>exprgwas &lt;- fread(exprgwasf, header =T)
 gg_qqplot(exprgwas$PVALUE)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/gene-qq-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-gene-qq-1">
+Past versions of gene-qq-1.png
+</button>
+</p>
+<div id="fig-gene-qq-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/gene-qq-1.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ul>
 <li>For SNPs. <span class="math inline">\(\pi_1 =\)</span> 2.510^{-4} , effect size = 0.0283342, PVE = 0.5151579. GWAS p values and qqplot:</li>
 </ul>
@@ -760,13 +951,88 @@ snpid &lt;- read_pvar(pvarf)[, &quot;id&quot;]
 cau &lt;- as.matrix(snpid[phenores[[&quot;batch&quot;]][[chrom]][[&quot;idx.cSNP&quot;]]])
 pdist_plot(snpgwasf, chrom, cau, thin = 0.1)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/snp-p-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-snp-p-1">
+Past versions of snp-p-1.png
+</button>
+</p>
+<div id="fig-snp-p-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/snp-p-1.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>snpgwas &lt;- fread(snpgwasf, header =T)
 gg_qqplot(snpgwas$PVALUE, thin = 0.1)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/snp-qq-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-snp-qq-1">
+Past versions of snp-qq-1.png
+</button>
+</p>
+<div id="fig-snp-qq-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/snp-qq-1.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="ctwas-results" class="section level1">
-<h1><code>ctwas</code> results</h1>
+</div>
+</div>
+<div id="ctwas-results-other-comparators" class="section level1">
+<h1><code>ctwas</code> results + other comparators</h1>
 <p>Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. <code>truth</code>: the true parameters, <code>selected_truth</code>: the truth in selected regions that were used to estimate parameters, <code>ctwas</code>: ctwas estimated parameters (using summary statistics as input).</p>
+<p>We run FUSION following default settings and adjust p values by BH method to get expected FDP. we ran coloc for all genes with TWAS p &lt; 1e-4. We use PP4 (SNP associate with both traits).</p>
 <pre class="r"><code>plot_par &lt;- function(configtag, runtag, simutags){
   source(paste0(outputdir, &quot;config&quot;, configtag, &quot;.R&quot;))
   phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
@@ -787,6 +1053,18 @@ plot_PIP &lt;- function(configtag, runtag,  simutags){
    f1 &lt;- caliPIP_plot(phenofs, susieIfs)
    f2 &lt;- ncausal_plot(phenofs, susieIfs) 
    gridExtra::grid.arrange(f1, f2, ncol =2)
+}
+
+plot_fusion_coloc &lt;- function(configtag, runtag,  simutags){
+    phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+    fusioncolocfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.coloc.result&quot;)
+    
+    f1 &lt;- caliFUSIONp_plot(phenofs, fusioncolocfs)
+    f2 &lt;- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
+    f3 &lt;- caliPP4_plot(phenofs, fusioncolocfs)
+    f4 &lt;- ncausalPP4_plot(phenofs, fusioncolocfs)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+    gridExtra::grid.arrange(f3, f4, ncol=2)
 }</code></pre>
 <pre class="r"><code>configtag &lt;- 1
 runtag = &quot;ukb-s40.22-adi&quot;
@@ -795,62 +1073,827 @@ simutags &lt;- paste(1, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  1-1 1-2 1-3 1-4 1-5 : mean gene PVE: 0.09591746 , mean SNP PVE: 0.5063595 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-1">
+Past versions of param-1.png
+</button>
+</p>
+<div id="fig-param-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-1.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-2.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-2">
+Past versions of param-2.png
+</button>
+</p>
+<div id="fig-param-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-2.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-3.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-3">
+Past versions of param-3.png
+</button>
+</p>
+<div id="fig-param-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-3.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-4.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-4">
+Past versions of param-4.png
+</button>
+</p>
+<div id="fig-param-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-4.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(2, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  2-1 2-2 2-3 2-4 2-5 : mean gene PVE: 0.09643453 , mean SNP PVE: 0.5022983 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-3.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-5.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-5">
+Past versions of param-5.png
+</button>
+</p>
+<div id="fig-param-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-5.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-4.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-6.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-6">
+Past versions of param-6.png
+</button>
+</p>
+<div id="fig-param-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-6.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-7.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-7">
+Past versions of param-7.png
+</button>
+</p>
+<div id="fig-param-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-7.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-8.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-8">
+Past versions of param-8.png
+</button>
+</p>
+<div id="fig-param-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-8.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(3, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  3-1 3-2 3-3 3-4 3-5 : mean gene PVE: 0.04782318 , mean SNP PVE: 0.5046975 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-5.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-9.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-9">
+Past versions of param-9.png
+</button>
+</p>
+<div id="fig-param-9" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-9.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-6.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-10.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-10">
+Past versions of param-10.png
+</button>
+</p>
+<div id="fig-param-10" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-10.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-11.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-11">
+Past versions of param-11.png
+</button>
+</p>
+<div id="fig-param-11" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-11.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-12.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-12">
+Past versions of param-12.png
+</button>
+</p>
+<div id="fig-param-12" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-12.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(4, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  4-1 4-2 4-3 4-4 4-5 : mean gene PVE: 0.04818354 , mean SNP PVE: 0.501578 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-7.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-13.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-13">
+Past versions of param-13.png
+</button>
+</p>
+<div id="fig-param-13" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-13.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-8.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-14.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-14">
+Past versions of param-14.png
+</button>
+</p>
+<div id="fig-param-14" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-14.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-15.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-15">
+Past versions of param-15.png
+</button>
+</p>
+<div id="fig-param-15" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-15.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-16.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-16">
+Past versions of param-16.png
+</button>
+</p>
+<div id="fig-param-16" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-16.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(5, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  5-1 5-2 5-3 5-4 5-5 : mean gene PVE: 0.1928859 , mean SNP PVE: 0.5095881 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-9.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-17.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-17">
+Past versions of param-17.png
+</button>
+</p>
+<div id="fig-param-17" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-17.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-10.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-18.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-18">
+Past versions of param-18.png
+</button>
+</p>
+<div id="fig-param-18" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-18.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-19.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-19">
+Past versions of param-19.png
+</button>
+</p>
+<div id="fig-param-19" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-19.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-20.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param-20">
+Past versions of param-20.png
+</button>
+</p>
+<div id="fig-param-20" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3dd8cb2ad9baaaecd86f9dd9d265ba209b578cec/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-20.png" target="_blank">3dd8cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-02-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(6, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  6-1 6-2 6-3 6-4 6-5 : mean gene PVE: 0.1932397 , mean SNP PVE: 0.5040251 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-11.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-21.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-12.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-22.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-23.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-24.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(7, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  7-1 7-2 7-3 7-4 7-5 : mean gene PVE: 0.1005024 , mean SNP PVE: 0.2970758 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-13.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-25.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-14.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-26.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-27.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-28.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(8, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  8-1 8-2 8-3 8-4 8-5 : mean gene PVE: 0.1117406 , mean SNP PVE: 0.2739787 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-15.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-29.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-16.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-30.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-31.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-32.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(9, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  9-1 9-2 9-3 9-4 9-5 : mean gene PVE: 0.01909413 , mean SNP PVE: 0.5036283 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-17.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-33.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-18.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-34.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-35.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-36.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>simutags &lt;- paste(10, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  10-1 10-2 10-3 10-4 10-5 : mean gene PVE: 0.01926906 , mean SNP PVE: 0.5012502 </code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-19.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-37.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-20.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-38.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-39.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd/param-40.png" width="768" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -878,33 +1921,41 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] plotrix_3.7-6     cowplot_1.0.0     stringr_1.4.0     plyr_1.8.4       
-[5] tidyr_1.1.0       plotly_4.9.0      ggplot2_3.2.1     data.table_1.13.2
-[9] ctwas_0.1.10     
+ [1] ggpubr_0.4.0      plotrix_3.7-6     cowplot_1.0.0    
+ [4] stringr_1.4.0     plyr_1.8.4        tidyr_1.1.0      
+ [7] plotly_4.9.0      ggplot2_3.2.1     data.table_1.13.2
+[10] ctwas_0.1.12     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5        lattice_0.20-38   assertthat_0.2.1 
- [4] rprojroot_1.3-2   digest_0.6.20     foreach_1.4.4    
- [7] R6_2.4.0          backports_1.1.4   evaluate_0.14    
-[10] httr_1.4.2        highr_0.8         pillar_1.4.2     
-[13] rlang_0.4.6       lazyeval_0.2.2    kernlab_0.9-27   
-[16] R.utils_2.9.0     R.oo_1.22.0       Matrix_1.2-18    
-[19] rmarkdown_1.13    labeling_0.3      splines_3.6.1    
-[22] htmlwidgets_1.3   mixtools_1.2.0    munsell_0.5.0    
-[25] compiler_3.6.1    httpuv_1.5.1      xfun_0.8         
-[28] pkgconfig_2.0.2   segmented_1.0-0   htmltools_0.3.6  
-[31] tidyselect_1.1.0  tibble_2.1.3      gridExtra_2.3    
-[34] workflowr_1.6.2   logging_0.10-108  codetools_0.2-16 
-[37] viridisLite_0.3.0 crayon_1.3.4      dplyr_0.8.3      
-[40] withr_2.1.2       later_0.8.0       MASS_7.3-51.4    
-[43] R.methodsS3_1.7.1 grid_3.6.1        jsonlite_1.6     
-[46] gtable_0.3.0      lifecycle_0.1.0   git2r_0.26.1     
-[49] magrittr_1.5      scales_1.1.0      stringi_1.4.3    
-[52] farver_2.0.1      fs_1.3.1          promises_1.0.1   
-[55] pgenlibr_0.2      vctrs_0.3.1       iterators_1.0.10 
-[58] tools_3.6.1       glue_1.3.1        purrr_0.3.4      
-[61] survival_2.44-1.1 yaml_2.2.0        colorspace_1.4-1 
-[64] knitr_1.23       </code></pre>
+ [1] mixtools_1.2.0    httr_1.4.2        splines_3.6.1    
+ [4] jsonlite_1.6      viridisLite_0.3.0 foreach_1.4.4    
+ [7] R.utils_2.9.0     pgenlibr_0.2      carData_3.0-2    
+[10] logging_0.10-108  highr_0.8         cellranger_1.1.0 
+[13] yaml_2.2.0        pillar_1.5.1      backports_1.1.4  
+[16] lattice_0.20-38   glue_1.4.2        digest_0.6.20    
+[19] promises_1.0.1    ggsignif_0.5.0    colorspace_1.4-1 
+[22] R.oo_1.22.0       htmltools_0.3.6   httpuv_1.5.1     
+[25] Matrix_1.2-18     pkgconfig_2.0.2   broom_0.7.5      
+[28] haven_2.3.1       purrr_0.3.4       scales_1.1.0     
+[31] whisker_0.3-2     openxlsx_4.1.0.1  later_0.8.0      
+[34] rio_0.5.16        git2r_0.26.1      tibble_3.1.0     
+[37] farver_2.0.1      generics_0.0.2    car_3.0-5        
+[40] ellipsis_0.2.0.1  withr_2.4.1       lazyeval_0.2.2   
+[43] survival_2.44-1.1 magrittr_1.5      crayon_1.3.4     
+[46] readxl_1.3.1      evaluate_0.14     R.methodsS3_1.7.1
+[49] fs_1.3.1          fansi_0.4.0       segmented_1.0-0  
+[52] MASS_7.3-51.4     rstatix_0.7.0     forcats_0.4.0    
+[55] foreign_0.8-71    tools_3.6.1       hms_0.5.3        
+[58] lifecycle_1.0.0   kernlab_0.9-27    munsell_0.5.0    
+[61] ggsci_2.9         zip_2.0.3         compiler_3.6.1   
+[64] rlang_0.4.10      debugme_1.1.0     grid_3.6.1       
+[67] iterators_1.0.10  htmlwidgets_1.3   labeling_0.3     
+[70] rmarkdown_1.13    gtable_0.3.0      codetools_0.2-16 
+[73] abind_1.4-5       DBI_1.1.0         curl_3.3         
+[76] R6_2.4.0          gridExtra_2.3     knitr_1.23       
+[79] dplyr_1.0.5       utf8_1.1.4        workflowr_1.6.2  
+[82] rprojroot_1.3-2   stringi_1.4.3     Rcpp_1.0.5       
+[85] vctrs_0.3.7       tidyselect_1.1.0  xfun_0.8         </code></pre>
 </div>
 </div>
 
