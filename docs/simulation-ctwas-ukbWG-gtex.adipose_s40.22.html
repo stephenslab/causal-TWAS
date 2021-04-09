@@ -459,7 +459,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-03
+<strong>Last updated:</strong> 2021-04-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 4 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 3
@@ -596,16 +596,16 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeb096cb23f88d977cccbb7afdcea631bcec65bb04targetblankb096cb2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/b096cb23f88d977cccbb7afdcea631bcec65bb04" target="_blank">b096cb2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeb096cb23f88d977cccbb7afdcea631bcec65bb04targetblankb096cb2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/b096cb23f88d977cccbb7afdcea631bcec65bb04" target="_blank">b096cb2</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -621,28 +621,14 @@ Ignored files:
     Ignored:    code/workflow/.ipynb_checkpoints/
     Ignored:    data/
 
-Untracked files:
-    Untracked:  analysis/summarize_basic_plots.R
-    Untracked:  analysis/summarize_twas-coloc_plots.R
-    Untracked:  code/workflow/Snakefile-compare-simu_20210113
-    Untracked:  code/workflow/Snakefile-compare-simu_20210117
-    Untracked:  code/workflow/Snakefile-compare-simu_20210215
-    Untracked:  code/workflow/Snakefile-compare-simu_20210216
-
 Unstaged changes:
-    Modified:   analysis/SNP-harmonization.Rmd
-    Modified:   analysis/index.Rmd
     Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd
     Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.Rmd
     Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45.Rmd
     Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal.Rmd
+    Modified:   analysis/summarize_basic_plots.R
     Modified:   analysis/summarize_ctwas_plots.R
-    Modified:   code/combine_FUSION_results_chrs.R
-    Modified:   code/run_UKB_process.R
-    Modified:   code/workflow/Snakefile-compare-test
-    Modified:   code/workflow/Snakefile-test
-    Modified:   code/workflow/generate_package_testdata.ipynb
-    Modified:   code/workflow/workflow-data.ipynb
+    Modified:   analysis/summarize_twas-coloc_plots.R
 
 </code></pre>
 <p>
@@ -681,6 +667,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+<td>
+add coloc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/simulation-ctwas-ukbWG-gtex.adipose_s40.22.html" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+<td>
+add coloc
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1065,8 +1085,8 @@ plot_fusion_coloc &lt;- function(configtag, runtag,  simutags){
     
     f1 &lt;- caliFUSIONp_plot(phenofs, fusioncolocfs)
     f2 &lt;- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
-    f3 &lt;- caliPP4_plot(phenofs, fusioncolocfs)
-    f4 &lt;- ncausalPP4_plot(phenofs, fusioncolocfs)
+    f3 &lt;- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f4 &lt;- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
     gridExtra::grid.arrange(f1, f2, ncol=2)
     gridExtra::grid.arrange(f3, f4, ncol=2)
 }</code></pre>
@@ -1127,6 +1147,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-2-1.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-2-1.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1165,6 +1196,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-2-2.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-2-2.png" target="_blank">b835da3</a>
@@ -1213,6 +1255,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-3-1.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-3-1.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1251,6 +1304,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-3-2.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param1-3-2.png" target="_blank">b835da3</a>
@@ -1301,6 +1365,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-1.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-1.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1338,6 +1413,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-2.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-2.png" target="_blank">b835da3</a>
@@ -1379,6 +1465,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-3.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-3.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1415,6 +1512,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-4.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-4.png" target="_blank">b835da3</a>
@@ -1458,6 +1566,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-5.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-5.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1495,6 +1614,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-6.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-6.png" target="_blank">b835da3</a>
@@ -1536,6 +1666,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-7.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-7.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1572,6 +1713,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-8.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-8.png" target="_blank">b835da3</a>
@@ -1615,6 +1767,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-9.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-9.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1652,6 +1815,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-10.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-10.png" target="_blank">b835da3</a>
@@ -1693,6 +1867,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-11.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-11.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1729,6 +1914,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-12.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-12.png" target="_blank">b835da3</a>
@@ -1772,6 +1968,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-13.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-13.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1809,6 +2016,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-14.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-14.png" target="_blank">b835da3</a>
@@ -1850,6 +2068,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-15.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-15.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1888,6 +2117,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-16.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/b835da3de9a648922b688afd3074e19d47b979ba/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-16.png" target="_blank">b835da3</a>
 </td>
 <td>
@@ -1905,50 +2145,944 @@ simingz
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  5-1 5-2 5-3 5-4 5-5 : mean gene PVE: 0.1891869 , mean SNP PVE: 0.5087967 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-17.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-17">
+Past versions of param2-17.png
+</button>
+</p>
+<div id="fig-param2-17" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-17.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-18.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-18">
+Past versions of param2-18.png
+</button>
+</p>
+<div id="fig-param2-18" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-18.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-19.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-20.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-19.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-19">
+Past versions of param2-19.png
+</button>
+</p>
+<div id="fig-param2-19" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-19.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-20.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-20">
+Past versions of param2-20.png
+</button>
+</p>
+<div id="fig-param2-20" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-20.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(6, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  6-1 6-2 6-3 6-4 6-5 : mean gene PVE: 0.2193429 , mean SNP PVE: 0.493278 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-21.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-21">
+Past versions of param2-21.png
+</button>
+</p>
+<div id="fig-param2-21" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-21.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-22.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-22">
+Past versions of param2-22.png
+</button>
+</p>
+<div id="fig-param2-22" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-22.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-23.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-24.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-23.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-23">
+Past versions of param2-23.png
+</button>
+</p>
+<div id="fig-param2-23" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-23.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-24.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-24">
+Past versions of param2-24.png
+</button>
+</p>
+<div id="fig-param2-24" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-24.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(7, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  7-1 7-2 7-3 7-4 7-5 : mean gene PVE: 0.1008859 , mean SNP PVE: 0.2914333 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-25.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-25">
+Past versions of param2-25.png
+</button>
+</p>
+<div id="fig-param2-25" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-25.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-26.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-26">
+Past versions of param2-26.png
+</button>
+</p>
+<div id="fig-param2-26" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-26.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-27.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-28.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-27.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-27">
+Past versions of param2-27.png
+</button>
+</p>
+<div id="fig-param2-27" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-27.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-28.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-28">
+Past versions of param2-28.png
+</button>
+</p>
+<div id="fig-param2-28" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-28.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(8, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  8-1 8-2 8-3 8-4 8-5 : mean gene PVE: 0.09876339 , mean SNP PVE: 0.2960388 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-29.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-29">
+Past versions of param2-29.png
+</button>
+</p>
+<div id="fig-param2-29" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-29.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-30.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-30">
+Past versions of param2-30.png
+</button>
+</p>
+<div id="fig-param2-30" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-30.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-31.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-32.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-31.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-31">
+Past versions of param2-31.png
+</button>
+</p>
+<div id="fig-param2-31" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-31.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-32.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-32">
+Past versions of param2-32.png
+</button>
+</p>
+<div id="fig-param2-32" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-32.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(9, 1:4, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  9-1 9-2 9-3 9-4 : mean gene PVE: 0.01926025 , mean SNP PVE: 0.5057584 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-33.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-33">
+Past versions of param2-33.png
+</button>
+</p>
+<div id="fig-param2-33" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-33.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-34.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-34">
+Past versions of param2-34.png
+</button>
+</p>
+<div id="fig-param2-34" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-34.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-35.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-36.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-35.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-35">
+Past versions of param2-35.png
+</button>
+</p>
+<div id="fig-param2-35" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-35.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-36.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-36">
+Past versions of param2-36.png
+</button>
+</p>
+<div id="fig-param2-36" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-36.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>simutags &lt;- paste(10, 1:5, sep = &quot;-&quot;)
 plot_par(configtag, runtag, simutags)</code></pre>
 <pre><code>simulations  10-1 10-2 10-3 10-4 10-5 : mean gene PVE: 0.02261049 , mean SNP PVE: 0.5072064 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-37.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-37">
+Past versions of param2-37.png
+</button>
+</p>
+<div id="fig-param2-37" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-37.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-38.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-38">
+Past versions of param2-38.png
+</button>
+</p>
+<div id="fig-param2-38" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-38.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_fusion_coloc(configtag, runtag, simutags)</code></pre>
-<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-39.png" width="768" style="display: block; margin: auto;" /><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-40.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-39.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-39">
+Past versions of param2-39.png
+</button>
+</p>
+<div id="fig-param2-39" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-39.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-40.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-param2-40">
+Past versions of param2-40.png
+</button>
+</p>
+<div id="fig-param2-40" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd/param2-40.png" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

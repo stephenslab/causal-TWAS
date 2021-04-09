@@ -32,7 +32,7 @@ ncausal_plot <- function(phenofs, pipfs, main = "PIP"){
     df <- rbind(df, res)
   }
 
-  fig <- nca_plot(df$susie_pip, df$ifcausal, df$runtag, mode ="PIP", main = main)
+  fig <- nca_plot(df$susie_pip, df$ifcausal, df$runtag, mode ="PIP", xmin = 0.5, main = main)
   return(fig)
 }
 
@@ -43,7 +43,7 @@ scatter_plot_PIP_p <- function(phenofs, pipfs, gwasfs, main ="PIP-p"){
     pipres <- fread(pipfs[i], header = T)
     pipres <- data.frame(pipres[pipres$type == "gene", ])
     pipres$runtag <- i
-    res$ifcausal <- ifelse(res$id %in% cau[[i]], 1, 0)
+    pipres$ifcausal <- ifelse(pipres$id %in% cau[[i]], 1, 0)
     gwasres <- read.table(gwasfs[i], header = T)
     res <- merge(gwasres, pipres, by = "id", all = T)
     res <- res[complete.cases(res),]

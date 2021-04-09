@@ -56,12 +56,12 @@ get_causal_id <- function(phenores){
 
 # used by nca_plot
 .obn <- function(pips, ifcausal, mode = c("PIP", "FDR")){
-
-  if (mode == "PIP") {
+  if (mode == "PIP"){
     a_bin <- cut(pips, breaks= seq(0, 1, by=0.1))
   } else if (mode == "FDR"){
-    a_bin <- cut(1- pips, breaks= seq(0, 1, by=0.1))
+    a_bin <- cut(pips, breaks= c(0, 0.01, 0.05, 0.1, seq(0.2, 1, by=0.1)))
   }
+
   obca = c(by(ifcausal, a_bin, FUN = sum))
   obnon = c(by((1-ifcausal), a_bin, FUN = sum))
   return(list("ncausal" = obca,
@@ -69,10 +69,16 @@ get_causal_id <- function(phenores){
 }
 
 # used by ncausal plot
-nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main = mode[1], ...){
+nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), xmin =0, main = mode[1], ...){
   # ifcausal:0,1, runtag: for adding std.
   if (is.null(runtag)){
     runtag <- rep(1, length(pips))
+  }
+
+  if (mode == "PIP"){
+    bins <- seq(0, 1, by=0.1)[1:10]
+  } else if (mode == "FDR"){
+    bins <- c(0, 0.01, 0.05, 0.1, seq(0.2, 1, by=0.1))
   }
 
   calist <- list()
@@ -81,8 +87,8 @@ nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main
     pips.rt <- pips[runtag == rt]
     ifcausal.rt <- ifcausal[runtag == rt]
     res <- .obn(pips.rt, ifcausal.rt, mode = mode)
-    calist[[rt]] <- cbind(res[["ncausal"]], "causal", seq(0, 1, by=0.1)[1:10])
-    nonlist[[rt]] <- cbind(res[["nnoncausal"]], "noncausal", seq(0, 1, by=0.1)[1:10])
+    calist[[rt]] <- cbind(res[["ncausal"]], "causal", bins)
+    nonlist[[rt]] <- cbind(res[["nnoncausal"]], "noncausal", bins)
   }
 
   df <- rbind(do.call(rbind, calist),
@@ -90,7 +96,13 @@ nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main
   df <- data.frame("count"= as.numeric(df[,1]),
                    "ifcausal" = factor(df[,2], levels = c("noncausal", "causal")),
                    "bins" = as.numeric(df[,3]))
-  ymax <- 1.1 * max(df[df$ifcausal == "causal", "count"], na.rm = T)
+
+  if (mode == "PIP"){
+    ymax <- 1.1* (max(df[df$bins > xmin & df$ifcausal == "causal", "count"], na.rm = T) + max(df[df$bins > xmin & df$ifcausal == "noncausal", "count"], na.rm = T))
+  } else {
+    ymax <- 1.1* (max(df[df$bins < xmin & df$ifcausal == "causal", "count"], na.rm = T) + max(df[df$bins < xmin & df$ifcausal == "noncausal", "count"], na.rm = T))
+  }
+
 
   fig <- ggbarplot(df, x = "bins", y = "count", add = "mean_se", fill = "ifcausal", palette = "jco", ylim=c(0,ymax), main =main)
 
@@ -217,7 +229,6 @@ plot_param <- function(mtx){
   grid()
 
   #plot enrichment
-
   y1 <- mtx[,"pi1.gene_truth"]/mtx[,"pi1.SNP_truth"]
   y2 <- mtx[,"pi1.gene_se_truth"]/mtx[,"pi1.SNP_se_truth"]
   y3 <- mtx[,"pi1.gene_est"]/mtx[,"pi1.SNP_est"]
@@ -228,5 +239,3 @@ plot_param <- function(mtx){
   text(x=1:3, 0, labels = c( "truth", "truth(selected)", "ctwas"), xpd = T, pos =1)
   grid()
 }
-
-

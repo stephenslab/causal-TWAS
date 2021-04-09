@@ -179,8 +179,8 @@ plot_fusion_coloc <- function(configtag, runtag,  simutags){
     
     f1 <- caliFUSIONp_plot(phenofs, fusioncolocfs)
     f2 <- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
-    f3 <- caliPP4_plot(phenofs, fusioncolocfs)
-    f4 <- ncausalPP4_plot(phenofs, fusioncolocfs)
+    f3 <- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f4 <- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
     gridExtra::grid.arrange(f1, f2, ncol=2)
     gridExtra::grid.arrange(f3, f4, ncol=2)
 }
