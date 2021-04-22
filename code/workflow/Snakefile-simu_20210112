@@ -2,7 +2,7 @@
 codedir = "~/causalTWAS/causal-TWAS/code/" # add / at end
 pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s40.22/ukb-s40.22_pgenfs.txt"
 ld_pgenfs = pgenfs
-weight = "/home/simingz/causalTWAS/fusion_weights/Adipose_Subcutaneous"
+weight = "/home/simingz/causalTWAS/fusion_weights/Adipose_Subcutaneous_setalleleUKB"
 
 outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210112/" # add / at end
 runtag = "ukb-s40.22-adi"

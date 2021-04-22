@@ -1,5 +1,7 @@
 # We start ctwas format and run a bunch of software on this data
 # Will run each gwasname, weightname combination.
+# check chrom before each run
+# focus weight step needs internet connection
 
 # software info
 import os
@@ -19,13 +21,17 @@ weightdir = "/home/simingz/ctwas/inst/extdata/example_fusion_weights/"
 weightnames = ["Tissue"]
 gwasdir = "/home/simingz/causalTWAS/simulations/test_package_temp/"
 gwasnames = ["test" +'_simu'+ str(i) + "-" + str(j) for i in range(1,2) for j in range(1,2)]
+gwasn = 20000
+
+# eqtl summary statistics (for SMR)
+eqtlSS = "/home/simingz/causalTWAS/simulations/test_package_temp/temp.eQTL.txt.gz" 
 
 # output
 outputdir = "/home/simingz/causalTWAS/simulations/test_package_temp/" # add / at end
 
 rule all:
     input: 
-        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames)
+        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames)
         
 rule plink2TOplink1:
     output:
@@ -54,7 +60,7 @@ rule fusion_coloc:
         outputdir + '{gwasname}.{weightname}.coloc.result'
     params:
         COLOC_P = 1e-4,
-        GWASN = 20000,
+        GWASN = gwasn,
         model = 'lasso'
     run:
         # convert gwas file
@@ -83,13 +89,13 @@ rule fusion_coloc:
         --chr {chrom} \
         --coloc_P {params.COLOC_P} \
         --GWASN {params.GWASN} \
-        --force_model {params.lasso} \
+        --force_model {params.model} \
         --out {outputdir}/{wildcards.gwasname}.{wildcards.weightname}.{chrom}.coloc.dat \
         '''
         
         # no gene on chromosome 21 and 22. FUSION can't take it.
-        # for chrom in range(1,21):
-        for chrom in range(1,23):
+        # for chrom in range(1,23):
+        for chrom in range(1,2):
             ld_bedf = ld_bedfs[chrom-1]
             print("Processing chr" + str(chrom))
             shell(fusioncmd)
@@ -104,3 +110,130 @@ rule fusion_coloc:
         --outdir {outputdir} \
         '''
         shell(combinecmd)
+        
+rule etqlTObesd:
+    # SMR uses QTL summary statistics in BESD format
+    output:
+        besd = outputdir + os.path.basename(eqtlSS) + 'eqtl.besd'
+    run: 
+        # generate fastQTL format
+        eqtlname = os.path.basename(eqtlSS)
+        # (gene, SNP, distance in bp between the SNP and the gene, p-value and beta)
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $19"\\t"$18"\\t"100"\\t"$7"\\t"$8}}' > {eqtlname}.fastqtl.txt""")
+        # generate .besd
+        outname = output.besd.split('.besd')[0]
+        shell("~/causalTWAS/smr_Linux --eqtl-summary {eqtlname}.fastqtl.txt --fastqtl-nominal-format --make-besd --out {outname}")
+        # generate and update .esi and .epi 
+        # .esi (chr, SNP, 0, position, the effect allele, the other allele and frequency)
+        # .epi (chr, probe ID, 0, position, gene ID and gene orientation)
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $13"\\t"$18"\\t"0"\\t"$14"\\t"$16"\t"$15"\tNA"}}' > {outname}.temp.esi""")
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $20"\\t"$19"\\t"0"\\t"$21"\\t"$19"\t"23}}' > {outname}temp.epi; sort {outname}temp.epi| uniq > {outname}.temp.epi; rm {outname}temp.epi""")
+        shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-esi {outname}.temp.esi")
+        shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-epi {outname}.temp.epi")
+        shell("rm {outname}.temp.epi; rm {outname}.temp.esi")
+
+rule smr_heidi:
+    input:
+        gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
+        eqtlf = rules.etqlTObesd.output[0],
+        ld_bedfs = rules.plink2TOplink1.output[0]
+    output:
+        outputdir + '{gwasname}.{weightname}.smr'
+    params:
+        GWASN = gwasn
+    run:
+        # convert gwas file
+        # SNP A1 A2 freq b se p N
+        gwasf = outputdir + "/" + wildcards.gwasname + '.SMRsumstats'
+        shell("echo -e 'SNP\tA1\tA2\tfreq\tb\tse\tp\tN' > {gwasf}")
+        shell("""zcat {input.gwasf}|awk -F'\\t' 'FNR > 1 {{print $5"\\t"$3"\\t"$4"\\tNA\\t"$6"\\t"$7"\\t"$9"\\t"{params.GWASN}}}' >> {gwasf}""")
+        
+        
+        # get ld_bedfs
+        with open(input.ld_bedfs) as f:
+            ld_bedfs = f.read().splitlines()
+        ld_bedfs = [i.split(".bed")[0] for i in ld_bedfs]
+        
+        # eqtl summary stats file
+        eqtlf = input.eqtlf.split('.besd')[0] 
+        
+        outputf = output[0].split('.smr')[0]
+        
+        # run SMR by chrom
+        smrcmd = \
+        '''
+        ~/causalTWAS/smr_Linux --bfile {ld_bedf} --gwas-summary {gwasf} --beqtl-summary {eqtlf} --out {outputf}.{chrom} --thread-num 10 
+        '''
+        i =0
+        for chrom in range(1,3):
+            ld_bedf = ld_bedfs[chrom-1]
+            print("Processing chr" + str(chrom))
+            shell(smrcmd)
+            if os.path.exists(outputf + '.'+ str(chrom) + '.smr'):
+                i  = i+ 1
+                if i==1:
+                    shell('cp {outputf}.{chrom}.smr {output}')
+                else:
+                    shell("awk -F'\t' 'FNR > 1 {{print $0}}' {outputf}.{chrom}.smr>> {output}")
+                shell('rm {outputf}.{chrom}.*')
+
+
+rule FOCUSweight:
+    input: 
+        weightdir + '{weightname}.pos'
+    output:
+        outputdir + '{weightname}.db'
+    run:
+        shell('focus import {input} fusion --tissue {wildcards.weightname} --name {wildcards.weightname} --assay rnaseq --output {wildcards.weightname}')
+    
+rule FOCUS:
+    input:
+        gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
+        weightf = rules.FOCUSweight.output[0],
+        ld_bedfs = rules.plink2TOplink1.output[0]
+    params:
+        GWASN = gwasn
+    output:
+        outputdir + '{gwasname}.{weightname}.focus.tsv'
+    run:
+        # convert gwas file
+        if os.path.splitext(input.gwasf)[1] == ".gz":
+            shell('gunzip -c {input.gwasf} > {outputdir}/{wildcards.gwasname}.sumstats.temp')
+        else:
+            shell('cp {input.gwasf} > {outputdir}/{wildcards.gwasname}.sumstats.temp')
+
+        shell("sed -i -e '1s/id/SNP/' -e '1s/ref/A2/' \
+        -e '1s/alt/A1/' -e '1s/t.value/Z/' \
+        -e '1s/chrom/CHR/' -e '1s/pos/BP/' \
+        -e '1s/PVALUE/P/' {outputdir}/{wildcards.gwasname}.sumstats.temp")
+        
+        shell('focus munge {outputdir}/{wildcards.gwasname}.sumstats.temp --N {params.GWASN} --output {outputdir}/{wildcards.gwasname}')
+        shell('rm  {outputdir}/{wildcards.gwasname}.sumstats.temp')
+        
+        # get ld_bedfs
+        with open(input.ld_bedfs) as f:
+            ld_bedfs = f.read().splitlines()
+        ld_bedfs = [i.split(".bed")[0] for i in ld_bedfs]
+        
+        # run focus
+        outputf = output[0].split('.focus')[0]
+        focuscmd = 'focus finemap {outputdir}/{wildcards.gwasname}.sumstats.gz {ld_bedf} {input.weightf} --chr {chrom} --out {outputf}.{chrom}'
+        i = 0
+        for chrom in range(1,3):
+            ld_bedf = ld_bedfs[chrom-1]
+            print("Processing chr" + str(chrom))
+            shell(focuscmd)
+            if os.path.exists(outputf + '.'+ str(chrom) + '.focus.tsv'):
+                i  = i + 1
+                if i==1:
+                    shell('cp {outputf}.{chrom}.focus.tsv {output}')
+                else:
+                    shell("awk -F'\t' 'FNR > 1 {{print $0}}' {outputf}.{chrom}.focus.tsv >> {output}")
+                    shell('rm {outputf}.*.focus.tsv')
+        shell('cat {outputf}.*.log > {outputf}.log; rm {outputf}.*.log')
+
+        
+        
+
+        
+            

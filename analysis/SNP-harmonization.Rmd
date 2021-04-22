@@ -27,11 +27,18 @@ the Ref allele is counted (coded)
 
 * Fusion summary stats files: They use A1, A2. A1 is the effect allele.
 
-* Fusion weights files: They use .bim format for SNP information, so 5th column is Alt, 6th column is Ref.
+* Fusion weights files: They use .bim format for SNP information, so 5th column is Alt, 6th column is Ref. Effect size in `wgt.matrix` variable is defined using Alt as effect ellele (5th column in `snps` variable).
 
 * SMR files: They use A1, A2. A1 is the effect allele. They also call A1 as Ref allele, A2 as Alt allele.
 
 * ctwas format: `ctwas` package uses R package `pgenlibr` to read data. The Alt allele in .bim or .pvar files are counted, so the effect allele is Alt allele.
+
+* plink association tests: see [here](http://zzz.bwh.harvard.edu/plink/anal.shtml). For the additive effects of SNPs, the direction of the regression coefficient represents the effect of each extra minor allele (i.e. a positive regression coefficient means that the minor allele increases risk/phenotype mean). If the --beta command is added along with --logistic, then the regression coefficients rather than the odds ratios will be returned.
+NOTE:Elsewhere in plink, the term reference allele is sometimes used to refer to A1, i.e. the --reference-allele command can be used to specify which allele is A1. Note that in association testing, the odds ratios, etc are typically calculated with A2 as the actual reference allele (i.e. a positive OR means A1 increases risk relative to A2).
+
+* GTEx summary statistics: The normalized effect size (NES) of the eQTLs is defined as the slope of the linear regression, and is computed as the effect of the alternative allele (ALT) relative to the reference allele (REF) in the human genome reference GRCh38/hg38 (i.e., the eQTL effect allele is the ALT allele). See [here](https://www.gtexportal.org/home/documentationPage).
+
+* GEMMA: "chr    rs  ps  n_miss  allel1  allel0  af  beta    se  l_remle p_wald". The 11 columns are: chromosome, SNP ID, basepair position, number of missing values for a given SNP, the effect (coded) allele, the other allele, frequency of the effect allele, effect size, standard error, lambda and p-value ([http://www.xzlab.org/software.html]).
 
 # Consistency between GTEx v7 and UKB data
 

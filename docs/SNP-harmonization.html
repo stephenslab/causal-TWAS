@@ -459,7 +459,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-25
+<strong>Last updated:</strong> 2021-04-17
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -550,16 +550,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree61b27c456ba2710c58fe159f6e6094df989e6d68targetblank61b27c4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/61b27c456ba2710c58fe159f6e6094df989e6d68" target="_blank">61b27c4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree61b27c456ba2710c58fe159f6e6094df989e6d68targetblank61b27c4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/61b27c456ba2710c58fe159f6e6094df989e6d68" target="_blank">61b27c4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -570,14 +570,39 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    .ipynb_checkpoints/
     Ignored:    analysis/.ipynb_checkpoints/
-    Ignored:    code/.R
     Ignored:    code/.ipynb_checkpoints/
     Ignored:    code/before_package/.ipynb_checkpoints/
     Ignored:    code/workflow/.ipynb_checkpoints/
     Ignored:    data/
 
+Untracked files:
+    Untracked:  code/workflow/Snakefile-compare-simu_20210415
+    Untracked:  code/workflow/Snakefile-compare-simu_20210416
+    Untracked:  code/workflow/Snakefile-compare-simu_20210417
+    Untracked:  code/workflow/Snakefile-compare-simu_20210418
+    Untracked:  code/workflow/Snakefile-simu_20210415
+    Untracked:  code/workflow/Snakefile-simu_20210416
+    Untracked:  code/workflow/Snakefile-simu_20210417
+    Untracked:  code/workflow/Snakefile-simu_20210418
+
 Unstaged changes:
     Modified:   analysis/SNP-harmonization.Rmd
+    Modified:   code/run_ctwas_rss.R
+    Modified:   code/run_ctwas_rss2.R
+    Modified:   code/workflow/Snakefile-compare-simu_20210113
+    Modified:   code/workflow/Snakefile-compare-simu_20210117
+    Modified:   code/workflow/Snakefile-compare-simu_20210215
+    Modified:   code/workflow/Snakefile-compare-simu_20210216
+    Modified:   code/workflow/Snakefile-compare-test
+    Modified:   code/workflow/Snakefile-simu_20210112
+    Modified:   code/workflow/Snakefile-simu_20210113
+    Modified:   code/workflow/Snakefile-simu_20210117
+    Modified:   code/workflow/Snakefile-simu_20210118
+    Modified:   code/workflow/Snakefile-simu_20210215
+    Modified:   code/workflow/Snakefile-simu_20210216
+    Modified:   code/workflow/Snakefile-test
+    Modified:   code/workflow/workflow-data.ipynb
+    Modified:   code/workflow/workflow-install-software.ipynb
 
 </code></pre>
 <p>
@@ -616,6 +641,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/analysis/SNP-harmonization.Rmd" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+<td>
+add coloc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/SNP-harmonization.html" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+<td>
+add coloc
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -704,9 +763,12 @@ snp harmonization notes
 <li><p><code>.pvar</code> format: they use Alt and Ref alleles, see here: <a href="https://www.cog-genomics.org/plink/2.0/formats#pvar" class="uri">https://www.cog-genomics.org/plink/2.0/formats#pvar</a></p></li>
 <li><p><code>.traw</code> format: see here: <a href="https://www.cog-genomics.org/plink/2.0/formats#traw" class="uri">https://www.cog-genomics.org/plink/2.0/formats#traw</a> the Ref allele is counted (coded)</p></li>
 <li><p>Fusion summary stats files: They use A1, A2. A1 is the effect allele.</p></li>
-<li><p>Fusion weights files: They use .bim format for SNP information, so 5th column is Alt, 6th column is Ref.</p></li>
+<li><p>Fusion weights files: They use .bim format for SNP information, so 5th column is Alt, 6th column is Ref. Effect size in <code>wgt.matrix</code> variable is defined using Alt as effect ellele (5th column in <code>snps</code> variable).</p></li>
 <li><p>SMR files: They use A1, A2. A1 is the effect allele. They also call A1 as Ref allele, A2 as Alt allele.</p></li>
 <li><p>ctwas format: <code>ctwas</code> package uses R package <code>pgenlibr</code> to read data. The Alt allele in .bim or .pvar files are counted, so the effect allele is Alt allele.</p></li>
+<li><p>plink association tests: see <a href="http://zzz.bwh.harvard.edu/plink/anal.shtml">here</a>. For the additive effects of SNPs, the direction of the regression coefficient represents the effect of each extra minor allele (i.e. a positive regression coefficient means that the minor allele increases risk/phenotype mean). If the –beta command is added along with –logistic, then the regression coefficients rather than the odds ratios will be returned. NOTE:Elsewhere in plink, the term reference allele is sometimes used to refer to A1, i.e. the –reference-allele command can be used to specify which allele is A1. Note that in association testing, the odds ratios, etc are typically calculated with A2 as the actual reference allele (i.e. a positive OR means A1 increases risk relative to A2).</p></li>
+<li><p>GTEx summary statistics: The normalized effect size (NES) of the eQTLs is defined as the slope of the linear regression, and is computed as the effect of the alternative allele (ALT) relative to the reference allele (REF) in the human genome reference GRCh38/hg38 (i.e., the eQTL effect allele is the ALT allele). See <a href="https://www.gtexportal.org/home/documentationPage">here</a>.</p></li>
+<li><p>GEMMA: “chr rs ps n_miss allel1 allel0 af beta se l_remle p_wald”. The 11 columns are: chromosome, SNP ID, basepair position, number of missing values for a given SNP, the effect (coded) allele, the other allele, frequency of the effect allele, effect size, standard error, lambda and p-value ([<a href="http://www.xzlab.org/software.html" class="uri">http://www.xzlab.org/software.html</a>]).</p></li>
 </ul>
 </div>
 <div id="consistency-between-gtex-v7-and-ukb-data" class="section level1">
@@ -784,23 +846,26 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] plyr_1.8.4   ctwas_0.1.12
+[1] plyr_1.8.4   ctwas_0.1.18
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5        compiler_3.6.1    pillar_1.4.2     
+ [1] Rcpp_1.0.5        pillar_1.5.1      compiler_3.6.1   
  [4] later_0.8.0       git2r_0.26.1      workflowr_1.6.2  
  [7] iterators_1.0.10  tools_3.6.1       digest_0.6.20    
-[10] evaluate_0.14     tibble_2.1.3      lattice_0.20-38  
-[13] pkgconfig_2.0.2   rlang_0.4.10      Matrix_1.2-18    
-[16] foreach_1.4.4     yaml_2.2.0        xfun_0.8         
-[19] stringr_1.4.0     dplyr_0.8.3       knitr_1.23       
-[22] vctrs_0.3.1       fs_1.3.1          tidyselect_1.1.0 
-[25] rprojroot_1.3-2   grid_3.6.1        glue_1.3.1       
-[28] data.table_1.13.2 R6_2.4.0          rmarkdown_1.13   
-[31] purrr_0.3.4       magrittr_1.5      whisker_0.3-2    
-[34] backports_1.1.4   promises_1.0.1    codetools_0.2-16 
-[37] htmltools_0.3.6   assertthat_0.2.1  httpuv_1.5.1     
-[40] logging_0.10-108  stringi_1.4.3     crayon_1.3.4     </code></pre>
+[10] debugme_1.1.0     evaluate_0.14     lifecycle_1.0.0  
+[13] tibble_3.1.0      lattice_0.20-38   pkgconfig_2.0.2  
+[16] rlang_0.4.10      Matrix_1.2-18     foreach_1.4.4    
+[19] DBI_1.1.0         yaml_2.2.0        xfun_0.8         
+[22] stringr_1.4.0     dplyr_1.0.5       knitr_1.23       
+[25] pgenlibr_0.2      generics_0.0.2    fs_1.3.1         
+[28] vctrs_0.3.7       tidyselect_1.1.0  rprojroot_1.3-2  
+[31] grid_3.6.1        glue_1.4.2        data.table_1.13.2
+[34] R6_2.4.0          fansi_0.4.0       rmarkdown_1.13   
+[37] purrr_0.3.4       magrittr_1.5      whisker_0.3-2    
+[40] ellipsis_0.2.0.1  backports_1.1.4   promises_1.0.1   
+[43] codetools_0.2-16  htmltools_0.3.6   httpuv_1.5.1     
+[46] logging_0.10-108  utf8_1.1.4        stringi_1.4.3    
+[49] crayon_1.3.4     </code></pre>
 </div>
 </div>
 

@@ -15,16 +15,17 @@ fusiondir = "/home/simingz/causalTWAS/fusion_twas-master/"
 
 ld_pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
 weightdir = "/home/simingz/causalTWAS/fusion_weights/"
-weightnames = ["Adipose_Subcutaneous"]
+weightnames = ["Adipose_Subcutaneous_setalleleUKB"]
 gwasdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210216/"
 gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(1,11) for j in range(1,6)]
+gwasn = 45000
 
 # output
 outputdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210216_compare/" # add / at end
 
 rule all:
     input: 
-        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames)
+        expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames)
         
 rule plink2TOplink1:
     output:
@@ -53,7 +54,7 @@ rule fusion_coloc:
         outputdir + '{gwasname}.{weightname}.coloc.result'
     params:
         COLOC_P = 1e-4,
-        GWASN = 45000,
+        GWASN = gwasn,
         model = 'lasso'
     run:
         # convert gwas file
@@ -101,3 +102,59 @@ rule fusion_coloc:
         --outdir {outputdir} \
         '''
         shell(combinecmd)
+        
+
+
+rule FOCUSweight:
+    input: 
+        weightdir + '{weightname}.pos'
+    output:
+        outputdir + '{weightname}.db'
+    run:
+        shell('focus import {input} fusion --tissue {wildcards.weightname} --name {wildcards.weightname} --assay rnaseq --output {wildcards.weightname}')
+    
+rule FOCUS:
+    input:
+        gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
+        weightf = rules.FOCUSweight.output[0],
+        ld_bedfs = rules.plink2TOplink1.output[0]
+    params:
+        GWASN = gwasn
+    output:
+        outputdir + '{gwasname}.{weightname}.focus.tsv'
+    run:
+        # convert gwas file
+        if os.path.splitext(input.gwasf)[1] == ".gz":
+            shell('gunzip -c {input.gwasf} > {outputdir}/{wildcards.gwasname}.sumstats.temp')
+        else:
+            shell('cp {input.gwasf} > {outputdir}/{wildcards.gwasname}.sumstats.temp')
+
+        shell("sed -i -e '1s/id/SNP/' -e '1s/ref/A2/' \
+        -e '1s/alt/A1/' -e '1s/t.value/Z/' \
+        -e '1s/chrom/CHR/' -e '1s/pos/BP/' \
+        -e '1s/PVALUE/P/' {outputdir}/{wildcards.gwasname}.sumstats.temp")
+        
+        shell('focus munge {outputdir}/{wildcards.gwasname}.sumstats.temp --N {params.GWASN} --output {outputdir}/{wildcards.gwasname}')
+        shell('rm  {outputdir}/{wildcards.gwasname}.sumstats.temp')
+        
+        # get ld_bedfs
+        with open(input.ld_bedfs) as f:
+            ld_bedfs = f.read().splitlines()
+        ld_bedfs = [i.split(".bed")[0] for i in ld_bedfs]
+        
+        # run focus
+        outputf = output[0].split('.focus')[0]
+        focuscmd = 'focus finemap {outputdir}/{wildcards.gwasname}.sumstats.gz {ld_bedf} {input.weightf} --chr {chrom} --out {outputf}.{chrom}'
+        i = 0
+        for chrom in range(1,23):
+            ld_bedf = ld_bedfs[chrom-1]
+            print("Processing chr" + str(chrom))
+            shell(focuscmd)
+            if os.path.exists(outputf + '.'+ str(chrom) + '.focus.tsv'):
+                i  = i + 1
+                if i==1:
+                    shell('cp {outputf}.{chrom}.focus.tsv {output}')
+                else:
+                    shell("awk -F'\t' 'FNR > 1 {{print $0}}' {outputf}.{chrom}.focus.tsv >> {output}")
+                    shell('rm {outputf}.*.focus.tsv')
+        shell('cat {outputf}.*.log > {outputf}.log; rm {outputf}.*.log')

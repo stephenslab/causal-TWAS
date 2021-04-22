@@ -1,0 +1,103 @@
+# We start ctwas format and run a bunch of software on this data
+# Will run each gwasname, weightname combination.
+
+# software info
+import os
+import csv
+codedir = "~/causalTWAS/causal-TWAS/code/"
+fusiondir = "/home/simingz/causalTWAS/fusion_twas-master/"
+
+# data (in ctwas format)
+# gwas data: gwasdir/gwasname.snpgwas.txt.gz see 
+# /home/simingz/causalTWAS/simulations/test_package_temp/test_simu2-5.snpgwas.txt.gz
+# as an example, the effect allele is the alt allele.
+# ld_pgenfs: a file lists plink pgen files, one row for one file, 1:22
+
+ld_pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
+weightdir = "/home/simingz/causalTWAS/fusion_weights/"
+weightnames = ["Adipose_Subcutaneous"]
+gwasdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210117/"
+gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(1,11) for j in range(1,6)]
+
+# output
+outputdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210117_compare/" # add / at end
+
+rule all:
+    input: 
+        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames)
+        
+rule plink2TOplink1:
+    output:
+        outputdir + os.path.basename(ld_pgenfs) + '.plink1'
+    run:
+        with open(ld_pgenfs, 'r') as f, open(output[0], 'w') as outf:
+            files = f.read().splitlines()
+            for i in range(1,23):
+                fn, ext = os.path.splitext(files[i-1])
+                if ext == ".pgen":
+                    shell('plink2 --make-bed -pfile ' + fn + \
+                          ' --out ' + os.path.basename(fn) + ".FUSION" + str(i))
+                    outf.write(outputdir + "/" + os.path.basename(fn) + ".FUSION" + str(i) + '.bed\n')
+                elif ext ==".bed":
+                    outf.write(l)
+                else:
+                    print("Invalid genotype files")
+                
+        
+rule fusion_coloc:
+    input:
+        gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
+        weightf = weightdir + '{weightname}.pos',
+        ld_bedfs = rules.plink2TOplink1.output[0]
+    output:
+        outputdir + '{gwasname}.{weightname}.coloc.result'
+    params:
+        COLOC_P = 1e-4,
+        GWASN = 45000,
+        model = 'lasso'
+    run:
+        # convert gwas file
+        if os.path.splitext(input.gwasf)[1] == ".gz":
+            shell('gunzip -c {input.gwasf} > {outputdir}/{wildcards.gwasname}.sumstats')
+        else:
+            shell('cp {input.gwasf} > {outputdir}/{wildcards.gwasname}.sumstats')
+        
+        # in ctwas, we count the alt allele, so that's the effect allele (A1)
+        shell("sed -i -e '1s/id/SNP/' -e '1s/ref/A2/' \
+        -e '1s/alt/A1/' -e '1s/t.value/Z/' {outputdir}/{wildcards.gwasname}.sumstats")
+        
+        # get ld_bedfs
+        with open(input.ld_bedfs) as f:
+            ld_bedfs = f.read().splitlines()
+        ld_bedfs = [i.split(".FUSION")[0] for i in ld_bedfs]
+        
+        # run FUSION by chrom
+        fusioncmd = \
+        '''
+        Rscript {fusiondir}/FUSION.assoc_test.R \
+        --sumstats {wildcards.gwasname}.sumstats \
+        --weights {weightdir}/{wildcards.weightname}.pos \
+        --weights_dir {weightdir} \
+        --ref_ld_chr {ld_bedf}.FUSION \
+        --chr {chrom} \
+        --coloc_P {params.COLOC_P} \
+        --GWASN {params.GWASN} \
+        --force_model {params.model} \
+        --out {outputdir}/{wildcards.gwasname}.{wildcards.weightname}.{chrom}.coloc.dat \
+        '''
+        
+        for chrom in range(1,23):
+            ld_bedf = ld_bedfs[chrom-1]
+            print("Processing chr" + str(chrom))
+            shell(fusioncmd)
+            
+        # combine
+        combinecmd = \
+        '''
+        Rscript {codedir}/combine_FUSION_results_chrs.R \
+        --coloc \
+        --trait {wildcards.gwasname} \
+        --weights {wildcards.weightname} \
+        --outdir {outputdir} \
+        '''
+        shell(combinecmd)

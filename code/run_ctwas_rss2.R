@@ -13,9 +13,9 @@ if (length(args) <5) {
        * outputdir", call.=FALSE)
 }
 
-zdf.SNP <- data.table::fread(args[1], header = T)
-data.table::setnames(zdf.SNP, old =  't.value', new =  'z')
-zdf.SNP <- zdf.SNP[, c("id", "z")]
+z_snp <- data.table::fread(args[1], header = T)
+data.table::setnames(z_snp, old = c("alt", "ref", "t.value"), new = c("A1", "A2", "z"))
+z_snp <- z_snp[, c("id", "A1", "A2", "z")]
 ld_pgenfs <- read.table(args[2], header = F, stringsAsFactors = F)[,1]
 weight <- args[3]
 outname.e <- args[5]
@@ -32,14 +32,11 @@ source(args[4]) # config
 
 # get gene z score
 ld_exprfs <- paste0(outputdir, "/", outname.e, "_chr", 1:22, ".expr.gz")
-load(file = paste0(outputdir, "/", outname.e, "_zdf.Rd"))
-zdf <- rbind(zdf.SNP, zdf.gene)
-rm(zdf.SNP, zdf.gene); gc()
+load(file = paste0(outputdir, "/", outname.e, "_z_gene.Rd"))
 
 load( paste0(outputdir, "/", outname, ".s2.susieIrssres.Rd"))
 group_prior <- group_prior_rec[, ncol(group_prior_rec)]
 group_prior_var <- group_prior_var_rec[, ncol(group_prior_var_rec)]
 
-
 # run ctwas_rss last step
-ctwas_rss(zdf, ld_pgenfs, ld_exprfs, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, outputdir = outputdir, outname = outname, ncore = ncore, prob_single = prob_single,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)
+ctwas_rss(z_snp, z_gene, ld_pgenfs, ld_exprfs, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, outputdir = outputdir, outname = outname, ncore = ncore, prob_single = prob_single,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)

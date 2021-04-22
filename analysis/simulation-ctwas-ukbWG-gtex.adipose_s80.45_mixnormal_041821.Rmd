@@ -1,0 +1,263 @@
+---
+title: "Simulations (mix normal prior), ctwas_rss, 45k samples"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,  message= F, warning = F)
+```
+
+```{r libs}
+library(ctwas)
+library(data.table)
+suppressMessages({library(plotly)})
+library(tidyr)
+library(plyr)
+library(stringr)
+source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
+source('~/causalTWAS/causal-TWAS/analysis/summarize_twas-coloc_plots.R')
+source('~/causalTWAS/causal-TWAS/code/qqplot.R')
+```
+
+```{r files}
+pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt"
+ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210216/" # /
+comparedir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210216_compare/"
+runtag = "ukb-s80.45-adi"
+configtags = 1
+simutags = paste(rep(1:2, each = length(1:5)), 1:5, sep = "-")
+
+pgenfs <- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
+pvarfs <- sapply(pgenfs, prep_pvar, outputdir = outputdir)
+
+ld_pgenfs <- read.table(ld_pgenfn, header = F, stringsAsFactors = F)[,1]
+ld_pvarfs <- sapply(ld_pgenfs, prep_pvar, outputdir = outputdir)
+
+pgens <- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf = pvarfs[x]))
+```
+
+# Analysis description
+
+```{r parameters}
+n.ori <- 80000 # number of samples
+n <- pgenlibr::GetRawSampleCt(pgens[[1]])
+p <- sum(unlist(lapply(pgens, pgenlibr::GetVariantCt))) # number of SNPs
+J <- 8021 # number of genes
+```
+
+## Data
+
+  * **GWAS summary statistics** we simulated summary statistics data with different causal gene/SNP proportion and PVE. To simulate this data, we need the following:
+      * **genotype data** we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with **n = `r as.character(n)` samples**.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. There are **total = `r as.character(p)` SNPs**.
+      
+      * **Expression models** The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples, **`r as.character(J)` genes** with expression model. [FUSION/TWAS](http://gusevlab.org/projects/fusion/) were used to train expression model and we used their lasso results. SNPs included in eQTL anlaysis are restricted to cis-locus 500kb on either side of the gene boundary. eQTLs are defined as SNPs with abs(effectize) > 1e-8 in lasso results. 
+      
+      To simulate phenotype data, first we impute gene expression based on expression models, then we set gene/SNP pi1 and PVE, get rough effect size for causal SNPs and genes and simulate phenotype under the mixture of normal distributions.
+      
+* The prior distribution for causal effect: 
+```{r }  
+
+nmix <- 4
+pi_k <- rep(1/nmix, nmix)
+
+ra <- 2**(1: length(pi_k))
+sa2_kr <-  ra / (pi_k * sum(ra))
+
+cat("number of mixtures: ", nmix, "\n")
+cat("variance of each component:", sa2_kr, "\n")
+
+hist(mixtools::rnormmix(2000, lambda = pi_k,
+                        mu = rep(0, length(pi_k)),
+                        sigma = sa2_kr), breaks = 100, main = "prior distribution", xlab = "")
+```   
+      
+      Then we performed GWAS for all SNPs and get z scores for each by univariate linear regression. 
+  
+  * **LD genotype reference**
+  We randomly selected 2000 samples to serve as the LD reference.
+  
+  * **Expression models**  
+  We used GTEx Adipose tissue v7 dataset, the same as used for simulating phenotypes.
+
+## Analysis
+
+1. Get z scores for gene expression. 
+We used expression models and LD reference to get z scores for gene expression.
+
+2. Run ctwas_rss
+We used LDetect to define regions. `ctwas_rss` algorithm first runs on all regions to get rough estimate for gene and SNP prior. Then run on small regions (having small probablities of having > 1 causal signals based on rough estimates) to get more accurate estimate. To lower computational burden, we downsampled SNPs (0.1), estimate parameters. We run susie for all regions using estimated parameters, select regions with strong gene signals (max gene PIP > 0.8) and rerun using full SNPs for these regions.
+
+# Power estimation
+
+```{r power}
+simutag <- "1-1"
+niter <- 1000
+snp.p <- 5e-8
+gene.p <- 1e-5
+source(paste0(outputdir, "simu", simutag, "_param.R"))
+load(paste0(outputdir, runtag, "_simu", simutag, "-pheno.Rd"))
+```
+
+We select run `r simutag`  as an example.
+
+* For SNPs. $\pi_1 =$ `r pi_theta` , effect size = `r phenores[["batch"]][[1]][["sigma_theta"]]`, PVE = `r phenores$param$pve.snp.truth`. Power at `r as.character(snp.p)` p value cutoff:
+
+```{r snp}
+load("data/power_s80.45.Rd")
+# p1 <- pow(niter, n, phenores[["batch"]][[1]][["sigma_theta"]], snp.p)
+print(p1)
+```
+
+* For genes. $\pi_1 = `r pi_beta`$ , effect size = `r phenores[["batch"]][[1]][["sigma_beta"]]`, PVE = `r phenores$param$pve.gene.truth`. Power at `r as.character(gene.p)` p value cutoff:
+
+```{r gene}
+# p2 <- pow(niter, n, phenores[["batch"]][[1]][["sigma_beta"]], gene.p)
+print(p2)
+# save(p1,p2, file = "data/power_s80.45.Rd")
+```
+
+# GWAS/TWAS p value distribution
+
+```{r pvalue}
+simutag <- "1-1"
+chrom <- 1
+source(paste0(outputdir, "simu", simutag, "_param.R"))
+load(paste0(outputdir, runtag, "_simu", simutag, "-pheno.Rd"))
+```
+We select run `r simutag`  as an example.
+
+* For genes. $\pi_1 = `r pi_beta`$ , effect size = `r phenores[["batch"]][[1]][["sigma_beta"]]`, PVE = `r phenores$param$pve.gene.truth`.
+TWAS p values and qqplot:
+
+```{r gene-p, message=F, fig.width= 7, fig.height=7}
+exprgwasf <- paste0(outputdir, runtag, "_simu", simutag, ".exprgwas.txt.gz")
+
+exprvarf <- paste0(outputdir, runtag, "_chr", chrom, ".exprvar")
+exprid <- read_exprvar(exprvarf)[, "id"]
+cau <- as.matrix(exprid[phenores[["batch"]][[chrom]][["idx.cgene"]]])
+pdist_plot(exprgwasf, chrom, cau)
+```
+```{r gene-qq, fig.width= 5, fig.height=5}
+exprgwas <- fread(exprgwasf, header =T)
+gg_qqplot(exprgwas$PVALUE)
+```
+
+* For SNPs. $\pi_1 =$ `r pi_theta` , effect size = `r phenores[["batch"]][[1]][["sigma_theta"]]`, PVE = `r phenores$param$pve.snp.truth`.
+GWAS p values and qqplot:
+
+```{r snp-p, fig.width= 7, fig.height=7}
+snpgwasf <-  paste0(outputdir, runtag, "_simu", simutag, ".snpgwas.txt.gz")
+
+pvarf <- pvarfs[chrom]
+snpid <- read_pvar(pvarf)[, "id"]
+cau <- as.matrix(snpid[phenores[["batch"]][[chrom]][["idx.cSNP"]]])
+pdist_plot(snpgwasf, chrom, cau, thin = 0.1)
+```
+
+```{r snp-qq, fig.width= 5, fig.height=5}
+snpgwas <- fread(snpgwasf, header =T)
+gg_qqplot(snpgwas$PVALUE, thin = 0.1)
+```
+
+
+# `ctwas` results + other comparators
+
+Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input).
+
+We run FUSION following default settings and adjust p values by BH method to get expected FDP.
+we ran coloc for all genes with TWAS p < 1e-4. We use PP4 (SNP associate with both traits).
+
+```{r func}
+plot_par <- function(configtag, runtag, simutags){
+  source(paste0(outputdir, "config", configtag, ".R"))
+  phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+  susieIfs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".s2.susieIrssres.Rd")
+  susieIfs2 <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".s2.susieIrss.txt")
+
+  mtx <- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
+  par(mfrow=c(1,3))
+  cat("simulations ", paste(simutags, sep=",") , ": ")
+  cat("mean gene PVE:", mean(mtx[, "PVE.gene_truth"]), ",", "mean SNP PVE:", mean(mtx[, "PVE.SNP_truth"]), "\n")
+  plot_param(mtx)
+}
+
+plot_PIP <- function(configtag, runtag,  simutags){
+   phenofs <- paste0(outputdir, "ukb-s80.45-adi", "_simu", simutags, "-pheno.Rd")
+   susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
+
+   f1 <- caliPIP_plot(phenofs, susieIfs)
+   f2 <- ncausal_plot(phenofs, susieIfs) 
+   gridExtra::grid.arrange(f1, f2, ncol =2)
+}
+
+plot_fusion_coloc <- function(configtag, runtag,  simutags){
+    phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+    fusioncolocfs <- paste0(comparedir, runtag, "_simu", simutags, ".Adipose_Subcutaneous.coloc.result")
+    
+    f1 <- caliFUSIONp_plot(phenofs, fusioncolocfs)
+    f2 <- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
+    f3 <- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f4 <- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+    gridExtra::grid.arrange(f3, f4, ncol=2)
+}
+```
+
+```{r param2, fig.height=3, fig.width=10, message=F}
+
+configtag <- 1
+runtag = "ukb-s80.45-adi"
+
+simutags <- paste(1, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(2, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(3, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(4, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(5, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(6, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(7, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(8, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(9, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+
+simutags <- paste(10, 1:5, sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+plot_fusion_coloc(configtag, runtag, simutags)
+```
+
+

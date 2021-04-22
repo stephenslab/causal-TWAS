@@ -12,9 +12,9 @@ if (length(args) <7) {
        * outputdir", call.=FALSE)
 }
 
-zdf.SNP <- data.table::fread(args[1], header = T)
-data.table::setnames(zdf.SNP, old =  't.value', new =  'z')
-zdf.SNP <- zdf.SNP[, c("id", "z")]
+z_snp <- data.table::fread(args[1], header = T)
+data.table::setnames(z_snp, old = c("alt", "ref", "t.value"), new = c("A1", "A2", "z"))
+z_snp <- z_snp[, c("id", "A1", "A2", "z")]
 ld_pgenfs <- read.table(args[2], header = F, stringsAsFactors = F)[,1]
 weight <- args[3]
 outname.e <- args[5]
@@ -30,25 +30,22 @@ prob_single <- 0.8
 source(args[4]) # config
 
 # get gene z score
-if (file.exists(paste0(outputdir, "/", outname.e, "_zdf.Rd"))){
+if (file.exists(paste0(outputdir, "/", outname.e, "_z_gene.Rd"))){
   ld_exprfs <- paste0(outputdir, "/", outname.e, "_chr", 1:22, ".expr.gz")
-  load(file = paste0(outputdir, "/", outname.e, "_zdf.Rd"))
+  load(file = paste0(outputdir, "/", outname.e, "_z_gene.Rd"))
 } else {
   ld_exprfs <- vector()
-  zdf.gene <- NULL
+  z_gene <- NULL
   for (i in 1:22){
     ld_pgenf <- ld_pgenfs[i]
-    res <- impute_expr_z(zdf.SNP, ld_pgenf = ld_pgenf, weight = weight,
+    res <- impute_expr_z(z_snp, ld_pgenf = ld_pgenf, weight = weight,
                          method = "lasso", outputdir = outputdir,
                          outname = outname.e)
     ld_exprfs[i] <- res$ld_exprf
-    zdf.gene <- rbind(zdf.gene, res$zdf)
+    z_gene <- rbind(z_gene, res$z_gene)
   }
-  save(zdf.gene, file = paste0(outputdir, "/", outname.e, "_zdf.Rd"))
+  save(z_gene, file = paste0(outputdir, "/", outname.e, "_z_gene.Rd"))
 }
 
-zdf <- rbind(zdf.SNP, zdf.gene)
-rm(zdf.SNP, zdf.gene); gc()
-
 # run ctwas_rss
-ctwas_rss(zdf, ld_pgenfs, ld_exprfs, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, outputdir = outputdir, outname = outname, ncore = ncore, prob_single = prob_single)
+ctwas_rss(z_snp, z_gene, ld_pgenfs, ld_exprfs, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, outputdir = outputdir, outname = outname, ncore = ncore, prob_single = prob_single)
