@@ -111,27 +111,30 @@ rule fusion_coloc:
         '''
         shell(combinecmd)
         
+        
 rule etqlTObesd:
     # SMR uses QTL summary statistics in BESD format
+    input:
+        eqtlss =eqtlSS
     output:
         besd = outputdir + os.path.basename(eqtlSS) + 'eqtl.besd'
     run: 
         # generate fastQTL format
         eqtlname = os.path.basename(eqtlSS)
         # (gene, SNP, distance in bp between the SNP and the gene, p-value and beta)
-        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $19"\\t"$18"\\t"100"\\t"$7"\\t"$8}}' > {eqtlname}.fastqtl.txt""")
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $19"\\t"$18"\\t"100"\\t"$7"\\t"$8}}' > {eqtlname}.fastqtl.temp.txt""")
+        shell(""" awk '!a[$2]++' {eqtlname}.fastqtl.temp.txt > {eqtlname}.fastqtl.txt; rm {eqtlname}.fastqtl.temp.txt""") # remove duplicated SNP name
         # generate .besd
         outname = output.besd.split('.besd')[0]
         shell("~/causalTWAS/smr_Linux --eqtl-summary {eqtlname}.fastqtl.txt --fastqtl-nominal-format --make-besd --out {outname}")
         # generate and update .esi and .epi 
         # .esi (chr, SNP, 0, position, the effect allele, the other allele and frequency)
         # .epi (chr, probe ID, 0, position, gene ID and gene orientation)
-        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $13"\\t"$18"\\t"0"\\t"$14"\\t"$16"\t"$15"\tNA"}}' > {outname}.temp.esi""")
-        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $20"\\t"$19"\\t"0"\\t"$21"\\t"$19"\t"23}}' > {outname}temp.epi; sort {outname}temp.epi| uniq > {outname}.temp.epi; rm {outname}temp.epi""")
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $13"\\t"$18"\\t"0"\\t"$14"\\t"$16"\\t"$15"\\tNA"}}' > {outname}.temp.esi""")
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $20"\\t"$19"\\t"0"\\t"$21"\\t"$19"\\t"23}}' > {outname}temp.epi; sort {outname}temp.epi| uniq > {outname}.temp.epi; rm {outname}temp.epi""")
         shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-esi {outname}.temp.esi")
         shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-epi {outname}.temp.epi")
         shell("rm {outname}.temp.epi; rm {outname}.temp.esi")
-
 rule smr_heidi:
     input:
         gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
@@ -165,7 +168,7 @@ rule smr_heidi:
         ~/causalTWAS/smr_Linux --bfile {ld_bedf} --gwas-summary {gwasf} --beqtl-summary {eqtlf} --out {outputf}.{chrom} --thread-num 10 
         '''
         i =0
-        for chrom in range(1,3):
+        for chrom in range(1,23):
             ld_bedf = ld_bedfs[chrom-1]
             print("Processing chr" + str(chrom))
             shell(smrcmd)

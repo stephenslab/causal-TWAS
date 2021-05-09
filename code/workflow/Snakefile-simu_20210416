@@ -30,7 +30,7 @@ rule simu_prep_param:
                         'pi_beta <- ' + str(params.pi1_gene[int(t1)-1]),
                         'pve.snp <- ' + str(params.pve_snp[int(t1)-1]),
                         'pi_theta <- ' + str(params.pi1_snp[int(t1)-1]),
-                        'SED <- ' + str(900 + int(t2))]
+                        'SED <- ' + str(950 + int(t2))]
                 outf.writelines(s + '\n' for s in lines)
                 
 
@@ -68,8 +68,8 @@ rule gwas_expr:
     params:
         outname = runtag + '_simu{simutag}',
         outputdir = outputdir,
-        ncore = 2,
-        nsplits = 10
+        ncore = 1,
+        nsplits = 2
     shell:
         'Rscript ' + codedir + 'run_gwas_expr.R {input.exprfs} {input.phenof} {params.outname} {params.outputdir}\
          {params.ncore} {params.nsplits}'
@@ -104,4 +104,6 @@ rule ctwas_rss:
         outputdir = outputdir
     shell:
         'Rscript ' + codedir + 'run_ctwas_rss2.R {input.snpz} {input.ld_pgenfs} {input.weight} {input.configfile} \{params.outname_expr} {params.outname} {params.outputdir}'
+
+
 

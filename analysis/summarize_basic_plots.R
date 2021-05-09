@@ -78,7 +78,7 @@ nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), xmin
   if (mode == "PIP"){
     bins <- seq(0, 1, by=0.1)[1:10]
   } else if (mode == "FDR"){
-    bins <- c(0, 0.01, 0.05, 0.1, seq(0.2, 1, by=0.1))
+    bins <- c(0, 0.01, 0.05, 0.1, seq(0.2, 1, by=0.1))[1:12]
   }
 
   calist <- list()

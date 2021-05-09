@@ -25,8 +25,6 @@ susieI_rss <- function(zdf,
                        outname = NULL
 ) {
 
-  L<- 5
-
   outname <- file.path(outputdir, outname)
 
   ld_pvarfs <- sapply(ld_pgenfs, prep_pvar, outputdir = outputdir)
@@ -37,59 +35,63 @@ susieI_rss <- function(zdf,
   group_prior_rec <- matrix(, nrow = K , ncol =  niter)
   group_prior_var_rec <- matrix(, nrow = K , ncol =  niter)
 
-  prior.gene_init <- group_prior[1]
-  prior.SNP_init <-  group_prior[2]
+  prior.gene <- group_prior[1]
+  prior.SNP <-  group_prior[2]
 
   V.gene <- group_prior_var[1]
   V.SNP <- group_prior_var[2]
 
-  #for (iter in 1:niter){
-  for (iter in 1){
-    cl <- parallel::makeCluster(ncore, outfile = "")
-    doParallel::registerDoParallel(cl)
+  for (iter in 1:niter){
 
     loginfo("run iteration %s", iter)
 
     snp.rpiplist <- list()
     gene.rpiplist <- list()
-  #   save(list = ls(all.names = TRUE), file = paste0("temp-iter", iter, ".Rd"), envir =
-  # environment())
-    # outdf <- foreach (b = 1:length(regionlist), .combine = "rbind",
-    #                   .packages = "ctwas") %dopar% {
-                        for (b in 2) {
 
-                        print(c(iter, b))
-                        # prepare LD genotype data
-                        ld_pgen <- prep_pgen(pgenf = ld_pgenfs[b], ld_pvarfs[b])
+    cl <- parallel::makeCluster(ncore, outfile = "")
+    doParallel::registerDoParallel(cl)
+
+    corelist <- region2core(regionlist, ncore)
+
+    # outdf <- foreach (core = 1:length(corelist), .combine = "rbind",
+    #                   .packages = "ctwas") %dopar% {
+                        # for (core in 1:2) {
+
+                        outdf.core.list <- list()
 
                         # run susie for each region
-                        outdf.b.list <- list()
-                        # for (rn in names(regionlist[[b]])) {
-                        for (rn in names(regionlist[[b]])[1:10]){
-                          print(c(iter, b, rn))
+                        regs <- corelist[[core]]
+                        for (reg in 1: nrow(regs)) {
+                          b <- regs[reg, "b"]
+                          rn <- regs[reg, "rn"]
+
+                          # prepare LD genotype data
+                          ld_pgen <- prep_pgen(pgenf = ld_pgenfs[b], ld_pvarfs[b])
+
                           gidx <- regionlist[[b]][[rn]][["gidx"]]
                           sidx <- regionlist[[b]][[rn]][["sidx"]]
                           gid <- regionlist[[b]][[rn]][["gid"]]
                           sid <- regionlist[[b]][[rn]][["sid"]]
+                          prop <-  regionlist[[b]][[rn]][["prop"]]
+                          if (is.null(prop)) prop <- 1
 
                           p <- length(gidx) + length(sidx)
 
-                          if (is.null(prior.gene_init) | is.null(prior.SNP_init)){
-                            prior.gene_init <- 1/p
-                            prior.SNP_init <- 1/p
-                          }
-
-                          if (iter == 1) {
-                            prior <- c(rep(prior.gene_init, length(gidx)),
-                                       rep(prior.SNP_init, length(sidx)))
+                          if (is.null(prior.gene) | is.null(prior.SNP)){
+                            prior <- c(rep(1/p, length(gidx)),
+                                       rep(1/p, length(sidx)))
                           } else {
                             prior <- c(rep(prior.gene, length(gidx)),
                                        rep(prior.SNP, length(sidx)))
                           }
 
+                          if (length(sidx) >=1){
+                            prior[(length(gidx) + 1) : p] <- prior[(length(gidx) + 1) : p]/prop
+                          }
+
                           if (is.null(V.gene) | is.null(V.SNP)){
                             V <- matrix(rep(50, L * p), nrow = L)
-                            # following the default in susieR_rss
+                            # following the default in susieR::susie_rss
                           } else{
                             V <- c(rep(V.gene, length(gidx)), rep(V.SNP, length(sidx)))
                             V <- matrix(rep(V, each = L), nrow=L)
@@ -109,41 +111,35 @@ susieI_rss <- function(zdf,
                           X.g <- read_expr(ld_exprfs[b], variantidx = gidx)
                           X.s <- read_pgen(ld_pgen, variantidx = sidx)
                           X <- cbind(X.g, X.s)
-                          print("getting R")
-                          a <- system.time(R <- Rfast::cova(X))
-                          print(a)
-                          print(c(iter, b, rn, "susie_start"))
-                          # in susie, prior_variance is under standardized scale (if performed)
+                          R <- Rfast::cora(X)
 
-                          a <- system.time(susieres <- susie_rss(z, R,
+                          # in susie, prior_variance is under standardized scale (if performed)
+                          susieres <- ctwas::susie_rss(z, R,
                                                 z_ld_weight = z_ld_weight,
                                                 L = L, prior_weights = prior,
                                                 null_weight = nw,
                                                 prior_variance = V,
                                                 estimate_prior_variance = F,
-                                                coverage = coverage,
-                                                check_z = F))
-                          print(c(iter, b, rn, "susie_end"))
-                          print(a)
-                          outdf.rn <- ctwas:::anno_susie(susieres,
-                                                 ld_exprvarfs[b],
-                                                 ld_pvarfs[b],
-                                                 gidx,
-                                                 sidx,
-                                                 b, rn)
-                          print(c(iter, b, rn, "gc"))
-                          print(gc())
-                          outdf.b.list[[rn]] <- outdf.rn
+                                                coverage = coverage)
+
+                          outdf.reg <- ctwas::anno_susie(susieres,
+                                                  ld_exprvarfs[b],
+                                                  ld_pvarfs[b],
+                                                  gidx,
+                                                  sidx,
+                                                  b, rn)
+
+                          outdf.core.list[[reg]] <- outdf.reg
                         }
 
-                        outdf.b <- do.call(rbind, outdf.b.list)
-                        print(head(outdf.b))
-                        outdf.b
+                        outdf.core <- do.call(rbind, outdf.core.list)
+                        outdf.core
                       }
 
     if (isTRUE(estimate_group_prior)){
       prior.SNP <- mean(outdf[outdf[ , "type"] == "SNP", "susie_pip"])
       prior.gene <- mean(outdf[outdf[ , "type"] == "gene", "susie_pip"])
+      group_prior_rec[, iter] <- c(prior.gene, prior.SNP)
     }
 
     loginfo("After iteration %s, gene prior %s:, SNP prior:%s",
@@ -162,10 +158,8 @@ susieI_rss <- function(zdf,
       # res$mu2 is identifical to res2$mu2 but coefficients are on diff scale.
       V.gene <- sum(outdf.g$susie_pip * outdf.g$mu2)/sum(outdf.g$susie_pip)
       V.SNP <- sum(outdf.s$susie_pip * outdf.s$mu2)/sum(outdf.s$susie_pip)
+      group_prior_var_rec[, iter] <- c(V.gene, V.SNP)
     }
-
-    group_prior_rec[, iter] <- c(prior.gene, prior.SNP)
-    group_prior_var_rec[, iter] <- c(V.gene, V.SNP)
 
     save(group_prior_rec, group_prior_var_rec,
          file = paste0(outname, ".susieIrssres.Rd"))
@@ -174,6 +168,7 @@ susieI_rss <- function(zdf,
 
     parallel::stopCluster(cl)
   }
+
 
   list("group_prior"= c(prior.gene, prior.SNP),
        "group_prior_var" = c(V.gene, V.SNP))

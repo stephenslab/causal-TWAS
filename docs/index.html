@@ -459,7 +459,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-03
+<strong>Last updated:</strong> 2021-05-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -490,16 +490,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef9eedf903f765c787d7bca91fe8f755f3a5b5810targetblankf9eedf9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/f9eedf903f765c787d7bca91fe8f755f3a5b5810" target="_blank">f9eedf9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree09539fc312a7d27f3587c925c014bd48b4c435fatargetblank09539fca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreef9eedf903f765c787d7bca91fe8f755f3a5b5810targetblankf9eedf9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/09539fc312a7d27f3587c925c014bd48b4c435fa" target="_blank">09539fc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/f9eedf903f765c787d7bca91fe8f755f3a5b5810" target="_blank">f9eedf9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -516,23 +516,26 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/summarize_basic_plots.R
-    Untracked:  analysis/summarize_twas-coloc_plots.R
-    Untracked:  code/workflow/Snakefile-compare-simu_20210113
-    Untracked:  code/workflow/Snakefile-compare-simu_20210117
-    Untracked:  code/workflow/Snakefile-compare-simu_20210215
-    Untracked:  code/workflow/Snakefile-compare-simu_20210216
+    Untracked:  analysis/summarize_smr_plots.R
 
 Unstaged changes:
-    Modified:   analysis/SNP-harmonization.Rmd
     Modified:   analysis/index.Rmd
-    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22.Rmd
-    Modified:   analysis/summarize_ctwas_plots.R
-    Modified:   code/combine_FUSION_results_chrs.R
-    Modified:   code/run_UKB_process.R
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_041521.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal_041721.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal_041821.Rmd
+    Modified:   analysis/summarize_basic_plots.R
+    Modified:   code/debug_ctwas_susieI_rss.R
+    Modified:   code/run_ctwas_rss.R
+    Modified:   code/run_ctwas_rss2.R
+    Deleted:    code/temp.R
+    Modified:   code/workflow/Snakefile-compare-simu_20210415
+    Modified:   code/workflow/Snakefile-compare-simu_20210416
+    Modified:   code/workflow/Snakefile-compare-simu_20210417
+    Modified:   code/workflow/Snakefile-compare-simu_20210418
     Modified:   code/workflow/Snakefile-compare-test
-    Modified:   code/workflow/Snakefile-test
-    Modified:   code/workflow/generate_package_testdata.ipynb
+    Modified:   code/workflow/Snakefile-simu_20210416
+    Modified:   code/workflow/Snakefile-simu_20210418
     Modified:   code/workflow/workflow-data.ipynb
 
 </code></pre>
@@ -572,6 +575,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/b096cb23f88d977cccbb7afdcea631bcec65bb04/analysis/index.Rmd" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+<td>
+add coloc
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/b096cb23f88d977cccbb7afdcea631bcec65bb04/docs/index.html" target="_blank">b096cb2</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-04-04
+</td>
+<td>
+add coloc
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2030,9 +2067,9 @@ model and Xin’s simulation
 <div id="using-normal-distribution-as-prior-distribution-for-causal-effects" class="section level3">
 <h3>Using normal distribution as prior distribution for causal effects</h3>
 <ul>
-<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s40.22.html"><strong>Using UKbiobank data (22k samples), fusion weights Adipose</strong></a></p></li>
+<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s40.22_041521.html"><strong>Using UKbiobank data (22k samples), fusion weights Adipose</strong></a></p></li>
 <li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s40.22_2.html">Using UKbiobank data (22k samples), fusion weights Adipose, in-sample LD</a></p></li>
-<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s80.45.html"><strong>Using UKbiobank data (45k samples), fusion weights Adipose</strong></a></p></li>
+<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.html"><strong>Using UKbiobank data (45k samples), fusion weights Adipose</strong></a></p></li>
 <li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s200.113.html">Using UKbiobank data (110k samples), fusion weights Adipose</a></p></li>
 <li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_visual.html">Visualization</a></p></li>
 </ul>
@@ -2040,8 +2077,8 @@ model and Xin’s simulation
 <div id="using-normal-mixture-distribution-as-prior-distribution-for-causal-effects" class="section level3">
 <h3>Using normal mixture distribution as prior distribution for causal effects</h3>
 <ul>
-<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal.html"><strong>Using UKbiobank data (22k samples), fusion weights Adipose</strong></a></p></li>
-<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal.html"><strong>Using UKbiobank data (45k samples), fusion weights Adipose</strong></a></p></li>
+<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s40.22_mixnormal_041721.html"><strong>Using UKbiobank data (22k samples), fusion weights Adipose</strong></a></p></li>
+<li><p><a href="simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal_041821.html"><strong>Using UKbiobank data (45k samples), fusion weights Adipose</strong></a></p></li>
 </ul>
 </div>
 </div>
