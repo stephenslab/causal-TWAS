@@ -41,4 +41,4 @@ group_prior <- group_prior_rec[, ncol(group_prior_rec)]
 group_prior_var <- group_prior_var_rec[, ncol(group_prior_var_rec)]
 
 # run ctwas_rss last step
-ctwas_rss(z_snp, z_gene, ld_pgenfs, ld_exprfs, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, max_snp_region = max_snp_region, outputdir = outputdir, outname = outname, ncore = ncore, ncore.rerun = ncore.rerun, prob_single = prob_single,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)
+ctwas_rss(z_gene, z_snp, ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, max_snp_region = max_snp_region, outputdir = outputdir, outname = outname, ncore = ncore, ncore.rerun = ncore.rerun, prob_single = prob_single,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)

@@ -24,8 +24,8 @@ source('~/causalTWAS/causal-TWAS/code/qqplot.R')
 ```{r files}
 pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt"
 ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
-outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210418/" # /
-comparedir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210418_compare/"
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416/" # /
+comparedir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/"
 runtag = "ukb-s80.45-adi"
 configtags = 1
 simutags = paste(rep(1:2, each = length(1:5)), 1:5, sep = "-")
@@ -213,7 +213,7 @@ plot_smr <- function(configtag, runtag,  simutags){
 configtag <- 1
 runtag = "ukb-s80.45-adi"
 
-simutags <- paste(1, c(1:5), sep = "-")
+simutags <- paste(1, c(1,2,5), sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
 plot_fusion_coloc(configtag, runtag, simutags)

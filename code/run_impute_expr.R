@@ -15,15 +15,12 @@ weight <- args[2]
 
 outname <- args[3]
 outputdir <- args[4]
-exprtxt <- file(paste0(outputdir, "/", outname, ".expr.txt"), 'w')
 
-for (i in 1:22){
-  pgenf <- pgenfs[i]
-  exprf <- impute_expr(pgenf = pgenf, weight = weight,
+exprfs <- impute_expr(pgenfs = pgenfs, weight = weight,
                            method = "lasso", outputdir = outputdir,
                            outname = outname)
-  write(exprf, file = exprtxt, append = T)
-}
 
-
+out <- data.frame("file" = exprfs, stringsAsFactors = F)
+write.table(out, file = paste0(outputdir, "/", outname, ".expr.txt"),
+             row.names=F, col.names=F, sep="\t", quote = F)
 
