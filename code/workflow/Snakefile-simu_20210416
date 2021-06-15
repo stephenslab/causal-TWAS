@@ -8,11 +8,11 @@ weight = "/home/simingz/causalTWAS/fusion_weights/Adipose_Subcutaneous"
 outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416/" # add / at end
 runtag = "ukb-s80.45-adi"
 configtags = [str(i) for i in range(1,2)]
-simutags = [ str(i) + "-" + str(j) for i in range(1,2) for j in [1,2]]
+simutags = [ str(i) + "-" + str(j) for i in range(2,5) for j in range(1,6)]
 
 rule all:
     input: 
-        [outputdir + runtag +'_simu'+ simutag + '_config' + configtag + ".susieIrss.txt" for simutag in simutags for configtag in configtags] + [outputdir + runtag + '_simu'+ simutag +'.exprgwas.txt.gz' for simutag in simutags] +
+        #[outputdir + runtag +'_simu'+ simutag + '_config' + configtag + ".susieIrss.txt" for simutag in simutags for configtag in configtags] + [outputdir + runtag + '_simu'+ simutag +'.exprgwas.txt.gz' for simutag in simutags] +
         [outputdir + runtag +'_simu'+ simutag + '_config' + configtag +'_LDR' + ".susieIrss.txt" for simutag in simutags for configtag in configtags]
         
         

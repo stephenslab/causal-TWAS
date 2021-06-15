@@ -112,7 +112,7 @@ rule fusion_coloc:
         shell(combinecmd)
         
         
-rule etqlTObesd:
+rule eqtlTObesd:
     # SMR uses QTL summary statistics in BESD format
     input:
         eqtlss =eqtlSS
@@ -135,6 +135,7 @@ rule etqlTObesd:
         shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-esi {outname}.temp.esi")
         shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-epi {outname}.temp.epi")
         shell("rm {outname}.temp.epi; rm {outname}.temp.esi")
+        
 rule smr_heidi:
     input:
         gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
@@ -236,7 +237,9 @@ rule FOCUS:
         shell('cat {outputf}.*.log > {outputf}.log; rm {outputf}.*.log')
 
         
-        
-
+rule MR-JTI:    
+    input:
+        outputdir + '{gwasname}.{weightname}.coloc.result'
+    
         
             

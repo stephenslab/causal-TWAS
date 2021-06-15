@@ -285,5 +285,10 @@ plot_smr(configtag, runtag, simutags)
 
 ```
 
-
-
+Using the R LD matrices as input for ctwas: 
+```{r param3, fig.height=3, fig.width=8, message=F}
+configtag <- "1_LDR"
+simutags <- paste(1, c(1,2,5), sep = "-")
+plot_par(configtag, runtag, simutags)
+plot_PIP(configtag, runtag, simutags)
+```
