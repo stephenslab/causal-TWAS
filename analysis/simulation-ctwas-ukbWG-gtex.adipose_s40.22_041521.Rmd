@@ -18,6 +18,7 @@ source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
 source('~/causalTWAS/causal-TWAS/analysis/summarize_twas-coloc_plots.R')
 source('~/causalTWAS/causal-TWAS/analysis/summarize_focus_plots.R')
 source('~/causalTWAS/causal-TWAS/analysis/summarize_smr_plots.R')
+source('~/causalTWAS/causal-TWAS/analysis/summarize_mrjti_plots.R')
 source('~/causalTWAS/causal-TWAS/code/qqplot.R')
 ```
 
@@ -38,7 +39,6 @@ ld_pvarfs <- sapply(ld_pgenfs, prep_pvar, outputdir = outputdir)
 
 pgens <- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf = pvarfs[x]))
 ```
-
 # Analysis description
 
 ```{r parameters}
@@ -51,15 +51,35 @@ J <- 8021 # number of genes
 ## Data
 
   * **GWAS summary statistics** we simulated summary statistics data with different causal gene/SNP proportion and PVE. To simulate this data, we need the following:
-      * **genotype data** we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with **n = `r as.character(n)` samples**.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. There are **total = `r as.character(p)` SNPs**.
-      
-      * **Expression models** The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples, **`r as.character(J)` genes** with expression model. [FUSION/TWAS](http://gusevlab.org/projects/fusion/) were used to train expression model and we used their lasso results. SNPs included in eQTL anlaysis are restricted to cis-locus 500kb on either side of the gene boundary. eQTLs are defined as SNPs with abs(effectize) > 1e-8 in lasso results. 
+      * **genotype data** we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples.
+      The columns selected for filtering samples are as follows:
+        * sex (31)
+        * UK Biobank assessment centre (54)
+        * age (21022)
+        * genetic ethnic grouping (22006)
+        * genetic sex (22001)
+        * genotype measurement batch (22000)
+        * missingness (22005)
+        * genetic PCs (22009-0.1 - 22009-0.40)
+        * genetic relatedness pairing (22011)
+        * genetic kinship (22021)
+        * outliers (22027)
+        
+        We filtered the samples based on the following criteria:  
+        1. Remove all rows in which one or more of the values are missing, aside from the in the "outlier" and "relatedness_genetic" columns. This step removes any samples that are not marked as being "White British".  
+        2. Remove rows with mismatches between self-reported and genetic sex  
+        3. Remove "missingness" and "heterozygosity" outliers as defined by UK Biobank. 
+        4. Remove any individuals have at least one relative  
+        5. Remove any individuals that have close relatives identified from the "relatendess" calculations that weren't already identified using the kinship calculations.
+        
+        This ended up with **n = `r as.character(n)` samples**.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. We select SNPs with minor allele frequency > 0.05 and SNPs with at least 95% genotyping rate (5% missing). There are **total = `r as.character(p)` SNPs** passed these filters and go into our analysis.  
+    * **Expression models** The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples, **`r as.character(J)` genes** with expression model. [FUSION/TWAS](http://gusevlab.org/projects/fusion/) were used to train expression model and we used their lasso results. SNPs included in eQTL anlaysis are restricted to cis-locus 500kb on either side of the gene boundary. eQTLs are defined as SNPs with abs(effectize) > 1e-8 in lasso results. 
       
       To simulate phenotype data, first we impute gene expression based on expression models, then we set gene/SNP pi1 and PVE, get rough effect size for causal SNPs and genes and simulate phenotype under the sparse model with spike and slab prior.
       Then we performed GWAS for all SNPs and get z scores for each by univariate linear regression. 
   
   * **LD genotype reference**
-  We used 2k samples from UKbiobank with same ethnicity to serve as the LD reference. 
+  We used the genotype of 2k samples from UKbiobank (randomly selected from the samples used in simulations) to serve as the LD reference. 
   
   * **Expression models**  
   We used GTEx Adipose tissue v7 dataset, the same as used for simulating phenotypes.
@@ -152,10 +172,14 @@ gg_qqplot(snpgwas$PVALUE, thin = 0.1)
 
 Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input).
 
-We run FUSION following default settings and adjust p values by BH method to get expected FDP.
+We run FUSION following default settings and adjust p values by BH method to get expected FDP. We have also used Bonferroni correction for p values.
+
 We ran coloc for all genes with TWAS p < 1e-4. We use PP4 (SNP associate with both traits).
 We ran SMR+HEIDI, using eQTL summary statistics GTEx v.7. We filter the results by requiring p_HEIDI > 0.05. The plots 
 are based on SMR p value adjusted by BH method to get expected FDP.
+
+We have tried to run MR-JTI. The results have higher false postive rate than TWAS. MR-JTI requires the SNPs be pruned before the analysis. It also requires that a gene has at least 20 eQTLs. This resulted in very few genes going into the analysis. Most genes left are in polymorphism dense regions, such as the MHC regions. I ran MR-JTI for top genes in TWAS, around 30-40% of them should be real. However, only a few genes pass MR-JTI’s 20 eQTL requirements and only 1 or 2 (5%) genes are real. We are showing MR-JTI results on this page.
+
 
 ```{r func}
 plot_par <- function(configtag, runtag, simutags){
@@ -186,10 +210,13 @@ plot_fusion_coloc <- function(configtag, runtag,  simutags){
     
     f1 <- caliFUSIONp_plot(phenofs, fusioncolocfs)
     f2 <- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
-    f3 <- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
-    f4 <- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f3 <- caliFUSIONbon_plot(phenofs, fusioncolocfs)
+    f4 <- ncausalFUSIONbon_plot(phenofs, fusioncolocfs)
+    f5 <- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f6 <- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
     gridExtra::grid.arrange(f1, f2, ncol=2)
     gridExtra::grid.arrange(f3, f4, ncol=2)
+    gridExtra::grid.arrange(f5, f6, ncol=2)
 }
 
 plot_focus <- function(configtag, runtag,  simutags){
@@ -209,6 +236,15 @@ plot_smr <- function(configtag, runtag,  simutags){
     f2 <- ncausalSMRp_plot(phenofs, smrfs)
     gridExtra::grid.arrange(f1, f2, ncol=2)
 }
+
+plot_mrjti <- function(configtag, runtag,  simutags){
+    phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+    mrfs <- paste0(comparedir, runtag, "_simu", simutags, ".Adipose_Subcutaneous.mrjti.result")
+    
+    f1 <- caliMR_plot(phenofs, mrfs)
+    f2 <- ncausalMR_plot(phenofs, mrfs)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+}
 ```
 
 
@@ -223,6 +259,7 @@ plot_PIP(configtag, runtag, simutags)
 plot_fusion_coloc(configtag, runtag, simutags)
 plot_focus(configtag, runtag, simutags)
 plot_smr(configtag, runtag, simutags)
+plot_mrjti(configtag, runtag, simutags)
 
 simutags <- paste(2, 1:5, sep = "-")
 plot_par(configtag, runtag, simutags)

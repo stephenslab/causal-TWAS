@@ -9,6 +9,7 @@ from pathlib import Path
 import csv
 codedir = "~/causalTWAS/causal-TWAS/code/"
 fusiondir = "/home/simingz/causalTWAS/fusion_twas-master/"
+gcta = "/home/simingz/causalTWAS/gcta_1.93.2beta/gcta64"
 
 # data (in ctwas format)
 # gwas data: gwasdir/gwasname.snpgwas.txt.gz see 
@@ -31,7 +32,7 @@ outputdir = "/home/simingz/causalTWAS/simulations/test_package_temp/" # add / at
 
 rule all:
     input: 
-        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames)
+        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames)
         
 rule plink2TOplink1:
     output:
@@ -139,7 +140,7 @@ rule eqtlTObesd:
 rule smr_heidi:
     input:
         gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
-        eqtlf = rules.etqlTObesd.output[0],
+        eqtlf = rules.eqtlTObesd.output[0],
         ld_bedfs = rules.plink2TOplink1.output[0]
     output:
         outputdir + '{gwasname}.{weightname}.smr'
@@ -235,11 +236,40 @@ rule FOCUS:
                     shell("awk -F'\t' 'FNR > 1 {{print $0}}' {outputf}.{chrom}.focus.tsv >> {output}")
                     shell('rm {outputf}.*.focus.tsv')
         shell('cat {outputf}.*.log > {outputf}.log; rm {outputf}.*.log')
-
-        
-rule MR-JTI:    
+     
+rule prune_ldsc:
     input:
-        outputdir + '{gwasname}.{weightname}.coloc.result'
-    
+        ld_bedfs = rules.plink2TOplink1.output[0]
+    output:
+        outputdir + os.path.basename(ld_pgenfs) + '.prunedldsc'
+    run:
+        # plink pruning using parameter described in paper
+        with open(input.ld_bedfs, 'r') as f, open(output[0], 'w') as outf:
+            files = f.read().splitlines()
+            for i in range(1,23):
+                fn, ext = os.path.splitext(files[i-1])
+                shell('plink2 --bfile ' + fn + ' --indep-pairwise 50 5 0.2'\
+                          ' --out ' + os.path.basename(fn)) 
+                # get ldscore for pruned SNPs
+                shell(gcta + ' --bfile ' + fn +  ' --ld-score --ld-wind 1000 --ld-rsq-cutoff 0.01 --out '\
+                      + os.path.basename(fn)) 
+                outf.write(outputdir + "/" + os.path.basename(fn) + ".prune.in\t"\
+                    + outputdir + "/" + os.path.basename(fn) + ".score.ld\n")
+                
+rule MRJTI:
+    input:
+        ldinfo = rules.prune_ldsc.output[0],
+        gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
+        eqtlss = eqtlSS,
+        twasf = outputdir + '{gwasname}.{weightname}.coloc.result'
+    output:
+        outputdir + '{gwasname}.{weightname}.mrjti.result'
+    params:
+        twasfdr = 0.05
+    run: 
+        shell(' '.join(['Rscript {codedir}/run_MR-JTI.R', input.ldinfo, input.gwasf, input.eqtlss, input.twasf, output[0]])) 
+        
+        
+        
         
             

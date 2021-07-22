@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
 
 
 ```{r output dir}
-outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210117/"
+outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210415/"
 
 source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
 source("~/causalTWAS/causal-TWAS/analysis/visual_twas_plots.R")
@@ -77,9 +77,9 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
 First three rows are for genes, last three rows are for SNPs.
 
 ```{r sim 2, out.width = "98%", out.height="95%"}
-chrom <- 7
-runtag <- "ukb-s80.45-adi"
-simutag <- "2-1"
+chrom <- 10
+runtag <- "ukb-s40.22-adi"
+simutag <- "3-2"
 configtag <- 1
 
 susief <- paste0(outputdir, runtag, "_simu", simutag, "_config", configtag, ".susieIrss.txt")

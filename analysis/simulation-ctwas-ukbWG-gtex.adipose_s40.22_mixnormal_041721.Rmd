@@ -51,7 +51,7 @@ J <- 8021 # number of genes
 ## Data
 
   * **GWAS summary statistics** we simulated summary statistics data with different causal gene/SNP proportion and PVE. To simulate this data, we need the following:
-      * **genotype data** we used is from UKB biobank, randomly selecting `r as.character(n.ori)` samples. We then filtered samples based on relatedness, ethics and other qc metrics, that ended up with **n = `r as.character(n)` samples**.  We use SNP genotype data from chr 1 to chr 22 combined from UKB. There are **total = `r as.character(p)` SNPs**.
+      * **genotype data** We used **n = `r as.character(n)` samples**. It is the same as used [here](simulation-ctwas-ukbWG-gtex.adipose_s40.22_041521.html)
       
       * **Expression models** The one we used in this analysis is GTEx Adipose tissue v7 dataset. This dataset contains ~ 380 samples, **`r as.character(J)` genes** with expression model. [FUSION/TWAS](http://gusevlab.org/projects/fusion/) were used to train expression model and we used their lasso results. SNPs included in eQTL anlaysis are restricted to cis-locus 500kb on either side of the gene boundary. eQTLs are defined as SNPs with abs(effectize) > 1e-8 in lasso results. 
       
@@ -166,10 +166,12 @@ gg_qqplot(snpgwas$PVALUE, thin = 0.1)
 
 Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input).
 
-We run FUSION following default settings and adjust p values by BH method to get expected FDP.
+We run FUSION following default settings and adjust p values by BH method to get expected FDP. We have also used Bonferroni correction for p values.
 we ran coloc for all genes with TWAS p < 1e-4. We use PP4 (SNP associate with both traits).
 We ran SMR+HEIDI, using eQTL summary statistics GTEx v.7. We filter the results by requiring p_HEIDI > 0.05. The plots 
 are based on SMR p value adjusted by BH method to get expected FDP.
+
+We have tried to run MR-JTI. The results have higher false postive rate than TWAS. MR-JTI requires the SNPs be pruned before the analysis. It also requires that a gene has at least 20 eQTLs. This resulted in very few genes going into the analysis. Most genes left are in polymorphism dense regions, such as the MHC regions. I ran MR-JTI for top genes in TWAS, around 30-40% of them should be real. However, only a few genes pass MR-JTI’s 20 eQTL requirements and only 1 or 2 (5%) genes are real. We are showing MR-JTI results on this page.
 
 ```{r func}
 plot_par <- function(configtag, runtag, simutags){
@@ -200,12 +202,15 @@ plot_fusion_coloc <- function(configtag, runtag,  simutags){
     
     f1 <- caliFUSIONp_plot(phenofs, fusioncolocfs)
     f2 <- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
-    f3 <- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
-    f4 <- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f3 <- caliFUSIONbon_plot(phenofs, fusioncolocfs)
+    f4 <- ncausalFUSIONbon_plot(phenofs, fusioncolocfs)
+    f5 <- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f6 <- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
     gridExtra::grid.arrange(f1, f2, ncol=2)
     gridExtra::grid.arrange(f3, f4, ncol=2)
-    
+    gridExtra::grid.arrange(f5, f6, ncol=2)
 }
+
 plot_focus <- function(configtag, runtag,  simutags){
     phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
     focusfs <- paste0(comparedir, runtag, "_simu", simutags, ".Adipose_Subcutaneous.focus.tsv")
