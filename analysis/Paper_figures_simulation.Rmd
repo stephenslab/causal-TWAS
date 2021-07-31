@@ -1,0 +1,294 @@
+---
+title: "Paper figures (Simulation)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r setup dir}
+library(ctwas)
+library(data.table)
+source("~/causalTWAS/causal-TWAS/analysis/summarize_basic_plots.R")
+source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
+source("~/causalTWAS/causal-TWAS/analysis/ld.R")
+
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
+comparedir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/"
+runtag = "ukb-s80.45-adi"
+configtag = 1
+pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt"
+exprfn = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416//ukb-s80.45-adi.expr.txt"
+
+pgenfs <- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
+pvarfs <- sapply(pgenfs, prep_pvar, outputdir = outputdir)
+pgens <- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf = pvarfs[x]))
+exprfs <- read.table(exprfn, header = F, stringsAsFactors = F)[,1]
+exprvarfs <- sapply(exprfs, prep_exprvar)
+
+n <- pgenlibr::GetRawSampleCt(pgens[[1]])
+p <- sum(unlist(lapply(pgens, pgenlibr::GetVariantCt))) # number of SNPs
+J <- 8021 # number of genes
+
+colorsall <- c("#7fc97f", "#beaed4", "#fdc086")
+```
+
+## Parameter estimation
+### Parameter vs. true value
+
+Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene, horizontal bar shows true values, and multiple dots, each show one setting.
+
+```{r paramplotfunc}
+
+plot_single <- function(mtxlist, truecol, estcol, ...){
+  truth <- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mean(mtxlist[[x]][, truecol]))))
+  est <- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mtxlist[[x]][, estcol])))
+  
+  col = est[,1]
+  est[,1] <- jitter(est[,1])
+
+  plot(est, pch = 19, xaxt = "n", xlab="" ,frame.plot=FALSE, col = colorsall[col], ...)
+  axis(side=1, at=1:2, labels = c("setting 1", "setting 2"), tick = F)
+  #text(x=1:length(mtxlist), 0, labels = paste0("temp",1:length(mtxlist)), xpd = T, pos =1)
+  for (t in 1:nrow(truth)){
+    row <- truth[t,]
+    segments(row[1]-0.2, row[2] , row[1] + 0.2, row[2],
+       col = colorsall[t], lty = par("lty"), lwd = 2, xpd = FALSE)
+  }
+  grid()
+}
+ 
+
+plot_par <- function(configtag, runtag, simutaglist){
+  mtxlist <- list()
+  for (group in 1:length(simutaglist)){
+    simutags <- simutaglist[[group]]
+    source(paste0(outputdir, "config", configtag, ".R"))
+    phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+    susieIfs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".s2.susieIrssres.Rd")
+    susieIfs2 <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".s2.susieIrss.txt")
+    mtxlist[[group]] <- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
+  }
+  
+  # pi1 
+  par(mfrow=c(1,4))
+  plot_single(mtxlist, truecol = "pi1.gene_truth", estcol = "pi1.gene_est", ylab ="gene pi1", ylim = c(0,0.02), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = "enrich_truth", estcol = "enrich_est",ylab ="gene enrichment", ylim = c(0,120), xlim = c(0.8,2.4) )
+  plot_single(mtxlist, truecol = "sigma.gene_truth", estcol = "sigma.gene_est", ylab = "gene effect size", ylim = c(0.01, 0.03), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = "PVE.gene_truth", estcol = "PVE.gene_est", ylab ="gene PVE", ylim = c(0, 0.1), xlim = c(0.8,2.4))
+  
+  return(mtxlist)
+}
+
+```
+
+Figure (supplementary):
+```{r paramplot, fig.width= 8, fig.height= 3}
+simutaglist = list(paste(4, 1:5, sep = "-"), paste(10, 1:5, sep="-"))
+mtxlist <- plot_par(configtag, runtag, simutaglist)
+```
+
+Back up figures
+
+I have in total 10 x 2 = 20 settings to use generate the parameter figures. 
+
+### Comparison of PVE.gene vs. MESC estimates.
+Leave it to Kevin. 
+
+
+## PIP calibration
+### PIP plot under different settings.
+
+```{r pipplotfunc}
+plot_PIP <- function(configtag, runtag,  simutags, ...){
+   phenofs <- paste0(outputdir, "ukb-s80.45-adi", "_simu", simutags, "-pheno.Rd")
+   susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
+
+   f1 <- caliPIP_plot(phenofs, susieIfs, ...) 
+   return(f1)
+}
+```
+
+```{r pipplot, fig.width= 8, fig.height= 4}
+simutaglist = list(paste(4, 1:5, sep = "-"), paste(10, 1:5, sep="-"))
+f1 <- plot_PIP(configtag, runtag, simutaglist[[1]], main = "setting 1")
+f2 <-  plot_PIP(configtag, runtag, simutaglist[[2]], main = "setting 2")
+gridExtra::grid.arrange(f1, f2, ncol =2)
+```
+
+### Comparison with other methods
+Bar plot: each bar shows the number of genes, colored by causal status. Use a different color for each method. The method and cut off values:
+* ctwas: PIP 0.8
+* FUSION fdr: 0.05
+* FUSION bonferroni: 0.05
+* COLOC PP4: 0.8
+* FOCUS PIP: 0.8
+* SMR FDR: 0.05
+* SMR HEIDI: HEIDI p > 0.05, SMR FDR < 0.05
+
+Multiple bar plots, different settings: high gene power and low gene power.
+```{r ncausalplotfunc}
+
+get_ncausal_df <- function(pfiles, cau, cut = 0.8, 
+                           method = c("ctwas", "fusionfdr", "fusionbon","coloc", "focus", "smr", "smrheidi")){
+  df <- NULL
+  for (i in 1:length(pfiles)) {
+    res <- fread(pfiles[i], header = T)
+    # res <- res[complete.cases(res),]
+    if (method == "ctwas"){
+        res <- data.frame(res[res$type  =="gene", ])
+        res$ifcausal <- ifelse(res$id %in% cau[[i]], 1, 0)
+        res <- res[res$susie_pip > cut,]
+    } else if (method == "fusionfdr"){
+        res$FDR <- p.adjust(res$TWAS.P, method = "fdr")
+        res <- res[res$FDR < cut,]
+        res$ifcausal <- ifelse(res$ID %in% cau[[i]], 1, 0)
+    } else if  (method == "fusionbon"){
+        res$FDR <- p.adjust(res$TWAS.P, method = "bonferroni")
+        res <- res[res$FDR < cut,]
+        res$ifcausal <- ifelse(res$ID %in% cau[[i]], 1, 0)
+    } else if  (method == "coloc"){
+        res <- res[res$COLOC.PP4 > cut,]
+        res$ifcausal <- ifelse(res$ID %in% cau[[i]], 1, 0)
+    } else if (method == "focus"){
+        res <- res[res$mol_name != "NULL",]
+        res <- res[res$pip > cut, ] 
+        res$ifcausal <- ifelse(res$mol_name %in% cau[[i]], 1, 0)
+    } else if (method == "smr"){
+        res$FDR <- p.adjust(res$p_SMR, method = "fdr")
+        res <- res[res$FDR < cut,]
+        res$ifcausal <- ifelse(res$probeID %in% cau[[i]], 1, 0)
+    } else if (method == "smrheidi"){
+        res <- res[res$p_HEIDI > 0.05,]
+        res$FDR <- p.adjust(res$p_SMR, method = "fdr")
+        res <- res[res$FDR < cut,]
+        res$ifcausal <- ifelse(res$probeID %in% cau[[i]], 1, 0)
+    } else{
+      stop("no such method")
+    }
+
+    df.rt <- rbind(c(nrow(res[res$ifcausal == 0, ]), 0, i),
+                   c(nrow(res[res$ifcausal == 1, ]), 1, i))
+    df <- rbind(df, df.rt)
+  }
+  colnames(df) <- c("count", "ifcausal", "runtag")
+  df <- data.frame(df)
+  df$method <- method
+  return(df)
+}
+
+plot_ncausal <- function(configtag, runtag,  simutags, colors, ...){
+  phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+  cau <- lapply(phenofs, function(x) {load(x);get_causal_id(phenores)})
+  
+  susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
+  fusioncolocfs <- paste0(comparedir, runtag, "_simu", simutags, ".Adipose_Subcutaneous.coloc.result")
+  focusfs <- paste0(comparedir, runtag, "_simu", simutags, ".Adipose_Subcutaneous.focus.tsv")
+  smrfs <- paste0(comparedir, runtag, "_simu", simutags, ".Adipose_Subcutaneous.smr")
+
+  ctwas_df <- get_ncausal_df(susieIfs, cau= cau, cut = 0.8, method ="ctwas")
+  fusionfdr_df <- get_ncausal_df(fusioncolocfs, cau= cau, cut = 0.05, method = "fusionfdr")
+  fusionbon_df <- get_ncausal_df(fusioncolocfs , cau= cau, cut = 0.05, method = "fusionbon")
+  coloc_df <- get_ncausal_df(fusioncolocfs , cau= cau, cut = 0.8, method = "coloc")
+  focus_df <- get_ncausal_df(focusfs , cau= cau, cut = 0.8, method = "focus")
+  smr_df <- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = "smr")
+  smrheidi_df <- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = "smrheidi")
+  
+  df <- rbind(ctwas_df, fusionfdr_df, fusionbon_df, coloc_df, focus_df, smr_df, smrheidi_df)
+  df$ifcausal <- df$ifcausal + as.numeric(as.factor(df$method))*10
+  df$ifcausal <- as.factor(df$ifcausal)
+  fig <- ggbarplot(df, x = "method", y = "count", add = "mean_se", fill = "ifcausal", palette = colors, legend = "none", ...) + grids(linetype = "dashed")
+  fig
+}
+  
+```
+
+```{r ncausalplot, fig.width= 10, fig.height= 4}
+colset = c("#ebebeb", "#bebada" , "#ebebeb", "#fb8072", "#ebebeb","#ffffb3","#ebebeb", "#8dd3c7", "#ebebeb","#8dd3c7", "#ebebeb", "#87CEFA", "#ebebeb","#87CEFA") # coloc, ctwas, focus, fusionbon, fusionfdr, smrheidi, smr
+f1 <- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,150), main = "setting 1")
+f2 <- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,150), main = "setting 2")
+gridExtra::grid.arrange(f1, f2, ncol=2)
+```
+
+
+## Examples
+### FP example 1
+cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal gene's eQTLs.
+
+```{r regionplotfunc}
+plot_region <- function(runtag, simutag, configtag, chr, startpos = NULL, endpos = NULL){
+ susief <- paste0(outputdir, runtag, "_simu", simutag, "_config", configtag, ".susieIrss.txt")
+  pf <- paste0(outputdir, runtag, "_simu",simutag)
+  phenof <- paste0(outputdir, runtag, "_simu", simutag, "-pheno.Rd")
+  
+  a <- fread(susief, header =T)
+  b1 <- fread(paste0(pf, ".snpgwas.txt.gz"), header =T)
+  setnames(b1, old = "pos", new = "p0")
+  b2 <- fread(paste0(pf, ".exprgwas.txt.gz"), header =T)
+  b <- rbind(b1, b2, fill = T)
+  
+  a <- a[a$chrom == chr,]
+  b <- b[b$chrom == chr,]
+  if (!is.null(startpos)){
+    a <- a[a$pos > startpos & a$pos < endpos]
+    b <- b[b$p0 > startpos & b$p0 < endpos]
+  }
+
+  load(phenof)
+  cau <- get_causal_id(phenores)
+  
+  a <- merge(a, b, by = "id", all = T)
+  a$ifcausal <- ifelse(a$id %in% cau, 1, 0)
+  a[is.na(a$type),"type"] <- "SNP"
+  
+  a[, "PVALUE"] <- -log10(a[, "PVALUE"])
+  a$r2max <- get_ld(ids =a$id, phenores = phenores, pgenfs = pgenfs, exprfs = exprfs, chrom = chr)
+  
+  r2cut <- 0.4
+  
+  layout(matrix(1:2, ncol = 1), widths = 1, heights = c(1.5,1.5), respect = FALSE)
+  par(mar = c(0, 4.1, 4.1, 2.1))
+  plot(a[a$type=="SNP"]$p0, a[a$type == "SNP"]$PVALUE, pch = 19, xlab="Genomic position" ,frame.plot=FALSE, col = "white", ylim= c(-0.1,1.1), ylab = "ctwas PIP", xaxt = 'n')
+  grid()
+  points(a[a$type=="SNP"]$p0, a[a$type == "SNP"]$susie_pip, pch = 21, xlab="Genomic position", bg = colorsall[1])
+  points(a[a$type=="SNP" & a$r2max > r2cut, ]$p0, a[a$type == "SNP"  & a$r2max >r2cut]$susie_pip, pch = 21, bg = "purple")
+  points(a[a$type=="SNP" & a$ifcausal == 1, ]$p0, a[a$type == "SNP" & a$ifcausal == 1]$susie_pip, pch = 21, bg = "salmon")
+  points(a[a$type=="gene" ]$p0, a[a$type == "gene" ]$susie_pip, pch = 22, bg = colorsall[1], cex = 2)
+  points(a[a$type=="gene" & a$r2max > r2cut, ]$p0, a[a$type == "gene"  & a$r2max > r2cut]$susie_pip, pch = 22, bg = "purple", cex = 2)
+  points(a[a$type=="gene" & a$ifcausal == 1, ]$p0, a[a$type == "gene" & a$ifcausal == 1]$susie_pip, pch = 22, bg = "salmon", cex = 2)
+  legend(min(a$p0), y= 1.3 ,c("Gene", "SNP"), pch = c(21,22), title="shape legend", bty ='n', cex =0.8, title.adj = 0)
+  legend(min(a$p0), y= 0.8 ,c("Causal", "Noncausal, R2 > 0.4", "Noncausal, R2 <= 0.4"), pch = 19, col = c("salmon", "purple", colorsall[1]), title="color legend", bty ='n', cex =0.8, title.adj = 0)
+  par(mar = c(4.1, 4.1, 0.5, 2.1))
+  plot(a[a$type=="SNP"]$p0, a[a$type == "SNP"]$PVALUE, pch = 21, xlab="Genomic position" ,frame.plot=FALSE, bg = colorsall[1], ylab = "TWAS -log10(p value)", panel.first = grid(), ylim =c(0, max(a$PVALUE)*1.2))
+  points(a[a$type=="SNP" & a$r2max > r2cut ]$p0, a[a$type == "SNP"  & a$r2max > r2cut]$PVALUE, pch = 21, bg = "purple")
+  points(a[a$type=="SNP" & a$ifcausal == 1, ]$p0, a[a$type == "SNP" & a$ifcausal == 1]$PVALUE, pch = 21, bg = "salmon")
+  points(a[a$type=="gene" ]$p0, a[a$type == "gene" ]$PVALUE, pch = 22, bg = colorsall[1], cex = 2)
+  points(a[a$type=="gene" & a$r2max > r2cut, ]$p0, a[a$type == "gene"  & a$r2max > r2cut]$PVALUE, pch = 22, bg = "purple", cex = 2)
+  points(a[a$type=="gene" & a$ifcausal == 1, ]$p0, a[a$type == "gene" & a$ifcausal == 1]$PVALUE, pch = 22, bg = "salmon", cex = 2)
+  abline(h=-log10(0.05/J), col ="red", lty = 2)
+  return(a)
+}
+```
+
+```{r regionplot1}
+simutag <- "4-4"
+a <- plot_region(runtag, simutag, configtag, chr = 4, startpos = 43965045, endpos = 45189157)
+```
+
+### FP example 2
+cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal SNP nearby.
+
+```{r regionplot2}
+simutag <- "4-1"
+a <- plot_region(runtag, simutag, configtag, chr = 5, startpos = 152867774, endpos = 153773088)
+```
+
+### TP example
+cTWAS is able to find true positives. This gene has one eQTL, cTWAS choose this gene because it uses a  prior favoring genes, it didn't reach significance level by TWAS after bonferron correction.
+
+```{r regionplot3}
+simutag <- "4-4"
+a <- plot_region(runtag, simutag, configtag, chr = 1, startpos = 37549183 , endpos =38731847)
+```
+

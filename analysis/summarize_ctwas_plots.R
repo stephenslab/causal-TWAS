@@ -53,12 +53,12 @@ scatter_plot_PIP_p <- function(phenofs, pipfs, gwasfs, main ="PIP-p"){
   df <- rename(df, c( "PVALUE" = "TWAS.p"))
   df[,"TWAS.p"] <- -log10(df[, "TWAS.p"])
 
-  df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
-  plot(df$TWAS.p, df$susie_pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
+  # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))
+  # plot(df$TWAS.p, df$susie_pip, col = df$ifcausal, main = main, xlab = "-log10(TWAS p value)", ylab = "PIP")
 
-  # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
-  # fig <- plot_ly(data = df, x = ~ TWAS.p, y = ~ pip, color = ~ ifcausal,
-  #                colors = c( "salmon", "darkgreen"), type ="scatter", text = ~ paste("Name: ", paste0(runtag,":",name),
-  #                                                                  "\nChr: ", chr,  "\nPos:", pos))
-
+  df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1), to=c("Non causal", "Causal"))
+  fig <- plot_ly(data = df, x = ~ TWAS.p, y = ~ susie_pip, color = ~ ifcausal,
+                 colors = c( "salmon", "darkgreen"), type ="scatter", text = ~ paste("Name: ", paste0(runtag,":", id),
+                                                                   "\nChr: ", chrom.x,  "\nPos:", pos))
+  fig
 }

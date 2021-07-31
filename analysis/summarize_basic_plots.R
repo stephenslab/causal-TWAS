@@ -151,7 +151,8 @@ cp_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main 
     geom_abline(slope=1,intercept=0,colour='red', size=0.2) +
     ggtitle(main) +
     expand_limits(y=0) +                        # Expand y range
-    theme_cowplot()
+    theme_cowplot() +
+    theme(panel.grid.major = element_line(colour = "grey",size=0.2,linetype="dashed"))
 
   #plot(Expected, Observed, xlim= c(0,1), ylim=c(0,1), pch =19, main = main, ...)
   #lines(x = c(0,1), y = c(0,1), col ="grey", lty = 2)
@@ -168,6 +169,13 @@ get_pi1 <- function(phenores){
   return(c(gene.causal/gene.total, snp.causal/snp.total))
 }
 
+# used by show_param, get mean effect size (abs of effect size and take mean)
+get_effect_size <- function(phenores){
+  gene_effect <- mean(unlist(sapply(1:22, function(x) abs(phenores$batch[[x]]$e.beta))))
+  snp_effect <- mean(unlist(sapply(1:22, function(x) abs(phenores$batch[[x]]$s.theta))))
+  return(c(gene_effect, snp_effect))
+  }
+
 # return data.frame, rows are each simu run, columns are different parameters.
 show_param <- function(phenofs, susieIfs, susieIfs2, thin = 1){
 
@@ -176,8 +184,11 @@ show_param <- function(phenofs, susieIfs, susieIfs2, thin = 1){
   # overall truth
   truth <- do.call(rbind, lapply(phenofs, function(x) {load(x);
     c(phenores$param$pve.gene.truth, phenores$param$pve.snp.truth,
-      get_pi1(phenores))}))
-  colnames(truth) <- c("PVE.gene_truth", "PVE.SNP_truth", "pi1.gene_truth", "pi1.SNP_truth")
+      get_pi1(phenores), get_effect_size(phenores))}))
+  colnames(truth) <- c("PVE.gene_truth", "PVE.SNP_truth", "pi1.gene_truth", "pi1.SNP_truth",
+                       "sigma.gene_truth", "sigma.SNP_truth")
+  truth <- cbind(truth, truth[, "pi1.gene_truth"]/truth[, "pi1.SNP_truth"])
+  colnames(truth)[7] <- "enrich_truth"
 
   # truth in selected regions for param estimation
   truth.se <- do.call(rbind, lapply(1: length(susieIfs2), function(x) {
@@ -191,10 +202,17 @@ show_param <- function(phenofs, susieIfs, susieIfs2, thin = 1){
   # estimated parameters
   est <- do.call(rbind, lapply(susieIfs, function(x) {load(x); group_prior_rec[, ncol(group_prior_rec)]}))
   colnames(est) <- c("pi1.gene_est", "pi1.SNP_est")
-
   est[, "pi1.SNP_est"] <- est[, "pi1.SNP_est"] * thin
+  est <- cbind(est, est[, "pi1.gene_est"]/est[, "pi1.SNP_est"])
+  colnames(est)[3] <- "enrich_est"
 
-  mtx <- cbind(truth, truth.se, est)
+  est2 <- do.call(rbind, lapply(susieIfs, function(x) {load(x); sqrt(group_prior_var_rec[, ncol(group_prior_var_rec)]/n)}))
+  colnames(est2) <- c("sigma.gene_est", "sigma.SNP_est")
+
+  est3 <- cbind( est2[,1]**2 * J * est[,1], est2[,2]**2 * p * est[,2])
+  colnames(est3) <- c("PVE.gene_est", "PVE.SNP_est")
+
+  mtx <- cbind(truth, truth.se, est, est2, est3)
   return(mtx)
 
   # df %>%

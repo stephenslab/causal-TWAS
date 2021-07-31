@@ -8,15 +8,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
 ```
 
-
-```{r output dir}
-outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210415/"
-
+```{r functions file}
 source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
 source("~/causalTWAS/causal-TWAS/analysis/visual_twas_plots.R")
-```
-
-```{r functions file}
 
 plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
   a <- fread(susief, header =T)
@@ -34,12 +28,13 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
   a <- a[a$chrom == chr,]
   b <- b[b$chrom == chr,]
   
-  a <- merge(a, b, by = "name")
+  a <- merge(a, b, by = "name", all = T)
   a$ifcausal <- ifelse(a$name %in% cau, "Causal", "Non causal" )
+  a[is.na(a$type),"type"] <- "SNP"
   
   if (thin !=1){
-    b <- a[a$type == "gene" | (a$type == "SNP" & a$ifcausal == "Causal") | 
-             (a$type == "SNP" & a$ifcausal == "Non causal" & rbinom(nrow(a), 1, thin) ==1)]
+    a <- a[ !is.na(a$type) | a$ifcausal == "Causal" | 
+             (a$ifcausal == "Non causal" & rbinom(nrow(a), 1, thin) ==1)]
   }
   
   if (!is.null(ldres)){
@@ -47,7 +42,6 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
     a <- merge(a, ld, by = "name", all.x = T)}
   
   colnames(a)[colnames(a) == "susie_pip"] <-  "susiePIP"
-  colnames(a)[colnames(a) == "pos"] <-  "p0"
   
   a[, "PVALUE"] <- -log10(a[, "pvalue"])
   
@@ -72,19 +66,42 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
 }
 ```
 
-## Simulation
-
-First three rows are for genes, last three rows are for SNPs.
+## Scatter plot
 
 ```{r sim 2, out.width = "98%", out.height="95%"}
-chrom <- 10
-runtag <- "ukb-s40.22-adi"
-simutag <- "3-2"
+outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
+runtag <- "ukb-s80.45-adi"
+simutags <- paste(4, 1:5, sep = "-")
 configtag <- 1
 
-susief <- paste0(outputdir, runtag, "_simu", simutag, "_config", configtag, ".susieIrss.txt")
-pf <- paste0(outputdir, runtag, "_simu",simutag)
-phenof <- paste0(outputdir, runtag, "_simu", simutag, "-pheno.Rd")
-plot_all(susief, pf, phenof, chrom, thin = 0.01)
+susiefs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".susieIrss.txt")
+pfs <- paste0(outputdir, runtag, "_simu",simutags)
+gwasfs <- paste0(pfs, ".exprgwas.txt.gz")
+phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+scatter_plot_PIP_p(phenofs, susiefs, gwasfs, main ="PIP-p")
+```
+
+## Zoom view
+FP example, LD with causal gene, GNPDA2
+
+```{r sim 2, out.width = "98%", out.height="95%"}
+chrom <- 4
+runtag <- 4
+plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
+```
+
+FP example: LD with causal SNP, GALNT10
+```{r sim 2, out.width = "98%", out.height="95%"}
+runtag <- 1
+chrom <- 5
+plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
+```
+
+
+True positive example: c1orf109
+```{r sim 2, out.width = "98%", out.height="95%"}
+runtag <- 4
+chrom <- 1
+plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 ```
 

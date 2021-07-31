@@ -78,7 +78,6 @@ We compare cTWAS results with other methods, summarizing results over multiple s
 * [Using UKbiobank data (whole genome), fusion weights Adipose](simulation-susieI-ukbWG-gtex.adipose_s40.22.html) 
   * [Visualization](simulation-susieI-ukbWG-gtex.adipose_visual.html)
 
-
 ## `ctwas` package
 Test the summary statistics version of the `ctwas` algorithm. Now provided as a R package.
 
@@ -102,6 +101,10 @@ Test the summary statistics version of the `ctwas` algorithm. Now provided as a 
 
 * [**Using UKbiobank data (45k samples), fusion weights Adipose**](simulation-ctwas-ukbWG-gtex.adipose_s80.45_mixnormal_041821.html) 
 
+
+## Paper
+
+* [**Simulation figures**](Paper_figures_simulation.html)
 
 # Related software
   * VEB-boost

@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Paper figures (Simulation)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">causal-TWAS</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="https://stephenslab.github.io/causal-TWAS/index.html">Home</a>
+</li>
+<li>
+  <a href="https://stephenslab.github.io/causal-TWAS/about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/causal-TWAS">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Paper figures (Simulation)</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-07-31
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+</p>
+<p>
+<strong>Knit directory:</strong> <code>causal-TWAS/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191103code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191103)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191103code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20191103)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_basic_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_basic_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_ctwas_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/ld.R
+</td>
+<td style="text-align:left;">
+analysis/ld.R
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1targetblank6dee9b0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1" target="_blank">6dee9b0</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1targetblank6dee9b0a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1" target="_blank">6dee9b0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    .ipynb_checkpoints/
+    Ignored:    analysis/.ipynb_checkpoints/
+    Ignored:    code/.ipynb_checkpoints/
+    Ignored:    code/before_package/.ipynb_checkpoints/
+    Ignored:    code/workflow/.ipynb_checkpoints/
+    Ignored:    data/
+
+Untracked files:
+    Untracked:  analysis/Paper_figures_simulation.Rmd
+    Untracked:  analysis/ld.R
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_visual.Rmd
+    Modified:   analysis/summarize_basic_plots.R
+    Modified:   analysis/summarize_ctwas_plots.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>library(ctwas)
+library(data.table)
+source(&quot;~/causalTWAS/causal-TWAS/analysis/summarize_basic_plots.R&quot;)</code></pre>
+<pre><code>
+********************************************************</code></pre>
+<pre><code>Note: As of version 1.0.0, cowplot does not change the</code></pre>
+<pre><code>  default ggplot2 theme anymore. To recover the previous</code></pre>
+<pre><code>  behavior, execute:
+  theme_set(theme_cowplot())</code></pre>
+<pre><code>********************************************************</code></pre>
+<pre><code>
+Attaching package: &#39;ggpubr&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:cowplot&#39;:
+
+    get_legend</code></pre>
+<pre class="r"><code>source(&quot;~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R&quot;)
+source(&quot;~/causalTWAS/causal-TWAS/analysis/ld.R&quot;)
+
+outputdir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416/&quot;
+comparedir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/&quot;
+runtag = &quot;ukb-s80.45-adi&quot;
+configtag = 1
+pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt&quot;
+exprfn = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416//ukb-s80.45-adi.expr.txt&quot;
+
+pgenfs &lt;- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
+pvarfs &lt;- sapply(pgenfs, prep_pvar, outputdir = outputdir)
+pgens &lt;- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf = pvarfs[x]))
+exprfs &lt;- read.table(exprfn, header = F, stringsAsFactors = F)[,1]
+exprvarfs &lt;- sapply(exprfs, prep_exprvar)
+
+n &lt;- pgenlibr::GetRawSampleCt(pgens[[1]])
+p &lt;- sum(unlist(lapply(pgens, pgenlibr::GetVariantCt))) # number of SNPs
+J &lt;- 8021 # number of genes
+
+colorsall &lt;- c(&quot;#7fc97f&quot;, &quot;#beaed4&quot;, &quot;#fdc086&quot;)</code></pre>
+<div id="parameter-estimation" class="section level2">
+<h2>Parameter estimation</h2>
+<div id="parameter-vs.-true-value" class="section level3">
+<h3>Parameter vs. true value</h3>
+<p>Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene, horizontal bar shows true values, and multiple dots, each show one setting.</p>
+<pre class="r"><code>plot_single &lt;- function(mtxlist, truecol, estcol, ...){
+  truth &lt;- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mean(mtxlist[[x]][, truecol]))))
+  est &lt;- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mtxlist[[x]][, estcol])))
+  
+  col = est[,1]
+  est[,1] &lt;- jitter(est[,1])
+
+  plot(est, pch = 19, xaxt = &quot;n&quot;, xlab=&quot;&quot; ,frame.plot=FALSE, col = colorsall[col], ...)
+  axis(side=1, at=1:2, labels = c(&quot;setting 1&quot;, &quot;setting 2&quot;), tick = F)
+  #text(x=1:length(mtxlist), 0, labels = paste0(&quot;temp&quot;,1:length(mtxlist)), xpd = T, pos =1)
+  for (t in 1:nrow(truth)){
+    row &lt;- truth[t,]
+    segments(row[1]-0.2, row[2] , row[1] + 0.2, row[2],
+       col = colorsall[t], lty = par(&quot;lty&quot;), lwd = 2, xpd = FALSE)
+  }
+  grid()
+}
+ 
+
+plot_par &lt;- function(configtag, runtag, simutaglist){
+  mtxlist &lt;- list()
+  for (group in 1:length(simutaglist)){
+    simutags &lt;- simutaglist[[group]]
+    source(paste0(outputdir, &quot;config&quot;, configtag, &quot;.R&quot;))
+    phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+    susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;_config&quot;, configtag, &quot;.s2.susieIrssres.Rd&quot;)
+    susieIfs2 &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.s2.susieIrss.txt&quot;)
+    mtxlist[[group]] &lt;- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
+  }
+  
+  # pi1 
+  par(mfrow=c(1,4))
+  plot_single(mtxlist, truecol = &quot;pi1.gene_truth&quot;, estcol = &quot;pi1.gene_est&quot;, ylab =&quot;gene pi1&quot;, ylim = c(0,0.02), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = &quot;enrich_truth&quot;, estcol = &quot;enrich_est&quot;,ylab =&quot;gene enrichment&quot;, ylim = c(0,120), xlim = c(0.8,2.4) )
+  plot_single(mtxlist, truecol = &quot;sigma.gene_truth&quot;, estcol = &quot;sigma.gene_est&quot;, ylab = &quot;gene effect size&quot;, ylim = c(0.01, 0.03), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = &quot;PVE.gene_truth&quot;, estcol = &quot;PVE.gene_est&quot;, ylab =&quot;gene PVE&quot;, ylim = c(0, 0.1), xlim = c(0.8,2.4))
+  
+  return(mtxlist)
+}</code></pre>
+<p>Figure (supplementary):</p>
+<pre class="r"><code>simutaglist = list(paste(4, 1:5, sep = &quot;-&quot;), paste(10, 1:5, sep=&quot;-&quot;))
+mtxlist &lt;- plot_par(configtag, runtag, simutaglist)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/paramplot-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Back up figures</p>
+<p>I have in total 10 x 2 = 20 settings to use generate the parameter figures.</p>
+</div>
+<div id="comparison-of-pve.gene-vs.-mesc-estimates." class="section level3">
+<h3>Comparison of PVE.gene vs. MESC estimates.</h3>
+<p>Leave it to Kevin.</p>
+</div>
+</div>
+<div id="pip-calibration" class="section level2">
+<h2>PIP calibration</h2>
+<div id="pip-plot-under-different-settings." class="section level3">
+<h3>PIP plot under different settings.</h3>
+<pre class="r"><code>plot_PIP &lt;- function(configtag, runtag,  simutags, ...){
+   phenofs &lt;- paste0(outputdir, &quot;ukb-s80.45-adi&quot;, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+   susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.susieIrss.txt&quot;)
+
+   f1 &lt;- caliPIP_plot(phenofs, susieIfs, ...) 
+   return(f1)
+}</code></pre>
+<pre class="r"><code>simutaglist = list(paste(4, 1:5, sep = &quot;-&quot;), paste(10, 1:5, sep=&quot;-&quot;))
+f1 &lt;- plot_PIP(configtag, runtag, simutaglist[[1]], main = &quot;setting 1&quot;)
+f2 &lt;-  plot_PIP(configtag, runtag, simutaglist[[2]], main = &quot;setting 2&quot;)
+gridExtra::grid.arrange(f1, f2, ncol =2)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/pipplot-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="comparison-with-other-methods" class="section level3">
+<h3>Comparison with other methods</h3>
+<p>Bar plot: each bar shows the number of genes, colored by causal status. Use a different color for each method. The method and cut off values: * ctwas: PIP 0.8 * FUSION fdr: 0.05 * FUSION bonferroni: 0.05 * COLOC PP4: 0.8 * FOCUS PIP: 0.8 * SMR FDR: 0.05 * SMR HEIDI: HEIDI p &gt; 0.05, SMR FDR &lt; 0.05</p>
+<p>Multiple bar plots, different settings: high gene power and low gene power.</p>
+<pre class="r"><code>get_ncausal_df &lt;- function(pfiles, cau, cut = 0.8, 
+                           method = c(&quot;ctwas&quot;, &quot;fusionfdr&quot;, &quot;fusionbon&quot;,&quot;coloc&quot;, &quot;focus&quot;, &quot;smr&quot;, &quot;smrheidi&quot;)){
+  df &lt;- NULL
+  for (i in 1:length(pfiles)) {
+    res &lt;- fread(pfiles[i], header = T)
+    # res &lt;- res[complete.cases(res),]
+    if (method == &quot;ctwas&quot;){
+        res &lt;- data.frame(res[res$type  ==&quot;gene&quot;, ])
+        res$ifcausal &lt;- ifelse(res$id %in% cau[[i]], 1, 0)
+        res &lt;- res[res$susie_pip &gt; cut,]
+    } else if (method == &quot;fusionfdr&quot;){
+        res$FDR &lt;- p.adjust(res$TWAS.P, method = &quot;fdr&quot;)
+        res &lt;- res[res$FDR &lt; cut,]
+        res$ifcausal &lt;- ifelse(res$ID %in% cau[[i]], 1, 0)
+    } else if  (method == &quot;fusionbon&quot;){
+        res$FDR &lt;- p.adjust(res$TWAS.P, method = &quot;bonferroni&quot;)
+        res &lt;- res[res$FDR &lt; cut,]
+        res$ifcausal &lt;- ifelse(res$ID %in% cau[[i]], 1, 0)
+    } else if  (method == &quot;coloc&quot;){
+        res &lt;- res[res$COLOC.PP4 &gt; cut,]
+        res$ifcausal &lt;- ifelse(res$ID %in% cau[[i]], 1, 0)
+    } else if (method == &quot;focus&quot;){
+        res &lt;- res[res$mol_name != &quot;NULL&quot;,]
+        res &lt;- res[res$pip &gt; cut, ] 
+        res$ifcausal &lt;- ifelse(res$mol_name %in% cau[[i]], 1, 0)
+    } else if (method == &quot;smr&quot;){
+        res$FDR &lt;- p.adjust(res$p_SMR, method = &quot;fdr&quot;)
+        res &lt;- res[res$FDR &lt; cut,]
+        res$ifcausal &lt;- ifelse(res$probeID %in% cau[[i]], 1, 0)
+    } else if (method == &quot;smrheidi&quot;){
+        res &lt;- res[res$p_HEIDI &gt; 0.05,]
+        res$FDR &lt;- p.adjust(res$p_SMR, method = &quot;fdr&quot;)
+        res &lt;- res[res$FDR &lt; cut,]
+        res$ifcausal &lt;- ifelse(res$probeID %in% cau[[i]], 1, 0)
+    } else{
+      stop(&quot;no such method&quot;)
+    }
+
+    df.rt &lt;- rbind(c(nrow(res[res$ifcausal == 0, ]), 0, i),
+                   c(nrow(res[res$ifcausal == 1, ]), 1, i))
+    df &lt;- rbind(df, df.rt)
+  }
+  colnames(df) &lt;- c(&quot;count&quot;, &quot;ifcausal&quot;, &quot;runtag&quot;)
+  df &lt;- data.frame(df)
+  df$method &lt;- method
+  return(df)
+}
+
+plot_ncausal &lt;- function(configtag, runtag,  simutags, colors, ...){
+  phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+  cau &lt;- lapply(phenofs, function(x) {load(x);get_causal_id(phenores)})
+  
+  susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.susieIrss.txt&quot;)
+  fusioncolocfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.coloc.result&quot;)
+  focusfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.focus.tsv&quot;)
+  smrfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.smr&quot;)
+
+  ctwas_df &lt;- get_ncausal_df(susieIfs, cau= cau, cut = 0.8, method =&quot;ctwas&quot;)
+  fusionfdr_df &lt;- get_ncausal_df(fusioncolocfs, cau= cau, cut = 0.05, method = &quot;fusionfdr&quot;)
+  fusionbon_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = 0.05, method = &quot;fusionbon&quot;)
+  coloc_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = 0.8, method = &quot;coloc&quot;)
+  focus_df &lt;- get_ncausal_df(focusfs , cau= cau, cut = 0.8, method = &quot;focus&quot;)
+  smr_df &lt;- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = &quot;smr&quot;)
+  smrheidi_df &lt;- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = &quot;smrheidi&quot;)
+  
+  df &lt;- rbind(ctwas_df, fusionfdr_df, fusionbon_df, coloc_df, focus_df, smr_df, smrheidi_df)
+  df$ifcausal &lt;- df$ifcausal + as.numeric(as.factor(df$method))*10
+  df$ifcausal &lt;- as.factor(df$ifcausal)
+  fig &lt;- ggbarplot(df, x = &quot;method&quot;, y = &quot;count&quot;, add = &quot;mean_se&quot;, fill = &quot;ifcausal&quot;, palette = colors, legend = &quot;none&quot;, ...) + grids(linetype = &quot;dashed&quot;)
+  fig
+}</code></pre>
+<pre class="r"><code>colset = c(&quot;#ebebeb&quot;, &quot;#bebada&quot; , &quot;#ebebeb&quot;, &quot;#fb8072&quot;, &quot;#ebebeb&quot;,&quot;#ffffb3&quot;,&quot;#ebebeb&quot;, &quot;#8dd3c7&quot;, &quot;#ebebeb&quot;,&quot;#8dd3c7&quot;, &quot;#ebebeb&quot;, &quot;#87CEFA&quot;, &quot;#ebebeb&quot;,&quot;#87CEFA&quot;) # coloc, ctwas, focus, fusionbon, fusionfdr, smrheidi, smr
+f1 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,150), main = &quot;setting 1&quot;)
+f2 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,150), main = &quot;setting 2&quot;)
+gridExtra::grid.arrange(f1, f2, ncol=2)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/ncausalplot-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<div id="fp-example-1" class="section level3">
+<h3>FP example 1</h3>
+<p>cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal gene's eQTLs.</p>
+<pre class="r"><code>plot_region &lt;- function(runtag, simutag, configtag, chr, startpos = NULL, endpos = NULL){
+ susief &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutag, &quot;_config&quot;, configtag, &quot;.susieIrss.txt&quot;)
+  pf &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutag)
+  phenof &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutag, &quot;-pheno.Rd&quot;)
+  
+  a &lt;- fread(susief, header =T)
+  b1 &lt;- fread(paste0(pf, &quot;.snpgwas.txt.gz&quot;), header =T)
+  setnames(b1, old = &quot;pos&quot;, new = &quot;p0&quot;)
+  b2 &lt;- fread(paste0(pf, &quot;.exprgwas.txt.gz&quot;), header =T)
+  b &lt;- rbind(b1, b2, fill = T)
+  
+  a &lt;- a[a$chrom == chr,]
+  b &lt;- b[b$chrom == chr,]
+  if (!is.null(startpos)){
+    a &lt;- a[a$pos &gt; startpos &amp; a$pos &lt; endpos]
+    b &lt;- b[b$p0 &gt; startpos &amp; b$p0 &lt; endpos]
+  }
+
+  load(phenof)
+  cau &lt;- get_causal_id(phenores)
+  
+  a &lt;- merge(a, b, by = &quot;id&quot;, all = T)
+  a$ifcausal &lt;- ifelse(a$id %in% cau, 1, 0)
+  a[is.na(a$type),&quot;type&quot;] &lt;- &quot;SNP&quot;
+  
+  a[, &quot;PVALUE&quot;] &lt;- -log10(a[, &quot;PVALUE&quot;])
+  a$r2max &lt;- get_ld(ids =a$id, phenores = phenores, pgenfs = pgenfs, exprfs = exprfs, chrom = chr)
+  
+  r2cut &lt;- 0.4
+  
+  layout(matrix(1:2, ncol = 1), widths = 1, heights = c(1.5,1.5), respect = FALSE)
+  par(mar = c(0, 4.1, 4.1, 2.1))
+  plot(a[a$type==&quot;SNP&quot;]$p0, a[a$type == &quot;SNP&quot;]$PVALUE, pch = 19, xlab=&quot;Genomic position&quot; ,frame.plot=FALSE, col = &quot;white&quot;, ylim= c(-0.1,1.1), ylab = &quot;ctwas PIP&quot;, xaxt = &#39;n&#39;)
+  grid()
+  points(a[a$type==&quot;SNP&quot;]$p0, a[a$type == &quot;SNP&quot;]$susie_pip, pch = 21, xlab=&quot;Genomic position&quot;, bg = colorsall[1])
+  points(a[a$type==&quot;SNP&quot; &amp; a$r2max &gt; r2cut, ]$p0, a[a$type == &quot;SNP&quot;  &amp; a$r2max &gt;r2cut]$susie_pip, pch = 21, bg = &quot;purple&quot;)
+  points(a[a$type==&quot;SNP&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;SNP&quot; &amp; a$ifcausal == 1]$susie_pip, pch = 21, bg = &quot;salmon&quot;)
+  points(a[a$type==&quot;gene&quot; ]$p0, a[a$type == &quot;gene&quot; ]$susie_pip, pch = 22, bg = colorsall[1], cex = 2)
+  points(a[a$type==&quot;gene&quot; &amp; a$r2max &gt; r2cut, ]$p0, a[a$type == &quot;gene&quot;  &amp; a$r2max &gt; r2cut]$susie_pip, pch = 22, bg = &quot;purple&quot;, cex = 2)
+  points(a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;gene&quot; &amp; a$ifcausal == 1]$susie_pip, pch = 22, bg = &quot;salmon&quot;, cex = 2)
+  legend(min(a$p0), y= 1.3 ,c(&quot;Gene&quot;, &quot;SNP&quot;), pch = c(21,22), title=&quot;shape legend&quot;, bty =&#39;n&#39;, cex =0.8, title.adj = 0)
+  legend(min(a$p0), y= 0.8 ,c(&quot;Causal&quot;, &quot;Noncausal, R2 &gt; 0.4&quot;, &quot;Noncausal, R2 &lt;= 0.4&quot;), pch = 19, col = c(&quot;salmon&quot;, &quot;purple&quot;, colorsall[1]), title=&quot;color legend&quot;, bty =&#39;n&#39;, cex =0.8, title.adj = 0)
+  par(mar = c(4.1, 4.1, 0.5, 2.1))
+  plot(a[a$type==&quot;SNP&quot;]$p0, a[a$type == &quot;SNP&quot;]$PVALUE, pch = 21, xlab=&quot;Genomic position&quot; ,frame.plot=FALSE, bg = colorsall[1], ylab = &quot;TWAS -log10(p value)&quot;, panel.first = grid(), ylim =c(0, max(a$PVALUE)*1.2))
+  points(a[a$type==&quot;SNP&quot; &amp; a$r2max &gt; r2cut ]$p0, a[a$type == &quot;SNP&quot;  &amp; a$r2max &gt; r2cut]$PVALUE, pch = 21, bg = &quot;purple&quot;)
+  points(a[a$type==&quot;SNP&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;SNP&quot; &amp; a$ifcausal == 1]$PVALUE, pch = 21, bg = &quot;salmon&quot;)
+  points(a[a$type==&quot;gene&quot; ]$p0, a[a$type == &quot;gene&quot; ]$PVALUE, pch = 22, bg = colorsall[1], cex = 2)
+  points(a[a$type==&quot;gene&quot; &amp; a$r2max &gt; r2cut, ]$p0, a[a$type == &quot;gene&quot;  &amp; a$r2max &gt; r2cut]$PVALUE, pch = 22, bg = &quot;purple&quot;, cex = 2)
+  points(a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;gene&quot; &amp; a$ifcausal == 1]$PVALUE, pch = 22, bg = &quot;salmon&quot;, cex = 2)
+  abline(h=-log10(0.05/J), col =&quot;red&quot;, lty = 2)
+  return(a)
+}</code></pre>
+<pre class="r"><code>simutag &lt;- &quot;4-4&quot;
+a &lt;- plot_region(runtag, simutag, configtag, chr = 4, startpos = 43965045, endpos = 45189157)</code></pre>
+<pre><code>Registered S3 method overwritten by &#39;R.oo&#39;:
+  method        from       
+  throw.default R.methodsS3</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/regionplot1-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="fp-example-2" class="section level3">
+<h3>FP example 2</h3>
+<p>cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal SNP nearby.</p>
+<pre class="r"><code>simutag &lt;- &quot;4-1&quot;
+a &lt;- plot_region(runtag, simutag, configtag, chr = 5, startpos = 152867774, endpos = 153773088)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/regionplot2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="tp-example" class="section level3">
+<h3>TP example</h3>
+<p>cTWAS is able to find true positives. This gene has one eQTL, cTWAS choose this gene because it uses a prior favoring genes, it didn't reach significance level by TWAS after bonferron correction.</p>
+<pre class="r"><code>simutag &lt;- &quot;4-4&quot;
+a &lt;- plot_region(runtag, simutag, configtag, chr = 1, startpos = 37549183 , endpos =38731847)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/regionplot3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggpubr_0.4.0      plotrix_3.7-6     cowplot_1.0.0     ggplot2_3.3.3    
+[5] data.table_1.13.2 ctwas_0.1.28     
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.5        lattice_0.20-38   tidyr_1.1.0       rprojroot_1.3-2  
+ [5] digest_0.6.20     foreach_1.4.4     utf8_1.1.4        cellranger_1.1.0 
+ [9] R6_2.4.0          backports_1.1.4   evaluate_0.14     highr_0.8        
+[13] pillar_1.5.1      rlang_0.4.10      readxl_1.3.1      curl_3.3         
+[17] car_3.0-5         R.oo_1.22.0       R.utils_2.9.0     Matrix_1.2-18    
+[21] rmarkdown_2.9     labeling_0.3      stringr_1.4.0     foreign_0.8-71   
+[25] munsell_0.5.0     broom_0.7.5       compiler_3.6.1    httpuv_1.6.1     
+[29] xfun_0.24         pkgconfig_2.0.2   htmltools_0.3.6   tidyselect_1.1.0 
+[33] gridExtra_2.3     tibble_3.1.0      workflowr_1.6.2   logging_0.10-108 
+[37] rio_0.5.16        codetools_0.2-16  fansi_0.4.0       crayon_1.3.4     
+[41] dplyr_1.0.5       withr_2.4.1       later_0.8.0       R.methodsS3_1.7.1
+[45] grid_3.6.1        gtable_0.3.0      lifecycle_1.0.0   DBI_1.1.0        
+[49] git2r_0.26.1      magrittr_1.5      scales_1.1.0      zip_2.0.3        
+[53] carData_3.0-2     stringi_1.4.3     debugme_1.1.0     farver_2.1.0     
+[57] ggsignif_0.5.0    fs_1.3.1          promises_1.0.1    pgenlibr_0.2     
+[61] ellipsis_0.2.0.1  generics_0.0.2    vctrs_0.3.7       openxlsx_4.1.0.1 
+[65] iterators_1.0.10  tools_3.6.1       forcats_0.4.0     glue_1.4.2       
+[69] purrr_0.3.4       hms_0.5.3         abind_1.4-5       yaml_2.2.0       
+[73] colorspace_1.4-1  rstatix_0.7.0     knitr_1.33        haven_2.3.1      </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
