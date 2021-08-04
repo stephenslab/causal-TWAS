@@ -37,7 +37,9 @@ colorsall <- c("#7fc97f", "#beaed4", "#fdc086")
 ## Parameter estimation
 ### Parameter vs. true value
 
-Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene, horizontal bar shows true values, and multiple dots, each show one setting.
+In our simulations, the SNP PVE is always set to 0.5 in different settings. The gene PVE is shown as in figures. The number of causal SNPs is always set to 2.5e * $10^{-4}$. In the two settings shown below, number of samples is 45k. For other details about our simulation settings and procedures, please see [here](simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.html). Note, setting 1 is the high power setting and setting 2 is a low power setting, I will change the setting names manually later. 
+
+Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene. Horizontal bar shows mean true values across the 5 simulations with similar setting parameters. The results by ctwas for each simulation is shown by dots.  
 
 ```{r paramplotfunc}
 
@@ -112,8 +114,8 @@ plot_PIP <- function(configtag, runtag,  simutags, ...){
 
 ```{r pipplot, fig.width= 8, fig.height= 4}
 simutaglist = list(paste(4, 1:5, sep = "-"), paste(10, 1:5, sep="-"))
-f1 <- plot_PIP(configtag, runtag, simutaglist[[1]], main = "setting 1")
-f2 <-  plot_PIP(configtag, runtag, simutaglist[[2]], main = "setting 2")
+f1 <- plot_PIP(configtag, runtag, simutaglist[[1]], main = "high gene PVE")
+f2 <-  plot_PIP(configtag, runtag, simutaglist[[2]], main = "low gene PVE")
 gridExtra::grid.arrange(f1, f2, ncol =2)
 ```
 
@@ -206,8 +208,8 @@ plot_ncausal <- function(configtag, runtag,  simutags, colors, ...){
 
 ```{r ncausalplot, fig.width= 10, fig.height= 4}
 colset = c("#ebebeb", "#bebada" , "#ebebeb", "#fb8072", "#ebebeb","#ffffb3","#ebebeb", "#8dd3c7", "#ebebeb","#8dd3c7", "#ebebeb", "#87CEFA", "#ebebeb","#87CEFA") # coloc, ctwas, focus, fusionbon, fusionfdr, smrheidi, smr
-f1 <- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,150), main = "setting 1")
-f2 <- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,150), main = "setting 2")
+f1 <- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,150), main = "high gene PVE")
+f2 <- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,150), main = "low gene PVE")
 gridExtra::grid.arrange(f1, f2, ncol=2)
 ```
 
@@ -257,7 +259,7 @@ plot_region <- function(runtag, simutag, configtag, chr, startpos = NULL, endpos
   points(a[a$type=="gene" ]$p0, a[a$type == "gene" ]$susie_pip, pch = 22, bg = colorsall[1], cex = 2)
   points(a[a$type=="gene" & a$r2max > r2cut, ]$p0, a[a$type == "gene"  & a$r2max > r2cut]$susie_pip, pch = 22, bg = "purple", cex = 2)
   points(a[a$type=="gene" & a$ifcausal == 1, ]$p0, a[a$type == "gene" & a$ifcausal == 1]$susie_pip, pch = 22, bg = "salmon", cex = 2)
-  legend(min(a$p0), y= 1.3 ,c("Gene", "SNP"), pch = c(21,22), title="shape legend", bty ='n', cex =0.8, title.adj = 0)
+  legend(min(a$p0), y= 1.3 ,c("Gene", "SNP"), pch = c(22,21), title="shape legend", bty ='n', cex =0.8, title.adj = 0)
   legend(min(a$p0), y= 0.8 ,c("Causal", "Noncausal, R2 > 0.4", "Noncausal, R2 <= 0.4"), pch = 19, col = c("salmon", "purple", colorsall[1]), title="color legend", bty ='n', cex =0.8, title.adj = 0)
   par(mar = c(4.1, 4.1, 0.5, 2.1))
   plot(a[a$type=="SNP"]$p0, a[a$type == "SNP"]$PVALUE, pch = 21, xlab="Genomic position" ,frame.plot=FALSE, bg = colorsall[1], ylab = "TWAS -log10(p value)", panel.first = grid(), ylim =c(0, max(a$PVALUE)*1.2))

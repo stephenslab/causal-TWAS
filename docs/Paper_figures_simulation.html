@@ -390,7 +390,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-07-31
+<strong>Last updated:</strong> 2021-08-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -414,7 +414,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -521,16 +521,16 @@ analysis/ld.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1targetblank6dee9b0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1" target="_blank">6dee9b0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeca90eff1f2870c8bb224659d22cf951a988c3df1targetblankca90effa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/ca90eff1f2870c8bb224659d22cf951a988c3df1" target="_blank">ca90eff</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1targetblank6dee9b0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeca90eff1f2870c8bb224659d22cf951a988c3df1targetblankca90effa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/6dee9b013d4c0ddd86bfb2a156af427e4d6f8aa1" target="_blank">6dee9b0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/ca90eff1f2870c8bb224659d22cf951a988c3df1" target="_blank">ca90eff</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -547,14 +547,10 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/Paper_figures_simulation.Rmd
-    Untracked:  analysis/ld.R
+    Untracked:  analysis/figure/
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
-    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_visual.Rmd
-    Modified:   analysis/summarize_basic_plots.R
-    Modified:   analysis/summarize_ctwas_plots.R
+    Modified:   analysis/Paper_figures_simulation.Rmd
 
 </code></pre>
 <p>
@@ -567,9 +563,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in th
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Paper_figures_simulation.Rmd</code>) and HTML (<code>docs/Paper_figures_simulation.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/analysis/Paper_figures_simulation.Rmd" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+<td>
+simulation paper figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/Paper_figures_simulation.html" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+<td>
+simulation paper figures
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -614,7 +670,8 @@ colorsall &lt;- c(&quot;#7fc97f&quot;, &quot;#beaed4&quot;, &quot;#fdc086&quot;)
 <h2>Parameter estimation</h2>
 <div id="parameter-vs.-true-value" class="section level3">
 <h3>Parameter vs. true value</h3>
-<p>Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene, horizontal bar shows true values, and multiple dots, each show one setting.</p>
+<p>In our simulations, the SNP PVE is always set to 0.5 in different settings. The gene PVE is shown as in figures. The number of causal SNPs is always set to 2.5e * <span class="math inline">\(10^{-4}\)</span>. In the two settings shown below, number of samples is 45k. For other details about our simulation settings and procedures, please see <a href="simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.html">here</a>. Note, setting 1 is the high power setting and setting 2 is a low power setting, I will change the setting names manually later.</p>
+<p>Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene. Horizontal bar shows mean true values across the 5 simulations with similar setting parameters. The results by ctwas for each simulation is shown by dots.</p>
 <pre class="r"><code>plot_single &lt;- function(mtxlist, truecol, estcol, ...){
   truth &lt;- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mean(mtxlist[[x]][, truecol]))))
   est &lt;- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mtxlist[[x]][, estcol])))
@@ -658,6 +715,43 @@ plot_par &lt;- function(configtag, runtag, simutaglist){
 <pre class="r"><code>simutaglist = list(paste(4, 1:5, sep = &quot;-&quot;), paste(10, 1:5, sep=&quot;-&quot;))
 mtxlist &lt;- plot_par(configtag, runtag, simutaglist)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/paramplot-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-paramplot-1">
+Past versions of paramplot-1.png
+</button>
+</p>
+<div id="fig-paramplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/paramplot-1.png" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Back up figures</p>
 <p>I have in total 10 x 2 = 20 settings to use generate the parameter figures.</p>
 </div>
@@ -678,10 +772,47 @@ mtxlist &lt;- plot_par(configtag, runtag, simutaglist)</code></pre>
    return(f1)
 }</code></pre>
 <pre class="r"><code>simutaglist = list(paste(4, 1:5, sep = &quot;-&quot;), paste(10, 1:5, sep=&quot;-&quot;))
-f1 &lt;- plot_PIP(configtag, runtag, simutaglist[[1]], main = &quot;setting 1&quot;)
-f2 &lt;-  plot_PIP(configtag, runtag, simutaglist[[2]], main = &quot;setting 2&quot;)
+f1 &lt;- plot_PIP(configtag, runtag, simutaglist[[1]], main = &quot;high gene PVE&quot;)
+f2 &lt;-  plot_PIP(configtag, runtag, simutaglist[[2]], main = &quot;low gene PVE&quot;)
 gridExtra::grid.arrange(f1, f2, ncol =2)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/pipplot-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pipplot-1">
+Past versions of pipplot-1.png
+</button>
+</p>
+<div id="fig-pipplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/pipplot-1.png" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="comparison-with-other-methods" class="section level3">
 <h3>Comparison with other methods</h3>
@@ -759,10 +890,47 @@ plot_ncausal &lt;- function(configtag, runtag,  simutags, colors, ...){
   fig
 }</code></pre>
 <pre class="r"><code>colset = c(&quot;#ebebeb&quot;, &quot;#bebada&quot; , &quot;#ebebeb&quot;, &quot;#fb8072&quot;, &quot;#ebebeb&quot;,&quot;#ffffb3&quot;,&quot;#ebebeb&quot;, &quot;#8dd3c7&quot;, &quot;#ebebeb&quot;,&quot;#8dd3c7&quot;, &quot;#ebebeb&quot;, &quot;#87CEFA&quot;, &quot;#ebebeb&quot;,&quot;#87CEFA&quot;) # coloc, ctwas, focus, fusionbon, fusionfdr, smrheidi, smr
-f1 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,150), main = &quot;setting 1&quot;)
-f2 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,150), main = &quot;setting 2&quot;)
+f1 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,150), main = &quot;high gene PVE&quot;)
+f2 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,150), main = &quot;low gene PVE&quot;)
 gridExtra::grid.arrange(f1, f2, ncol=2)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/ncausalplot-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ncausalplot-1">
+Past versions of ncausalplot-1.png
+</button>
+</p>
+<div id="fig-ncausalplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/ncausalplot-1.png" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="examples" class="section level2">
@@ -810,7 +978,7 @@ gridExtra::grid.arrange(f1, f2, ncol=2)</code></pre>
   points(a[a$type==&quot;gene&quot; ]$p0, a[a$type == &quot;gene&quot; ]$susie_pip, pch = 22, bg = colorsall[1], cex = 2)
   points(a[a$type==&quot;gene&quot; &amp; a$r2max &gt; r2cut, ]$p0, a[a$type == &quot;gene&quot;  &amp; a$r2max &gt; r2cut]$susie_pip, pch = 22, bg = &quot;purple&quot;, cex = 2)
   points(a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;gene&quot; &amp; a$ifcausal == 1]$susie_pip, pch = 22, bg = &quot;salmon&quot;, cex = 2)
-  legend(min(a$p0), y= 1.3 ,c(&quot;Gene&quot;, &quot;SNP&quot;), pch = c(21,22), title=&quot;shape legend&quot;, bty =&#39;n&#39;, cex =0.8, title.adj = 0)
+  legend(min(a$p0), y= 1.3 ,c(&quot;Gene&quot;, &quot;SNP&quot;), pch = c(22,21), title=&quot;shape legend&quot;, bty =&#39;n&#39;, cex =0.8, title.adj = 0)
   legend(min(a$p0), y= 0.8 ,c(&quot;Causal&quot;, &quot;Noncausal, R2 &gt; 0.4&quot;, &quot;Noncausal, R2 &lt;= 0.4&quot;), pch = 19, col = c(&quot;salmon&quot;, &quot;purple&quot;, colorsall[1]), title=&quot;color legend&quot;, bty =&#39;n&#39;, cex =0.8, title.adj = 0)
   par(mar = c(4.1, 4.1, 0.5, 2.1))
   plot(a[a$type==&quot;SNP&quot;]$p0, a[a$type == &quot;SNP&quot;]$PVALUE, pch = 21, xlab=&quot;Genomic position&quot; ,frame.plot=FALSE, bg = colorsall[1], ylab = &quot;TWAS -log10(p value)&quot;, panel.first = grid(), ylim =c(0, max(a$PVALUE)*1.2))
@@ -828,6 +996,43 @@ a &lt;- plot_region(runtag, simutag, configtag, chr = 4, startpos = 43965045, en
   method        from       
   throw.default R.methodsS3</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot1-1">
+Past versions of regionplot1-1.png
+</button>
+</p>
+<div id="fig-regionplot1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/regionplot1-1.png" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="fp-example-2" class="section level3">
 <h3>FP example 2</h3>
@@ -835,6 +1040,43 @@ a &lt;- plot_region(runtag, simutag, configtag, chr = 4, startpos = 43965045, en
 <pre class="r"><code>simutag &lt;- &quot;4-1&quot;
 a &lt;- plot_region(runtag, simutag, configtag, chr = 5, startpos = 152867774, endpos = 153773088)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot2-1">
+Past versions of regionplot2-1.png
+</button>
+</p>
+<div id="fig-regionplot2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/regionplot2-1.png" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="tp-example" class="section level3">
 <h3>TP example</h3>
@@ -842,6 +1084,43 @@ a &lt;- plot_region(runtag, simutag, configtag, chr = 5, startpos = 152867774, e
 <pre class="r"><code>simutag &lt;- &quot;4-4&quot;
 a &lt;- plot_region(runtag, simutag, configtag, chr = 1, startpos = 37549183 , endpos =38731847)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot3-1">
+Past versions of regionplot3-1.png
+</button>
+</p>
+<div id="fig-regionplot3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/regionplot3-1.png" target="_blank">ca90eff</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-07-31
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -877,21 +1156,22 @@ loaded via a namespace (and not attached):
  [5] digest_0.6.20     foreach_1.4.4     utf8_1.1.4        cellranger_1.1.0 
  [9] R6_2.4.0          backports_1.1.4   evaluate_0.14     highr_0.8        
 [13] pillar_1.5.1      rlang_0.4.10      readxl_1.3.1      curl_3.3         
-[17] car_3.0-5         R.oo_1.22.0       R.utils_2.9.0     Matrix_1.2-18    
-[21] rmarkdown_2.9     labeling_0.3      stringr_1.4.0     foreign_0.8-71   
-[25] munsell_0.5.0     broom_0.7.5       compiler_3.6.1    httpuv_1.6.1     
-[29] xfun_0.24         pkgconfig_2.0.2   htmltools_0.3.6   tidyselect_1.1.0 
-[33] gridExtra_2.3     tibble_3.1.0      workflowr_1.6.2   logging_0.10-108 
-[37] rio_0.5.16        codetools_0.2-16  fansi_0.4.0       crayon_1.3.4     
-[41] dplyr_1.0.5       withr_2.4.1       later_0.8.0       R.methodsS3_1.7.1
-[45] grid_3.6.1        gtable_0.3.0      lifecycle_1.0.0   DBI_1.1.0        
-[49] git2r_0.26.1      magrittr_1.5      scales_1.1.0      zip_2.0.3        
-[53] carData_3.0-2     stringi_1.4.3     debugme_1.1.0     farver_2.1.0     
-[57] ggsignif_0.5.0    fs_1.3.1          promises_1.0.1    pgenlibr_0.2     
-[61] ellipsis_0.2.0.1  generics_0.0.2    vctrs_0.3.7       openxlsx_4.1.0.1 
-[65] iterators_1.0.10  tools_3.6.1       forcats_0.4.0     glue_1.4.2       
-[69] purrr_0.3.4       hms_0.5.3         abind_1.4-5       yaml_2.2.0       
-[73] colorspace_1.4-1  rstatix_0.7.0     knitr_1.33        haven_2.3.1      </code></pre>
+[17] whisker_0.3-2     car_3.0-5         R.oo_1.22.0       R.utils_2.9.0    
+[21] Matrix_1.2-18     rmarkdown_2.9     labeling_0.3      stringr_1.4.0    
+[25] foreign_0.8-71    munsell_0.5.0     broom_0.7.5       compiler_3.6.1   
+[29] httpuv_1.6.1      xfun_0.24         pkgconfig_2.0.2   htmltools_0.3.6  
+[33] tidyselect_1.1.0  gridExtra_2.3     tibble_3.1.0      workflowr_1.6.2  
+[37] logging_0.10-108  rio_0.5.16        codetools_0.2-16  fansi_0.4.0      
+[41] crayon_1.3.4      dplyr_1.0.5       withr_2.4.1       later_0.8.0      
+[45] R.methodsS3_1.7.1 grid_3.6.1        gtable_0.3.0      lifecycle_1.0.0  
+[49] DBI_1.1.0         git2r_0.26.1      magrittr_1.5      scales_1.1.0     
+[53] zip_2.0.3         carData_3.0-2     stringi_1.4.3     debugme_1.1.0    
+[57] farver_2.1.0      ggsignif_0.5.0    fs_1.3.1          promises_1.0.1   
+[61] pgenlibr_0.2      ellipsis_0.2.0.1  generics_0.0.2    vctrs_0.3.7      
+[65] openxlsx_4.1.0.1  iterators_1.0.10  tools_3.6.1       forcats_0.4.0    
+[69] glue_1.4.2        purrr_0.3.4       hms_0.5.3         abind_1.4-5      
+[73] yaml_2.2.0        colorspace_1.4-1  rstatix_0.7.0     knitr_1.33       
+[77] haven_2.3.1      </code></pre>
 </div>
 </div>
 </div>
