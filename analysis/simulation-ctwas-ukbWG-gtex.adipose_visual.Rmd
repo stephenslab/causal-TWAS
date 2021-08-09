@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE, message= F, warning = F)
 ```{r functions file}
 source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
 source("~/causalTWAS/causal-TWAS/analysis/visual_twas_plots.R")
+library(plyr)
 
 plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
   a <- fread(susief, header =T)
@@ -71,7 +72,7 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
 ```{r sim 2, out.width = "98%", out.height="95%"}
 outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
 runtag <- "ukb-s80.45-adi"
-simutags <- paste(4, 1:5, sep = "-")
+simutags <- paste(3, 1:5, sep = "-")
 configtag <- 1
 
 susiefs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".susieIrss.txt")
@@ -83,7 +84,7 @@ scatter_plot_PIP_p(phenofs, susiefs, gwasfs, main ="PIP-p")
 
 ## Zoom view
 FP example, LD with causal gene, GNPDA2
-
+under 4-1 to 4-5
 ```{r sim 2, out.width = "98%", out.height="95%"}
 chrom <- 4
 runtag <- 4
@@ -92,11 +93,18 @@ plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 
 FP example: LD with causal SNP, GALNT10
 ```{r sim 2, out.width = "98%", out.height="95%"}
-runtag <- 1
-chrom <- 5
+runtag <- 5
+chrom <- 1
 plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 ```
 
+under 10-1 to 10-5
+FP example: LD with causal SNP
+```{r sim 2, out.width = "98%", out.height="95%"}
+runtag <- 5
+chrom <- 1
+plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
+```
 
 True positive example: c1orf109
 ```{r sim 2, out.width = "98%", out.height="95%"}

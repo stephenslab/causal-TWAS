@@ -1,0 +1,2 @@
+chr	start	stop
+chr19	16804416	17609862

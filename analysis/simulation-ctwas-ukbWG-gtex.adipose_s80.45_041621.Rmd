@@ -93,7 +93,28 @@ J <- 8021 # number of genes
 We used expression models and LD reference to get z scores for gene expression.
 
 2. Run ctwas_rss
-We used LDetect to define regions. `ctwas_rss` algorithm first runs on all regions to get rough estimate for gene and SNP prior. Then run on small regions (having small probablities of having > 1 causal signals based on rough estimates) to get more accurate estimate. To lower computational burden, we downsampled SNPs (0.1), estimate parameters and convert back to orginal scale. Lastly, run susie with given L for all regions and for all genes and SNPs using estimated prior and prior variance.
+`ctwas_rss` algorithm first runs on all regions to get rough estimate for gene and SNP prior. Then run on small regions (having small probablities of having > 1 causal signals based on rough estimates) to get more accurate estimate. To lower computational burden, we downsampled SNPs (0.1) to estimate parameters. With the estimated parameters, we then run susie for all regions using both genes and downsampled SNPs with specified $L$. After this, for regions with strong gene signals, we rerun susie with full SNPs using specified $L$. 
+
+Configurations
+
+`ld_regions ='EUR'`, We used LDetect to define regions. To match UKbiobank data, we use the 'EUR' population
+
+`thin = 0.1`, downsampled SNPs to 1/10 for parameter estimation step
+
+`niter1 =3`, run `niter1 =3` iterations first to get some rough parameter estimates.
+
+`prob_single = 0.8`, the probability of a region having at most 1 singal has to be at least 0.8 to be selected for the parameter estimation step. This probability is obtained by using the PIPs from the first few iterations.
+
+`niter2 = 30`, run `niter2 = 30` for parameter estimation step
+
+`L = 3` , after parameter estimation, for running susie for all regions.
+
+`group_prior = NULL`, the intiating prior parameters we used for running susie for each region is uniform prior for genes and SNPs.
+
+`group_prior_var = NULL`, the intiating prior variance parameters we used for running susie for each region follows susie_rss's default (50).
+
+`max_SNP_region = 5000`, the maximum number of SNPs for re-running susie on strong gene signal regions is 5000. 
+
 
 # Power estimation
 

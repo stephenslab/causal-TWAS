@@ -50,7 +50,7 @@ scatter_plot_PIP_p <- function(phenofs, pipfs, gwasfs, main ="PIP-p"){
     df <- rbind(df, res)
   }
 
-  df <- rename(df, c( "PVALUE" = "TWAS.p"))
+  colnames(df)[colnames(df)== "PVALUE"] <- "TWAS.p"
   df[,"TWAS.p"] <- -log10(df[, "TWAS.p"])
 
   # df$ifcausal <- mapvalues(df$ifcausal, from=c(0,1),to=c("darkgreen", "salmon"))

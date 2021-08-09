@@ -390,7 +390,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-08-03
+<strong>Last updated:</strong> 2021-08-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -521,16 +521,16 @@ analysis/ld.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeca90eff1f2870c8bb224659d22cf951a988c3df1targetblankca90effa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/ca90eff1f2870c8bb224659d22cf951a988c3df1" target="_blank">ca90eff</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8521449d41de38dad77e625b07a93c3996f40f44targetblank8521449a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/8521449d41de38dad77e625b07a93c3996f40f44" target="_blank">8521449</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreeca90eff1f2870c8bb224659d22cf951a988c3df1targetblankca90effa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8521449d41de38dad77e625b07a93c3996f40f44targetblank8521449a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/ca90eff1f2870c8bb224659d22cf951a988c3df1" target="_blank">ca90eff</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/8521449d41de38dad77e625b07a93c3996f40f44" target="_blank">8521449</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -547,10 +547,21 @@ Ignored files:
     Ignored:    data/
 
 Untracked files:
-    Untracked:  analysis/figure/
+    Untracked:  analysis/temp.regions.txt
+    Untracked:  analysis/temp.susieIrss.txt
+    Untracked:  analysis/temp.temp.susieIrssres.Rd
+    Untracked:  analysis/temp_reg.txt
+    Untracked:  temp.regions.txt
+    Untracked:  temp.susieIrss.txt
+    Untracked:  temp.temp.susieIrssres.Rd
+    Untracked:  temp_reg.txt
 
 Unstaged changes:
     Modified:   analysis/Paper_figures_simulation.Rmd
+    Modified:   analysis/ld.R
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_visual.Rmd
+    Modified:   analysis/summarize_ctwas_plots.R
 
 </code></pre>
 <p>
@@ -589,6 +600,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/analysis/Paper_figures_simulation.Rmd" target="_blank">8521449</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-04
+</td>
+<td>
+update simulation figure
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/8521449d41de38dad77e625b07a93c3996f40f44/docs/Paper_figures_simulation.html" target="_blank">8521449</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-04
+</td>
+<td>
+update simulation figure
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -653,8 +698,11 @@ comparedir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_202
 runtag = &quot;ukb-s80.45-adi&quot;
 configtag = 1
 pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt&quot;
+ld_pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt&quot;
 exprfn = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416//ukb-s80.45-adi.expr.txt&quot;
 
+
+ld_pgenfs &lt;- read.table(ld_pgenfn, header = F, stringsAsFactors = F)[,1]
 pgenfs &lt;- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
 pvarfs &lt;- sapply(pgenfs, prep_pvar, outputdir = outputdir)
 pgens &lt;- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf = pvarfs[x]))
@@ -800,6 +848,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/pipplot-1.png" target="_blank">8521449</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/pipplot-1.png" target="_blank">ca90eff</a>
 </td>
 <td>
@@ -918,6 +977,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/ncausalplot-1.png" target="_blank">8521449</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/ncausalplot-1.png" target="_blank">ca90eff</a>
 </td>
 <td>
@@ -938,33 +1008,59 @@ simingz
 <div id="fp-example-1" class="section level3">
 <h3>FP example 1</h3>
 <p>cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal gene's eQTLs.</p>
-<pre class="r"><code>plot_region &lt;- function(runtag, simutag, configtag, chr, startpos = NULL, endpos = NULL){
- susief &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutag, &quot;_config&quot;, configtag, &quot;.susieIrss.txt&quot;)
+<pre class="r"><code>plot_region &lt;- function(runtag, simutag, configtag, chr, startpos = NULL, endpos = NULL, rerun_ctwas = F, plot_ceqtl = F,
+                        plot_eqtl = F){
   pf &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutag)
   phenof &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutag, &quot;-pheno.Rd&quot;)
   
-  a &lt;- fread(susief, header =T)
   b1 &lt;- fread(paste0(pf, &quot;.snpgwas.txt.gz&quot;), header =T)
   setnames(b1, old = &quot;pos&quot;, new = &quot;p0&quot;)
   b2 &lt;- fread(paste0(pf, &quot;.exprgwas.txt.gz&quot;), header =T)
   b &lt;- rbind(b1, b2, fill = T)
-  
-  a &lt;- a[a$chrom == chr,]
   b &lt;- b[b$chrom == chr,]
+  
+  susief &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutag, &quot;_config&quot;, configtag, &quot;.susieIrss.txt&quot;)
+  a &lt;- fread(susief, header =T)
+  a &lt;- a[a$chrom == chr,]
+  
   if (!is.null(startpos)){
     a &lt;- a[a$pos &gt; startpos &amp; a$pos &lt; endpos]
     b &lt;- b[b$p0 &gt; startpos &amp; b$p0 &lt; endpos]
   }
+  
+  a &lt;- merge(a, b, by = &quot;id&quot;, all = T)
+  a[is.na(a$type),&quot;type&quot;] &lt;- &quot;SNP&quot;
+  
+  if (isTRUE(rerun_ctwas)){
+      ld_exprfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutag, &quot;_chr&quot;, 1:22, &quot;.expr.gz&quot;)
+      load(paste0(outputdir, runtag, &quot;_simu&quot;, simutag, &quot;_config&quot;, configtag, &quot;.s2.susieIrssres.Rd&quot;))
+      source(paste0(outputdir, &quot;config&quot;, configtag, &quot;.R&quot;))
+      group_prior &lt;- group_prior_rec[, ncol(group_prior_rec)] 
+      group_prior[2] &lt;- group_prior[2] * thin
+      group_prior_var &lt;- group_prior_var_rec[, ncol(group_prior_var_rec)]
+      temp_reg &lt;- data.frame(&quot;chr&quot; = paste0(&quot;chr&quot;,chr), &quot;start&quot; = startpos, &quot;stop&quot; = endpos)
+      write.table(temp_reg, file= &quot;temp_reg.txt&quot; , row.names=F, col.names=T, sep=&quot;\t&quot;, quote = F)
+      z_gene &lt;-  a[a$type == &quot;gene&quot;, c(&quot;id&quot;, &quot;t.value&quot;)]
+      colnames(z_gene) &lt;- c(&quot;id&quot;, &quot;z&quot;)
+      z_snp &lt;-  a[a$type == &quot;SNP&quot;, c(&quot;id&quot;, &quot;alt&quot;, &quot;ref&quot;, &quot;t.value&quot;)]
+      colnames(z_snp) &lt;- c(&quot;id&quot;, &quot;A1&quot;, &quot;A2&quot;, &quot;z&quot;)
+      ctwas_rss(z_gene, z_snp, ld_exprfs= ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions_custom = &quot;temp_reg.txt&quot;, thin = 1, outputdir = &quot;.&quot;, outname = &quot;temp&quot;, ncore = 1, ncore.rerun = 1, prob_single = 0,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F, recover_strand_ambig_z = F)
+      a2 &lt;- fread(&quot;temp.susieIrss.txt&quot;, header = T)
+      a &lt;- merge(a2, b, by = &quot;id&quot;, all = T)
+      # file.remove(&quot;temp.susieIrss.txt&quot;)
+      # file.remove(&quot;temp.temp.susieIrssres.Rd&quot;)
+      # file.remove(&quot;temp.regions.txt&quot;)
+      # file.remove(&quot;temp_reg.txt&quot;)
+   }
 
   load(phenof)
   cau &lt;- get_causal_id(phenores)
   
-  a &lt;- merge(a, b, by = &quot;id&quot;, all = T)
   a$ifcausal &lt;- ifelse(a$id %in% cau, 1, 0)
   a[is.na(a$type),&quot;type&quot;] &lt;- &quot;SNP&quot;
   
   a[, &quot;PVALUE&quot;] &lt;- -log10(a[, &quot;PVALUE&quot;])
-  a$r2max &lt;- get_ld(ids =a$id, phenores = phenores, pgenfs = pgenfs, exprfs = exprfs, chrom = chr)
+  a$r2max &lt;- get_ld2(ids =a$id, phenores = phenores, pgenfs = pgenfs, exprfs = exprfs, chrom = chr)
   
   r2cut &lt;- 0.4
   
@@ -978,6 +1074,22 @@ simingz
   points(a[a$type==&quot;gene&quot; ]$p0, a[a$type == &quot;gene&quot; ]$susie_pip, pch = 22, bg = colorsall[1], cex = 2)
   points(a[a$type==&quot;gene&quot; &amp; a$r2max &gt; r2cut, ]$p0, a[a$type == &quot;gene&quot;  &amp; a$r2max &gt; r2cut]$susie_pip, pch = 22, bg = &quot;purple&quot;, cex = 2)
   points(a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;gene&quot; &amp; a$ifcausal == 1]$susie_pip, pch = 22, bg = &quot;salmon&quot;, cex = 2)
+  if (isTRUE(plot_ceqtl)){
+      for (cgene in a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$id){
+     load(paste0(tools::file_path_sans_ext(exprfs[a[a$id == cgene, &quot;chrom.x&quot;][[1]]]), &quot;qc.Rd&quot;))
+     eqtls &lt;- rownames(wgtlist[[cgene]])
+     points(a[a$id %in% eqtls,]$p0, rep( -0.15, nrow(a[a$id %in% eqtls,])), pch = &quot;|&quot;, col = &quot;salmon&quot;, cex = 1.5)
+    }
+  }
+
+  if (isTRUE(plot_eqtl)){
+    for (cgene in a[a$type==&quot;gene&quot; &amp; a$PVALUE &gt;5, ]$id){
+     load(paste0(tools::file_path_sans_ext(exprfs[a[a$id == cgene, &quot;chrom.x&quot;][[1]]]), &quot;qc.Rd&quot;))
+     eqtls &lt;- rownames(wgtlist[[cgene]])
+     points(a[a$id %in% eqtls,]$p0, rep( -0.15, nrow(a[a$id %in% eqtls,])), pch = &quot;|&quot;, col = &quot;black&quot;, cex = 1.5)
+    }
+  }
+  
   legend(min(a$p0), y= 1.3 ,c(&quot;Gene&quot;, &quot;SNP&quot;), pch = c(22,21), title=&quot;shape legend&quot;, bty =&#39;n&#39;, cex =0.8, title.adj = 0)
   legend(min(a$p0), y= 0.8 ,c(&quot;Causal&quot;, &quot;Noncausal, R2 &gt; 0.4&quot;, &quot;Noncausal, R2 &lt;= 0.4&quot;), pch = 19, col = c(&quot;salmon&quot;, &quot;purple&quot;, colorsall[1]), title=&quot;color legend&quot;, bty =&#39;n&#39;, cex =0.8, title.adj = 0)
   par(mar = c(4.1, 4.1, 0.5, 2.1))
@@ -988,13 +1100,9 @@ simingz
   points(a[a$type==&quot;gene&quot; &amp; a$r2max &gt; r2cut, ]$p0, a[a$type == &quot;gene&quot;  &amp; a$r2max &gt; r2cut]$PVALUE, pch = 22, bg = &quot;purple&quot;, cex = 2)
   points(a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;gene&quot; &amp; a$ifcausal == 1]$PVALUE, pch = 22, bg = &quot;salmon&quot;, cex = 2)
   abline(h=-log10(0.05/J), col =&quot;red&quot;, lty = 2)
+  
   return(a)
 }</code></pre>
-<pre class="r"><code>simutag &lt;- &quot;4-4&quot;
-a &lt;- plot_region(runtag, simutag, configtag, chr = 4, startpos = 43965045, endpos = 45189157)</code></pre>
-<pre><code>Registered S3 method overwritten by &#39;R.oo&#39;:
-  method        from       
-  throw.default R.methodsS3</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot1-1">
@@ -1020,6 +1128,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/regionplot1-1.png" target="_blank">8521449</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/regionplot1-1.png" target="_blank">ca90eff</a>
 </td>
 <td>
@@ -1037,8 +1156,6 @@ simingz
 <div id="fp-example-2" class="section level3">
 <h3>FP example 2</h3>
 <p>cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal SNP nearby.</p>
-<pre class="r"><code>simutag &lt;- &quot;4-1&quot;
-a &lt;- plot_region(runtag, simutag, configtag, chr = 5, startpos = 152867774, endpos = 153773088)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot2-1">
@@ -1064,6 +1181,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/regionplot2-1.png" target="_blank">8521449</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/regionplot2-1.png" target="_blank">ca90eff</a>
 </td>
 <td>
@@ -1081,8 +1209,6 @@ simingz
 <div id="tp-example" class="section level3">
 <h3>TP example</h3>
 <p>cTWAS is able to find true positives. This gene has one eQTL, cTWAS choose this gene because it uses a prior favoring genes, it didn't reach significance level by TWAS after bonferron correction.</p>
-<pre class="r"><code>simutag &lt;- &quot;4-4&quot;
-a &lt;- plot_region(runtag, simutag, configtag, chr = 1, startpos = 37549183 , endpos =38731847)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot3-1">
@@ -1106,6 +1232,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/regionplot3-1.png" target="_blank">8521449</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/ca90eff1f2870c8bb224659d22cf951a988c3df1/docs/figure/Paper_figures_simulation.Rmd/regionplot3-1.png" target="_blank">ca90eff</a>
@@ -1149,29 +1286,29 @@ attached base packages:
 
 other attached packages:
 [1] ggpubr_0.4.0      plotrix_3.7-6     cowplot_1.0.0     ggplot2_3.3.3    
-[5] data.table_1.13.2 ctwas_0.1.28     
+[5] data.table_1.13.2 ctwas_0.1.29     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5        lattice_0.20-38   tidyr_1.1.0       rprojroot_1.3-2  
- [5] digest_0.6.20     foreach_1.4.4     utf8_1.1.4        cellranger_1.1.0 
- [9] R6_2.4.0          backports_1.1.4   evaluate_0.14     highr_0.8        
-[13] pillar_1.5.1      rlang_0.4.10      readxl_1.3.1      curl_3.3         
-[17] whisker_0.3-2     car_3.0-5         R.oo_1.22.0       R.utils_2.9.0    
-[21] Matrix_1.2-18     rmarkdown_2.9     labeling_0.3      stringr_1.4.0    
-[25] foreign_0.8-71    munsell_0.5.0     broom_0.7.5       compiler_3.6.1   
-[29] httpuv_1.6.1      xfun_0.24         pkgconfig_2.0.2   htmltools_0.3.6  
-[33] tidyselect_1.1.0  gridExtra_2.3     tibble_3.1.0      workflowr_1.6.2  
-[37] logging_0.10-108  rio_0.5.16        codetools_0.2-16  fansi_0.4.0      
-[41] crayon_1.3.4      dplyr_1.0.5       withr_2.4.1       later_0.8.0      
-[45] R.methodsS3_1.7.1 grid_3.6.1        gtable_0.3.0      lifecycle_1.0.0  
-[49] DBI_1.1.0         git2r_0.26.1      magrittr_1.5      scales_1.1.0     
-[53] zip_2.0.3         carData_3.0-2     stringi_1.4.3     debugme_1.1.0    
-[57] farver_2.1.0      ggsignif_0.5.0    fs_1.3.1          promises_1.0.1   
-[61] pgenlibr_0.2      ellipsis_0.2.0.1  generics_0.0.2    vctrs_0.3.7      
-[65] openxlsx_4.1.0.1  iterators_1.0.10  tools_3.6.1       forcats_0.4.0    
-[69] glue_1.4.2        purrr_0.3.4       hms_0.5.3         abind_1.4-5      
-[73] yaml_2.2.0        colorspace_1.4-1  rstatix_0.7.0     knitr_1.33       
-[77] haven_2.3.1      </code></pre>
+ [1] tidyr_1.1.0       foreach_1.4.4     pgenlibr_0.2      carData_3.0-2    
+ [5] logging_0.10-108  R.utils_2.9.0     highr_0.8         cellranger_1.1.0 
+ [9] yaml_2.2.0        pillar_1.5.1      backports_1.1.4   lattice_0.20-38  
+[13] glue_1.4.2        digest_0.6.20     promises_1.0.1    ggsignif_0.5.0   
+[17] colorspace_1.4-1  htmltools_0.3.6   httpuv_1.6.1      Matrix_1.2-18    
+[21] R.oo_1.22.0       pkgconfig_2.0.2   broom_0.7.5       haven_2.3.1      
+[25] purrr_0.3.4       scales_1.1.0      whisker_0.3-2     openxlsx_4.1.0.1 
+[29] later_0.8.0       rio_0.5.16        git2r_0.26.1      tibble_3.1.0     
+[33] generics_0.0.2    farver_2.1.0      car_3.0-5         ellipsis_0.2.0.1 
+[37] withr_2.4.1       magrittr_1.5      crayon_1.3.4      readxl_1.3.1     
+[41] evaluate_0.14     R.methodsS3_1.7.1 fs_1.3.1          fansi_0.4.0      
+[45] doParallel_1.0.14 rstatix_0.7.0     forcats_0.4.0     foreign_0.8-71   
+[49] tools_3.6.1       hms_0.5.3         lifecycle_1.0.0   stringr_1.4.0    
+[53] munsell_0.5.0     zip_2.0.3         compiler_3.6.1    rlang_0.4.10     
+[57] debugme_1.1.0     grid_3.6.1        iterators_1.0.10  labeling_0.3     
+[61] rmarkdown_2.9     gtable_0.3.0      codetools_0.2-16  abind_1.4-5      
+[65] DBI_1.1.0         curl_3.3          R6_2.4.0          gridExtra_2.3    
+[69] knitr_1.33        dplyr_1.0.5       utf8_1.1.4        workflowr_1.6.2  
+[73] rprojroot_1.3-2   readr_1.3.1       stringi_1.4.3     parallel_3.6.1   
+[77] Rcpp_1.0.5        vctrs_0.3.7       tidyselect_1.1.0  xfun_0.24        </code></pre>
 </div>
 </div>
 </div>

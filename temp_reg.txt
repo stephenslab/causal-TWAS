@@ -1,0 +1,2 @@
+chr	start	stop
+chr1	37549183	38731847
