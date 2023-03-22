@@ -137,4 +137,103 @@ simulate_phenotype<- function(pgenfs,
 
 }
 
+simulate_phenotype_multi <- function(pgenfs,
+                                     exprfs,
+                                     weight_1,
+                                     pve_expr_1 = 0.1,
+                                     pi_beta_1 = 0.01,
+                                     weight_2,
+                                     pve_expr_2 = 0.1,
+                                     pi_beta_2 = 0.01,
+                                     pve_snp = 0.1,
+                                     pi_theta = 0.0001,
+                                     sigma_beta = NULL,
+                                     sigma_theta = NULL){
+  weight_1 <- rev(unlist(strsplit(tools::file_path_sans_ext(weight_1), "/")))[1]
+  weight_2 <- rev(unlist(strsplit(tools::file_path_sans_ext(weight_2), "/")))[1]
+  weight <- c(weight_1, weight_2)
 
+  pi_beta <- c(pi_beta_1, pi_beta_2)
+  pve_expr <- c(pve_expr_1, pve_expr_2)
+
+  pvarfs <- sapply(pgenfs, prep_pvar, outputdir = outputdir)
+  exprvarfs <- sapply(exprfs, prep_exprvar)
+
+  pgen1 <- prep_pgen(pgenf = pgenfs[1], pvarfs[1])
+  N <- pgenlibr::GetRawSampleCt(pgen1)
+
+  M.b <- sapply(pvarfs, function(x) nrow(read_pvar(x)))
+  J.b <- t(sapply(exprvarfs, function(x){df <- read_exprvar(x); df$weight <- sapply(df$id, function(y){unlist(strsplit(y, "[|]"))[2]}); table(df$weight)[weight]}))
+
+  M <- sum(M.b)
+  J <- apply(J.b, 2, sum)
+
+  if (is.null(sigma_beta)){
+    expr_meanvar <- 1 # always scale before simulate
+    J.c <- round(J * pi_beta)
+    sigma_beta <- sqrt(pve_expr / (J.c * expr_meanvar * (1 - pve_snp - sum(pve_expr))))
+    sigma_beta[is.infinite(sigma_beta) | is.nan(sigma_beta)] <- 0
+  }
+
+  if (is.null(sigma_theta)){
+    M.c <- round(M * pi_theta)
+    sigma_theta <- sqrt(pve_snp / (M.c * (1 - pve_snp - sum(pve_expr))))
+  }
+
+  phenores <- list("batch" = list())
+
+  for (b in 1:length(pgenfs)){
+    idx.cSNP <- which(rbinom(M.b[b], 1, pi_theta) == 1)
+
+    offset <- c(0,rev(rev(J.b[b,])[-1]))
+    idx.cgene <- lapply(1:ncol(J.b), function(x){which(rbinom(J.b[b,x], 1, pi_beta[x])==1)+offset[x]})
+    n_cgene <- sapply(idx.cgene, length)
+    idx.cgene <- unlist(idx.cgene)
+    names(idx.cgene) <- NULL
+
+    X.g <- read_expr(exprfs[b], variantidx = idx.cgene)
+    if (is.null(X.g)){
+      X.g <- matrix(NA, nrow=N, ncol=0)
+    }
+
+    X.g <- scale(X.g) # always scale expr
+
+    # change invariant SNPs from NaN to 0
+    X.g[,apply(X.g, 2, function(x){any(is.nan(x))})] <- 0
+
+    pgen <- prep_pgen(pgenf = pgenfs[b], pvarfs[b])
+
+    X.s <- read_pgen(pgen, variantidx = idx.cSNP)
+    X.s <- scale(X.s) # always scale genotype
+
+    s.theta <- rnorm(length(idx.cSNP), mean = 0, sd = sigma_theta)
+    e.beta <- unlist(lapply(1:length(n_cgene), function(x){rnorm(n_cgene[x], mean=0, sd=sigma_beta[x])}))
+
+    Y.g <- X.g %*% e.beta + X.s %*% s.theta
+
+    var.gene <- var(X.g %*% e.beta)
+    var.snp <- var(X.s %*% s.theta)
+
+    id.cgene <- read_exprvar(exprvarfs[b])[idx.cgene,][["id"]]
+    id.cSNP <-  read_pvar(pvarfs[b])[idx.cSNP, ][["id"]]
+
+    phenores[["batch"]][[b]] <- tibble::lst(Y.g, s.theta, e.beta,
+                                            sigma_theta, sigma_beta,
+                                            idx.cSNP, idx.cgene,
+                                            J = J.b[b,], M = M.b[b],
+                                            N, var.gene, var.snp,
+                                            id.cSNP, id.cgene)
+  }
+
+  Y <- matrix(rowSums(do.call(cbind, lapply(phenores[["batch"]], '[[', "Y.g"))) + rnorm(N), ncol = 1)
+  phenores$Y <- Y
+
+  var.y <- var(Y)
+
+  phenores$param$pve.snp.truth <-
+    sum(unlist(lapply(phenores[["batch"]], '[[', "var.snp")))/var.y
+  phenores$param$pve.gene.truth <-
+    sum(unlist(lapply(phenores[["batch"]], '[[', "var.gene")))/var.y
+
+  return(phenores)
+}

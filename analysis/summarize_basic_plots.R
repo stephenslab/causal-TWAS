@@ -123,7 +123,7 @@ nca_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), xmin
 }
 
 # used by caliPIP_plot, caliFDP_plot
-cp_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main = mode[1], ...){
+cp_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main = mode[1]){
 
   # ifcausal:0,1, runtag: for adding std.
   if (is.null(runtag)){
@@ -152,7 +152,7 @@ cp_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main 
     ggtitle(main) +
     expand_limits(y=0) +                        # Expand y range
     theme_cowplot() +
-    theme(panel.grid.major = element_line(colour = "grey",size=0.2,linetype="dashed"))
+    theme(panel.grid.major = element_line(colour = "grey",size=0.2,linetype="dashed"), plot.title = element_text(size=20))
 
   #plot(Expected, Observed, xlim= c(0,1), ylim=c(0,1), pch =19, main = main, ...)
   #lines(x = c(0,1), y = c(0,1), col ="grey", lty = 2)

@@ -13,7 +13,7 @@ source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
 source("~/causalTWAS/causal-TWAS/analysis/visual_twas_plots.R")
 library(plyr)
 
-plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
+plot_all <- function(susief, pf, phenof, colocf = NULL, chr, ldres = NULL, thin = 1){
   a <- fread(susief, header =T)
   setnames(a, old = "id", new = "name")
   b1 <- fread(paste0(pf, ".snpgwas.txt.gz"), header =T)
@@ -49,6 +49,12 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
   dt.gene <- a[a$type == "gene", ]
   dt.snp <- a[a$type == "SNP", ]
   
+  if (!is.null(colocf)) {
+    a <- fread(colocf, header = T)
+    setnames(a, old = "ID", new = "name")
+    dt.gene <- merge(dt.gene, a, by ="name")
+  }
+  
   fig1 <- plot_susie_pip(dt.gene)  # %>%  add_trace(p, x = list(1), y = list(1), name = " ", showlegend = F)
   # fig2 <- plot_lbf(dt.gene)
   fig3 <- plot_p(dt.gene) 
@@ -57,7 +63,13 @@ plot_all <- function(susief, pf, phenof, chr, ldres = NULL, thin = 1){
   # fig5 <- plot_lbf(dt.snp) 
   fig6 <- plot_p(dt.snp) %>% layout( plot_bgcolor='#EFF6FC')
   
-  fig <- subplot(fig1, fig3, fig4, fig6, nrows=4, shareX = T, titleY = T)
+  if (is.null(colocf)) {
+     fig <- subplot(fig1, fig3, fig4, fig6, nrows=4, shareX = T, titleY = T)
+  } else {
+     fig7 <- plot_coloc_pp4(dt.gene)
+     fig <- subplot(fig1, fig3, fig4, fig6, fig7, nrows=5, shareX = T, titleY = T)
+     
+  }
   
   fig <- fig %>% layout(autosize = F, width = 600, height = 500, margin = 0.02,
                         xaxis = list(title = "Genomic position"))
@@ -112,4 +124,15 @@ runtag <- 4
 chrom <- 1
 plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 ```
+
+# region plot with coloc results
+```{r sim 2, out.width = "98%", out.height="95%"}
+runtag <- "ukb-s80.45-adi"
+i <- 4
+chrom <- 5
+comparedir <- "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/"
+colocfs <- paste0(comparedir, runtag, "_simu", simutags,".Adipose_Subcutaneous.coloc.result")
+plot_all(susiefs[i], pfs[i], phenofs[i], chrom, colocf = colocfs[i], thin = 0.01)
+```
+
 

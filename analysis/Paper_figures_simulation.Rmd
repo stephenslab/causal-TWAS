@@ -45,8 +45,8 @@ In our simulations, the SNP PVE is always set to 0.5 in different settings. The 
 Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene. Horizontal bar shows mean true values across the 5 simulations with similar setting parameters. The results by ctwas for each simulation is shown by dots.  
 
 ```{r paramplotfunc}
-
-plot_single <- function(mtxlist, truecol, estcol, ...){
+require(latex2exp)
+plot_single <- function(mtxlist, truecol, estcol, xlabels = c("setting 1", "setting 2"), ...){
   truth <- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mean(mtxlist[[x]][, truecol]))))
   est <- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mtxlist[[x]][, estcol])))
   
@@ -54,7 +54,7 @@ plot_single <- function(mtxlist, truecol, estcol, ...){
   est[,1] <- jitter(est[,1])
 
   plot(est, pch = 19, xaxt = "n", xlab="" ,frame.plot=FALSE, col = colorsall[col], ...)
-  axis(side=1, at=1:2, labels = c("setting 1", "setting 2"), tick = F)
+  axis(side=1, at=1:2, labels = xlabels, tick = F)
   #text(x=1:length(mtxlist), 0, labels = paste0("temp",1:length(mtxlist)), xpd = T, pos =1)
   for (t in 1:nrow(truth)){
     row <- truth[t,]
@@ -64,9 +64,8 @@ plot_single <- function(mtxlist, truecol, estcol, ...){
   grid()
 }
  
-
-plot_par <- function(configtag, runtag, simutaglist){
-  mtxlist <- list()
+get_params <- function(configtag, runtag, simutaglist){
+    mtxlist <- list()
   for (group in 1:length(simutaglist)){
     simutags <- simutaglist[[group]]
     source(paste0(outputdir, "config", configtag, ".R"))
@@ -75,31 +74,37 @@ plot_par <- function(configtag, runtag, simutaglist){
     susieIfs2 <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".s2.susieIrss.txt")
     mtxlist[[group]] <- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
   }
-  
-  # pi1 
+    return(mtxlist)
+}
+
+plot_par <- function(mtxlist){
   par(mfrow=c(1,4))
   plot_single(mtxlist, truecol = "pi1.gene_truth", estcol = "pi1.gene_est", ylab ="gene pi1", ylim = c(0,0.02), xlim = c(0.8,2.4))
   plot_single(mtxlist, truecol = "enrich_truth", estcol = "enrich_est",ylab ="gene enrichment", ylim = c(0,120), xlim = c(0.8,2.4) )
   plot_single(mtxlist, truecol = "sigma.gene_truth", estcol = "sigma.gene_est", ylab = "gene effect size", ylim = c(0.01, 0.03), xlim = c(0.8,2.4))
   plot_single(mtxlist, truecol = "PVE.gene_truth", estcol = "PVE.gene_est", ylab ="gene PVE", ylim = c(0, 0.1), xlim = c(0.8,2.4))
-  
-  return(mtxlist)
 }
 
 ```
 
-Figure (supplementary):
+## Parameters Figure
 ```{r paramplot, fig.width= 8, fig.height= 3}
 simutaglist = list(paste(4, 1:5, sep = "-"), paste(10, 1:5, sep="-"))
-mtxlist <- plot_par(configtag, runtag, simutaglist)
+mtxlist <- get_params(configtag, runtag, simutaglist)
+plot_par(mtxlist)
 ```
 
-Back up figures
+### Supplementary-parameters
+```{r paramplot-suppl, fig.width= 8, fig.height= 3}
+plot_par_snps <- function(mtxlist){
+  par(mfrow=c(1,3))
+  plot_single(mtxlist, truecol = "pi1.SNP_truth", estcol = "pi1.SNP_est", xlabels = c("high gene PVE", "low gene PVE"), ylab =TeX('Percent causal, $\\pi_V$'), ylim = c(0,0.0005), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = "sigma.SNP_truth", estcol = "sigma.SNP_est",xlabels = c("high gene PVE", "low gene PVE"), ylab = "Variant effect size", ylim = c(0.01, 0.03), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = "PVE.SNP_truth", estcol = "PVE.SNP_est",xlabels = c("high gene PVE", "low gene PVE"), ylab ="Variant PVE", ylim = c(0, 0.8), xlim = c(0.8,2.4))
+}
 
-I have in total 10 x 2 = 20 settings to use generate the parameter figures. 
-
-### Comparison of PVE.gene vs. MESC estimates.
-Leave it to Kevin. 
+plot_par_snps(mtxlist)
+```
 
 
 ## PIP calibration
@@ -121,6 +126,33 @@ f1 <- plot_PIP(configtag, runtag, simutaglist[[1]], main = "high gene PVE")
 f2 <-  plot_PIP(configtag, runtag, simutaglist[[2]], main = "low gene PVE")
 gridExtra::grid.arrange(f1, f2, ncol =2)
 ```
+
+### Supplementary PIP plot
+
+```{r pipplot, fig.width= 8, fig.height= 16}
+simutaglist = lapply(c(1:3,5:9), function(x) paste(x, 1:5, sep ="-"))
+mtxlist <- get_params(configtag, runtag, simutaglist)
+simutaglist = c(list(paste(1, c(1,2,5), sep = "-")), 
+                lapply(c(2,3,5,6,7,8,9), function(x) paste(x, 1:5, sep ="-")))
+
+pdf(file = "temp3.pdf", height = 10, width =10)
+plotlist <- list()
+for (i in 1:length(simutaglist)){
+  plotlist[[i]] <- plot_PIP(configtag, runtag, simutaglist[[i]], main = 
+                              TeX(sprintf("\\overset{$\\pi_G$= %s, $PVE_G$ = %s;}{$\\pi_V$= %s, $PVE_G$ = %s}",
+                                  signif(mean(mtxlist[[i]][,"pi1.gene_truth"]), digits=2), 
+                                  signif(mean(mtxlist[[i]][,"PVE.gene_truth"]), digits=2),
+                                  signif(mean(mtxlist[[i]][,"pi1.SNP_truth"]), digits=2),
+                                  signif(mean(mtxlist[[i]][,"PVE.SNP_truth"]), digits=2))))
+}
+gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
+                        plotlist[[3]], plotlist[[4]],
+                        plotlist[[5]], plotlist[[6]],
+                        plotlist[[7]], plotlist[[8]],ncol = 3)
+dev.off()
+```
+
+
 
 ### Comparison with other methods
 Bar plot: each bar shows the number of genes, colored by causal status. Use a different color for each method. The method and cut off values:
@@ -216,6 +248,15 @@ f2 <- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= 
 gridExtra::grid.arrange(f1, f2, ncol=2)
 ```
 
+## Scatter plot
+```{r scatterplot}
+runtag <- "ukb-s80.45-adi"
+simutags <- paste(3, 2, sep = "-")
+phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+gwasfs <- paste0(outputdir, runtag, "_simu",simutags, ".exprgwas.txt.gz")
+pipfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
+df <- scatter_plot_PIP_p(phenofs, pipfs, gwasfs, main ="PIP-p")
+```
 
 ## Examples
 ### FP example 1
@@ -289,18 +330,22 @@ plot_region <- function(runtag, simutag, configtag, chr, startpos = NULL, endpos
   points(a[a$type=="gene" & a$r2max > r2cut, ]$p0, a[a$type == "gene"  & a$r2max > r2cut]$susie_pip, pch = 22, bg = "purple", cex = 2)
   points(a[a$type=="gene" & a$ifcausal == 1, ]$p0, a[a$type == "gene" & a$ifcausal == 1]$susie_pip, pch = 22, bg = "salmon", cex = 2)
   if (isTRUE(plot_ceqtl)){
+    gi <- 0
       for (cgene in a[a$type=="gene" & a$ifcausal == 1, ]$id){
      load(paste0(tools::file_path_sans_ext(exprfs[a[a$id == cgene, "chrom.x"][[1]]]), "qc.Rd"))
      eqtls <- rownames(wgtlist[[cgene]])
-     points(a[a$id %in% eqtls,]$p0, rep( -0.15, nrow(a[a$id %in% eqtls,])), pch = "|", col = "salmon", cex = 1.5)
+     points(a[a$id %in% eqtls,]$p0, rep( -0.15 - gi, nrow(a[a$id %in% eqtls,])), pch = "|", col = "salmon", cex = 1.5)
+     gi <- gi + 0.2
     }
   }
 
   if (isTRUE(plot_eqtl)){
-    for (cgene in a[a$type=="gene" & a$PVALUE >5, ]$id){
+     gi <- 0
+    for (cgene in a[a$type=="gene" & a$PVALUE >4, ]$id){
      load(paste0(tools::file_path_sans_ext(exprfs[a[a$id == cgene, "chrom.x"][[1]]]), "qc.Rd"))
      eqtls <- rownames(wgtlist[[cgene]])
-     points(a[a$id %in% eqtls,]$p0, rep( -0.15, nrow(a[a$id %in% eqtls,])), pch = "|", col = "black", cex = 1.5)
+     points(a[a$id %in% eqtls,]$p0, rep( -0.15-gi, nrow(a[a$id %in% eqtls,])), pch = "|", col = "black", cex = 1.5)
+     gi <- gi + 0.2
     }
   }
   
@@ -341,3 +386,21 @@ simutag <- "4-4"
 a <- plot_region(runtag, simutag, configtag, chr = 1, startpos = 37549183 , endpos =38731847, rerun_ctwas = T)
 ```
 
+
+### coloc false positives
+```{r regionplot4, echo=FALSE,results='hide',fig.keep='all', message=F}
+simutag <- "3-4"
+a <- plot_region(runtag, simutag, configtag, chr = 1, startpos = 64000000 , endpos =66000000, rerun_ctwas = F, plot_eqtl = T )
+```
+```{r regionplot4, echo=FALSE,results='hide',fig.keep='all', message=F}
+simutag <- "3-4"
+a <- plot_region(runtag, simutag, configtag, chr = 1, startpos = 66000000 , endpos =70000000, rerun_ctwas = F, plot_eqtl = T )
+```
+```{r regionplot4, echo=FALSE,results='hide',fig.keep='all', message=F}
+simutag <- "3-4"
+a <- plot_region(runtag, simutag, configtag, chr = 1, startpos = 155000000 , endpos =170000000, rerun_ctwas = F, plot_eqtl = T )
+```
+```{r regionplot4, echo=FALSE,results='hide',fig.keep='all', message=F}
+simutag <- "3-4"
+a <- plot_region(runtag, simutag, configtag, chr = 5, startpos = 47000000 , endpos =50000000, rerun_ctwas = F, plot_eqtl = T )
+```

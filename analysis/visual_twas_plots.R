@@ -73,6 +73,16 @@ plot_susie_pip <- function(dt) {
   fig <- fig %>% layout(yaxis = list(title = "SUSIE PIP"))
 }
 
+plot_coloc_pp4 <- function(dt) {
+  pal <- c("salmon", "darkgreen")
+  pal <- setNames(pal, c("Causal", "Non causal"))
+
+  fig <- plot_ly(dt, x = ~ p0, y = ~ COLOC.PP4 , type = 'scatter', mode = 'markers', color = ~ ifcausal, colors = pal, text = ~paste("Name: ", name))
+
+  fig <- fig %>% layout(yaxis = list(title = "coloc PP4"))
+}
+
+
 plot_all <- function(mrashres.gene, gwasres.gene, mrashres.snp, gwasres.snp, susieres.gene, susieres.snp, ldres = NULL, chrom=NULL){
   a <- read.table(mrashres.gene , header =T)
   a[a$ifcausal == 1, "ifcausal"] = "Causal"
