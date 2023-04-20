@@ -1,8 +1,8 @@
-library(mr.ash.alpha)
+#library(mr.ash.alpha)
 library(data.table)
 suppressMessages({library(plotly)})
 
-source("~/causalTWAS/causal-TWAS/code/before_package/fit_mr.ash.R")
+#source("~/causalTWAS/causal-TWAS/code/before_package/fit_mr.ash.R")
 
 get_files <- function(tag, tag2){
   par <- paste0(outputdir, tag, "-mr.ash2s.", tag2, ".param.txt")

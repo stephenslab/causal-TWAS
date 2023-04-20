@@ -32,5 +32,11 @@
         "ctwas_rss_LDR" :
     {
         "time" : "36:00:00",
+    },
+        "PMR_aggregate" :
+    {
+        "time" : "00:05:00",
+        "n": 1,
+        "mem": "2G"
     }
 }

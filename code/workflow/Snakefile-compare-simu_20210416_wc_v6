@@ -5,30 +5,41 @@
 import os
 import csv
 codedir = "~/causalTWAS/causal-TWAS/code/"
-fusiondir = "/home/simingz/causalTWAS/fusion_twas-master/"
-gcta = "/home/simingz/causalTWAS/gcta_1.93.2beta/gcta64"
+fusiondir = "/project2/mstephens/causalTWAS/fusion_twas-master/"
+gcta = "/project2/mstephens/causalTWAS/gcta_1.93.2beta/gcta64"
 
 # data (in ctwas format)
 # gwas data: gwasdir/gwasname.snpgwas.txt.gz see
-# /home/simingz/causalTWAS/simulations/test_package_temp/test_simu2-5.snpgwas.txt.gz
+# /project2/mstephens/causalTWAS/simulations/test_package_temp/test_simu2-5.snpgwas.txt.gz
 # as an example, the effect allele is the alt allele.
 # ld_pgenfs: a file lists plink pgen files, one row for one file, 1:22
 
-ld_pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
-weightdir = "/home/simingz/causalTWAS/fusion_weights/"
+ld_pgenfs = "/project2/mstephens/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
+ld_R_dir = "/project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR"
+
+weightdir = "/project2/mstephens/causalTWAS/fusion_weights/"
 weightnames = ["Adipose_Subcutaneous"]
-gwasdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
-gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(1,11) for j in range(1,6)]
-eqtlSS = "/home/simingz/causalTWAS/GTEx_v7_eQTL/Adipose_Subcutaneous.v7.eQTL.txt.gz"
+
+#weightbatches = ["" + str(i) for i in range(1,83)]
+weightbatches = ["" + str(i) for i in range(1,10)]
+
+gwasdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
+#gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(1,11) for j in range(1,6)]
+#gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(10,11) for j in range(1,6)]
+gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in (list(range(4,5)) + list(range(10, 11))) for j in range(1,6)]
 gwasn = 45000
+
+eqtlSS = "/project2/mstephens/causalTWAS/GTEx_v7_eQTL/Adipose_Subcutaneous.v7.eQTL.txt.gz"
+eqtlSS_all = "/project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz"
+eqtln = 380
 
 # output
 outputdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/" # add / at end
 
 rule all:
     input:
-#        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames)
-        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames)
+        #expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.pmr.result_pi_080.batch_{weightbatch}', gwasname = gwasnames, weightname = weightnames, weightbatch = weightbatches)
+        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.pmr.result_pi_080', gwasname = gwasnames, weightname = weightnames)
 
 rule plink2TOplink1:
     output:
@@ -58,8 +69,7 @@ rule fusion_coloc:
     params:
         COLOC_P = 1e-4,
         GWASN = gwasn,
-        model = 'lasso',
-        permn = 1e5
+        model = 'lasso'
     run:
         # convert gwas file
         if os.path.splitext(input.gwasf)[1] == ".gz":
@@ -88,7 +98,6 @@ rule fusion_coloc:
         --coloc_P {params.COLOC_P} \
         --GWASN {params.GWASN} \
         --force_model {params.model} \
-        --perm {params.permn} \
         --out {outputdir}/{wildcards.gwasname}.{wildcards.weightname}.{chrom}.coloc.dat \
         '''
 
@@ -108,7 +117,7 @@ rule fusion_coloc:
         '''
         shell(combinecmd)
 
-rule etqlTObesd:
+rule eqtlTObesd:
     # SMR uses QTL summary statistics in BESD format
     input:
         eqtlss =eqtlSS
@@ -118,16 +127,17 @@ rule etqlTObesd:
         # generate fastQTL format
         eqtlname = os.path.basename(eqtlSS)
         # (gene, SNP, distance in bp between the SNP and the gene, p-value and beta)
-        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $19"\\t"$18"\\t"100"\\t"$7"\\t"$8}}' > {eqtlname}.fastqtl.temp.txt""")
-        shell(""" awk '!a[$2]++' {eqtlname}.fastqtl.temp.txt > {eqtlname}.fastqtl.txt; rm {eqtlname}.fastqtl.temp.txt""")
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $1"\\t"$18"\\t"100"\\t"$7"\\t"$8}}' > {eqtlname}.fastqtl.temp.txt""")
+        shell(""" awk '!a[$1, $2]++' {eqtlname}.fastqtl.temp.txt > {eqtlname}.fastqtl.txt; rm {eqtlname}.fastqtl.temp.txt""")
         # generate .besd
         outname = output.besd.split('.besd')[0]
         shell("~/causalTWAS/smr_Linux --eqtl-summary {eqtlname}.fastqtl.txt --fastqtl-nominal-format --make-besd --out {outname}")
         # generate and update .esi and .epi
         # .esi (chr, SNP, 0, position, the effect allele, the other allele and frequency)
         # .epi (chr, probe ID, 0, position, gene ID and gene orientation)
-        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $13"\\t"$18"\\t"0"\\t"$14"\\t"$16"\\t"$15"\\tNA"}}' > {outname}.temp.esi""")
-        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $20"\\t"$19"\\t"0"\\t"$21"\\t"$19"\\t"23}}' > {outname}temp.epi; sort {outname}temp.epi| uniq > {outname}.temp.epi; rm {outname}temp.epi""")
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $1"\\t"$13"\\t"$18"\\t"0"\\t"$14"\\t"$16"\\t"$15"\\tNA"}}' > {outname}temp.esi""")
+        shell(""" awk '!a[$1, $3]++' {outname}temp.esi | cut -f2- > {outname}.temp.esi; rm {outname}temp.esi""")
+        shell("""zcat {eqtlSS}|awk -F'\\t' 'FNR > 1 {{print $20"\\t"$1"\\t"0"\\t"$21"\\t"$1"\\t"$23}}' > {outname}temp.epi; sort {outname}temp.epi| uniq > {outname}.temp.epi; rm {outname}temp.epi""")
         shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-esi {outname}.temp.esi")
         shell("~/causalTWAS/smr_Linux --beqtl-summary {outname} --update-epi {outname}.temp.epi")
         shell("rm {outname}.temp.epi; rm {outname}.temp.esi")
@@ -135,7 +145,7 @@ rule etqlTObesd:
 rule smr_heidi:
     input:
         gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
-        eqtlf = rules.etqlTObesd.output[0],
+        eqtlf = rules.eqtlTObesd.output[0],
         ld_bedfs = rules.plink2TOplink1.output[0]
     output:
         outputdir + '{gwasname}.{weightname}.smr'
@@ -147,7 +157,6 @@ rule smr_heidi:
         gwasf = outputdir + "/" + wildcards.gwasname + '.SMRsumstats'
         shell("echo -e 'SNP\tA1\tA2\tfreq\tb\tse\tp\tN' > {gwasf}")
         shell("""zcat {input.gwasf}|awk -F'\\t' 'FNR > 1 {{print $5"\\t"$3"\\t"$4"\\tNA\\t"$6"\\t"$7"\\t"$9"\\t"{params.GWASN}}}' >> {gwasf}""")
-
 
         # get ld_bedfs
         with open(input.ld_bedfs) as f:
@@ -176,7 +185,6 @@ rule smr_heidi:
                 else:
                     shell("awk -F'\t' 'FNR > 1 {{print $0}}' {outputf}.{chrom}.smr>> {output}")
                 shell('rm {outputf}.{chrom}.*')
-
 
 rule FOCUSweight:
     input:
@@ -255,13 +263,36 @@ rule MRJTI:
     input:
         ldinfo = rules.prune_ldsc.output[0],
         gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
-        eqtlss = eqtlSS,
-        twasf = outputdir + '{gwasname}.{weightname}.coloc.result'
+        eqtlss = eqtlSS_all,
+        twasf = outputdir + '{gwasname}.{weightname}.coloc.result',
+        weightf = weightdir + '{weightname}.pos'
     output:
         outputdir + '{gwasname}.{weightname}.mrjti.result'
     params:
         twasfdr = 0.05
     run:
-        shell(' '.join(['Rscript {codedir}/run_MR-JTI.R', input.ldinfo, input.gwasf, input.eqtlss, input.twasf, output[0]]))
+        shell(' '.join(['Rscript {codedir}/run_MR-JTI_wc.R', input.ldinfo, input.gwasf, input.eqtlss, input.weightf, input.twasf, output[0]]))
 
+rule PMR:
+    input:
+        ld_R_dir = ld_R_dir,
+        gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
+        eqtlss = eqtlSS_all,
+        weightf = weightdir + '{weightname}.pos'
+    output:
+        outputdir + '{gwasname}.{weightname}.pmr.result_pi_080.batch_{weightbatch}'
+    params:
+        GWASN = gwasn,
+        EQTLN = eqtln,
+        batch = "{weightbatch}"
+    shell:
+        'Rscript ' + codedir + 'run_PMR_batch_wc_pi.R {input.ld_R_dir} {input.gwasf} {input.eqtlss} {input.weightf} {params.GWASN} {params.EQTLN} {output[0]} {params.batch}'
+
+rule PMR_aggregate:
+    input:
+        expand(outputdir + '{gwasname}.{weightname}.pmr.result_pi_080.batch_{weightbatch}', gwasname = gwasnames, weightname = weightnames, weightbatch=weightbatches)
+    output:
+        outputdir + '{gwasname}.{weightname}.pmr.result_pi_080'
+    shell:
+        'cat {output[0]}.batch_* > {output[0]}'
 

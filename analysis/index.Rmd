@@ -91,6 +91,7 @@ Test the summary statistics version of the `ctwas` algorithm. Now provided as a 
 
 * [Using UKbiobank data (110k samples), fusion weights Adipose](simulation-ctwas-ukbWG-gtex.adipose_s200.113.html) 
 
+* [**Using UKbiobank data (45k samples), fusion weights Adipose, more settings with low SNP PVE **](simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.html) 
   
 * [Visualization](simulation-ctwas-ukbWG-gtex.adipose_visual.html)
 

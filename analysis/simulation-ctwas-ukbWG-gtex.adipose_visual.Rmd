@@ -13,7 +13,7 @@ source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
 source("~/causalTWAS/causal-TWAS/analysis/visual_twas_plots.R")
 library(plyr)
 
-plot_all <- function(susief, pf, phenof, colocf = NULL, chr, ldres = NULL, thin = 1){
+plot_all <- function(susief, pf, phenof, chr, colocf = NULL,  ldres = NULL, thin = 1){
   a <- fread(susief, header =T)
   setnames(a, old = "id", new = "name")
   b1 <- fread(paste0(pf, ".snpgwas.txt.gz"), header =T)
@@ -97,14 +97,14 @@ scatter_plot_PIP_p(phenofs, susiefs, gwasfs, main ="PIP-p")
 ## Zoom view
 FP example, LD with causal gene, GNPDA2
 under 4-1 to 4-5
-```{r sim 2, out.width = "98%", out.height="95%"}
+```{r sim GN, out.width = "98%", out.height="95%"}
 chrom <- 4
 runtag <- 4
 plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 ```
 
 FP example: LD with causal SNP, GALNT10
-```{r sim 2, out.width = "98%", out.height="95%"}
+```{r sim GA, out.width = "98%", out.height="95%"}
 runtag <- 5
 chrom <- 1
 plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
@@ -112,21 +112,21 @@ plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 
 under 10-1 to 10-5
 FP example: LD with causal SNP
-```{r sim 2, out.width = "98%", out.height="95%"}
+```{r sim 10-1, out.width = "98%", out.height="95%"}
 runtag <- 5
 chrom <- 1
 plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 ```
 
 True positive example: c1orf109
-```{r sim 2, out.width = "98%", out.height="95%"}
+```{r sim c1, out.width = "98%", out.height="95%"}
 runtag <- 4
 chrom <- 1
 plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 ```
 
 # region plot with coloc results
-```{r sim 2, out.width = "98%", out.height="95%"}
+```{r sim 3, out.width = "98%", out.height="95%"}
 runtag <- "ukb-s80.45-adi"
 i <- 4
 chrom <- 5
@@ -134,5 +134,21 @@ comparedir <- "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_2
 colocfs <- paste0(comparedir, runtag, "_simu", simutags,".Adipose_Subcutaneous.coloc.result")
 plot_all(susiefs[i], pfs[i], phenofs[i], chrom, colocf = colocfs[i], thin = 0.01)
 ```
+## Zoom view
+For new simulation settings in 20230322
+False positives
+```{r sim 4, out.width = "98%", out.height="95%"}
+outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20230322/"
+runtag <- "ukb-s80.45-adi"
+simutags <- paste(2, 1:5, sep = "-")
+configtag <- 1
 
+susiefs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".susieIrss.txt")
+pfs <- paste0(outputdir, runtag, "_simu",simutags)
+gwasfs <- paste0(pfs, ".exprgwas.txt.gz")
+phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+chrom <- 3
+runtag <- 1
+plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
+```
 

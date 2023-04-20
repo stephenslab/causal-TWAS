@@ -17,18 +17,17 @@ gcta = "/home/simingz/causalTWAS/gcta_1.93.2beta/gcta64"
 ld_pgenfs = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
 weightdir = "/home/simingz/causalTWAS/fusion_weights/"
 weightnames = ["Adipose_Subcutaneous"]
-gwasdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
-gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(1,11) for j in range(1,6)]
+gwasdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230322/"
+gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(1,10) for j in range(1,6)]
 eqtlSS = "/home/simingz/causalTWAS/GTEx_v7_eQTL/Adipose_Subcutaneous.v7.eQTL.txt.gz"
 gwasn = 45000
 
 # output
-outputdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/" # add / at end
+outputdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20230322_compare/" # add / at end
 
 rule all:
     input:
-#        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames)
-        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames)
+        expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames)
 
 rule plink2TOplink1:
     output:
