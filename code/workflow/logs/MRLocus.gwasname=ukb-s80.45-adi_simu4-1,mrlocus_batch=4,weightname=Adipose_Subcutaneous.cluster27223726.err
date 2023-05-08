@@ -1,0 +1,96 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 28
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Sun Apr 30 06:57:02 2023]
+rule MRLocus:
+    input: /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR, /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-1.snpgwas.txt.gz, /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz, /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.batch_4
+    jobid: 0
+    wildcards: gwasname=ukb-s80.45-adi_simu4-1, weightname=Adipose_Subcutaneous, mrlocus_batch=4
+    resources: mem_mb=7555, disk_mb=7555, tmpdir=/tmp/jobs/27223726
+
+pre:  78,60,73,25,175
+post: 32,26,21,12,54
+pre:  284
+post: 45
+pre:  13,124,221,62,19
+post: 07,39,40,13,09
+pre:  67
+post: 15
+pre:  684,201
+post: 72,25
+pre:  188,202,39,05
+post: 33,37,16,04
+pre:  285,10,14
+post: 55,01,01
+pre:  127,49,53
+post: 17,11,06
+pre:  74,65,167,32,63
+post: 14,14,31,07,17
+pre:  59,31,53,237,163,08
+post: 20,11,11,53,28,03
+pre:  530,476,48,03,55,11,78,05,142,17,02,17
+post: 73,51,12,03,07,05,15,05,13,09,02,02
+pre:  281,23,41
+post: 41,11,08
+pre:  288,133,30,08
+post: 44,21,06,02
+pre:  150,213,176
+post: 24,62,25
+pre:  118
+post: 24
+pre:  228,171,74,12,336,83
+post: 51,31,28,04,29,28
+pre:  247,92,80,19,36
+post: 52,26,18,13,14
+pre:  275,37,97,01,72,54
+post: 86,17,26,01,10,23
+pre:  235,80,45,48,118
+post: 53,24,19,10,40
+pre:  79,204,03
+post: 41,44,02
+pre:  63,84
+post: 23,31
+pre:  82,80,142,38
+post: 22,19,39,15
+pre:  127,75,168
+post: 31,32,53
+pre:  223,105
+post: 61,17
+pre:  223,25
+post: 61,14
+pre:  290,110
+post: 41,06
+pre:  309,62
+post: 47,09
+pre:  219,85,48
+post: 43,24,24
+pre:  108,11,43,07
+post: 55,04,17,06
+pre:  56,182,50,101
+post: 18,46,20,23
+pre:  388,59,140,37,151,28,68,08,14,47,166,111,151
+post: 46,17,19,07,43,12,34,06,08,21,24,29,14
+pre:  26,60,84,48,93,22,148
+post: 17,30,48,19,40,12,41
+pre:  39,38,41,03,198,118
+post: 13,20,15,03,49,27
+Error in mcfork(detached) : 
+  unable to fork, possible reason: Cannot allocate memory
+Calls: with ... <Anonymous> -> lapply -> FUN -> mcparallel -> mcfork
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
+Error while shutting down parallel: unable to terminate some child processes
+[Sun Apr 30 08:23:11 2023]
+Error in rule MRLocus:
+    jobid: 0
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.batch_4
+    shell:
+        Rscript ~/causalTWAS/causal-TWAS/code/run_MRLocus_wc.R /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-1.snpgwas.txt.gz /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.batch_4 4
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message

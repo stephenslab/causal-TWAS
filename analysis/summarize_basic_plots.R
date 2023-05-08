@@ -135,9 +135,9 @@ cp_plot <- function(pips, ifcausal, runtag = NULL, mode = c("PIP", "FDR"), main 
       ifcausal.rt <- ifcausal[runtag == rt]
       dflist[[rt]] <- .exob(pips.rt, ifcausal.rt, mode = mode)
     }
-    mean_pip <- colMeans(do.call(rbind, lapply(dflist, '[[', "expected")))
-    observed_freq <- colMeans(do.call(rbind, lapply(dflist, '[[', "observed")))
-    se <- apply(do.call(rbind, lapply(dflist, '[[', "observed")), 2, plotrix::std.error)
+    mean_pip <- colMeans(do.call(rbind, lapply(dflist, '[[', "expected")),na.rm = T)
+    observed_freq <- colMeans(do.call(rbind, lapply(dflist, '[[', "observed")), na.rm =T)
+    se <- apply(do.call(rbind, lapply(dflist, '[[', "observed")), 2, plotrix::std.error, na.rm =T)
   }
 
   df <- data.frame("mean_pip" = mean_pip, "observed_freq"= observed_freq, "se" = se)

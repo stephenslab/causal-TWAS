@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Simulations to test ctwas summary stats version, 113k samples, a few new setings required</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">causal-TWAS</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="https://stephenslab.github.io/causal-TWAS/index.html">Home</a>
+</li>
+<li>
+  <a href="https://stephenslab.github.io/causal-TWAS/about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/causal-TWAS">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Simulations to test ctwas summary stats
+version, 113k samples, a few new setings required</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2023-05-02
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 2
+</p>
+<p>
+<strong>Knit directory:</strong> <code>causal-TWAS/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191103code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20191103)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191103code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20191103)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it
+difficult for you and others to run your code on a different machine.
+Change the absolute path(s) below to the suggested relative path(s) to
+make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_ctwas_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_twas-coloc_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_twas-coloc_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_focus_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_focus_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_smr_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_smr_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/analysis/summarize_mrjti_plots.R
+</td>
+<td style="text-align:left;">
+analysis/summarize_mrjti_plots.R
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/causalTWAS/causal-TWAS/code/qqplot.R
+</td>
+<td style="text-align:left;">
+code/qqplot.R
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreed76d5c4fd3caca73e999428e722bb526cbe1dad8targetblankd76d5c4a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/stephenslab/causal-TWAS/tree/d76d5c4fd3caca73e999428e722bb526cbe1dad8" target="_blank">d76d5c4</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStreed76d5c4fd3caca73e999428e722bb526cbe1dad8targetblankd76d5c4a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/stephenslab/causal-TWAS/tree/d76d5c4fd3caca73e999428e722bb526cbe1dad8" target="_blank">d76d5c4</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    .ipynb_checkpoints/
+    Ignored:    analysis/.ipynb_checkpoints/
+    Ignored:    code/.ipynb_checkpoints/
+    Ignored:    code/before_package/.ipynb_checkpoints/
+    Ignored:    code/workflow/.ipynb_checkpoints/
+    Ignored:    code/workflow/.snakemake/
+    Ignored:    data/
+    Ignored:    output/.ipynb_checkpoints/
+
+Untracked files:
+    Untracked:  analysis/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd
+    Untracked:  code/combine_PMR_results_batches.R
+    Untracked:  code/run_MRLocus_wc_bkup.R
+    Untracked:  code/ukb_chr1_s80.45.2.exclude
+    Untracked:  code/workflow/Snakefile-compare-simu_20210416_wc_v7
+    Untracked:  code/workflow/cluster-mstephens_wc.json
+    Untracked:  code/workflow/logs/
+    Untracked:  temp_reg.txt
+
+Unstaged changes:
+    Modified:   analysis/Paper_figures_simulation.Rmd
+    Modified:   analysis/index.Rmd
+    Deleted:    analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03212023.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd
+    Modified:   analysis/summarize_basic_plots.R
+    Modified:   analysis/summarize_ctwas_plots.R
+    Modified:   code/run_MRLocus_wc.R
+    Modified:   code/workflow/Snakefile-simu_20210416
+    Modified:   code/workflow/Snakefile-simu_20230321
+    Modified:   code/workflow/Snakefile-simu_20230322
+    Modified:   code/workflow/cluster-broadwl_wc.json
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>library(ctwas)
+library(data.table)
+suppressMessages({library(plotly)})
+library(tidyr)
+library(plyr)
+library(stringr)
+source(&quot;~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R&quot;)
+source(&#39;~/causalTWAS/causal-TWAS/analysis/summarize_twas-coloc_plots.R&#39;)
+source(&#39;~/causalTWAS/causal-TWAS/analysis/summarize_focus_plots.R&#39;)
+source(&#39;~/causalTWAS/causal-TWAS/analysis/summarize_smr_plots.R&#39;)
+source(&#39;~/causalTWAS/causal-TWAS/analysis/summarize_mrjti_plots.R&#39;)
+source(&#39;~/causalTWAS/causal-TWAS/code/qqplot.R&#39;)</code></pre>
+<pre class="r"><code>pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s200.113/ukb-s200.113_pgenfs.txt&quot;
+ld_pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s200.113/ukb-s200.113.2_pgenfs.txt&quot;
+outputdir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230321/&quot; # /
+comparedir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230321_compare/&quot;
+runtag = &quot;ukb-s200.113-adi&quot;
+configtags = 1
+simutags = paste(rep(1:9, each = length(1:5)), 1:5, sep = &quot;-&quot;)
+
+pgenfs &lt;- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
+pvarfs &lt;- sapply(pgenfs, prep_pvar, outputdir = outputdir)
+
+ld_pgenfs &lt;- read.table(ld_pgenfn, header = F, stringsAsFactors = F)[,1]
+ld_pvarfs &lt;- sapply(ld_pgenfs, prep_pvar, outputdir = outputdir)
+
+pgens &lt;- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf = pvarfs[x]))</code></pre>
+<div id="analysis-description" class="section level1">
+<h1>Analysis description</h1>
+<pre class="r"><code>n.ori &lt;- 200000 # number of samples
+n &lt;- pgenlibr::GetRawSampleCt(pgens[[1]])
+p &lt;- sum(unlist(lapply(pgens, pgenlibr::GetVariantCt))) # number of SNPs
+J &lt;- 8021 # number of genes</code></pre>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The same as 20210416. We tried a few additional settings with small
+SNP heritablity (0.2) or large gene heritablity (0.5) following the
+suggestions by reviewers.</p>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="ctwas" class="section level3">
+<h3>ctwas</h3>
+<ol style="list-style-type: decimal">
+<li><p>Get z scores for gene expression. We used expression models and
+LD reference to get z scores for gene expression.</p></li>
+<li><p>Run ctwas_rss <code>ctwas_rss</code> algorithm first runs on all
+regions to get rough estimate for gene and SNP prior. Then run on small
+regions (having small probablities of having &gt; 1 causal signals based
+on rough estimates) to get more accurate estimate. To lower
+computational burden, we downsampled SNPs (0.1) to estimate parameters.
+With the estimated parameters, we then run susie for all regions using
+both genes and downsampled SNPs with specified <span
+class="math inline">\(L\)</span>. After this, for regions with strong
+gene signals, we rerun susie with full SNPs using specified <span
+class="math inline">\(L\)</span>.</p></li>
+</ol>
+<p>Configurations</p>
+<p><code>ld_regions ='EUR'</code>, We used LDetect to define regions. To
+match UKbiobank data, we use the ‘EUR’ population</p>
+<p><code>thin = 0.1</code>, downsampled SNPs to 1/10 for parameter
+estimation step</p>
+<p><code>niter1 =3</code>, run <code>niter1 =3</code> iterations first
+to get some rough parameter estimates.</p>
+<p><code>prob_single = 0.8</code>, the probability of a region having at
+most 1 singal has to be at least 0.8 to be selected for the parameter
+estimation step. This probability is obtained by using the PIPs from the
+first few iterations.</p>
+<p><code>niter2 = 30</code>, run <code>niter2 = 30</code> for parameter
+estimation step</p>
+<p><code>L = 5</code> , after parameter estimation, for running susie
+for all regions.</p>
+<p><code>group_prior = NULL</code>, the initiating prior parameters we
+used for running susie for each region is uniform prior for genes and
+SNPs.</p>
+<p><code>group_prior_var = NULL</code>, the initiating prior variance
+parameters we used for running susie for each region follows susie_rss’s
+default (50).</p>
+<p><code>max_SNP_region = 5000</code>, the maximum number of SNPs for
+re-running susie on strong gene signal regions is 5000.</p>
+</div>
+</div>
+</div>
+<div id="ctwas-results" class="section level1">
+<h1><code>ctwas</code> results</h1>
+<p>Results: Each row shows parameter estimation results from 5
+simulation runs with similar settings (i.e. pi1 and PVE for genes and
+SNPs). Results from each run were represented by one dot, dots with the
+same color come from the same run. <code>truth</code>: the true
+parameters, <code>selected_truth</code>: the truth in selected regions
+that were used to estimate parameters, <code>ctwas</code>: ctwas
+estimated parameters (using summary statistics as input). We run FUSION
+following default settings and adjust p values by BH method to get
+expected FDP.</p>
+<p>We run FUSION following default settings and adjust p values by BH
+method to get expected FDP. We have also used Bonferroni correction for
+p values.</p>
+<p>We ran coloc for all genes with TWAS p &lt; 1e-4. We use PP4 (SNP
+associate with both traits). We ran SMR+HEIDI, using eQTL summary
+statistics GTEx v.7. We filter the results by requiring p_HEIDI &gt;
+0.05. The plots are based on SMR p value adjusted by BH method to get
+expected FDP.</p>
+<p>FOCUS results contains nothing.</p>
+<pre class="r"><code>plot_par &lt;- function(configtag, runtag, simutags){
+  source(paste0(outputdir, &quot;config&quot;, configtag, &quot;.R&quot;))
+  phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+  susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;_config&quot;, configtag, &quot;.s2.susieIrssres.Rd&quot;)
+  susieIfs2 &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.s2.susieIrss.txt&quot;)
+
+  mtx &lt;- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
+  par(mfrow=c(1,3))
+  cat(&quot;simulations &quot;, paste(simutags, sep=&quot;,&quot;) , &quot;: &quot;)
+  cat(&quot;mean gene PVE:&quot;, mean(mtx[, &quot;PVE.gene_truth&quot;]), &quot;,&quot;, &quot;mean SNP PVE:&quot;, mean(mtx[, &quot;PVE.SNP_truth&quot;]), &quot;\n&quot;)
+  plot_param(mtx)
+}
+
+plot_PIP &lt;- function(configtag, runtag,  simutags){
+   phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+   susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.susieIrss.txt&quot;)
+
+   f1 &lt;- caliPIP_plot(phenofs, susieIfs)
+   f2 &lt;- ncausal_plot(phenofs, susieIfs) 
+   gridExtra::grid.arrange(f1, f2, ncol =2)
+}
+
+plot_fusion_coloc &lt;- function(configtag, runtag,  simutags){
+    phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+    fusioncolocfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.coloc.result&quot;)
+    
+    f1 &lt;- caliFUSIONp_plot(phenofs, fusioncolocfs)
+    f2 &lt;- ncausalFUSIONp_plot(phenofs, fusioncolocfs)
+    f3 &lt;- caliFUSIONbon_plot(phenofs, fusioncolocfs)
+    f4 &lt;- ncausalFUSIONbon_plot(phenofs, fusioncolocfs)
+    f5 &lt;- caliPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    f6 &lt;- ncausalPP4_plot(phenofs, fusioncolocfs, twas.p = 0.05/J)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+    gridExtra::grid.arrange(f3, f4, ncol=2)
+    gridExtra::grid.arrange(f5, f6, ncol=2)
+}
+    
+plot_focus &lt;- function(configtag, runtag,  simutags){
+    phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+    focusfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.focus.tsv&quot;)
+    
+    f1 &lt;- califocusPIP_plot(phenofs, focusfs)
+    f2 &lt;- ncausalfocusPIP_plot(phenofs, focusfs)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+}
+
+plot_smr &lt;- function(configtag, runtag,  simutags){
+    phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+    smrfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.smr&quot;)
+    
+    f1 &lt;- caliSMRp_plot(phenofs, smrfs)
+    f2 &lt;- ncausalSMRp_plot(phenofs, smrfs)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+}
+
+plot_mrjti &lt;- function(configtag, runtag,  simutags){
+    phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+    mrfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.mrjti.result&quot;)
+    
+    f1 &lt;- caliMR_plot(phenofs, mrfs)
+    f2 &lt;- ncausalMR_plot(phenofs, mrfs)
+    gridExtra::grid.arrange(f1, f2, ncol=2)
+}</code></pre>
+<pre class="r"><code>configtag &lt;- 1
+runtag = &quot;ukb-s200.113-adi&quot;
+
+simutags &lt;- paste(1, c(1:24,26:54, 56:70), sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  1-1 1-2 1-3 1-4 1-5 1-6 1-7 1-8 1-9 1-10 1-11 1-12 1-13 1-14 1-15 1-16 1-17 1-18 1-19 1-20 1-21 1-22 1-23 1-24 1-26 1-27 1-28 1-29 1-30 1-31 1-32 1-33 1-34 1-35 1-36 1-37 1-38 1-39 1-40 1-41 1-42 1-43 1-44 1-45 1-46 1-47 1-48 1-49 1-50 1-51 1-52 1-53 1-54 1-56 1-57 1-58 1-59 1-60 1-61 1-62 1-63 1-64 1-65 1-66 1-67 1-68 1-69 1-70 : mean gene PVE: 0.00510787 , mean SNP PVE: 0.1995698 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#plot_fusion_coloc(configtag, runtag, simutags)
+# plot_focus(configtag, runtag, simutags)
+#print(&quot;FOCUS result is null&quot;)
+#plot_smr(configtag, runtag, simutags)
+
+simutags &lt;- paste(2, 1:30, sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  2-1 2-2 2-3 2-4 2-5 2-6 2-7 2-8 2-9 2-10 2-11 2-12 2-13 2-14 2-15 2-16 2-17 2-18 2-19 2-20 2-21 2-22 2-23 2-24 2-25 2-26 2-27 2-28 2-29 2-30 : mean gene PVE: 0.01072636 , mean SNP PVE: 0.2000549 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-3.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-4.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# #plot_focus(configtag, runtag, simutags)
+# plot_smr(configtag, runtag, simutags)
+
+simutags &lt;- paste(3, 1:10, sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  3-1 3-2 3-3 3-4 3-5 3-6 3-7 3-8 3-9 3-10 : mean gene PVE: 0.05220515 , mean SNP PVE: 0.2000557 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-5.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-6.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# #plot_focus(configtag, runtag, simutags)
+# plot_smr(configtag, runtag, simutags)
+
+simutags &lt;- paste(4, 1:10, sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  4-1 4-2 4-3 4-4 4-5 4-6 4-7 4-8 4-9 4-10 : mean gene PVE: 0.1040863 , mean SNP PVE: 0.1996897 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-7.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-8.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# #plot_focus(configtag, runtag, simutags)
+# plot_smr(configtag, runtag, simutags)
+
+simutags &lt;- paste(5, c(1:10), sep = &quot;-&quot;)
+plot_par(configtag, runtag, simutags)</code></pre>
+<pre><code>simulations  5-1 5-2 5-3 5-4 5-5 5-6 5-7 5-8 5-9 5-10 : mean gene PVE: 0.155653 , mean SNP PVE: 0.1993414 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-9.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_PIP(configtag, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s200.113_03212023.Rmd/param2-10.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# #plot_focus(configtag, runtag, simutags)
+# plot_smr(configtag, runtag, simutags)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS:   /software/R-4.1.0-no-openblas-el7-x86_64/lib64/R/lib/libRblas.so
+LAPACK: /software/R-4.1.0-no-openblas-el7-x86_64/lib64/R/lib/libRlapack.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8 LC_NUMERIC=C         LC_TIME=C           
+ [4] LC_COLLATE=C         LC_MONETARY=C        LC_MESSAGES=C       
+ [7] LC_PAPER=C           LC_NAME=C            LC_ADDRESS=C        
+[10] LC_TELEPHONE=C       LC_MEASUREMENT=C     LC_IDENTIFICATION=C 
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggpubr_0.4.0      plotrix_3.8-2     cowplot_1.1.1     stringr_1.4.0    
+ [5] plyr_1.8.6        tidyr_1.1.3       plotly_4.9.4.1    ggplot2_3.3.5    
+ [9] data.table_1.14.0 ctwas_0.1.29     
+
+loaded via a namespace (and not attached):
+ [1] httr_1.4.2        sass_0.4.0        jsonlite_1.7.2    viridisLite_0.4.0
+ [5] foreach_1.5.1     carData_3.0-4     pgenlibr_0.3.2    logging_0.10-108 
+ [9] bslib_0.4.2       assertthat_0.2.1  highr_0.9         cellranger_1.1.0 
+[13] yaml_2.2.1        pillar_1.6.1      backports_1.2.1   lattice_0.20-44  
+[17] glue_1.4.2        digest_0.6.27     promises_1.2.0.1  ggsignif_0.6.2   
+[21] colorspace_2.0-2  htmltools_0.5.5   httpuv_1.6.1      Matrix_1.3-3     
+[25] pkgconfig_2.0.3   broom_0.7.8       haven_2.4.1       purrr_0.3.4      
+[29] scales_1.1.1      openxlsx_4.2.4    later_1.2.0       rio_0.5.27       
+[33] git2r_0.28.0      tibble_3.1.2      farver_2.1.0      generics_0.1.0   
+[37] car_3.0-11        ellipsis_0.3.2    cachem_1.0.5      withr_2.5.0      
+[41] lazyeval_0.2.2    cli_3.6.1         readxl_1.3.1      magrittr_2.0.1   
+[45] crayon_1.4.1      evaluate_0.20     fs_1.6.1          fansi_0.5.0      
+[49] rstatix_0.7.0     forcats_0.5.1     foreign_0.8-81    tools_4.1.0      
+[53] hms_1.1.0         lifecycle_1.0.3   munsell_0.5.0     ggsci_2.9        
+[57] zip_2.2.0         compiler_4.1.0    jquerylib_0.1.4   rlang_1.1.0      
+[61] grid_4.1.0        iterators_1.0.13  rstudioapi_0.13   htmlwidgets_1.5.3
+[65] labeling_0.4.2    rmarkdown_2.21    gtable_0.3.0      codetools_0.2-18 
+[69] abind_1.4-5       DBI_1.1.1         curl_4.3.2        R6_2.5.0         
+[73] gridExtra_2.3     knitr_1.42        dplyr_1.0.7       fastmap_1.1.0    
+[77] utf8_1.2.1        workflowr_1.6.2   rprojroot_2.0.2   stringi_1.6.2    
+[81] Rcpp_1.0.9        vctrs_0.3.8       tidyselect_1.1.1  xfun_0.38        </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -35,7 +35,6 @@ rule simu_prep_param:
                         'SED <- ' + str(950 + int(t2))]
                 outf.writelines(s + '\n' for s in lines)
 
-
 rule impute_expr:
     input:
         pgenfs = pgenfs,

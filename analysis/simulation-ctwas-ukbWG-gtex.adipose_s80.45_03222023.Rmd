@@ -82,8 +82,6 @@ Configurations
 
 `max_SNP_region = 5000`, the maximum number of SNPs for re-running susie on strong gene signal regions is 5000. 
 
-
-
 # `ctwas` results
 
 Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input). 
@@ -205,28 +203,28 @@ plot_PIP(configtag, runtag, simutags)
 # #plot_focus(configtag, runtag, simutags)
 # plot_smr(configtag, runtag, simutags)
 
-simutags <- paste(6, 1:5, sep = "-")
+simutags <- paste(6, 1:20, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
 # plot_fusion_coloc(configtag, runtag, simutags)
 # #plot_focus(configtag, runtag, simutags)
 # plot_smr(configtag, runtag, simutags)
 
-simutags <- paste(7, 1:5, sep = "-")
+simutags <- paste(7, 1:20, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
 # plot_fusion_coloc(configtag, runtag, simutags)
 # #plot_focus(configtag, runtag, simutags)
 # plot_smr(configtag, runtag, simutags)
 
-simutags <- paste(8, 1:5, sep = "-")
+simutags <- paste(8, 1:20, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
 # plot_fusion_coloc(configtag, runtag, simutags)
 # #plot_focus(configtag, runtag, simutags)
 # plot_smr(configtag, runtag, simutags)
 
-simutags <- paste(9, 1:5, sep = "-")
+simutags <- paste(9, 1:20, sep = "-")
 plot_par(configtag, runtag, simutags)
 plot_PIP(configtag, runtag, simutags)
 # plot_fusion_coloc(configtag, runtag, simutags)

@@ -1,4 +1,5 @@
 source("~/causalTWAS/causal-TWAS/analysis/summarize_basic_plots.R")
+library(plyr)
 
 # PIP calibration plot
 caliPIP_plot <- function(phenofs, pipfs, main = "PIP Calibration"){
