@@ -8,7 +8,7 @@
         "out": "{rule}.{wildcards}.cluster%j.out",
         "err": "{rule}.{wildcards}.cluster%j.err",
         "partition": "broadwl",
-        "account": "pi-xinhe"
+        "account": "pi-mstephens"
     },
         "simu_prep_param" :
     {
@@ -42,6 +42,7 @@
     },
         "MRLocus" :
     {
-        "time" : "36:00:00",
+        "time" : "24:00:00",
+        "n" : 7
     }
 }

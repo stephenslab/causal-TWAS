@@ -27,7 +27,7 @@ mrlocus_batches = ["" + str(i) for i in range(1,34)]
 gwasdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
 
 #gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in (list(range(4,5)) + list(range(10, 11))) for j in range(1,6)]
-gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(4,5) for j in range(1,6)]
+gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(4,5) for j in range(1,2)]
 
 gwasn = 45000
 
