@@ -21,13 +21,13 @@ weightdir = "/project2/mstephens/causalTWAS/fusion_weights/"
 weightnames = ["Adipose_Subcutaneous"]
 
 pmr_batches = ["" + str(i) for i in range(1,10)]
-#mrlocus_batches = ["" + str(i) for i in range(1,34)]
-mrlocus_batches = ["" + str(i) for i in range(7,8)]
+mrlocus_batches = ["" + str(i) for i in range(1,34)]
+#mrlocus_batches = ["" + str(i) for i in range(2,34)]
 
 gwasdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/"
 
 #gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in (list(range(4,5)) + list(range(10, 11))) for j in range(1,6)]
-gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(4,5) for j in range(1,2)]
+gwasnames = ["ukb-s80.45-adi" +'_simu'+ str(i) + "-" + str(j) for i in range(4,5) for j in range(2,6)]
 
 gwasn = 45000
 
@@ -41,6 +41,7 @@ outputdir = "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_202
 rule all:
     input:
         expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.pmr.result_pi_080', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrlocus.result.batch_{mrlocus_batch}', gwasname = gwasnames, weightname = weightnames, mrlocus_batch = mrlocus_batches)
+        #expand(outputdir + '{gwasname}.{weightname}.coloc.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.smr', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.focus.tsv', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrjti.result', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.pmr.result_pi_080', gwasname = gwasnames, weightname = weightnames) + expand(outputdir + '{gwasname}.{weightname}.mrlocus.result.noprune.batch_{mrlocus_batch}', gwasname = gwasnames, weightname = weightnames, mrlocus_batch = mrlocus_batches)
 
 rule plink2TOplink1:
     output:
@@ -307,4 +308,17 @@ rule MRLocus:
     params:
         batch = "{mrlocus_batch}"
     shell:
-        'Rscript ' + codedir + 'run_MRLocus_wc.R {input.ld_R_dir} {input.gwasf} {input.eqtlss} {input.weightf} ' + outputdir + ' {output[0]} {params.batch}'
+        'Rscript ' + codedir + 'run_MRLocus_wc.R {input.ld_R_dir} {input.gwasf} {input.eqtlss} {input.weightf} ' + outputdir + ' {output[0]} {params.batch} TRUE'
+
+rule MRLocus_noprune:
+    input:
+        ld_R_dir = ld_R_dir,
+        gwasf = gwasdir + "{gwasname}.snpgwas.txt.gz",
+        eqtlss = eqtlSS_all,
+        weightf = weightdir + '{weightname}.pos'
+    output:
+        outputdir + '{gwasname}.{weightname}.mrlocus.result.noprune.batch_{mrlocus_batch}'
+    params:
+        batch = "{mrlocus_batch}"
+    shell:
+        'Rscript ' + codedir + 'run_MRLocus_wc.R {input.ld_R_dir} {input.gwasf} {input.eqtlss} {input.weightf} ' + outputdir + ' {output[0]} {params.batch} FALSE'

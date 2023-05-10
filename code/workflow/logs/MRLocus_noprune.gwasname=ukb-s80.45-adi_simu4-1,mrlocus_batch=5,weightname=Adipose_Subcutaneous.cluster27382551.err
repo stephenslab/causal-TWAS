@@ -1,0 +1,97 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 28
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Tue May  9 20:06:31 2023]
+rule MRLocus_noprune:
+    input: /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR, /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-1.snpgwas.txt.gz, /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz, /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.noprune.batch_5
+    jobid: 0
+    wildcards: gwasname=ukb-s80.45-adi_simu4-1, weightname=Adipose_Subcutaneous, mrlocus_batch=5
+    resources: mem_mb=7555, disk_mb=7555, tmpdir=/tmp/jobs/27382551
+
+pre:  386,98
+post: 86,21
+pre:  290,50,84
+post: 69,19,22
+pre:  135
+post: 34
+pre:  312,424,04,69,21,66,325,106,61,252,142,98
+post: 64,59,03,26,10,16,39,14,20,44,20,38
+pre:  597,201
+post: 99,45
+pre:  394,173,76
+post: 75,31,25
+pre:  865
+post: 65
+pre:  469,02
+post: 68,02
+pre:  479,01,72,05,03,06,10,11,162
+post: 50,01,18,05,02,06,04,07,28
+pre:  508,93,17
+post: 40,18,09
+pre:  482,01
+post: 50,01
+pre:  33,158
+post: 13,28
+pre:  472
+post: 51
+pre:  05
+post: 04
+pre:  109,07,61
+post: 27,04,17
+pre:  197,80,18,79
+post: 41,28,11,30
+pre:  316,189,77
+post: 41,20,33
+pre:  91,126,28,104,04,147,99
+post: 16,18,15,23,03,23,12
+pre:  184,302,62,55
+post: 30,39,29,11
+pre:  265,132
+post: 48,16
+Warning: No significant --clump results.  Skipping.
+pre:  234,37,35,40,05
+post: 35,06,09,08,04
+pre:  276
+post: 40
+pre:  189,107,476
+post: 25,32,38
+pre:  53,19,03,125,88
+post: 33,09,02,37,34
+pre:  491,164,194,244
+post: 37,24,31,43
+pre:  82,48
+post: 21,12
+pre:  36,67,07,92
+post: 24,24,03,29
+pre:  169,138
+post: 34,26
+pre:  402,119
+post: 65,28
+pre:  62,31,59,96,268
+post: 28,14,19,39,45
+pre:  89,73,75,87
+post: 27,18,21,23
+pre:  89,323,56,65,07,04,77
+post: 36,61,18,26,05,04,16
+pre:  116,91,273,56
+post: 26,17,24,23
+pre:  37,123
+post: 13,14
+pre:  148,77
+post: 23,14
+pre:  159,29
+post: 38,14
+pre:  79,226,105
+post: 31,14,13
+pre:  180,83,200
+post: 14,19,18
+pre:  382,41,306
+post: 59,15,40
+There were 50 or more warnings (use warnings() to see the first 50)
+[Tue May  9 22:21:41 2023]
+Finished job 0.
+1 of 1 steps (100%) done

@@ -1,0 +1,264 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 28
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Tue May  9 20:06:31 2023]
+rule MRLocus_noprune:
+    input: /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR, /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-1.snpgwas.txt.gz, /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz, /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.noprune.batch_11
+    jobid: 0
+    wildcards: gwasname=ukb-s80.45-adi_simu4-1, weightname=Adipose_Subcutaneous, mrlocus_batch=11
+    resources: mem_mb=7555, disk_mb=7555, tmpdir=/tmp/jobs/27382550
+
+pre:  262,45,91
+post: 44,18,03
+pre:  382,155,150
+post: 33,24,30
+pre:  136,355
+post: 18,38
+pre:  162,95,32,165
+post: 09,22,11,24
+pre:  636,203,165
+post: 43,28,22
+pre:  188,55,40
+post: 33,13,09
+pre:  362,422,107,69
+post: 32,60,15,14
+pre:  557,310,73
+post: 57,36,21
+pre:  328,101,199
+post: 25,40,48
+pre:  201
+post: 37
+pre:  209,140
+post: 35,39
+pre:  214,173,293,181,247
+post: 28,29,63,22,41
+pre:  78,216
+post: 26,29
+pre:  75,147,248,148
+post: 14,28,37,31
+pre:  340,119,16,112,91,36
+post: 57,24,06,15,12,19
+pre:  329
+post: 48
+pre:  182
+post: 27
+pre:  272,28,327
+post: 51,07,62
+pre:  355,11
+post: 51,05
+pre:  442,311,52,100,86
+post: 25,36,09,27,24
+pre:  99,20
+post: 26,06
+pre:  388,66,432,73,170,02,61,05,07,57,07
+post: 34,21,30,17,12,02,18,05,05,05,06
+pre:  654,186
+post: 45,31
+pre:  291
+post: 43
+pre:  202,60
+post: 28,07
+pre:  713,87,17
+post: 48,24,07
+pre:  281,87,536,81
+post: 28,14,53,18
+pre:  365,47
+post: 43,09
+pre:  336,149,23,342,76,50,348
+post: 45,28,08,33,25,20,48
+pre:  339,137
+post: 32,25
+pre:  136,139
+post: 22,38
+pre:  68
+post: 10
+pre:  113,89
+post: 26,15
+pre:  501,161,74,37,337,63,185,362,35,30,145,23
+post: 38,24,26,16,43,22,24,69,15,11,10,07
+pre:  342,80,48,332
+post: 44,17,14,63
+pre:  99,64,71,14,43,178
+post: 27,34,23,08,19,52
+pre:  29,56
+post: 13,35
+pre:  246,118,126,67
+post: 26,22,12,20
+pre:  356,59,20,132,108,174,335
+post: 43,18,06,32,39,15,31
+pre:  172,775,373
+post: 23,80,25
+pre:  1233,546
+post: 92,31
+pre:  24,90,76,68
+post: 12,25,18,05
+pre:  630,03
+post: 48,02
+pre:  538,42,07
+post: 36,14,06
+pre:  226,19,02,27,40,31
+post: 27,12,02,06,16,10
+pre:  248,27,06,04,04,90,03,80,114
+post: 38,10,02,04,04,26,02,11,25
+pre:  521
+post: 70
+pre:  253,246
+post: 33,38
+pre:  433,74,173
+post: 40,14,33
+pre:  167,142,310,99,268
+post: 33,34,49,17,62
+pre:  144,69,63,259,71,151
+post: 26,20,15,66,21,22
+pre:  89,591,29,33
+post: 25,72,10,10
+pre:  587,207,43,231,65,61
+post: 67,52,12,47,18,23
+pre:  282,17,156
+post: 17,13,29
+pre:  390,81
+post: 65,27
+pre:  116,111,123,78,24,06
+post: 39,14,24,30,10,05
+pre:  124,10,78
+post: 24,03,20
+pre:  155
+post: 30
+pre:  47,16,28
+post: 28,09,15
+pre:  148,02,44,31
+post: 23,01,15,09
+pre:  499,221,213
+post: 36,23,16
+pre:  160,168
+post: 34,42
+pre:  156,348,19,156,600,58,17
+post: 39,52,10,26,45,13,09
+pre:  66,223,16
+post: 19,44,11
+pre:  156,117
+post: 27,37
+pre:  233,101
+post: 43,26
+pre:  307
+post: 50
+pre:  307
+post: 50
+pre:  76,68,104
+post: 07,20,21
+pre:  114
+post: 12
+pre:  198
+post: 43
+pre:  99,133
+post: 11,26
+pre:  64,14,74,26,112
+post: 26,10,36,05,25
+pre:  22,218,09,182,44
+post: 10,35,05,22,11
+pre:  345,53,51,157,44,39,117
+post: 70,28,24,51,14,13,37
+pre:  353,106,421,18,08,71,05,121,326
+post: 50,19,64,09,07,10,02,25,25
+pre:  110,89,24,155,75,41
+post: 28,22,15,27,08,07
+pre:  251,127,35,86,21,57,164,428
+post: 48,33,11,22,06,15,24,58
+pre:  132
+post: 17
+pre:  645,68,221,35,132,385
+post: 56,17,13,13,08,68
+pre:  156,36,30,119
+post: 34,14,12,25
+pre:  96,143,326
+post: 24,35,42
+pre:  287,102,40
+post: 53,23,09
+pre:  160,30
+post: 29,09
+pre:  35
+post: 17
+pre:  166,329,343
+post: 15,36,38
+pre:  275,335
+post: 23,39
+pre:  238,333,311
+post: 35,37,34
+pre:  205,122
+post: 35,19
+pre:  521,136,05,06,08
+post: 55,30,05,06,04
+pre:  176
+post: 15
+pre:  166,239
+post: 15,43
+pre:  97,94,88,42,03
+post: 25,20,41,15,03
+pre:  377,32
+post: 47,16
+pre:  72,155,37,76,38,118,93
+post: 19,22,07,10,11,13,31
+pre:  240
+post: 32
+pre:  03,350,95,23
+post: 02,38,28,15
+pre:  234,109,143
+post: 37,08,14
+pre:  504,221
+post: 68,20
+pre:  449,113,359,44,51,23
+post: 49,21,37,21,25,12
+pre:  548,21,06,89,187,01,179
+post: 65,16,03,19,19,01,16
+pre:  167,103,185
+post: 24,14,35
+pre:  271,76,64,52,04,179,248,08
+post: 34,21,26,21,03,26,40,04
+pre:  121,24,341,37,31,70
+post: 40,10,83,14,13,29
+pre:  96
+post: 16
+pre:  283,26
+post: 62,04
+pre:  86,46,96
+post: 48,16,26
+pre:  12,337,201,231
+post: 07,58,39,21
+pre:  408,189,138,133,23
+post: 84,23,33,36,12
+pre:  156,55,68,108,22
+post: 27,30,19,38,04
+pre:  159,22,50
+post: 32,01,21
+pre:  357,151,04
+post: 68,24,02
+pre:  43,232
+post: 12,36
+pre:  253,72,22,20,40,07
+post: 48,08,04,13,11,03
+pre:  274
+post: 41
+pre:  265,39,203,49
+post: 43,11,38,08
+pre:  135,80,18,89
+post: 29,15,11,36
+Error in mcfork(detached) : 
+  unable to fork, possible reason: Cannot allocate memory
+Calls: with ... <Anonymous> -> .local -> <Anonymous> -> mcparallel -> mcfork
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
+Error while shutting down parallel: unable to terminate some child processes
+[Wed May 10 02:45:13 2023]
+Error in rule MRLocus_noprune:
+    jobid: 0
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.noprune.batch_11
+    shell:
+        Rscript ~/causalTWAS/causal-TWAS/code/run_MRLocus_wc.R /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-1.snpgwas.txt.gz /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.noprune.batch_11 11 FALSE
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message

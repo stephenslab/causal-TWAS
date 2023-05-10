@@ -1,0 +1,319 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 28
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Tue May  9 21:56:34 2023]
+rule MRLocus:
+    input: /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR, /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-2.snpgwas.txt.gz, /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz, /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-2.Adipose_Subcutaneous.mrlocus.result.batch_22
+    jobid: 0
+    wildcards: gwasname=ukb-s80.45-adi_simu4-2, weightname=Adipose_Subcutaneous, mrlocus_batch=22
+    resources: mem_mb=7556, disk_mb=7556, tmpdir=/tmp/jobs/27382782
+
+Warning: No significant --clump results.  Skipping.
+pre:  398
+post: 41
+pre:  213,25,35,13
+post: 26,05,10,05
+pre:  591,150,193,167,165,57,87,52,56,32,105
+post: 105,45,97,37,51,29,35,16,24,21,25
+pre:  52,251
+post: 07,50
+pre:  206,324,33,07,91,89
+post: 30,36,05,02,12,22
+pre:  376,83,173,18
+post: 78,14,29,07
+pre:  53,25,192
+post: 19,17,25
+pre:  118,23
+post: 18,10
+pre:  345,21,199,16
+post: 47,11,47,09
+pre:  172
+post: 14
+pre:  261,49,25,177,64,33
+post: 46,06,09,34,23,08
+pre:  226
+post: 50
+pre:  23,157,85,76,124,649,265
+post: 05,25,16,19,30,78,40
+pre:  161,86
+post: 33,29
+pre:  59,252
+post: 12,54
+pre:  640,22,155
+post: 87,06,29
+pre:  196,66,01,101,113,39,190,48,170,78
+post: 54,23,01,28,32,16,30,17,55,25
+pre:  124,158
+post: 27,22
+pre:  51,164,154,21
+post: 24,16,26,11
+pre:  41
+post: 06
+pre:  389,338
+post: 62,48
+pre:  960,357,639,151,218,48,251,21,02,14,71,13,30
+post: 107,51,76,21,25,06,18,10,01,06,11,05,05
+pre:  49,115,22,03,559,33,60
+post: 07,24,05,03,23,05,15
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  147
+post: 30
+pre:  330
+post: 37
+pre:  63,54,16,59
+post: 18,12,05,16
+pre:  185,34
+post: 29,12
+pre:  137,212,230
+post: 19,26,29
+pre:  318,98,69,67,14,143,01,70,45,126
+post: 72,48,29,20,11,44,01,17,23,68
+Warning: No significant --clump results.  Skipping.
+pre:  117,46,82,45
+post: 37,10,28,06
+Warning: No significant --clump results.  Skipping.
+pre:  31,45,19,20
+post: 13,16,11,10
+pre:  381,91,315,115,75,83
+post: 55,30,55,26,22,18
+pre:  174,227
+post: 19,35
+pre:  325,144,24,59
+post: 60,41,06,22
+pre:  734,54,38,55,220,219
+post: 94,11,11,20,34,44
+pre:  393,171,22,20
+post: 47,27,06,07
+pre:  570,426,313,293,193,30
+post: 47,37,46,30,16,09
+pre:  612,47,10,39,20,146,16
+post: 66,11,05,17,10,39,05
+pre:  456,129,105
+post: 56,29,32
+pre:  260,268,05,168,100,133
+post: 56,48,02,48,24,27
+pre:  348,114,293,37,189,41,53,07
+post: 39,32,30,11,42,14,19,06
+pre:  121,97,141,33
+post: 25,24,13,11
+pre:  06,51,326,59
+post: 05,16,21,17
+pre:  314,36,106,17,16,126,04,33,22,90,72,96,61,28
+post: 55,14,25,11,08,27,04,08,10,16,19,19,24,06
+Warning: No significant --clump results.  Skipping.
+pre:  426,99,68,03,25,15
+post: 76,32,29,02,08,08
+pre:  125,227,372,49
+post: 23,49,58,15
+Warning: No significant --clump results.  Skipping.
+pre:  348,34
+post: 31,08
+pre:  592,51,42
+post: 55,18,12
+pre:  80,78,72,07
+post: 07,30,16,04
+pre:  103,77,30,147
+post: 44,25,08,27
+pre:  291,88,01,61,26,68,55,02
+post: 54,22,01,12,07,17,12,02
+pre:  233,13
+post: 30,08
+pre:  492
+post: 38
+pre:  150,159,20,10
+post: 41,18,09,04
+pre:  321,238
+post: 53,24
+Warning: No significant --clump results.  Skipping.
+pre:  28,66
+post: 08,25
+pre:  236,41,347,85,78,20,01
+post: 34,08,49,19,16,09,01
+pre:  262
+post: 42
+pre:  290,08
+post: 37,01
+pre:  189,33,129,39
+post: 41,03,31,19
+pre:  22,152,278,04,50
+post: 08,29,51,02,28
+Warning: No significant --clump results.  Skipping.
+pre:  166,02,93,49,04
+post: 15,02,25,08,02
+pre:  28,21,25,13,32,46,19,06,78
+post: 15,17,10,06,10,13,08,03,36
+pre:  378,15,44,02,03,66,74,02
+post: 46,08,14,02,02,19,15,02
+pre:  146,160
+post: 17,26
+pre:  217,123,68,65
+post: 26,35,19,15
+pre:  433,48,191
+post: 100,16,33
+pre:  130,119
+post: 14,19
+pre:  651,215,493,73,140,47
+post: 41,14,24,09,25,12
+Warning: No significant --clump results.  Skipping.
+pre:  468,190,34,56
+post: 53,31,12,16
+pre:  21,56
+post: 07,09
+pre:  305,20,113,185,346,168,103,17
+post: 58,12,51,42,36,42,32,03
+pre:  98,311,253,89,100,214,170,137,154,253,06,05,12
+post: 16,46,43,11,16,20,32,21,26,25,02,04,02
+pre:  491,195,35
+post: 37,37,19
+pre:  05,35,508,64,88
+post: 05,20,47,09,08
+pre:  388,51
+post: 51,16
+pre:  215,05,37,47,66,145,02
+post: 47,03,14,08,20,28,02
+pre:  76,64,254,07,244
+post: 32,19,40,05,30
+pre:  86,69,212
+post: 17,17,65
+pre:  351,296,47,18,268,53
+post: 57,61,10,08,35,18
+pre:  208,127,103
+post: 34,35,21
+pre:  229,250,73,03,72
+post: 65,58,25,02,22
+pre:  82,79,103
+post: 26,27,26
+pre:  73,237,94
+post: 13,21,19
+pre:  163,78
+post: 48,21
+pre:  41,157,232,57,24
+post: 06,42,40,14,10
+Warning: No significant --clump results.  Skipping.
+pre:  75,214
+post: 18,25
+pre:  97,325,53,14
+post: 17,40,19,05
+pre:  743,109
+post: 53,16
+pre:  145,338,08,178,02,34
+post: 17,56,06,38,02,12
+Warning: No significant --clump results.  Skipping.
+pre:  493,65
+post: 44,12
+pre:  457,338,114,90,103
+post: 58,38,29,23,06
+pre:  28,129,15
+post: 12,30,04
+pre:  60,31,26,335,121
+post: 12,07,06,72,41
+pre:  303,04,309
+post: 46,02,33
+pre:  341,288,196
+post: 68,22,49
+pre:  238,479,120,340,40,134,197
+post: 53,61,20,54,15,27,41
+pre:  388,736
+post: 56,85
+pre:  211,107,121,464,36,130,47
+post: 43,25,32,67,12,25,26
+pre:  175,13,16,11
+post: 34,10,09,10
+pre:  239
+post: 29
+pre:  232,133,50,143,92,171,186,06
+post: 43,19,09,21,23,28,30,03
+pre:  683,376,101
+post: 57,33,25
+pre:  104,59,06,03,07,100,320,01
+post: 25,05,05,03,05,25,34,01
+pre:  70,08,29,28,01,36,222,101
+post: 17,05,09,12,01,11,41,24
+pre:  112,143
+post: 46,31
+pre:  165,57,23,208,165,199
+post: 43,19,08,40,30,40
+pre:  494
+post: 71
+pre:  161,247,128
+post: 35,39,24
+pre:  233,08,132,43,59,26,33,85
+post: 30,04,10,19,19,13,10,25
+pre:  248,165,07,90,23,108,47,150,02
+post: 33,21,04,18,09,28,05,23,01
+pre:  98,54
+post: 23,16
+pre:  1023
+post: 116
+pre:  72,131,04,80
+post: 17,30,03,33
+pre:  663,359,17,92,223,638
+post: 62,41,04,17,19,91
+pre:  33,23,82,04,174,45
+post: 07,07,15,03,57,09
+pre:  282,292,43,12,10,32,157,05
+post: 46,47,17,06,06,13,42,03
+pre:  341,466,165,08
+post: 45,37,44,04
+pre:  371,621,171,140,210
+post: 41,47,24,19,25
+pre:  166,51,19
+post: 21,15,06
+pre:  76,40,26
+post: 21,13,13
+Warning: No significant --clump results.  Skipping.
+pre:  132,291,23
+post: 15,50,06
+pre:  392,131
+post: 41,20
+pre:  2540,472,628,530,45,294,82,56,08,318,194,292,313
+post: 237,49,98,95,13,31,27,10,05,43,09,21,37
+pre:  111,25,41,23,70,184,56
+post: 30,08,18,13,12,29,24
+pre:  109,94,306,122,53
+post: 31,21,34,24,12
+pre:  283
+post: 32
+pre:  223,45,67,166,299,193,49,14,04,100
+post: 41,16,21,39,44,26,12,06,02,15
+pre:  234,28,266
+post: 40,08,34
+pre:  188,15,61,06,69
+post: 35,03,28,04,14
+pre:  158,87,207,43,39
+post: 26,22,14,21,16
+pre:  65,46,20,33
+post: 18,08,14,13
+pre:  28,49,96,52,02,91,36,38,126
+post: 10,17,23,17,02,12,15,09,29
+pre:  945,456
+post: 95,54
+pre:  110,169,158,86,48,22
+post: 31,48,38,21,26,08
+pre:  105,60,78
+post: 25,13,15
+pre:  164,16,230,55
+post: 46,06,30,19
+pre:  242,306,70,56,04,435,158,01
+post: 38,21,17,17,03,29,32,01
+Error in mcfork(detached) : 
+  unable to fork, possible reason: Cannot allocate memory
+Calls: with ... <Anonymous> -> .local -> <Anonymous> -> mcparallel -> mcfork
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
+Error while shutting down parallel: unable to terminate some child processes
+[Wed May 10 08:09:44 2023]
+Error in rule MRLocus:
+    jobid: 0
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-2.Adipose_Subcutaneous.mrlocus.result.batch_22
+    shell:
+        Rscript ~/causalTWAS/causal-TWAS/code/run_MRLocus_wc.R /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-2.snpgwas.txt.gz /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-2.Adipose_Subcutaneous.mrlocus.result.batch_22 22 TRUE
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message

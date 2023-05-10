@@ -3,15 +3,16 @@ library(mrlocus)
 
 args = commandArgs(trailingOnly=TRUE)
 
-if (length(args) != 7) {
-  stop(" 7 arguments:
+if (length(args) != 8) {
+  stop(" 8 arguments:
        * LD_R directory
        * gwas file
        * eqtl summary statistics
        * weight .pos file
        * output directory
        * out file name
-       * batch", call.=FALSE)
+       * batch
+       * prune clumps", call.=FALSE)
 }
 
 print(args)
@@ -23,8 +24,10 @@ weightf <- as.character(args[4])
 outputdir <- as.character(args[5])
 outname <- as.character(args[6])
 batch <- as.numeric(args[7])
+prune_clumps <- as.logical(args[8])
 
 batch_size <- 250
+ncores <- 2
 
 ####################
 
@@ -33,8 +36,9 @@ batch_size <- 250
 # eqtl <- "/project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz"
 # weightf <- "/project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos"
 # outputdir <- "/home/wcrouse/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/"
-# outname <- "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.batch_4"
-# batch <- 4
+# outname <- "/project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.batch_1"
+# batch <- 1
+# prune_clumps <- TRUE
 
 ####################
 
@@ -106,6 +110,7 @@ eqtl <- eqtl[eqtl$gene_id %in% weights$ENSEMBL_ID,]
 #drop entries not uniquely identified by gene_id and variant id (variant not biallelic)
 eqtl_unique_id_gene <- paste0(eqtl$id, eqtl$gene_id)
 eqtl <- eqtl[!(eqtl_unique_id_gene %in% eqtl_unique_id_gene[duplicated(eqtl_unique_id_gene)]),]
+rm(eqtl_unique_id_gene)
 
 ####################
 #LD files
@@ -160,7 +165,7 @@ genes <- weights$ENSEMBL_ID
 
 if (file.exists(paste0(outname, "_temp"))){
   outdf <- as.data.frame(fread(paste0(outname, "_temp")))
-  outlist <- load(paste0(outname, "_samples.RData"))
+  #outlist <- load(paste0(outname, "_samples.RData"))
 } else {
   outdf <- data.frame(chromosome=as.numeric(),
                       gene_id=as.character(),
@@ -168,7 +173,7 @@ if (file.exists(paste0(outname, "_temp"))){
                       alpha=as.numeric(),
                       CI_10=as.numeric(),
                       CI_90=as.numeric())
-  outlist <- list()
+  #outlist <- list()
 }
 
 j <- nrow(outdf) + 1
@@ -245,8 +250,9 @@ for (i in batch_start:batch_end){
                                 row.names = NULL)
   } else {
     clumps <- read.table(eqtl_clump_file, header=T)
+    clumps$SP2 <- sapply(1:nrow(clumps), function(x){paste0(clumps$SNP[x], "(1),", clumps$SP2[x])})
     clumps <- lapply(clumps$SP2, function(y){unname(sapply(unlist(strsplit(y, ",")), function(x){unlist(strsplit(x, "[(]"))[1]}))})
-    clumps <- clumps[clumps!="NONE"]
+    clumps <- lapply(clumps, function(x){x[x!="NONE"]})
 
     #load LD matrix for SNPs in all clumps
     snplist_all <- unlist(clumps)
@@ -287,9 +293,9 @@ for (i in batch_start:batch_end){
       sumstats_current <- data.frame(id=snplist,
                                      ref=R_snp_info_current$ref,
                                      eff=R_snp_info_current$alt,
-                                     beta_hat_eqtl=eqtl$slope[match(snplist, eqtl_current$SNP)],
+                                     beta_hat_eqtl=eqtl_current$slope[match(snplist, eqtl_current$SNP)],
                                      beta_hat_gwas=gwas$Estimate[match(snplist, gwas$id)],
-                                     se_eqtl=eqtl$slope_se[match(snplist, eqtl_current$SNP)],
+                                     se_eqtl=eqtl_current$slope_se[match(snplist, eqtl_current$SNP)],
                                      se_gwas=gwas$Std.Error[match(snplist, gwas$id)])
       sumstats_current$abs_z <- abs(sumstats_current$beta_hat_eqtl/sumstats_current$se_eqtl)
 
@@ -314,13 +320,14 @@ for (i in batch_start:batch_end){
                                  beta="beta_hat",
                                  se="se",
                                  a2_plink="ref_eqtl",
-                                 alleles_same=T)
+                                 alleles_same=T,
+                                 plot=F)
 
     #colocalization
     coloc_fit <- list()
     nclust <- length(data$beta_hat_a)
 
-    options(mc.cores=4)
+    options(mc.cores=ncores)
     for (j in 1:nclust) {
       if (length(data$beta_hat_a[[j]])>1){
         coloc_fit[[j]] <- with(data,
@@ -344,7 +351,7 @@ for (i in batch_start:batch_end){
                 sd_b = data$se_b,
                 alleles = data$alleles)
 
-    res <- extractForSlope(res)
+    res <- extractForSlope(res, plot=F)
 
     #sort clusters by significance
     res$abs_z <- abs(res$beta_hat_a/res$sd_a)
@@ -357,8 +364,8 @@ for (i in batch_start:batch_end){
     res$alleles <- res$alleles[res_sig_order,,drop=F]
     res$abs_z <- NULL
 
-    #trim clusters if (absolute) correlation greater than 0.05
-    if (length(res$alleles$id)>1){
+    #prune clumps if (absolute) correlation greater than 0.05
+    if (length(res$alleles$id)>1 & prune_clumps){
       trim_index <- trimClusters(r2=abs(R_snp[res$alleles$id,res$alleles$id,drop=F]),
                                  r2_threshold=0.05)
 
@@ -392,7 +399,8 @@ for (i in batch_start:batch_end){
                                 CI_90=quantile(post_samples$alpha, 0.9),
                                 row.names = NULL)
 
-    outlist[[gene]] <- post_samples$alpha
+    attributes(post_samples$alpha) <- NULL
+    #outlist[[gene]] <- post_samples$alpha
   }
 
   outdf <- rbind(outdf,
@@ -400,14 +408,14 @@ for (i in batch_start:batch_end){
 
   cleanup_files <- list.files(temp_dir, outname_base)
 
-  # if (length(cleanup_files)>0){
-  #   file.remove(paste0(temp_dir, list.files(temp_dir, outname_base)))
-  # }
+  if (length(cleanup_files)>0){
+    file.remove(paste0(temp_dir, list.files(temp_dir, outname_base)))
+  }
 
   write.table(outdf, file=paste0(outname, "_temp"), row.names=F, col.names=T, sep="\t", quote = F)
-  save(outlist, file=paste0(outname, "_samples.RData"))
 
-  save(outlist, file=paste0(outname, "_samples_", i, ".RData"))
+  #save(outlist, file=paste0(outname, "_samples.RData"))
+  #save(outlist, file=paste0(outname, "_samples_", i, ".RData"))
 }
 
 write.table(outdf, file=paste0(outname), row.names=F, col.names=T, sep="\t", quote = F)

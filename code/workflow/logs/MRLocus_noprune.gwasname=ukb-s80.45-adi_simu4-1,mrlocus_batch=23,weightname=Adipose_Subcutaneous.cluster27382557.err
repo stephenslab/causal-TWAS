@@ -1,0 +1,23 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 28
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Tue May  9 20:06:31 2023]
+rule MRLocus_noprune:
+    input: /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR, /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-1.snpgwas.txt.gz, /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz, /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.noprune.batch_23
+    jobid: 0
+    wildcards: gwasname=ukb-s80.45-adi_simu4-1, weightname=Adipose_Subcutaneous, mrlocus_batch=23
+    resources: mem_mb=7555, disk_mb=7555, tmpdir=/tmp/jobs/27382557
+
+pre:  202,1206,589,257,925,1603,141,1498,606,689,71,63,276,117
+post: 50,180,58,31,129,301,48,126,123,95,32,17,62,26
+pre:  186,567,101,1616,1171,16,1415,1857,477
+post: 48,112,33,129,106,07,249,287,40
+Warning: No significant --clump results.  Skipping.
+There were 50 or more warnings (use warnings() to see the first 50)
+[Tue May  9 23:33:58 2023]
+Finished job 0.
+1 of 1 steps (100%) done

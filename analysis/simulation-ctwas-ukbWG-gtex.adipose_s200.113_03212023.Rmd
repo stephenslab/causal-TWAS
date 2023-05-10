@@ -28,7 +28,7 @@ ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s200.113/ukb-s200.113.2
 outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230321/" # /
 comparedir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230321_compare/"
 runtag = "ukb-s200.113-adi"
-configtags = 1
+
 simutags = paste(rep(1:9, each = length(1:5)), 1:5, sep = "-")
 
 pgenfs <- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
@@ -50,7 +50,7 @@ J <- 8021 # number of genes
 ```
 
 ## Data
-The same as 20210416. We tried a few additional settings with small SNP heritablity (0.2) or large gene heritablity (0.5) following the suggestions by reviewers.
+The same as 20210416. We tried a few additional settings with small SNP heritablity (0.2) or large gene heritablity (0.5) following the suggestions by reviewers. 
  
 ## Analysis
 
@@ -74,28 +74,18 @@ Configurations
 
 `niter2 = 30`, run `niter2 = 30` for parameter estimation step
 
-`L = 5` , after parameter estimation, for running susie for all regions.
-
 `group_prior = NULL`, the initiating prior parameters we used for running susie for each region is uniform prior for genes and SNPs.
 
 `group_prior_var = NULL`, the initiating prior variance parameters we used for running susie for each region follows susie_rss's default (50).
 
 `max_SNP_region = 5000`, the maximum number of SNPs for re-running susie on strong gene signal regions is 5000. 
 
-
+We have two configurations for `L`: config 1 the last step of ctwas was running susie with `L=5` in regions with big gene PIPs, config 2 the last step of ctwas was running susie with `L=1` in regions with big gene PIPs.
 
 # `ctwas` results
 
-Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input). 
-We run FUSION following default settings and adjust p values by BH method to get expected FDP. 
+Results: Each row shows parameter estimation results from >5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input). 
 
-We run FUSION following default settings and adjust p values by BH method to get expected FDP. We have also used Bonferroni correction for p values.
-
-We ran coloc for all genes with TWAS p < 1e-4. We use PP4 (SNP associate with both traits).
-We ran SMR+HEIDI, using eQTL summary statistics GTEx v.7. We filter the results by requiring p_HEIDI > 0.05. The plots 
-are based on SMR p value adjusted by BH method to get expected FDP.
-
-FOCUS results contains nothing. 
 
 ```{r func}
 plot_par <- function(configtag, runtag, simutags){
@@ -113,7 +103,7 @@ plot_par <- function(configtag, runtag, simutags){
 
 plot_PIP <- function(configtag, runtag,  simutags){
    phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
-   susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".s1.susieIrss.txt")
+   susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
 
    f1 <- caliPIP_plot(phenofs, susieIfs)
    f2 <- ncausal_plot(phenofs, susieIfs) 
@@ -164,45 +154,50 @@ plot_mrjti <- function(configtag, runtag,  simutags){
 ```
 
 
-```{r param2, fig.height=3, fig.width=8, message=F}
+```{r config-1, fig.height=3, fig.width=8, message=F}
 
-configtag <- 1
 runtag = "ukb-s200.113-adi"
 
-simutags <- paste(1, c(1:24,26:54, 56:70), sep = "-")
-plot_par(configtag, runtag, simutags)
-plot_PIP(configtag, runtag, simutags)
+simutags <- paste(1, c(1:24, 26:54, 56:70), sep = "-")
+# configtag <- 1
+# plot_par(configtag, runtag, simutags)
+# plot_PIP(configtag, runtag, simutags)
+plot_par(1, runtag, simutags)
+print("When running with L= 5 in final step:")
+plot_PIP(1, runtag, simutags)
+print("When running with L= 1 in final step:")
+plot_PIP(2, runtag, simutags)
 #plot_fusion_coloc(configtag, runtag, simutags)
 # plot_focus(configtag, runtag, simutags)
 #print("FOCUS result is null")
 #plot_smr(configtag, runtag, simutags)
 
 simutags <- paste(2, 1:30, sep = "-")
-plot_par(configtag, runtag, simutags)
-plot_PIP(configtag, runtag, simutags)
-# plot_fusion_coloc(configtag, runtag, simutags)
-# #plot_focus(configtag, runtag, simutags)
-# plot_smr(configtag, runtag, simutags)
+plot_par(1, runtag, simutags)
+print("When running with L= 5 in final step:")
+plot_PIP(1, runtag, simutags)
+print("When running with L= 1 in final step:")
+plot_PIP(2, runtag, simutags)
 
 simutags <- paste(3, 1:10, sep = "-")
-plot_par(configtag, runtag, simutags)
-plot_PIP(configtag, runtag, simutags)
-# plot_fusion_coloc(configtag, runtag, simutags)
-# #plot_focus(configtag, runtag, simutags)
-# plot_smr(configtag, runtag, simutags)
+plot_par(1, runtag, simutags)
+print("When running with L= 5 in final step:")
+plot_PIP(1, runtag, simutags)
+print("When running with L= 1 in final step:")
+plot_PIP(2, runtag, simutags)
 
 simutags <- paste(4, 1:10, sep = "-")
-plot_par(configtag, runtag, simutags)
-plot_PIP(configtag, runtag, simutags)
-# plot_fusion_coloc(configtag, runtag, simutags)
-# #plot_focus(configtag, runtag, simutags)
-# plot_smr(configtag, runtag, simutags)
+plot_par(1, runtag, simutags)
+print("When running with L= 5 in final step:")
+plot_PIP(1, runtag, simutags)
+print("When running with L= 1 in final step:")
+plot_PIP(2, runtag, simutags)
 
 simutags <- paste(5, c(1:10), sep = "-")
-plot_par(configtag, runtag, simutags)
-plot_PIP(configtag, runtag, simutags)
-# plot_fusion_coloc(configtag, runtag, simutags)
-# #plot_focus(configtag, runtag, simutags)
-# plot_smr(configtag, runtag, simutags)
+plot_par(1, runtag, simutags)
+print("When running with L= 5 in final step:")
+plot_PIP(1, runtag, simutags)
+print("When running with L= 1 in final step:")
+plot_PIP(2, runtag, simutags)
 ```
 

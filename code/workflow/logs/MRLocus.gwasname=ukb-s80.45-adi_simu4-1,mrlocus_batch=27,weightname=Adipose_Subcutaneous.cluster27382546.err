@@ -1,0 +1,127 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 28
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Tue May  9 20:06:31 2023]
+rule MRLocus:
+    input: /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR, /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu4-1.snpgwas.txt.gz, /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz, /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu4-1.Adipose_Subcutaneous.mrlocus.result.batch_27
+    jobid: 0
+    wildcards: gwasname=ukb-s80.45-adi_simu4-1, weightname=Adipose_Subcutaneous, mrlocus_batch=27
+    resources: mem_mb=7555, disk_mb=7555, tmpdir=/tmp/jobs/27382546
+
+pre:  298,22,53
+post: 73,10,21
+pre:  251,69
+post: 25,26
+Warning: No significant --clump results.  Skipping.
+pre:  206
+post: 25
+pre:  51,115,124,65,74
+post: 26,41,37,18,19
+pre:  123,23,05,66,15,05,77,57,147
+post: 38,15,02,23,07,05,10,17,32
+Warning: No significant --clump results.  Skipping.
+pre:  251,150,73,100,33
+post: 52,50,18,38,17
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  138,116,119,175
+post: 22,27,33,27
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  111,01
+post: 15,01
+pre:  72,419,141
+post: 10,43,26
+pre:  491,31
+post: 37,10
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  228,195
+post: 23,24
+pre:  118,120,62,415,86,96
+post: 27,15,07,38,24,09
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  127,388,71,66,13
+post: 11,40,19,16,08
+pre:  146,110,33,10,10
+post: 48,23,12,04,03
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  17,66
+post: 08,25
+pre:  523,160,40
+post: 66,26,10
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  186,101,98
+post: 30,09,10
+Warning: No significant --clump results.  Skipping.
+pre:  46,27
+post: 08,14
+pre:  432,169,20,79,95
+post: 61,35,13,26,18
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  195,16,109
+post: 28,09,38
+Warning: No significant --clump results.  Skipping.
+pre:  130,227,24
+post: 19,31,03
+Warning: No significant --clump results.  Skipping.
+pre:  177,59,129
+post: 49,19,25
+pre:  674,226,968,12,296,268
+post: 44,27,74,09,18,56
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  364,31,299,191
+post: 30,03,38,19
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  294,478
+post: 65,57
+pre:  2358,1125,433,595,174,252,228,24,33,61,51,02,187,186
+post: 226,111,96,51,21,52,45,10,12,24,11,01,23,12
+pre:  66,55,06
+post: 30,08,03
+Warning: No significant --clump results.  Skipping.
+pre:  351,12,23,27,101,54
+post: 53,09,12,13,09,20
+Warning: No significant --clump results.  Skipping.
+pre:  302,10
+post: 27,07
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+pre:  336,91
+post: 39,18
+Warning: No significant --clump results.  Skipping.
+Warning: No significant --clump results.  Skipping.
+There were 50 or more warnings (use warnings() to see the first 50)
+[Tue May  9 22:30:51 2023]
+Finished job 0.
+1 of 1 steps (100%) done

@@ -29,6 +29,7 @@ ncore.rerun <- 1
 prob_single <- 0.8
 thin <- 1
 max_snp_region <- 1e4
+L <- 5
 
 source(args[4]) # config
 
@@ -36,9 +37,11 @@ source(args[4]) # config
 ld_exprfs <- paste0(outputdir, "/", outname.e, "_chr", 1:22, ".expr.gz")
 load(file = paste0(outputdir, "/", outname.e, "_z_gene.Rd"))
 
-load( paste0(outputdir, "/", outname, ".s2.susieIrssres.Rd"))
+load(paste0(outputdir, "/", gsub("config2", "config1", outname), ".s2.susieIrssres.Rd"))  # this is unusual. To check for each run.
+# load(paste0(outputdir, "/", outname, ".s2.susieIrssres.Rd"))
+
 group_prior <- group_prior_rec[, ncol(group_prior_rec)]
 group_prior_var <- group_prior_var_rec[, ncol(group_prior_var_rec)]
 
 # run ctwas_rss last step
-ctwas_rss(z_gene, z_snp, ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, max_snp_region = max_snp_region, outputdir = outputdir, outname = outname, ncore = ncore, ncore.rerun = ncore.rerun, prob_single = prob_single,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)
+ctwas_rss(z_gene, z_snp, ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, L= L, max_snp_region = max_snp_region, outputdir = outputdir, outname = outname, ncore = ncore, ncore.rerun = ncore.rerun, prob_single = prob_single,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)
