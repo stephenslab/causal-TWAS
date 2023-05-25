@@ -8,7 +8,8 @@ weight = "/home/simingz/causalTWAS/fusion_weights/Adipose_Subcutaneous"
 outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230321/" # add / at end
 runtag = "ukb-s200.113-adi"
 configtags = [str(i) for i in range(2,3)]
-simutags = [ str(i) + "-" + str(j) for i in range(1,2) for j in range(1,71)] +  [ str(i) + "-" + str(j) for i in range(2,3) for j in range(1,31)] + [ str(i) + "-" + str(j) for i in range(3,6) for j in range(1,11)]
+# simutags = [ str(i) + "-" + str(j) for i in range(1,2) for j in range(1,71)] +  [ str(i) + "-" + str(j) for i in range(2,3) for j in range(1,31)] + [ str(i) + "-" + str(j) for i in range(3,6) for j in range(1,11)]
+simutags = [ str(i) + "-" + str(j) for i in range(6,7) for j in range(1,21)]
 
 rule all:
     input:
@@ -18,10 +19,10 @@ rule all:
 
 rule simu_prep_param:
     params:
-        pve_gene = [0.005,  0.01,   0.05,   0.1,  0.15],
-        pi1_gene = [0.015, 0.015,  0.015, 0.015, 0.015],
-        pve_snp  = [0.2,   0.2,     0.2,    0.2,   0.2],
-        pi1_snp  = [2.5e-4,2.5e-4,2.5e-4,2.5e-4,2.5e-4]
+        pve_gene = [0.005,  0.01,   0.05,   0.1,  0.15, 0.02],
+        pi1_gene = [0.015, 0.015,  0.015, 0.015, 0.015, 0.015],
+        pve_snp  = [0.2,   0.2,     0.2,    0.2,   0.2, 0.2],
+        pi1_snp  = [2.5e-4,2.5e-4,2.5e-4,2.5e-4,2.5e-4, 2.5e-4]
     output:
         [outputdir +'simu' + simutag + '_param.R' for simutag in simutags]
     run:

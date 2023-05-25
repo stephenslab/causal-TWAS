@@ -27,7 +27,7 @@ batch <- as.numeric(args[7])
 prune_clumps <- as.logical(args[8])
 
 batch_size <- 250
-ncores <- 4
+ncores <- 2
 
 ####################
 

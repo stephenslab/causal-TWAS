@@ -179,6 +179,13 @@ plot_PIP(1, runtag, simutags)
 print("When running with L= 1 in final step:")
 plot_PIP(2, runtag, simutags)
 
+simutags <- paste(6, c(1:20), sep = "-")
+plot_par(1, runtag, simutags)
+print("When running with L= 5 in final step:")
+plot_PIP(1, runtag, simutags)
+print("When running with L= 1 in final step:")
+plot_PIP(2, runtag, simutags)
+
 simutags <- paste(3, 1:10, sep = "-")
 plot_par(1, runtag, simutags)
 print("When running with L= 5 in final step:")

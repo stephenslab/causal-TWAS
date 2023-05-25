@@ -7,7 +7,8 @@
         "name": "{rule}.{wildcards}",
         "out": "{rule}.{wildcards}.cluster%j.out",
         "err": "{rule}.{wildcards}.cluster%j.err",
-        "partition": "mstephens"
+        "partition": "mstephens",
+        "account": "pi-mstephens"
     },
         "simu_prep_param" :
     {
@@ -17,11 +18,11 @@
     },
         "gwas_snp" :
     {
-        "time" : "36:00:00",
+        "time" : "36:00:00"
     },
         "PMR" :
     {
-        "time" : "36:00:00",
+        "time" : "36:00:00"
     },
         "impute_expr" :
     {
@@ -31,7 +32,7 @@
     },
         "ctwas_rss_LDR" :
     {
-        "time" : "36:00:00",
+        "time" : "36:00:00"
     },
         "PMR_aggregate" :
     {
@@ -41,6 +42,7 @@
     },
         "MRLocus" :
     {
-        "time" : "36:00:00",
+        "time" : "18:00:00",
+        "n" : 7
     }
 }
