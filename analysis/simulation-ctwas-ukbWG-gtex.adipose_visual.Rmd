@@ -155,7 +155,7 @@ plot_all(susiefs[runtag], pfs[runtag], phenofs[runtag], chrom, thin = 0.01)
 ## Results from `L=1` vs `L=5` for low SNP PVE settings.
 
 ```{r sim 2, out.width = "98%", out.height="95%"}
-outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20230322/"
+simuoutputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20230322/"
 runtag <- "ukb-s80.45-adi"
 simutags <- paste(8, 1, sep = "-")
 
@@ -164,15 +164,28 @@ susiefs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".
 pfs <- paste0(outputdir, runtag, "_simu",simutags)
 gwasfs <- paste0(pfs, ".exprgwas.txt.gz")
 phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
-#scatter_plot_PIP_p(phenofs, susiefs, gwasfs, main ="PIP-p")
+scatter_plot_PIP_p(phenofs, susiefs, gwasfs, main ="PIP-p")
+
+configtag <- 2
+susiefs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".susieIrss.txt")
+pfs <- paste0(outputdir, runtag, "_simu",simutags)
+gwasfs <- paste0(pfs, ".exprgwas.txt.gz")
+phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+scatter_plot_PIP_p(phenofs, susiefs, gwasfs, main ="PIP-p")
+
 ```
 Zoom in view
-```{r sim 3, out.width = "98%", out.height="95%"}
-chrom <- 1
+```{r L=5, out.width = "98%", out.height="95%"}
+configtag <- 1
+susiefs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".susieIrss.txt")
+pfs <- paste0(outputdir, runtag, "_simu",simutags)
+gwasfs <- paste0(pfs, ".exprgwas.txt.gz")
+phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
+chrom <- 17
 rtag <- 1
 plot_all(susiefs[rtag], pfs[rtag], phenofs[rtag], chrom, thin = 0.01)
 ```
-```{r sim 2, out.width = "98%", out.height="95%"}
+```{r L=1, out.width = "98%", out.height="95%"}
 configtag <- 2
 susiefs <- paste0(outputdir, runtag, "_simu", simutags, "_config", configtag, ".susieIrss.txt")
 pfs <- paste0(outputdir, runtag, "_simu",simutags)
@@ -180,25 +193,40 @@ gwasfs <- paste0(pfs, ".exprgwas.txt.gz")
 phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
 #scatter_plot_PIP_p(phenofs, susiefs, gwasfs, main ="PIP-p")
 
-chrom <- 1
+chrom <- 17
 rtag <- 1
 plot_all(susiefs[rtag], pfs[rtag], phenofs[rtag], chrom, thin = 0.01)
 ```
 
 
 ```{r rerun}
-#a <- plot_region(runtag, simutags[1], configtag, chr = 1, startpos = 222230220 , endpos = 224938520 ,  plot_ceqtl = T, rerun_ctwas = T)
+outputdir <- "~/causalTWAS/simulations/simulation_ctwas_rss_20230322/"
+runtag <- "ukb-s80.45-adi"
+source("~/causalTWAS/causal-TWAS/analysis/summarize_basic_plots.R")
+source("~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R")
+source("~/causalTWAS/causal-TWAS/analysis/ld.R")
+pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt"
+ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
+exprfn = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230322//ukb-s80.45-adi.expr.txt"
+
+ld_pgenfs <- read.table(ld_pgenfn, header = F, stringsAsFactors = F)[,1]
+pgenfs <- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
+pvarfs <- sapply(pgenfs, prep_pvar, outputdir = outputdir)
+pgens <- lapply(1:length(pgenfs), function(x) prep_pgen(pgenf = pgenfs[x],pvarf = pvarfs[x]))
+exprfs <- read.table(exprfn, header = F, stringsAsFactors = F)[,1]
+exprvarfs <- sapply(exprfs, prep_exprvar)
+
+
+configtag <- 1
+# debug(susieI_rss) to generate data. save(list=ls(), file="~/temp.Rd")
+a <- plot_region(runtag, simutags[1], configtag, chr = 17, startpos = 9965921, endpos = 12534769,  plot_ceqtl = F, rerun_ctwas = T)
 
 load(phenofs[1])
 cau <- get_causal_id(phenores)
-load("~/temp2.Rd")
+
 susieres <- susie_rss(z, R, z_ld_weight = z_ld_weight, 
                   L = L, prior_weights = prior, null_weight = nw, 
                   prior_variance = V, estimate_prior_variance = F, 
                   coverage = coverage)
-load("~/temp1.Rd")
 outdf.reg <- ctwas:::anno_susie(susieres, geneinfo, snpinfo, gidx, sidx , 1, 1) 
-
-a <- plot_region(runtag, simutags[1], configtag, chr = 1, startpos =32438685 , endpos = 34799758,  plot_ceqtl = T, rerun_ctwas = T)
-
 ```

@@ -1,2 +1,0 @@
-chr	start	stop
-chr1	222230220	224938520

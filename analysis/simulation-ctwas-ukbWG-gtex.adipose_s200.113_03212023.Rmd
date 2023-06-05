@@ -86,6 +86,8 @@ We have two configurations for `L`: config 1 the last step of ctwas was running 
 
 Results: Each row shows parameter estimation results from >5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input). 
 
+Note, config 1 was not run correctly. Need to rerun with `harmonize_z = F` in `ctwas_rss`.
+
 
 ```{r func}
 plot_par <- function(configtag, runtag, simutags){
@@ -154,7 +156,7 @@ plot_mrjti <- function(configtag, runtag,  simutags){
 ```
 
 
-```{r config-1, fig.height=3, fig.width=8, message=F}
+```{r config-1, fig.height=3, fig.width=8, message=F, eval=F}
 
 runtag = "ukb-s200.113-adi"
 

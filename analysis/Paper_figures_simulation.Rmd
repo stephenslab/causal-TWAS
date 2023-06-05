@@ -37,7 +37,6 @@ J <- 8021 # number of genes
 weights <- as.data.frame(fread(weightf, header = T))
 weights$ENSEMBL_ID <- sapply(weights$WGT, function(x){unlist(strsplit(unlist(strsplit(x,"/"))[2], "[.]"))[2]})
 
-
 colorsall <- c("#7fc97f", "#beaed4", "#fdc086")
 ```
 
@@ -155,8 +154,6 @@ gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
                         plotlist[[7]], plotlist[[8]],ncol = 3)
 dev.off()
 ```
-
-
 
 ### Comparison with other methods
 Bar plot: each bar shows the number of genes, colored by causal status. Use a different color for each method. The method and cut off values:

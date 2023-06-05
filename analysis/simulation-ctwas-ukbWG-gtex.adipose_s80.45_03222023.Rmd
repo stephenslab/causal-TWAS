@@ -84,7 +84,9 @@ We have two configurations for `L`: config 1 the last step of ctwas was running 
 
 # `ctwas` results
 
-Results: Each row shows parameter estimation results from 5 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input). 
+Results: Each row shows parameter estimation results from 20 simulation runs with similar settings (i.e. pi1 and PVE for genes and SNPs). Results from each run were represented by one dot, dots with the same color come from the same run. `truth`: the true parameters,  `selected_truth`: the truth in selected regions that were used to estimate parameters, `ctwas`: ctwas estimated parameters (using summary statistics as input). 
+
+Note, we have three configurations, `config1`, `config2`, `config3`. Config 1 was run with wrong harmonziation configuration, they were rerun the last step as `config3`. This were run by v.0.1.29 (`harmonize_z = F` for config3, `harmonize_z = T` for config1.)
 
 
 ```{r func}
@@ -154,8 +156,7 @@ plot_mrjti <- function(configtag, runtag,  simutags){
 ```
 
 
-```{r param2, fig.height=3, fig.width=8, message=F}
-
+```{r config1, fig.height=3, fig.width=8, message=F}
 #configtag <- 1
 runtag = "ukb-s80.45-adi"
 
@@ -198,35 +199,35 @@ runtag = "ukb-s80.45-adi"
 simutags <- paste(6, 1:20, sep = "-")
 plot_par(1, runtag, simutags)
 print("When running with L= 5 in final step:")
-plot_PIP(1, runtag, simutags)
-print("When running with L= 1 in final step:")
-plot_PIP(2, runtag, simutags)
-
-simutags <- paste(11, 1:20, sep = "-")
-plot_par(1, runtag, simutags)
-print("When running with L= 5 in final step:")
-plot_PIP(1, runtag, simutags)
+plot_PIP(3, runtag, simutags)
 print("When running with L= 1 in final step:")
 plot_PIP(2, runtag, simutags)
 
 simutags <- paste(7, 1:20, sep = "-")
 plot_par(1, runtag, simutags)
 print("When running with L= 5 in final step:")
-plot_PIP(1, runtag, simutags)
+plot_PIP(3, runtag, simutags)
 print("When running with L= 1 in final step:")
 plot_PIP(2, runtag, simutags)
 
-simutags <- paste(8, 1:20, sep = "-")
+simutags <- paste(11, 1:20, sep = "-")
 plot_par(1, runtag, simutags)
 print("When running with L= 5 in final step:")
-plot_PIP(1, runtag, simutags)
+plot_PIP(3, runtag, simutags)
+print("When running with L= 1 in final step:")
+plot_PIP(2, runtag, simutags)
+
+simutags <- paste(8, c(1:13,15:20), sep = "-")
+plot_par(1, runtag, simutags)
+print("When running with L= 5 in final step:")
+plot_PIP(3, runtag, simutags)
 print("When running with L= 1 in final step:")
 plot_PIP(2, runtag, simutags)
 
 simutags <- paste(9, 1:20, sep = "-")
 plot_par(1, runtag, simutags)
 print("When running with L= 5 in final step:")
-plot_PIP(1, runtag, simutags)
+plot_PIP(3, runtag, simutags)
 print("When running with L= 1 in final step:")
 plot_PIP(2, runtag, simutags)
 ```

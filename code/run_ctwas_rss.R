@@ -46,7 +46,7 @@ if (file.exists(paste0(outputdir, "/", outname.e, "_z_gene.Rd"))){
     save(z_gene, file = paste0(outputdir, "/", outname.e, "_z_gene.Rd"))
 }
 
-# save.image("temp.Rd")
+# save.image("~/temp.Rd")
 # run ctwas_rss
-ctwas_rss(z_gene, z_snp, ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, max_snp_region = max_snp_region, outputdir = outputdir, outname = outname, ncore = ncore, ncore.rerun = ncore.rerun, prob_single = prob_single, harmonize = T)
+ctwas_rss(z_gene, z_snp, ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions = "EUR", ld_regions_custom = ld_regions_custom, thin = thin, max_snp_region = max_snp_region, outputdir = outputdir, outname = outname, ncore = ncore, ncore.rerun = ncore.rerun, prob_single = prob_single, harmonize_z = F)
 
