@@ -156,19 +156,20 @@ plot_mrjti <- function(configtag, runtag,  simutags){
 ```
 
 
-```{r config-1, fig.height=3, fig.width=8, message=F, eval=F}
+```{r config-1-2, fig.height=3, fig.width=8, message=F}
 
 runtag = "ukb-s200.113-adi"
 
-simutags <- paste(1, c(1:24, 26:54, 56:70), sep = "-")
-# configtag <- 1
+# has not rerun last step for simu 1-x. 
+# simutags <- paste(1, c(1:24, 26:54, 56:70), sep = "-")
+# configtag <- 1 
 # plot_par(configtag, runtag, simutags)
 # plot_PIP(configtag, runtag, simutags)
-plot_par(1, runtag, simutags)
-print("When running with L= 5 in final step:")
-plot_PIP(1, runtag, simutags)
-print("When running with L= 1 in final step:")
-plot_PIP(2, runtag, simutags)
+# plot_par(1, runtag, simutags)
+# print("When running with L= 5 in final step:")
+# plot_PIP(1, runtag, simutags)
+# print("When running with L= 1 in final step:")
+# plot_PIP(2, runtag, simutags)
 #plot_fusion_coloc(configtag, runtag, simutags)
 # plot_focus(configtag, runtag, simutags)
 #print("FOCUS result is null")

@@ -399,7 +399,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-06-05
+<strong>Last updated:</strong> 2023-06-10
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -599,15 +599,15 @@ code/qqplot.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree972fe6d4fa092f3ee9f42936fc747a36fcea6cc0targetblank972fe6da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree3631063414e32f67bfb087eb86e87a76425f185ftargetblank3631063a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/stephenslab/causal-TWAS/tree/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0" target="_blank">972fe6d</a>
+<a href="https://github.com/stephenslab/causal-TWAS/tree/3631063414e32f67bfb087eb86e87a76425f185f" target="_blank">3631063</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree972fe6d4fa092f3ee9f42936fc747a36fcea6cc0targetblank972fe6da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree3631063414e32f67bfb087eb86e87a76425f185ftargetblank3631063a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -617,7 +617,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/stephenslab/causal-TWAS/tree/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0" target="_blank">972fe6d</a>.
+<a href="https://github.com/stephenslab/causal-TWAS/tree/3631063414e32f67bfb087eb86e87a76425f185f" target="_blank">3631063</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -645,7 +645,11 @@ Ignored files:
     Ignored:    output/.ipynb_checkpoints/
 
 Unstaged changes:
+    Modified:   analysis/index.Rmd
     Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd
+    Modified:   code/run_ctwas_rss2.R
+    Modified:   code/workflow/Snakefile-simu_20230321
+    Modified:   code/workflow/Snakefile-simu_20230322
 
 </code></pre>
 <p>
@@ -693,6 +697,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+<td>
+remove L=1 results for low PVE
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/3631063414e32f67bfb087eb86e87a76425f185f/docs/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.html" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+<td>
+remove L=1 results for low PVE
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1036,45 +1074,9 @@ plot_mrjti &lt;- function(configtag, runtag,  simutags){
 <pre class="r"><code>#configtag &lt;- 1
 runtag = &quot;ukb-s80.45-adi&quot;
 
-# simutags &lt;- paste(1, c(1:5), sep = &quot;-&quot;)
-# plot_par(configtag, runtag, simutags)
-# plot_PIP(configtag, runtag, simutags)
-# # plot_fusion_coloc(configtag, runtag, simutags)
-# # # plot_focus(configtag, runtag, simutags)
-# # print(&quot;FOCUS result is null&quot;)
-# # plot_smr(configtag, runtag, simutags)
-# 
-# simutags &lt;- paste(2, 1:5, sep = &quot;-&quot;)
-# plot_par(configtag, runtag, simutags)
-# plot_PIP(configtag, runtag, simutags)
-# # plot_fusion_coloc(configtag, runtag, simutags)
-# # #plot_focus(configtag, runtag, simutags)
-# # plot_smr(configtag, runtag, simutags)
-# 
-# simutags &lt;- paste(3, 1:5, sep = &quot;-&quot;)
-# plot_par(configtag, runtag, simutags)
-# plot_PIP(configtag, runtag, simutags)
-# # plot_fusion_coloc(configtag, runtag, simutags)
-# # #plot_focus(configtag, runtag, simutags)
-# # plot_smr(configtag, runtag, simutags)
-# 
-# simutags &lt;- paste(4, 1:5, sep = &quot;-&quot;)
-# plot_par(configtag, runtag, simutags)
-# plot_PIP(configtag, runtag, simutags)
-# # plot_fusion_coloc(configtag, runtag, simutags)
-# # #plot_focus(configtag, runtag, simutags)
-# # plot_smr(configtag, runtag, simutags)
-# 
-# simutags &lt;- paste(5, c(1:5), sep = &quot;-&quot;)
-# plot_par(configtag, runtag, simutags)
-# plot_PIP(configtag, runtag, simutags)
-# plot_fusion_coloc(configtag, runtag, simutags)
-# #plot_focus(configtag, runtag, simutags)
-# plot_smr(configtag, runtag, simutags)
-
-simutags &lt;- paste(6, 1:20, sep = &quot;-&quot;)
+simutags &lt;- paste(1, c(1:5), sep = &quot;-&quot;)
 plot_par(1, runtag, simutags)</code></pre>
-<pre><code>simulations  6-1 6-2 6-3 6-4 6-5 6-6 6-7 6-8 6-9 6-10 6-11 6-12 6-13 6-14 6-15 6-16 6-17 6-18 6-19 6-20 : mean gene PVE: 0.005149389 , mean SNP PVE: 0.2005157 </code></pre>
+<pre><code>simulations  1-1 1-2 1-3 1-4 1-5 : mean gene PVE: 0.010832 , mean SNP PVE: 0.09835368 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-1">
@@ -1115,7 +1117,7 @@ simingz
 </div>
 <pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
 <pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
-<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<pre class="r"><code>plot_PIP(1, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-2.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-2">
@@ -1154,12 +1156,9 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code># print(&quot;When running with L= 1 in final step:&quot;)
-# plot_PIP(2, runtag, simutags)
-
-simutags &lt;- paste(7, 1:20, sep = &quot;-&quot;)
-plot_par(1, runtag, simutags)</code></pre>
-<pre><code>simulations  7-1 7-2 7-3 7-4 7-5 7-6 7-7 7-8 7-9 7-10 7-11 7-12 7-13 7-14 7-15 7-16 7-17 7-18 7-19 7-20 : mean gene PVE: 0.01029597 , mean SNP PVE: 0.2004961 </code></pre>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-3.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-3">
@@ -1185,6 +1184,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-3.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-3.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1198,9 +1208,14 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
-<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
-<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# # plot_focus(configtag, runtag, simutags)
+# print(&quot;FOCUS result is null&quot;)
+# plot_smr(configtag, runtag, simutags)
+
+simutags &lt;- paste(2, 1:5, sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  2-1 2-2 2-3 2-4 2-5 : mean gene PVE: 0.02163766 , mean SNP PVE: 0.09827806 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-4.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-4">
@@ -1226,6 +1241,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-4.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-4.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1239,12 +1265,9 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code># print(&quot;When running with L= 1 in final step:&quot;)
-# plot_PIP(2, runtag, simutags)
-
-simutags &lt;- paste(11, 1:20, sep = &quot;-&quot;)
-plot_par(1, runtag, simutags)</code></pre>
-<pre><code>simulations  11-1 11-2 11-3 11-4 11-5 11-6 11-7 11-8 11-9 11-10 11-11 11-12 11-13 11-14 11-15 11-16 11-17 11-18 11-19 11-20 : mean gene PVE: 0.02058041 , mean SNP PVE: 0.2004526 </code></pre>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(1, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-5.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-5">
@@ -1270,6 +1293,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-5.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-5.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1283,9 +1317,9 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
-<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
-<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-6.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-6">
@@ -1311,6 +1345,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-6.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-6.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1324,12 +1369,13 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code># print(&quot;When running with L= 1 in final step:&quot;)
-# plot_PIP(2, runtag, simutags)
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# #plot_focus(configtag, runtag, simutags)
+# plot_smr(configtag, runtag, simutags)
 
-simutags &lt;- paste(8, c(1:13,15:20), sep = &quot;-&quot;)
+simutags &lt;- paste(3, 1:5, sep = &quot;-&quot;)
 plot_par(1, runtag, simutags)</code></pre>
-<pre><code>simulations  8-1 8-2 8-3 8-4 8-5 8-6 8-7 8-8 8-9 8-10 8-11 8-12 8-13 8-15 8-16 8-17 8-18 8-19 8-20 : mean gene PVE: 0.05025694 , mean SNP PVE: 0.2004765 </code></pre>
+<pre><code>simulations  3-1 3-2 3-3 3-4 3-5 : mean gene PVE: 0.02007495 , mean SNP PVE: 0.1991711 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-7.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-7">
@@ -1355,6 +1401,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-7.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-7.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1370,7 +1427,7 @@ simingz
 </div>
 <pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
 <pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
-<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<pre class="r"><code>plot_PIP(1, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-8.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-8">
@@ -1396,6 +1453,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-8.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-8.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1409,12 +1477,9 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code># print(&quot;When running with L= 1 in final step:&quot;)
-# plot_PIP(2, runtag, simutags)
-
-simutags &lt;- paste(9, 1:20, sep = &quot;-&quot;)
-plot_par(1, runtag, simutags)</code></pre>
-<pre><code>simulations  9-1 9-2 9-3 9-4 9-5 9-6 9-7 9-8 9-9 9-10 9-11 9-12 9-13 9-14 9-15 9-16 9-17 9-18 9-19 9-20 : mean gene PVE: 0.1024528 , mean SNP PVE: 0.2001043 </code></pre>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-9.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-9">
@@ -1440,6 +1505,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-9.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-9.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1453,9 +1529,13 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
-<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
-<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# #plot_focus(configtag, runtag, simutags)
+# plot_smr(configtag, runtag, simutags)
+
+simutags &lt;- paste(4, 1:5, sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  4-1 4-2 4-3 4-4 4-5 : mean gene PVE: 0.05019153 , mean SNP PVE: 0.1992051 </code></pre>
 <p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-10.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-10">
@@ -1481,6 +1561,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/3631063414e32f67bfb087eb86e87a76425f185f/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-10.png" target="_blank">3631063</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-10.png" target="_blank">972fe6d</a>
 </td>
 <td>
@@ -1494,8 +1585,275 @@ simingz
 </table>
 </div>
 </div>
-<pre class="r"><code># print(&quot;When running with L= 1 in final step:&quot;)
-# plot_PIP(2, runtag, simutags)</code></pre>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(1, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-11.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-11">
+Past versions of config1-11.png
+</button>
+</p>
+<div id="fig-config1-11" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-11.png" target="_blank">972fe6d</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-12.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-12">
+Past versions of config1-12.png
+</button>
+</p>
+<div id="fig-config1-12" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-12.png" target="_blank">972fe6d</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># plot_fusion_coloc(configtag, runtag, simutags)
+# #plot_focus(configtag, runtag, simutags)
+# plot_smr(configtag, runtag, simutags)
+
+simutags &lt;- paste(5, c(1:5), sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  5-1 5-2 5-3 5-4 5-5 : mean gene PVE: 0.100387 , mean SNP PVE: 0.1992397 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-13.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-13">
+Past versions of config1-13.png
+</button>
+</p>
+<div id="fig-config1-13" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-13.png" target="_blank">972fe6d</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(1, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-14.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-14">
+Past versions of config1-14.png
+</button>
+</p>
+<div id="fig-config1-14" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-14.png" target="_blank">972fe6d</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-15.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-config1-15">
+Past versions of config1-15.png
+</button>
+</p>
+<div id="fig-config1-15" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/docs/figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-15.png" target="_blank">972fe6d</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>simutags &lt;- paste(6, 1:20, sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  6-1 6-2 6-3 6-4 6-5 6-6 6-7 6-8 6-9 6-10 6-11 6-12 6-13 6-14 6-15 6-16 6-17 6-18 6-19 6-20 : mean gene PVE: 0.005149389 , mean SNP PVE: 0.2005157 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-16.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-17.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-18.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(7, 1:20, sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  7-1 7-2 7-3 7-4 7-5 7-6 7-7 7-8 7-9 7-10 7-11 7-12 7-13 7-14 7-15 7-16 7-17 7-18 7-19 7-20 : mean gene PVE: 0.01029597 , mean SNP PVE: 0.2004961 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-19.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-20.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-21.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(11, 1:20, sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  11-1 11-2 11-3 11-4 11-5 11-6 11-7 11-8 11-9 11-10 11-11 11-12 11-13 11-14 11-15 11-16 11-17 11-18 11-19 11-20 : mean gene PVE: 0.02058041 , mean SNP PVE: 0.2004526 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-22.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-23.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-24.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(8, c(1:13,15:20), sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  8-1 8-2 8-3 8-4 8-5 8-6 8-7 8-8 8-9 8-10 8-11 8-12 8-13 8-15 8-16 8-17 8-18 8-19 8-20 : mean gene PVE: 0.05025694 , mean SNP PVE: 0.2004765 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-25.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-26.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-27.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>simutags &lt;- paste(9, 1:20, sep = &quot;-&quot;)
+plot_par(1, runtag, simutags)</code></pre>
+<pre><code>simulations  9-1 9-2 9-3 9-4 9-5 9-6 9-7 9-8 9-9 9-10 9-11 9-12 9-13 9-14 9-15 9-16 9-17 9-18 9-19 9-20 : mean gene PVE: 0.1024528 , mean SNP PVE: 0.2001043 </code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-28.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 5 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 5 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(3, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-29.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(&quot;When running with L= 1 in final step:&quot;)</code></pre>
+<pre><code>[1] &quot;When running with L= 1 in final step:&quot;</code></pre>
+<pre class="r"><code>plot_PIP(2, runtag, simutags)</code></pre>
+<p><img src="figure/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd/config1-30.png" width="768" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
