@@ -119,3 +119,37 @@ gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
                         ncol =1)
 dev.off()
 ```
+
+## Additional plots for revision, just PIP plots
+```{r PIPplot2, fig.width= 8, fig.height= 18}
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20220322/"
+# simu 1-x and 2-x, SNP PVE = 0.1
+# simu 7,11,8,9, SNP PVE =0.2
+simutaglist = c(lapply(1:2, function(x) paste(x, 1:5, sep ="-")),
+                list(paste(c(7,11,8,9), 1:20, sep = "-")))
+pdf(file = "temp3.pdf", height = 25, width =3)
+plotlist <- list()
+for (i in 1:length(simutaglist)){
+  plotlist[[i]] <- plot_PIP(configtag, runtag, simutaglist[[i]], main = "")
+}
+
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20220321/"
+simutaglist = c(lapply(1:2, function(x) paste(x, 1:5, sep ="-")),
+                list(paste(c(7,11,8,9), 1:20, sep = "-")))
+pdf(file = "temp3.pdf", height = 25, width =3)
+plotlist <- list()
+for (i in 1:length(simutaglist)){
+  plotlist[[i]] <- plot_PIP(configtag, runtag, simutaglist[[i]], main = "")
+}
+
+
+
+gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
+                        plotlist[[3]], plotlist[[4]],
+                        plotlist[[5]], plotlist[[6]],
+                        plotlist[[7]], plotlist[[8]],
+                        plotlist[[9]], plotlist[[10]],
+                        ncol = 2)
+dev.off()
+```
+
