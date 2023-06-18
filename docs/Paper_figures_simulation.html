@@ -13,7 +13,8 @@
 
 <title>Paper figures (Simulation)</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -35,8 +36,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -45,6 +46,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -73,6 +76,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -93,6 +97,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -150,11 +157,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -183,8 +194,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -192,16 +203,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -321,7 +325,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -356,7 +360,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -372,7 +376,9 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -381,7 +387,9 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -390,17 +398,27 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-08-09
+<strong>Last updated:</strong> 2023-06-17
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>causal-TWAS/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>causal-TWAS/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version
+1.6.2). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -409,73 +427,105 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191103code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191103)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191103code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20191103)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20191103code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20191103code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20191103)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20191103)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
 </p>
 </div>
 <div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+Using absolute paths to the files within your workflowr project makes it
+difficult for you and others to run your code on a different machine.
+Change the absolute path(s) below to the suggested relative path(s) to
+make your code more reproducible.
 </p>
 <table class="table table-condensed table-hover">
 <thead>
@@ -521,19 +571,36 @@ analysis/ld.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8521449d41de38dad77e625b07a93c3996f40f44targetblank8521449a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/causal-TWAS/tree/8521449d41de38dad77e625b07a93c3996f40f44" target="_blank">8521449</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree9125a8ab848043ad7696b7a1bf959845b1a7adbbtargetblank9125a8aa">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/stephenslab/causal-TWAS/tree/9125a8ab848043ad7696b7a1bf959845b1a7adbb" target="_blank">9125a8a</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree8521449d41de38dad77e625b07a93c3996f40f44targetblank8521449a" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabcausalTWAStree9125a8ab848043ad7696b7a1bf959845b1a7adbbtargetblank9125a8aa"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/causal-TWAS/tree/8521449d41de38dad77e625b07a93c3996f40f44" target="_blank">8521449</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/stephenslab/causal-TWAS/tree/9125a8ab848043ad7696b7a1bf959845b1a7adbb" target="_blank">9125a8a</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
 Ignored files:
@@ -544,28 +611,53 @@ Ignored files:
     Ignored:    code/.ipynb_checkpoints/
     Ignored:    code/before_package/.ipynb_checkpoints/
     Ignored:    code/workflow/.ipynb_checkpoints/
+    Ignored:    code/workflow/.snakemake/
+    Ignored:    code/workflow/logs/.snakemake/
     Ignored:    data/
+    Ignored:    output/.ipynb_checkpoints/
 
 Untracked files:
-    Untracked:  analysis/temp.regions.txt
-    Untracked:  analysis/temp.susieIrss.txt
-    Untracked:  analysis/temp.temp.susieIrssres.Rd
-    Untracked:  analysis/temp_reg.txt
+    Untracked:  analysis/figure/
+    Untracked:  analysis/temp-param.pdf
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=14,weightname=Adipose_Subcutaneous.cluster28002335.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=14,weightname=Adipose_Subcutaneous.cluster28002335.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=18,weightname=Adipose_Subcutaneous.cluster28002336.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=18,weightname=Adipose_Subcutaneous.cluster28002336.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=8,weightname=Adipose_Subcutaneous.cluster28002338.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=8,weightname=Adipose_Subcutaneous.cluster28002338.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-3,mrlocus_batch=24,weightname=Adipose_Subcutaneous.cluster28002334.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-3,mrlocus_batch=24,weightname=Adipose_Subcutaneous.cluster28002334.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-3,mrlocus_batch=28,weightname=Adipose_Subcutaneous.cluster28002339.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-3,mrlocus_batch=28,weightname=Adipose_Subcutaneous.cluster28002339.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-4,mrlocus_batch=12,weightname=Adipose_Subcutaneous.cluster28002340.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-4,mrlocus_batch=12,weightname=Adipose_Subcutaneous.cluster28002340.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-4,mrlocus_batch=14,weightname=Adipose_Subcutaneous.cluster28002341.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-4,mrlocus_batch=14,weightname=Adipose_Subcutaneous.cluster28002341.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-4,mrlocus_batch=24,weightname=Adipose_Subcutaneous.cluster28002343.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-4,mrlocus_batch=24,weightname=Adipose_Subcutaneous.cluster28002343.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu4-1,mrlocus_batch=21,weightname=Adipose_Subcutaneous.cluster28002342.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu4-1,mrlocus_batch=21,weightname=Adipose_Subcutaneous.cluster28002342.out
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu4-4,mrlocus_batch=23,weightname=Adipose_Subcutaneous.cluster28002337.err
+    Untracked:  code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu4-4,mrlocus_batch=23,weightname=Adipose_Subcutaneous.cluster28002337.out
+    Untracked:  temp.regionlist.RDS
     Untracked:  temp.regions.txt
     Untracked:  temp.susieIrss.txt
     Untracked:  temp.temp.susieIrssres.Rd
     Untracked:  temp_reg.txt
 
 Unstaged changes:
-    Modified:   analysis/Paper_figures_simulation.Rmd
-    Modified:   analysis/ld.R
-    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.Rmd
-    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_visual.Rmd
-    Modified:   analysis/summarize_ctwas_plots.R
+    Modified:   analysis/Paper_Suppl_figures_simulation.Rmd
+    Modified:   analysis/simulation-ctwas-ukbWG-gtex.adipose_s80.45_03222023.Rmd
+    Modified:   code/run_MRLocus_wc.R
+    Modified:   code/run_MRLocus_wc_bkup.R
+    Deleted:    code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=24,weightname=Adipose_Subcutaneous.cluster27426155.err
+    Deleted:    code/workflow/logs/MRLocus.gwasname=ukb-s80.45-adi_simu10-2,mrlocus_batch=24,weightname=Adipose_Subcutaneous.cluster27426155.out
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -576,7 +668,13 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in th
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Paper_figures_simulation.Rmd</code>) and HTML (<code>docs/Paper_figures_simulation.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/Paper_figures_simulation.Rmd</code>) and HTML
+(<code>docs/Paper_figures_simulation.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -600,6 +698,91 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/972fe6d4fa092f3ee9f42936fc747a36fcea6cc0/analysis/Paper_figures_simulation.Rmd" target="_blank">972fe6d</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-06-05
+</td>
+<td>
+low PVE simulation bug fix
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/de95a10420360a091ef3c566fdc1ce1c5192a5ed/analysis/Paper_figures_simulation.Rmd" target="_blank">de95a10</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-05-08
+</td>
+<td>
+110k simulation
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/c73dec580fdfcec134208ad5b37178fe4af1d401/analysis/Paper_figures_simulation.Rmd" target="_blank">c73dec5</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2023-03-22
+</td>
+<td>
+revision
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/1472dd3eac597b8676a47b1adea672845abb038b/analysis/Paper_figures_simulation.Rmd" target="_blank">1472dd3</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-09
+</td>
+<td>
+paper figure, examples rerun ctwas with full SNPs
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/causal-TWAS/1472dd3eac597b8676a47b1adea672845abb038b/docs/Paper_figures_simulation.html" target="_blank">1472dd3</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-09
+</td>
+<td>
+paper figure, examples rerun ctwas with full SNPs
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -679,19 +862,17 @@ simulation paper figures
 library(data.table)
 source(&quot;~/causalTWAS/causal-TWAS/analysis/summarize_basic_plots.R&quot;)</code></pre>
 <pre><code>
-********************************************************</code></pre>
-<pre><code>Note: As of version 1.0.0, cowplot does not change the</code></pre>
-<pre><code>  default ggplot2 theme anymore. To recover the previous</code></pre>
-<pre><code>  behavior, execute:
-  theme_set(theme_cowplot())</code></pre>
-<pre><code>********************************************************</code></pre>
-<pre><code>
 Attaching package: &#39;ggpubr&#39;</code></pre>
 <pre><code>The following object is masked from &#39;package:cowplot&#39;:
 
     get_legend</code></pre>
-<pre class="r"><code>source(&quot;~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R&quot;)
-source(&quot;~/causalTWAS/causal-TWAS/analysis/ld.R&quot;)
+<pre class="r"><code>source(&quot;~/causalTWAS/causal-TWAS/analysis/summarize_ctwas_plots.R&quot;)</code></pre>
+<pre><code>
+Attaching package: &#39;plyr&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:ggpubr&#39;:
+
+    mutate</code></pre>
+<pre class="r"><code>source(&quot;~/causalTWAS/causal-TWAS/analysis/ld.R&quot;)
 
 outputdir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416/&quot;
 comparedir = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/&quot;
@@ -700,7 +881,7 @@ configtag = 1
 pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.txt&quot;
 ld_pgenfn = &quot;/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt&quot;
 exprfn = &quot;/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416//ukb-s80.45-adi.expr.txt&quot;
-
+weightf = &quot;/project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos&quot;
 
 ld_pgenfs &lt;- read.table(ld_pgenfn, header = F, stringsAsFactors = F)[,1]
 pgenfs &lt;- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
@@ -713,14 +894,29 @@ n &lt;- pgenlibr::GetRawSampleCt(pgens[[1]])
 p &lt;- sum(unlist(lapply(pgens, pgenlibr::GetVariantCt))) # number of SNPs
 J &lt;- 8021 # number of genes
 
+weights &lt;- as.data.frame(fread(weightf, header = T))
+weights$ENSEMBL_ID &lt;- sapply(weights$WGT, function(x){unlist(strsplit(unlist(strsplit(x,&quot;/&quot;))[2], &quot;[.]&quot;))[2]})
+
 colorsall &lt;- c(&quot;#7fc97f&quot;, &quot;#beaed4&quot;, &quot;#fdc086&quot;)</code></pre>
 <div id="parameter-estimation" class="section level2">
 <h2>Parameter estimation</h2>
 <div id="parameter-vs.-true-value" class="section level3">
-<h3>Parameter vs. true value</h3>
-<p>In our simulations, the SNP PVE is always set to 0.5 in different settings. The gene PVE is shown as in figures. The number of causal SNPs is always set to 2.5e * <span class="math inline">\(10^{-4}\)</span>. In the two settings shown below, number of samples is 45k. For other details about our simulation settings and procedures, please see <a href="simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.html">here</a>. Note, setting 1 is the high power setting and setting 2 is a low power setting, I will change the setting names manually later.</p>
-<p>Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment), effectsize.gene, PVE.gene. Horizontal bar shows mean true values across the 5 simulations with similar setting parameters. The results by ctwas for each simulation is shown by dots.</p>
-<pre class="r"><code>plot_single &lt;- function(mtxlist, truecol, estcol, ...){
+<h3>Parameter vs. true value</h3>
+<p>In our simulations, the SNP PVE is always set to 0.5 in different
+settings. The gene PVE is shown as in figures. The number of causal SNPs
+is always set to 2.5e * <span class="math inline">\(10^{-4}\)</span>. In
+the two settings shown below, number of samples is 45k. For other
+details about our simulation settings and procedures, please see <a
+href="simulation-ctwas-ukbWG-gtex.adipose_s80.45_041621.html">here</a>.
+Note, setting 1 is the high power setting and setting 2 is a low power
+setting, I will change the setting names manually later.</p>
+<p>Each plot show one parameter: pi.gene, pi.gene/pi.SNP (enrichment),
+effectsize.gene, PVE.gene. Horizontal bar shows mean true values across
+the 5 simulations with similar setting parameters. The results by ctwas
+for each simulation is shown by dots.</p>
+<pre class="r"><code>require(latex2exp)</code></pre>
+<pre><code>Loading required package: latex2exp</code></pre>
+<pre class="r"><code>plot_single &lt;- function(mtxlist, truecol, estcol, xlabels = c(&quot;setting 1&quot;, &quot;setting 2&quot;), ...){
   truth &lt;- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mean(mtxlist[[x]][, truecol]))))
   est &lt;- do.call(rbind, lapply(1:length(mtxlist), function(x) cbind(x, mtxlist[[x]][, estcol])))
   
@@ -728,7 +924,7 @@ colorsall &lt;- c(&quot;#7fc97f&quot;, &quot;#beaed4&quot;, &quot;#fdc086&quot;)
   est[,1] &lt;- jitter(est[,1])
 
   plot(est, pch = 19, xaxt = &quot;n&quot;, xlab=&quot;&quot; ,frame.plot=FALSE, col = colorsall[col], ...)
-  axis(side=1, at=1:2, labels = c(&quot;setting 1&quot;, &quot;setting 2&quot;), tick = F)
+  axis(side=1, at=1:2, labels = xlabels, tick = F)
   #text(x=1:length(mtxlist), 0, labels = paste0(&quot;temp&quot;,1:length(mtxlist)), xpd = T, pos =1)
   for (t in 1:nrow(truth)){
     row &lt;- truth[t,]
@@ -738,9 +934,8 @@ colorsall &lt;- c(&quot;#7fc97f&quot;, &quot;#beaed4&quot;, &quot;#fdc086&quot;)
   grid()
 }
  
-
-plot_par &lt;- function(configtag, runtag, simutaglist){
-  mtxlist &lt;- list()
+get_params &lt;- function(configtag, runtag, simutaglist){
+    mtxlist &lt;- list()
   for (group in 1:length(simutaglist)){
     simutags &lt;- simutaglist[[group]]
     source(paste0(outputdir, &quot;config&quot;, configtag, &quot;.R&quot;))
@@ -749,19 +944,23 @@ plot_par &lt;- function(configtag, runtag, simutaglist){
     susieIfs2 &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.s2.susieIrss.txt&quot;)
     mtxlist[[group]] &lt;- show_param(phenofs, susieIfs, susieIfs2, thin = thin)
   }
-  
-  # pi1 
+    return(mtxlist)
+}
+
+plot_par &lt;- function(mtxlist){
   par(mfrow=c(1,4))
   plot_single(mtxlist, truecol = &quot;pi1.gene_truth&quot;, estcol = &quot;pi1.gene_est&quot;, ylab =&quot;gene pi1&quot;, ylim = c(0,0.02), xlim = c(0.8,2.4))
   plot_single(mtxlist, truecol = &quot;enrich_truth&quot;, estcol = &quot;enrich_est&quot;,ylab =&quot;gene enrichment&quot;, ylim = c(0,120), xlim = c(0.8,2.4) )
   plot_single(mtxlist, truecol = &quot;sigma.gene_truth&quot;, estcol = &quot;sigma.gene_est&quot;, ylab = &quot;gene effect size&quot;, ylim = c(0.01, 0.03), xlim = c(0.8,2.4))
   plot_single(mtxlist, truecol = &quot;PVE.gene_truth&quot;, estcol = &quot;PVE.gene_est&quot;, ylab =&quot;gene PVE&quot;, ylim = c(0, 0.1), xlim = c(0.8,2.4))
-  
-  return(mtxlist)
 }</code></pre>
-<p>Figure (supplementary):</p>
+</div>
+</div>
+<div id="parameters-figure" class="section level2">
+<h2>Parameters Figure</h2>
 <pre class="r"><code>simutaglist = list(paste(4, 1:5, sep = &quot;-&quot;), paste(10, 1:5, sep=&quot;-&quot;))
-mtxlist &lt;- plot_par(configtag, runtag, simutaglist)</code></pre>
+mtxlist &lt;- get_params(configtag, runtag, simutaglist)
+plot_par(mtxlist)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/paramplot-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-paramplot-1">
@@ -800,12 +999,17 @@ simingz
 </table>
 </div>
 </div>
-<p>Back up figures</p>
-<p>I have in total 10 x 2 = 20 settings to use generate the parameter figures.</p>
-</div>
-<div id="comparison-of-pve.gene-vs.-mesc-estimates." class="section level3">
-<h3>Comparison of PVE.gene vs. MESC estimates.</h3>
-<p>Leave it to Kevin.</p>
+<div id="supplementary-parameters" class="section level3">
+<h3>Supplementary-parameters</h3>
+<pre class="r"><code>plot_par_snps &lt;- function(mtxlist){
+  par(mfrow=c(1,3))
+  plot_single(mtxlist, truecol = &quot;pi1.SNP_truth&quot;, estcol = &quot;pi1.SNP_est&quot;, xlabels = c(&quot;high gene PVE&quot;, &quot;low gene PVE&quot;), ylab =TeX(&#39;Percent causal, $\\pi_V$&#39;), ylim = c(0,0.0005), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = &quot;sigma.SNP_truth&quot;, estcol = &quot;sigma.SNP_est&quot;,xlabels = c(&quot;high gene PVE&quot;, &quot;low gene PVE&quot;), ylab = &quot;Variant effect size&quot;, ylim = c(0.01, 0.03), xlim = c(0.8,2.4))
+  plot_single(mtxlist, truecol = &quot;PVE.SNP_truth&quot;, estcol = &quot;PVE.SNP_est&quot;,xlabels = c(&quot;high gene PVE&quot;, &quot;low gene PVE&quot;), ylab =&quot;Variant PVE&quot;, ylim = c(0, 0.8), xlim = c(0.8,2.4))
+}
+
+plot_par_snps(mtxlist)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/paramplot-suppl-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="pip-calibration" class="section level2">
@@ -873,12 +1077,41 @@ simingz
 </div>
 </div>
 </div>
+<div id="supplementary-pip-plot" class="section level3">
+<h3>Supplementary PIP plot</h3>
+<pre class="r"><code>simutaglist = lapply(c(1:3,5:9), function(x) paste(x, 1:5, sep =&quot;-&quot;))
+mtxlist &lt;- get_params(configtag, runtag, simutaglist)
+simutaglist = c(list(paste(1, c(1,2,5), sep = &quot;-&quot;)), 
+                lapply(c(2,3,5,6,7,8,9), function(x) paste(x, 1:5, sep =&quot;-&quot;)))
+
+pdf(file = &quot;temp3.pdf&quot;, height = 10, width =10)
+plotlist &lt;- list()
+for (i in 1:length(simutaglist)){
+  plotlist[[i]] &lt;- plot_PIP(configtag, runtag, simutaglist[[i]], main = 
+                              TeX(sprintf(&quot;\\overset{$\\pi_G$= %s, $PVE_G$ = %s;}{$\\pi_V$= %s, $PVE_G$ = %s}&quot;,
+                                  signif(mean(mtxlist[[i]][,&quot;pi1.gene_truth&quot;]), digits=2), 
+                                  signif(mean(mtxlist[[i]][,&quot;PVE.gene_truth&quot;]), digits=2),
+                                  signif(mean(mtxlist[[i]][,&quot;pi1.SNP_truth&quot;]), digits=2),
+                                  signif(mean(mtxlist[[i]][,&quot;PVE.SNP_truth&quot;]), digits=2))))
+}
+gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
+                        plotlist[[3]], plotlist[[4]],
+                        plotlist[[5]], plotlist[[6]],
+                        plotlist[[7]], plotlist[[8]],ncol = 3)
+dev.off()</code></pre>
+</div>
 <div id="comparison-with-other-methods" class="section level3">
 <h3>Comparison with other methods</h3>
-<p>Bar plot: each bar shows the number of genes, colored by causal status. Use a different color for each method. The method and cut off values: * ctwas: PIP 0.8 * FUSION fdr: 0.05 * FUSION bonferroni: 0.05 * COLOC PP4: 0.8 * FOCUS PIP: 0.8 * SMR FDR: 0.05 * SMR HEIDI: HEIDI p &gt; 0.05, SMR FDR &lt; 0.05</p>
-<p>Multiple bar plots, different settings: high gene power and low gene power.</p>
-<pre class="r"><code>get_ncausal_df &lt;- function(pfiles, cau, cut = 0.8, 
-                           method = c(&quot;ctwas&quot;, &quot;fusionfdr&quot;, &quot;fusionbon&quot;,&quot;coloc&quot;, &quot;focus&quot;, &quot;smr&quot;, &quot;smrheidi&quot;)){
+<p>Bar plot: each bar shows the number of genes, colored by causal
+status. Use a different color for each method. The method and cut off
+values: * ctwas: PIP 0.8 * FUSION fdr: 0.05 * FUSION bonferroni: 0.05 *
+FUSION permutation fdr: 0.05 * COLOC PP4: 0.8 * FOCUS PIP: 0.8 * SMR
+FDR: 0.05, updated using ensemble ID * SMR HEIDI: HEIDI p &gt; 0.05, SMR
+FDR &lt; 0.05, updated using ensemble ID</p>
+<p>Multiple bar plots, different settings: high gene power and low gene
+power.</p>
+<pre class="r"><code>get_ncausal_df &lt;- function(pfiles, cau, cut = 0.8, useFDP= F,
+                           method = c(&quot;ctwas&quot;, &quot;fusionfdr&quot;, &quot;fusionbon&quot;,&quot;fusionperm&quot;, &quot;coloc&quot;, &quot;focus&quot;, &quot;smr&quot;, &quot;smrheidi&quot;)){
   df &lt;- NULL
   for (i in 1:length(pfiles)) {
     res &lt;- fread(pfiles[i], header = T)
@@ -886,31 +1119,79 @@ simingz
     if (method == &quot;ctwas&quot;){
         res &lt;- data.frame(res[res$type  ==&quot;gene&quot;, ])
         res$ifcausal &lt;- ifelse(res$id %in% cau[[i]], 1, 0)
-        res &lt;- res[res$susie_pip &gt; cut,]
+        res &lt;- res[order(res$susie_pip, decreasing = T ),] 
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+          res &lt;- res[res$susie_pip &gt; cut,]}
     } else if (method == &quot;fusionfdr&quot;){
         res$FDR &lt;- p.adjust(res$TWAS.P, method = &quot;fdr&quot;)
-        res &lt;- res[res$FDR &lt; cut,]
+        res &lt;- res[order(res$FDR, decreasing = F),] 
         res$ifcausal &lt;- ifelse(res$ID %in% cau[[i]], 1, 0)
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+          res &lt;- res[res$FDR &lt; cut,]}
+
     } else if  (method == &quot;fusionbon&quot;){
         res$FDR &lt;- p.adjust(res$TWAS.P, method = &quot;bonferroni&quot;)
-        res &lt;- res[res$FDR &lt; cut,]
+        res &lt;- res[order(res$FDR, decreasing = F),] 
         res$ifcausal &lt;- ifelse(res$ID %in% cau[[i]], 1, 0)
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+          res &lt;- res[res$FDR &lt; cut,]
+        }
+    } else if  (method == &quot;fusionperm&quot;){
+        res &lt;- res[res$PERM.N!=0,]
+        res$FDR &lt;- p.adjust(res$PERM.PV, method = &quot;fdr&quot;)
+        res &lt;- res[order(res$FDR, decreasing = F),] 
+        res$ifcausal &lt;- ifelse(res$ID %in% cau[[i]], 1, 0)
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+          res &lt;- res[res$FDR &lt; cut,]
+        }
     } else if  (method == &quot;coloc&quot;){
-        res &lt;- res[res$COLOC.PP4 &gt; cut,]
+        res &lt;- res[!is.na(res$COLOC.PP4),]
+        res &lt;- res[order(res$COLOC.PP4, decreasing = T),] 
         res$ifcausal &lt;- ifelse(res$ID %in% cau[[i]], 1, 0)
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+         res &lt;- res[res$COLOC.PP4 &gt; cut,]
+        }
     } else if (method == &quot;focus&quot;){
         res &lt;- res[res$mol_name != &quot;NULL&quot;,]
-        res &lt;- res[res$pip &gt; cut, ] 
         res$ifcausal &lt;- ifelse(res$mol_name %in% cau[[i]], 1, 0)
-    } else if (method == &quot;smr&quot;){
+        res &lt;- res[order(res$pip, decreasing = T),] 
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+          res &lt;- res[res$pip &gt; cut, ] 
+        }
+    }  else if (method == &quot;SMR&quot;){
+        res &lt;- as.data.frame(res)
+        res$probeID &lt;- sapply(res$Gene, function(x){unlist(strsplit(x, &quot;[.]&quot;))[1]})
+        res &lt;- res[res$probeID %in% weights$ENSEMBL_ID,]
+        res &lt;- res[sapply(res$p_HEIDI &gt; 0.05, isTRUE),]
         res$FDR &lt;- p.adjust(res$p_SMR, method = &quot;fdr&quot;)
-        res &lt;- res[res$FDR &lt; cut,]
         res$ifcausal &lt;- ifelse(res$probeID %in% cau[[i]], 1, 0)
-    } else if (method == &quot;smrheidi&quot;){
-        res &lt;- res[res$p_HEIDI &gt; 0.05,]
-        res$FDR &lt;- p.adjust(res$p_SMR, method = &quot;fdr&quot;)
-        res &lt;- res[res$FDR &lt; cut,]
-        res$ifcausal &lt;- ifelse(res$probeID %in% cau[[i]], 1, 0)
+        res &lt;- res[order(res$FDR, decreasing = F),] 
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+           res &lt;- res[res$FDR &lt; cut,]
+        }
+    } else if (method == &quot;MR-JTI&quot;){
+        res$ifcausal &lt;- ifelse(res$variable %in% cau[[i]], 1, 0)
+        res &lt;- res[order(abs(res$beta), decreasing = T),] 
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+          res &lt;- res[res$CI_significance==&quot;sig&quot;,] 
+        }
+    } else if (method == &quot;PMR-Egger&quot;){
+        res &lt;- as.data.frame(res)
+        res$ifcausal &lt;- ifelse(res$gene_id %in% cau[[i]], 1, 0) 
+        res &lt;- res[!is.na(res$causal_pvalue), ]
+        res &lt;- res[order(res$causal_pvalue, decreasing = F),] 
+        res$FDP &lt;- 1-cumsum(res$ifcausal)/(1:nrow(res))
+        if (isTRUE(useFDP)){ res &lt;- res[res$FDP &lt; cut,]} else {
+          res &lt;- res[sapply(res$causal_pvalue &lt; cut/sum(!is.na(res$causal_pvalue)), isTRUE),]
+        }
     } else{
       stop(&quot;no such method&quot;)
     }
@@ -929,28 +1210,46 @@ plot_ncausal &lt;- function(configtag, runtag,  simutags, colors, ...){
   phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
   cau &lt;- lapply(phenofs, function(x) {load(x);get_causal_id(phenores)})
   
+  cau_ensembl &lt;- cau
+  
+  for (i in 1:length(cau_ensembl)){
+    cau_ensembl[[i]][cau_ensembl[[i]] %in% weights$ID] &lt;- weights$ENSEMBL_ID[match(cau_ensembl[[i]][cau_ensembl[[i]] %in% weights$ID], weights$ID)]
+  }
+  
   susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.susieIrss.txt&quot;)
   fusioncolocfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.coloc.result&quot;)
   focusfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.focus.tsv&quot;)
   smrfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.smr&quot;)
+  mrjtifs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.mrjti.result&quot;)
+  pmrfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.pmr.result_pi_080&quot;)
 
   ctwas_df &lt;- get_ncausal_df(susieIfs, cau= cau, cut = 0.8, method =&quot;ctwas&quot;)
-  fusionfdr_df &lt;- get_ncausal_df(fusioncolocfs, cau= cau, cut = 0.05, method = &quot;fusionfdr&quot;)
+  #fusionfdr_df &lt;- get_ncausal_df(fusioncolocfs, cau= cau, cut = 0.05, method = &quot;fusionfdr&quot;)
   fusionbon_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = 0.05, method = &quot;fusionbon&quot;)
+  fusionperm_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = 0.05, method = &quot;fusionperm&quot;,)
   coloc_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = 0.8, method = &quot;coloc&quot;)
   focus_df &lt;- get_ncausal_df(focusfs , cau= cau, cut = 0.8, method = &quot;focus&quot;)
-  smr_df &lt;- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = &quot;smr&quot;)
-  smrheidi_df &lt;- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = &quot;smrheidi&quot;)
+  #smr_df &lt;- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = &quot;smr&quot;)
+  smrheidi_df &lt;- get_ncausal_df(smrfs, cau= cau_ensembl, cut = 0.05, method = &quot;SMR&quot;)
+  mrjti_df &lt;- get_ncausal_df(mrjtifs, cau= cau_ensembl, method = &quot;MR-JTI&quot;)
+  pmr_df &lt;- get_ncausal_df(pmrfs, cau= cau_ensembl, cut = 0.05, method = &quot;PMR-Egger&quot;)
   
-  df &lt;- rbind(ctwas_df, fusionfdr_df, fusionbon_df, coloc_df, focus_df, smr_df, smrheidi_df)
+  df &lt;- rbind(ctwas_df, fusionbon_df,fusionperm_df, coloc_df, focus_df, smrheidi_df, mrjti_df, pmr_df)
   df$ifcausal &lt;- df$ifcausal + as.numeric(as.factor(df$method))*10
   df$ifcausal &lt;- as.factor(df$ifcausal)
   fig &lt;- ggbarplot(df, x = &quot;method&quot;, y = &quot;count&quot;, add = &quot;mean_se&quot;, fill = &quot;ifcausal&quot;, palette = colors, legend = &quot;none&quot;, ...) + grids(linetype = &quot;dashed&quot;)
   fig
 }</code></pre>
-<pre class="r"><code>colset = c(&quot;#ebebeb&quot;, &quot;#bebada&quot; , &quot;#ebebeb&quot;, &quot;#fb8072&quot;, &quot;#ebebeb&quot;,&quot;#ffffb3&quot;,&quot;#ebebeb&quot;, &quot;#8dd3c7&quot;, &quot;#ebebeb&quot;,&quot;#8dd3c7&quot;, &quot;#ebebeb&quot;, &quot;#87CEFA&quot;, &quot;#ebebeb&quot;,&quot;#87CEFA&quot;) # coloc, ctwas, focus, fusionbon, fusionfdr, smrheidi, smr
-f1 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,150), main = &quot;high gene PVE&quot;)
-f2 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,150), main = &quot;low gene PVE&quot;)
+<pre class="r"><code>colset = c(&quot;#ebebeb&quot;, &quot;#ffffb3&quot;, # FOCUS
+           &quot;#ebebeb&quot;, &quot;#8dd3c7&quot;, # Fusion
+           &quot;#ebebeb&quot;, &quot;palegreen&quot;, # Fusion-permutation
+           &quot;#ebebeb&quot;, &quot;#CC79A7&quot;, # MR-JTI
+           &quot;#ebebeb&quot;, &quot;goldenrod&quot;, #PMR-Egger
+           &quot;#ebebeb&quot;, &quot;#87CEFA&quot;, # SMR
+           &quot;#ebebeb&quot;, &quot;#fb8072&quot;, # cTWAS
+           &quot;#ebebeb&quot;, &quot;#bebada&quot;) # coloc
+f1 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,225), main = &quot;high gene PVE&quot;)
+f2 &lt;- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,225), main = &quot;low gene PVE&quot;)
 gridExtra::grid.arrange(f1, f2, ncol=2)</code></pre>
 <p><img src="figure/Paper_figures_simulation.Rmd/ncausalplot-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
@@ -1002,12 +1301,77 @@ simingz
 </div>
 </div>
 </div>
+<div id="comparison-with-other-methods-at-specified-fdp"
+class="section level3">
+<h3>Comparison with other methods at specified FDP</h3>
+<p>We can compare the power of methods at a given false discovery
+proportion, say 10% or 25%. If a method cannot achieve that FDP no
+matter what the threshold is used, we will point out that fact.</p>
+<pre class="r"><code>plot_ncausal_FDP &lt;- function(configtag, runtag,  simutags, colors, cut =0.2, ...){
+  phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+  cau &lt;- lapply(phenofs, function(x) {load(x);get_causal_id(phenores)})
+  
+  cau_ensembl &lt;- cau
+  
+  for (i in 1:length(cau_ensembl)){
+    cau_ensembl[[i]][cau_ensembl[[i]] %in% weights$ID] &lt;- weights$ENSEMBL_ID[match(cau_ensembl[[i]][cau_ensembl[[i]] %in% weights$ID], weights$ID)]
+  }
+  
+  susieIfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.susieIrss.txt&quot;)
+  fusioncolocfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.coloc.result&quot;)
+  focusfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.focus.tsv&quot;)
+  smrfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.smr&quot;)
+  mrjtifs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.mrjti.result&quot;)
+  pmrfs &lt;- paste0(comparedir, runtag, &quot;_simu&quot;, simutags, &quot;.Adipose_Subcutaneous.pmr.result_pi_080&quot;)
+
+  ctwas_df &lt;- get_ncausal_df(susieIfs, cau= cau, cut = cut, method =&quot;ctwas&quot;, useFDP = T)
+  #fusionfdr_df &lt;- get_ncausal_df(fusioncolocfs, cau= cau, cut = 0.05, method = &quot;fusionfdr&quot;)
+  fusionbon_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = cut, method = &quot;fusionbon&quot;, useFDP = T)
+  fusionperm_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = cut, method = &quot;fusionperm&quot;, useFDP = T)
+  coloc_df &lt;- get_ncausal_df(fusioncolocfs , cau= cau, cut = cut, method = &quot;coloc&quot;, useFDP = T)
+  focus_df &lt;- get_ncausal_df(focusfs , cau= cau, cut = cut, method = &quot;focus&quot;, useFDP = T)
+  #smr_df &lt;- get_ncausal_df(smrfs, cau= cau, cut = 0.05, method = &quot;smr&quot;)
+  smrheidi_df &lt;- get_ncausal_df(smrfs, cau= cau_ensembl, cut = cut, method = &quot;SMR&quot;, useFDP = T)
+  mrjti_df &lt;- get_ncausal_df(mrjtifs, cau= cau_ensembl, cut = cut, method = &quot;MR-JTI&quot;, useFDP = T)
+  pmr_df &lt;- get_ncausal_df(pmrfs, cau= cau_ensembl, cut = cut, method = &quot;PMR-Egger&quot;, useFDP = T)
+  
+  df &lt;- rbind(ctwas_df, fusionbon_df,fusionperm_df, coloc_df, focus_df, smrheidi_df, mrjti_df, pmr_df)
+  df$ifcausal &lt;- df$ifcausal + as.numeric(as.factor(df$method))*10
+  df$ifcausal &lt;- as.factor(df$ifcausal)
+  fig &lt;- ggbarplot(df, x = &quot;method&quot;, y = &quot;count&quot;, add = &quot;mean_se&quot;, fill = &quot;ifcausal&quot;, palette = colors, legend = &quot;none&quot;, ...) + grids(linetype = &quot;dashed&quot;)
+  fig
+}
+
+f1 &lt;- plot_ncausal_FDP(configtag, runtag,  simutaglist[[1]], colors = colset, cut = 0.2, ylim= c(0,225), main = &quot;high gene PVE&quot;)
+f2 &lt;- plot_ncausal_FDP(configtag, runtag,  simutaglist[[2]], colors = colset, cut = 0.2, ylim= c(0,225), main = &quot;low gene PVE&quot;)
+gridExtra::grid.arrange(f1, f2, ncol=2)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/ncausalplot-FDP-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>f1 &lt;- plot_ncausal_FDP(configtag, runtag,  simutaglist[[1]], colors = colset, cut = 0.4, ylim= c(0,225), main = &quot;high gene PVE&quot;)
+f2 &lt;- plot_ncausal_FDP(configtag, runtag,  simutaglist[[2]], colors = colset, cut = 0.4, ylim= c(0,225), main = &quot;low gene PVE&quot;)
+gridExtra::grid.arrange(f1, f2, ncol=2)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/ncausalplot-FDP-2.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>f1 &lt;- plot_ncausal_FDP(configtag, runtag,  simutaglist[[1]], colors = colset, cut = 1, ylim= c(0,225), main = &quot;high gene PVE&quot;)
+f2 &lt;- plot_ncausal_FDP(configtag, runtag,  simutaglist[[2]], colors = colset, cut = 1, ylim= c(0,225), main = &quot;low gene PVE&quot;)
+gridExtra::grid.arrange(f1, f2, ncol=2)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/ncausalplot-FDP-3.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="scatter-plot" class="section level2">
+<h2>Scatter plot</h2>
+<pre class="r"><code>runtag &lt;- &quot;ukb-s80.45-adi&quot;
+simutags &lt;- paste(3, 2, sep = &quot;-&quot;)
+phenofs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;, simutags, &quot;-pheno.Rd&quot;)
+gwasfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;.exprgwas.txt.gz&quot;)
+pipfs &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutags, &quot;_config&quot;, configtag,&quot;.susieIrss.txt&quot;)
+df &lt;- scatter_plot_PIP_p(phenofs, pipfs, gwasfs, main =&quot;PIP-p&quot;)</code></pre>
+<p><img src="figure/Paper_figures_simulation.Rmd/scatterplot-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="examples" class="section level2">
 <h2>Examples</h2>
 <div id="fp-example-1" class="section level3">
 <h3>FP example 1</h3>
-<p>cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal gene's eQTLs.</p>
+<p>cTWAS avoids the FP error. In this case, the false positive gene
+(from TWAS) is caused by LD of eQTLs with a causal gene’s eQTLs.</p>
 <pre class="r"><code>plot_region &lt;- function(runtag, simutag, configtag, chr, startpos = NULL, endpos = NULL, rerun_ctwas = F, plot_ceqtl = F,
                         plot_eqtl = F){
   pf &lt;- paste0(outputdir, runtag, &quot;_simu&quot;,simutag)
@@ -1044,7 +1408,7 @@ simingz
       colnames(z_gene) &lt;- c(&quot;id&quot;, &quot;z&quot;)
       z_snp &lt;-  a[a$type == &quot;SNP&quot;, c(&quot;id&quot;, &quot;alt&quot;, &quot;ref&quot;, &quot;t.value&quot;)]
       colnames(z_snp) &lt;- c(&quot;id&quot;, &quot;A1&quot;, &quot;A2&quot;, &quot;z&quot;)
-      ctwas_rss(z_gene, z_snp, ld_exprfs= ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions_custom = &quot;temp_reg.txt&quot;, thin = 1, outputdir = &quot;.&quot;, outname = &quot;temp&quot;, ncore = 1, ncore.rerun = 1, prob_single = 0,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F, recover_strand_ambig_z = F)
+      ctwas_rss(z_gene, z_snp, ld_exprfs= ld_exprfs, ld_pgenfs = ld_pgenfs, ld_R_dir = NULL, ld_regions_custom = &quot;temp_reg.txt&quot;, thin = 1, outputdir = &quot;.&quot;, outname = &quot;temp&quot;, ncore = 1, ncore.rerun = 1, prob_single = 0,  group_prior = group_prior, group_prior_var = group_prior_var, estimate_group_prior = F, estimate_group_prior_var = F)
       a2 &lt;- fread(&quot;temp.susieIrss.txt&quot;, header = T)
       a &lt;- merge(a2, b, by = &quot;id&quot;, all = T)
       # file.remove(&quot;temp.susieIrss.txt&quot;)
@@ -1075,18 +1439,22 @@ simingz
   points(a[a$type==&quot;gene&quot; &amp; a$r2max &gt; r2cut, ]$p0, a[a$type == &quot;gene&quot;  &amp; a$r2max &gt; r2cut]$susie_pip, pch = 22, bg = &quot;purple&quot;, cex = 2)
   points(a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$p0, a[a$type == &quot;gene&quot; &amp; a$ifcausal == 1]$susie_pip, pch = 22, bg = &quot;salmon&quot;, cex = 2)
   if (isTRUE(plot_ceqtl)){
+    gi &lt;- 0
       for (cgene in a[a$type==&quot;gene&quot; &amp; a$ifcausal == 1, ]$id){
      load(paste0(tools::file_path_sans_ext(exprfs[a[a$id == cgene, &quot;chrom.x&quot;][[1]]]), &quot;qc.Rd&quot;))
      eqtls &lt;- rownames(wgtlist[[cgene]])
-     points(a[a$id %in% eqtls,]$p0, rep( -0.15, nrow(a[a$id %in% eqtls,])), pch = &quot;|&quot;, col = &quot;salmon&quot;, cex = 1.5)
+     points(a[a$id %in% eqtls,]$p0, rep( -0.15 - gi, nrow(a[a$id %in% eqtls,])), pch = &quot;|&quot;, col = &quot;salmon&quot;, cex = 1.5)
+     gi &lt;- gi + 0.2
     }
   }
 
   if (isTRUE(plot_eqtl)){
-    for (cgene in a[a$type==&quot;gene&quot; &amp; a$PVALUE &gt;5, ]$id){
+     gi &lt;- 0
+    for (cgene in a[a$type==&quot;gene&quot; &amp; a$PVALUE &gt;4, ]$id){
      load(paste0(tools::file_path_sans_ext(exprfs[a[a$id == cgene, &quot;chrom.x&quot;][[1]]]), &quot;qc.Rd&quot;))
      eqtls &lt;- rownames(wgtlist[[cgene]])
-     points(a[a$id %in% eqtls,]$p0, rep( -0.15, nrow(a[a$id %in% eqtls,])), pch = &quot;|&quot;, col = &quot;black&quot;, cex = 1.5)
+     points(a[a$id %in% eqtls,]$p0, rep( -0.15-gi, nrow(a[a$id %in% eqtls,])), pch = &quot;|&quot;, col = &quot;black&quot;, cex = 1.5)
+     gi &lt;- gi + 0.2
     }
   }
   
@@ -1128,6 +1496,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/1472dd3eac597b8676a47b1adea672845abb038b/docs/figure/Paper_figures_simulation.Rmd/regionplot1-1.png" target="_blank">1472dd3</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/regionplot1-1.png" target="_blank">8521449</a>
 </td>
 <td>
@@ -1155,7 +1534,8 @@ simingz
 </div>
 <div id="fp-example-2" class="section level3">
 <h3>FP example 2</h3>
-<p>cTWAS avoids the FP error. In this case, the false positive gene (from TWAS) is caused by LD of eQTLs with a causal SNP nearby.</p>
+<p>cTWAS avoids the FP error. In this case, the false positive gene
+(from TWAS) is caused by LD of eQTLs with a causal SNP nearby.</p>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot2-1">
@@ -1179,6 +1559,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/1472dd3eac597b8676a47b1adea672845abb038b/docs/figure/Paper_figures_simulation.Rmd/regionplot2-1.png" target="_blank">1472dd3</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/regionplot2-1.png" target="_blank">8521449</a>
@@ -1208,7 +1599,9 @@ simingz
 </div>
 <div id="tp-example" class="section level3">
 <h3>TP example</h3>
-<p>cTWAS is able to find true positives. This gene has one eQTL, cTWAS choose this gene because it uses a prior favoring genes, it didn't reach significance level by TWAS after bonferron correction.</p>
+<p>cTWAS is able to find true positives. This gene has one eQTL, cTWAS
+choose this gene because it uses a prior favoring genes, it didn’t reach
+significance level by TWAS after bonferron correction.</p>
 <p><img src="figure/Paper_figures_simulation.Rmd/regionplot3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regionplot3-1">
@@ -1232,6 +1625,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/causal-TWAS/blob/1472dd3eac597b8676a47b1adea672845abb038b/docs/figure/Paper_figures_simulation.Rmd/regionplot3-1.png" target="_blank">1472dd3</a>
+</td>
+<td>
+simingz
+</td>
+<td>
+2021-08-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/causal-TWAS/blob/8521449d41de38dad77e625b07a93c3996f40f44/docs/figure/Paper_figures_simulation.Rmd/regionplot3-1.png" target="_blank">8521449</a>
@@ -1258,57 +1662,66 @@ simingz
 </table>
 </div>
 </div>
+</div>
+<div id="coloc-false-positives" class="section level3">
+<h3>coloc false positives</h3>
+<p><img src="figure/Paper_figures_simulation.Rmd/regionplot4-1.png" width="672" style="display: block; margin: auto;" />
+<img src="figure/Paper_figures_simulation.Rmd/regionplot4-1-1.png" width="672" style="display: block; margin: auto;" />
+<img src="figure/Paper_figures_simulation.Rmd/regionplot4-2-1.png" width="672" style="display: block; margin: auto;" />
+<img src="figure/Paper_figures_simulation.Rmd/regionplot4-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.6.1 (2019-07-05)
+<pre><code>R version 4.1.0 (2021-05-18)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Scientific Linux 7.4 (Nitrogen)
+Running under: CentOS Linux 7 (Core)
 
 Matrix products: default
-BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
+BLAS:   /software/R-4.1.0-no-openblas-el7-x86_64/lib64/R/lib/libRblas.so
+LAPACK: /software/R-4.1.0-no-openblas-el7-x86_64/lib64/R/lib/libRlapack.so
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+ [1] LC_CTYPE=en_US.UTF-8 LC_NUMERIC=C         LC_TIME=C           
+ [4] LC_COLLATE=C         LC_MONETARY=C        LC_MESSAGES=C       
+ [7] LC_PAPER=C           LC_NAME=C            LC_ADDRESS=C        
+[10] LC_TELEPHONE=C       LC_MEASUREMENT=C     LC_IDENTIFICATION=C 
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggpubr_0.4.0      plotrix_3.7-6     cowplot_1.0.0     ggplot2_3.3.3    
-[5] data.table_1.13.2 ctwas_0.1.29     
+[1] latex2exp_0.9.4   plyr_1.8.6        ggpubr_0.4.0      plotrix_3.8-2    
+[5] cowplot_1.1.1     ggplot2_3.3.5     data.table_1.14.0 ctwas_0.1.35     
 
 loaded via a namespace (and not attached):
- [1] tidyr_1.1.0       foreach_1.4.4     pgenlibr_0.2      carData_3.0-2    
- [5] logging_0.10-108  R.utils_2.9.0     highr_0.8         cellranger_1.1.0 
- [9] yaml_2.2.0        pillar_1.5.1      backports_1.1.4   lattice_0.20-38  
-[13] glue_1.4.2        digest_0.6.20     promises_1.0.1    ggsignif_0.5.0   
-[17] colorspace_1.4-1  htmltools_0.3.6   httpuv_1.6.1      Matrix_1.2-18    
-[21] R.oo_1.22.0       pkgconfig_2.0.2   broom_0.7.5       haven_2.3.1      
-[25] purrr_0.3.4       scales_1.1.0      whisker_0.3-2     openxlsx_4.1.0.1 
-[29] later_0.8.0       rio_0.5.16        git2r_0.26.1      tibble_3.1.0     
-[33] generics_0.0.2    farver_2.1.0      car_3.0-5         ellipsis_0.2.0.1 
-[37] withr_2.4.1       magrittr_1.5      crayon_1.3.4      readxl_1.3.1     
-[41] evaluate_0.14     R.methodsS3_1.7.1 fs_1.3.1          fansi_0.4.0      
-[45] doParallel_1.0.14 rstatix_0.7.0     forcats_0.4.0     foreign_0.8-71   
-[49] tools_3.6.1       hms_0.5.3         lifecycle_1.0.0   stringr_1.4.0    
-[53] munsell_0.5.0     zip_2.0.3         compiler_3.6.1    rlang_0.4.10     
-[57] debugme_1.1.0     grid_3.6.1        iterators_1.0.10  labeling_0.3     
-[61] rmarkdown_2.9     gtable_0.3.0      codetools_0.2-16  abind_1.4-5      
-[65] DBI_1.1.0         curl_3.3          R6_2.4.0          gridExtra_2.3    
-[69] knitr_1.33        dplyr_1.0.5       utf8_1.1.4        workflowr_1.6.2  
-[73] rprojroot_1.3-2   readr_1.3.1       stringi_1.4.3     parallel_3.6.1   
-[77] Rcpp_1.0.5        vctrs_0.3.7       tidyselect_1.1.0  xfun_0.24        </code></pre>
+ [1] sass_0.4.0        tidyr_1.1.3       jsonlite_1.7.2    foreach_1.5.1    
+ [5] R.utils_2.10.1    pgenlibr_0.3.2    carData_3.0-4     logging_0.10-108 
+ [9] bslib_0.4.2       assertthat_0.2.1  highr_0.9         cellranger_1.1.0 
+[13] yaml_2.2.1        pillar_1.6.1      backports_1.2.1   lattice_0.20-44  
+[17] glue_1.4.2        digest_0.6.27     promises_1.2.0.1  ggsignif_0.6.2   
+[21] colorspace_2.0-2  R.oo_1.24.0       htmltools_0.5.5   httpuv_1.6.1     
+[25] Matrix_1.3-3      pkgconfig_2.0.3   broom_0.7.8       haven_2.4.1      
+[29] purrr_0.3.4       scales_1.1.1      whisker_0.4       openxlsx_4.2.4   
+[33] later_1.2.0       rio_0.5.27        git2r_0.28.0      tibble_3.1.2     
+[37] farver_2.1.0      generics_0.1.0    car_3.0-11        ellipsis_0.3.2   
+[41] cachem_1.0.5      withr_2.5.0       cli_3.6.1         magrittr_2.0.1   
+[45] crayon_1.5.2      readxl_1.3.1      evaluate_0.20     R.methodsS3_1.8.1
+[49] fs_1.6.1          fansi_0.5.0       doParallel_1.0.17 rstatix_0.7.0    
+[53] forcats_0.5.1     foreign_0.8-81    tools_4.1.0       hms_1.1.0        
+[57] lifecycle_1.0.3   stringr_1.4.0     munsell_0.5.0     zip_2.2.0        
+[61] compiler_4.1.0    jquerylib_0.1.4   rlang_1.1.0       grid_4.1.0       
+[65] iterators_1.0.13  rstudioapi_0.13   labeling_0.4.2    rmarkdown_2.21   
+[69] gtable_0.3.0      codetools_0.2-18  abind_1.4-5       DBI_1.1.1        
+[73] curl_4.3.2        R6_2.5.0          gridExtra_2.3     knitr_1.42       
+[77] dplyr_1.0.7       fastmap_1.1.0     utf8_1.2.1        workflowr_1.6.2  
+[81] rprojroot_2.0.2   readr_1.4.0       stringi_1.6.2     parallel_4.1.0   
+[85] Rcpp_1.0.9        vctrs_0.3.8       tidyselect_1.1.1  xfun_0.38        </code></pre>
 </div>
 </div>
 </div>
@@ -1325,6 +1738,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>

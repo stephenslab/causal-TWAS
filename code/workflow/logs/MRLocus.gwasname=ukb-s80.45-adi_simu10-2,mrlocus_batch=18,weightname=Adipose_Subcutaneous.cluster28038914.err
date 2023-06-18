@@ -1,0 +1,20 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 7
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Sun Jun 18 15:47:28 2023]
+rule MRLocus:
+    input: /project2/mstephens/causalTWAS/ukbiobank/ukb_LDR_s80.45/s80.45.2_LDR, /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416/ukb-s80.45-adi_simu10-2.snpgwas.txt.gz, /project2/mstephens/causalTWAS/GTEx_v7_all/Adipose_Subcutaneous.allpairs_processed.txt.gz, /project2/mstephens/causalTWAS/fusion_weights/Adipose_Subcutaneous.pos
+    output: /project2/mstephens/causalTWAS/simulations/simulation_ctwas_rss_20210416_compare/ukb-s80.45-adi_simu10-2.Adipose_Subcutaneous.mrlocus.result.batch_18
+    jobid: 0
+    wildcards: gwasname=ukb-s80.45-adi_simu10-2, weightname=Adipose_Subcutaneous, mrlocus_batch=18
+    resources: mem_mb=7556, disk_mb=7556, tmpdir=/tmp/jobs/28038914
+
+pre:  203,356,16,168
+post: 26,17,06,17
+pre:  106,35
+post: 42,16
+pre:  756,975,34,91,13,87,17
+post: 227,258,13,26,05,31,13

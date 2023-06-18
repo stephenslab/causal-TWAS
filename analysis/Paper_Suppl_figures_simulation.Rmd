@@ -22,7 +22,6 @@ pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45_pgenfs.t
 ld_pgenfn = "/home/simingz/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt"
 exprfn = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416//ukb-s80.45-adi.expr.txt"
 
-
 ld_pgenfs <- read.table(ld_pgenfn, header = F, stringsAsFactors = F)[,1]
 pgenfs <- read.table(pgenfn, header = F, stringsAsFactors = F)[,1]
 pvarfs <- sapply(pgenfs, prep_pvar, outputdir = outputdir)
@@ -78,7 +77,7 @@ get_params <- function(configtag, runtag, simutaglist){
 }
 
 plot_PIP <- function(configtag, runtag,  simutags, ...){
-   phenofs <- paste0(outputdir, "ukb-s80.45-adi", "_simu", simutags, "-pheno.Rd")
+   phenofs <- paste0(outputdir, runtag, "_simu", simutags, "-pheno.Rd")
    susieIfs <- paste0(outputdir, runtag, "_simu",simutags, "_config", configtag,".susieIrss.txt")
 
    f1 <- caliPIP_plot(phenofs, susieIfs, ...) 
@@ -120,35 +119,98 @@ gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
 dev.off()
 ```
 
-## Additional plots for revision, just PIP plots
-```{r PIPplot2, fig.width= 8, fig.height= 18}
-outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20220322/"
+## Additional plots for revision, lower SNP PVE
+
+```{r paramplot-lowPVE, fig.width= 8, fig.height= 18}
+pdf(file = "temp-param.pdf", height = 25, width = 5)
+par(mfrow=c(10,4))
+
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230322/"
+runtag = "ukb-s80.45-adi"
+configtag = 1
+simutaglist = c(lapply(1:2, function(x) paste(x, 1:5, sep ="-")),
+                lapply(c(7,11,8,9), function(x) paste(x, 1:20, sep ="-")))
+mtxlist <- get_params(configtag, runtag, simutaglist)
+
+
+for (i in 1:length(simutaglist)){
+  plot_single(mtxlist[i], truecol = "enrich_truth", estcol = "enrich_est", main = TeX("Enrichment $\\pi_G/\\pi_V$"), ylim = c(0,200), xlim = c(0.8,1.2))
+  plot_single(mtxlist[i], truecol = "pi1.gene_truth", estcol = "pi1.gene_est", main = TeX("Percent causal, $\\pi_G$"), ylim = c(0,0.1), xlim = c(0.8,1.2))
+   plot_single(mtxlist[i], truecol = "PVE.gene_truth", estcol = "PVE.gene_est", main = "Gene PVE", ylim = c(0,0.25), xlim = c(0.8,1.2))
+    plot_single(mtxlist[i], truecol = "PVE.SNP_truth", estcol = "PVE.SNP_est",main = "SNP PVE", ylim = c(0,0.25), xlim = c(0.8,1.2))
+}
+
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230321/"
+runtag = "ukb-s200.113-adi"
+configtag = 1
+n = 113000
+simutaglist = c(list(paste(c(2), 1:30, sep = "-")), 
+                list(paste(c(6), 1:20, sep = "-")),
+                lapply(c(3,4), function(x) paste(x, 1:10, sep ="-")))
+mtxlist <- get_params(configtag, runtag, simutaglist)
+
+for (i in 1:length(simutaglist)){
+  plot_single(mtxlist[i], truecol = "enrich_truth", estcol = "enrich_est", main = TeX("Enrichment $\\pi_G/\\pi_V$"), ylim = c(0,200), xlim = c(0.8,1.2))
+  plot_single(mtxlist[i], truecol = "pi1.gene_truth", estcol = "pi1.gene_est", main = TeX("Percent causal, $\\pi_G$"), ylim = c(0,0.1), xlim = c(0.8,1.2))
+   plot_single(mtxlist[i], truecol = "PVE.gene_truth", estcol = "PVE.gene_est", main = "Gene PVE", ylim = c(0, 0.25), xlim = c(0.8,1.2))
+    plot_single(mtxlist[i], truecol = "PVE.SNP_truth", estcol = "PVE.SNP_est",main = "SNP PVE", ylim = c(0, 0.25), xlim = c(0.8,1.2))
+}
+
+dev.off()
+```
+
+
+```{r PIPplot-lowPVE, fig.width= 8, fig.height= 18}
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230322/"
+runtag = "ukb-s80.45-adi"
+configtag = 1
+pdf(file = "temp-PIP.pdf", height = 25, width =3)
 # simu 1-x and 2-x, SNP PVE = 0.1
 # simu 7,11,8,9, SNP PVE =0.2
 simutaglist = c(lapply(1:2, function(x) paste(x, 1:5, sep ="-")),
-                list(paste(c(7,11,8,9), 1:20, sep = "-")))
-pdf(file = "temp3.pdf", height = 25, width =3)
+                lapply(c(7,11,8,9), function(x) paste(x, 1:20, sep ="-")))
+
 plotlist <- list()
 for (i in 1:length(simutaglist)){
   plotlist[[i]] <- plot_PIP(configtag, runtag, simutaglist[[i]], main = "")
 }
 
-outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20220321/"
-simutaglist = c(lapply(1:2, function(x) paste(x, 1:5, sep ="-")),
-                list(paste(c(7,11,8,9), 1:20, sep = "-")))
-pdf(file = "temp3.pdf", height = 25, width =3)
-plotlist <- list()
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20230321/"
+runtag = "ukb-s200.113-adi"
+configtag = 1
+simutaglist = c(list(paste(c(2), 1:30, sep = "-")), 
+                list(paste(c(6), 1:20, sep = "-")),
+                lapply(c(3,4), function(x) paste(x, 1:10, sep ="-")))
+plotlist2 <- list()
 for (i in 1:length(simutaglist)){
-  plotlist[[i]] <- plot_PIP(configtag, runtag, simutaglist[[i]], main = "")
+   plotlist2[[i]] <- plot_PIP(configtag, runtag, simutaglist[[i]], main = "")
 }
-
-
+plotlist <- c(plotlist, plotlist2)
 
 gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
                         plotlist[[3]], plotlist[[4]],
                         plotlist[[5]], plotlist[[6]],
                         plotlist[[7]], plotlist[[8]],
                         plotlist[[9]], plotlist[[10]],
+                        ncol = 1)
+dev.off()
+```
+
+## Additional plots for revision, effect of changing block definition
+
+```{r PIPplot-lowPVE, fig.width= 8, fig.height= 18}
+outputdir = "/home/simingz/causalTWAS/simulations/simulation_ctwas_rss_20210416_newLD/"
+runtag = "ukb-s80.45-adi"
+configtag = 1
+pdf(file = "temp-PIP-newLD.pdf", height = 2.4, width = 5)
+simutaglist = c(lapply(c(4,10), function(x) paste(x, 1:5, sep ="-")))
+
+plotlist <- list()
+for (i in 1:length(simutaglist)){
+  plotlist[[i]] <- plot_PIP(configtag, runtag, simutaglist[[i]], main = "")
+}
+
+gridExtra::grid.arrange(plotlist[[1]], plotlist[[2]],
                         ncol = 2)
 dev.off()
 ```

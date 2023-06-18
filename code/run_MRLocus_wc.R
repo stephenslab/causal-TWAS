@@ -1,5 +1,6 @@
 library(data.table)
 library(mrlocus)
+library(ctwas)
 
 args = commandArgs(trailingOnly=TRUE)
 
@@ -157,11 +158,17 @@ gtf_df$gene_id <- sapply(gtf_df$gene_id, function(x){unlist(strsplit(x, "[.]"))[
 gtf_df <- gtf_df[gtf_df$gene_id %in% weights$ENSEMBL_ID,]
 
 ####################
+#load variant information for genotype files
+ldref_files <- readLines("/project2/mstephens/causalTWAS/ukbiobank/ukb_pgen_s80.45/ukb-s80.45.2_pgenfs.txt")
+ld_pvarfs <- sapply(ldref_files, prep_pvar, outputdir = temp_dir)
+
+####################
 #run MR-Locus for genes in this batch
 
 genes <- weights$ENSEMBL_ID
 
 #save.image("/home/wcrouse/scratch-midway2/temp_image.RData")
+#save.image("/home/wcrouse/temp_image.RData")
 
 if (file.exists(paste0(outname, "_temp"))){
   outdf <- as.data.frame(fread(paste0(outname, "_temp")))
@@ -254,29 +261,47 @@ for (i in batch_start:batch_end){
     clumps <- lapply(clumps$SP2, function(y){unname(sapply(unlist(strsplit(y, ",")), function(x){unlist(strsplit(x, "[(]"))[1]}))})
     clumps <- lapply(clumps, function(x){x[x!="NONE"]})
 
-    #load LD matrix for SNPs in all clumps
+    # #load LD matrix for SNPs in all clumps
+    # snplist_all <- unlist(clumps)
+    #
+    # ld_R_idx <- unique(ld_R_info$index[match(snplist_all, ld_R_info$id)])
+    #
+    # R_snp <- lapply(ld_R_files[ld_R_idx], readRDS)
+    #
+    # R_snp_info <- lapply(ld_R_info_files[ld_R_idx], fread)
+    # R_snp_info <- lapply(R_snp_info, as.data.frame)
+    #
+    # R_snp_index <- lapply(R_snp_info, function(x){x$id %in% snplist_all})
+    # rm(snplist_all)
+    #
+    # for (j in 1:length(R_snp)){
+    #   R_snp[[j]] <- R_snp[[j]][R_snp_index[[j]],R_snp_index[[j]]]
+    #   R_snp_info[[j]] <- R_snp_info[[j]][R_snp_index[[j]],,drop=F]
+    # }
+    #
+    # R_snp_info <- as.data.frame(do.call(rbind, R_snp_info))
+    # R_snp <- as.matrix(Matrix::bdiag(R_snp))
+    #
+    # colnames(R_snp) <- R_snp_info$id
+    # rownames(R_snp) <- R_snp_info$id
+
+    #load genotypes and compute LD matrix for SNPs in all clumps
     snplist_all <- unlist(clumps)
 
-    ld_R_idx <- unique(ld_R_info$index[match(snplist_all, ld_R_info$id)])
+    ld_pvarf <- ld_pvarfs[chr]
+    ldref_file <- ldref_files[chr]
 
-    R_snp <- lapply(ld_R_files[ld_R_idx], readRDS)
+    R_snp_info <- read_pvar(ld_pvarf)
+    ld_pgen <- prep_pgen(pgenf = ldref_file, ld_pvarf)
 
-    R_snp_info <- lapply(ld_R_info_files[ld_R_idx], fread)
-    R_snp_info <- lapply(R_snp_info, as.data.frame)
+    sidx <- match(snplist_all, R_snp_info$id)
+    X.g <- read_pgen(ld_pgen, variantidx = sidx)
 
-    R_snp_index <- lapply(R_snp_info, function(x){x$id %in% snplist_all})
-    rm(snplist_all)
+    R_snp <- Rfast::cora(X.g)
+    colnames(R_snp) <- snplist_all
+    rownames(R_snp) <- snplist_all
 
-    for (j in 1:length(R_snp)){
-      R_snp[[j]] <- R_snp[[j]][R_snp_index[[j]],R_snp_index[[j]]]
-      R_snp_info[[j]] <- R_snp_info[[j]][R_snp_index[[j]],,drop=F]
-    }
-
-    R_snp_info <- as.data.frame(do.call(rbind, R_snp_info))
-    R_snp <- as.matrix(Matrix::bdiag(R_snp))
-
-    colnames(R_snp) <- R_snp_info$id
-    rownames(R_snp) <- R_snp_info$id
+    rm(snplist_all, X.g)
 
     #prepare data object
     data <- list(sum_stats=list(),
