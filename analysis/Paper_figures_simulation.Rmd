@@ -160,7 +160,7 @@ Bar plot: each bar shows the number of genes, colored by causal status. Use a di
 * ctwas: PIP 0.8
 * FUSION fdr: 0.05
 * FUSION bonferroni: 0.05
-* FUSION permutation fdr: 0.05
+* FUSION permutation: bonferroni < 0.05 then use empirical permutation p < 0.01
 * COLOC PP4: 0.8
 * FOCUS PIP: 0.8
 * SMR FDR: 0.05, updated using ensemble ID
@@ -199,8 +199,8 @@ get_ncausal_df <- function(pfiles, cau, cut = 0.8, useFDP= F,
           res <- res[res$FDR < cut,]
         }
     } else if  (method == "fusionperm"){
-        res <- res[res$PERM.N!=0,]
-        res$FDR <- p.adjust(res$PERM.PV, method = "fdr")
+        res$FDR <- p.adjust(res$TWAS.P, method = "bonferroni")
+        res <- res[res$PERM.N >0 & res$PERM.PV < 0.01,]
         res <- res[order(res$FDR, decreasing = F),] 
         res$ifcausal <- ifelse(res$ID %in% cau[[i]], 1, 0)
         res$FDP <- 1-cumsum(res$ifcausal)/(1:nrow(res))
@@ -310,6 +310,7 @@ colset = c("#ebebeb", "#ffffb3", # FOCUS
            "#ebebeb", "#87CEFA", # SMR
            "#ebebeb", "#fb8072", # cTWAS
            "#ebebeb", "#bebada") # coloc
+simutaglist = list(paste(4, 1:5, sep = "-"), paste(10, 1:5, sep="-"))
 f1 <- plot_ncausal(configtag, runtag,  simutaglist[[1]], colors = colset, ylim= c(0,225), main = "high gene PVE")
 f2 <- plot_ncausal(configtag, runtag,  simutaglist[[2]], colors = colset, ylim= c(0,225), main = "low gene PVE")
 gridExtra::grid.arrange(f1, f2, ncol=2)

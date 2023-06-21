@@ -18,3 +18,56 @@ pre:  106,35
 post: 42,16
 pre:  756,975,34,91,13,87,17
 post: 227,258,13,26,05,31,13
+pre:  301,142,197,151,14,27
+post: 53,29,26,23,09,19
+pre:  257
+post: 53
+pre:  48,123,03,35,387
+post: 10,21,03,10,55
+pre:  96,35
+post: 28,14
+pre:  183,31,110,72,01
+post: 20,08,31,25,01
+pre:  563,40,209,246
+post: 38,13,17,22
+pre:  176
+post: 26
+pre:  241
+post: 43
+pre:  335,43
+post: 61,12
+pre:  41,227
+post: 20,49
+pre:  468,59
+post: 53,25
+pre:  15,61,270
+post: 08,10,65
+pre:  133,309,14,11,274
+post: 08,34,07,09,12
+pre:  66,56
+post: 27,18
+pre:  508,50,09,332,30
+post: 39,19,03,19,10
+pre:  219
+post: 43
+pre:  179
+post: 33
+Warning: No significant --clump results.  Skipping.
+pre:  375,26
+post: 55,15
+pre:  574,195,163,207
+post: 80,15,20,28
+pre:  239,68,54,62,48
+post: 48,15,09,21,07
+pre:  510
+post: 51
+pre:  66,92
+post: 12,21
+pre:  59,244
+post: 30,32
+pre:  84,280
+post: 19,56
+There were 50 or more warnings (use warnings() to see the first 50)
+[Sun Jun 18 17:49:34 2023]
+Finished job 0.
+1 of 1 steps (100%) done
